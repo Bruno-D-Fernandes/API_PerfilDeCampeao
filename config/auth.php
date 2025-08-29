@@ -40,6 +40,38 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'clube' => [
+            'driver' => 'session',
+            'provider' => 'clubes',
+        ],
+        'treinador' => [
+            'driver' => 'session',
+            'provider' => 'treinador',
+        ],
+        'adm' => [
+            'driver' => 'session',
+            'provider' => 'adms',
+        ],
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => false,
+        ],
+        'api_clube' => [
+            'driver' => 'token',
+            'provider' => 'api_clubes',
+            'hash' => false,
+        ],
+        'api_treinador' => [
+            'driver' => 'token',
+            'provider' => 'api_treinador',
+            'hash' => false,
+        ],
+        'api_adm' => [
+            'driver' => 'token',
+            'provider' => 'api_adms',
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -64,11 +96,30 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'clubes' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\clubeModel::class,
+        ],
+        'adms' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\admModel::class,
+        ],
+        'treinador' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\treinadorModel::class,
+        ],
+        'api_clubes' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\clubeModel::class,
+        ],
+        'api_treinador' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\treinadorModel::class,
+        ],
+        'api_adms' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\admModel::class,
+        ],
     ],
 
     /*
