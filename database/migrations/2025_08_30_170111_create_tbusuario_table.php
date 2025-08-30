@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tbusuario', function (Blueprint $table) {
             $table->id();
-            $table->string('nomeCompleto');
+            $table->string('nomeCompletoUsuario');
             $table->string('nomeUsuario')->unique();
             $table->string('emailUsuario')->unique();
             $table->string('senhaUsuario');
@@ -26,11 +26,11 @@ return new class extends Migration
             $table->string('fotoBannerUsuario')->nullable();
             $table->text('bioUsuario')->nullable();
             
-            $table->decimal('alturaCm', 5, 2)->nullable();
-            $table->decimal('pesoKg', 5, 2)->nullable();
-            
-            $table->string('peDominante')->nullable();
-            $table->string('maoDominante')->nullable();
+            $table->decimal('alturaCmUsuario', 5, 2)->nullable();
+            $table->decimal('pesoKgUsuario', 5, 2)->nullable();
+
+            $table->string('peDominanteUsuario')->nullable();
+            $table->string('maoDominanteUsuario')->nullable();
             $table->timestamps();
         });
     }

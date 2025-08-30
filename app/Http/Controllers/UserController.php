@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\tbusuario;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -28,13 +31,13 @@ class UserController extends Controller
     {
     $validatedData = $request->validate([
         'nomeCompletoUsuario' => 'required|string|max:255',
-        'nomeUsuario' => 'required|string|max:50|unique:users,nomeUsuario',
-        'emailUsuario' => 'required|email|unique:users,emailUsuario',
+        'nomeUsuario' => 'required|string|max:50|unique:tbusuario,nomeUsuario',
+        'emailUsuario' => 'required|email|unique:tbusuario,emailUsuario',
         'senhaUsuario' => 'required|string|min:6',
         'nacionalidadeUsuario' => 'nullable|string|max:100',
         'dataNascimentoUsuario' => 'required|date',
-        'fotoPerfilUsuario' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'fotoBannerUsuario' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
+        'fotoPerfilUsuario' => 'nullable|string|max:300',
+        'fotoBannerUsuario' => 'nullable|string|max:400',
         'bioUsuario' => 'nullable|string|max:500',
         'alturaCmUsuario' => 'nullable|numeric|min:50|max:300',
         'pesoKgUsuario' => 'nullable|numeric|min:20|max:500',
@@ -42,7 +45,7 @@ class UserController extends Controller
         'maoDominanteUsuario' => 'nullable|in:direita,esquerda'
     ]);
 
-    $user = User::create([
+    $user = tbusuario::create([
         'nomeCompletoUsuario' => $validatedData['nomeCompletoUsuario'],
         'nomeUsuario' => $validatedData['nomeUsuario'],
         'emailUsuario' => $validatedData['emailUsuario'],

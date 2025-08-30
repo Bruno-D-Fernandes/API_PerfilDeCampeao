@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Hash;
 
 /*
@@ -19,5 +20,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\AuthController;
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'perfil']);
+Route::get('/perfil', [AuthController::class, 'perfil']);
+Route::post('/registro', [UserController::class, 'store']);
+Route::post('/logout', [AuthController::class, 'logout']);
+
+Route::middleware('auth:sanctum')->get('/perfil', [AuthController::class, 'perfil']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
