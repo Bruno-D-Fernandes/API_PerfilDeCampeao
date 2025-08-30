@@ -24,17 +24,22 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'Bearer',
         ]);
+        
+        return redirect('/perfil');
     }
 
     public function perfil(Request $request)
     {
         return response()->json($request->user());
+        return view('perfil');
     }
 
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
+        
         return response()->json(['message' => 'Logout realizado com sucesso']);
+        return redirect('/login')->with('success', 'Logout realizado com sucesso!');
     }
     
     

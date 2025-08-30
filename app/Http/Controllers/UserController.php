@@ -62,7 +62,9 @@ class UserController extends Controller
         'maoDominanteUsuario' => $validatedData['maoDominanteUsuario'] ?? null
     ]);
 
+    
     return response()->json($user, 201);
+    return redirect('/login')->with('success', 'Cadastro realizado com sucesso! Faça login.');
     }
 
     /**

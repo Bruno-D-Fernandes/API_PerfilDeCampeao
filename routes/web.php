@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\webController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Login
+Route::get('/login', [webController::class, 'login'])->name('login');
+
+// Registro
+Route::get('/registro', [webController::class, 'registro'])->name('registro');
+
+// Rotas protegidas
+
+
+
