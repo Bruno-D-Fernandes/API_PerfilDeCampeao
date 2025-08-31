@@ -7,22 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Clube;
 use App\Models\Usuario;
 
-
-class Esporte extends Model
+class Categoria extends Model
 {
     use HasFactory;
 
-    protected $table = 'esportes';
+    protected $table = 'categorias';
 
     protected $fillable = [
-        'nomeEsporte',
-        'descricaoEsporte',
+        'nomeCategoria',
+        'descricaoCategoria',
     ];
 
     public function clubes()
     {
         return $this->belongsToMany(Clube::class);
     }
+
     public function usuarios()
     {
         return $this->belongsToMany(Usuario::class);
