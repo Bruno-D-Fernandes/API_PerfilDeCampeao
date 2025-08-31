@@ -27,7 +27,7 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::get('/registro', function () {
-    return view('registro');
+    return view('register');
 })->name('registro');
 
 

@@ -30,11 +30,10 @@ return new class extends Migration
             $table->float('pesoKg')->nullable();
             $table->string('peDominante', 50)->nullable();
             $table->string('maoDominante', 50)->nullable();
-            $table->string('esporte', 100)->nullable();
-            $table->string('posicao', 100)->nullable();
-            $table->string('categoria', 100)->nullable();
             $table->string('temporadasUsuario', 50)->nullable();
 
+            //Fotos
+            
             $table->string('fotoPerfilUsuario')->nullable();
             $table->string('fotoBannerUsuario')->nullable();
             
