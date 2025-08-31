@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clubes_categoria', function (Blueprint $table) {
+        Schema::create('clubes_usuario', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('categoria_id')->references('id')->on('categorias');
+            $table->foreignId('usuario_id')->references('id')->on('usuarios');
             $table->foreignId('clube_id')->references('id')->on('clubes');
-            $table->string('funcao'); //tipo dono, admin, medico, jogador sla
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clubes_categoria');
+        Schema::dropIfExists('clubes_usuario');
     }
 };

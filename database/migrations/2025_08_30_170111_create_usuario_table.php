@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tbusuario', function (Blueprint $table) {
+        Schema::create('Usuario', function (Blueprint $table) {
             $table->id();
 
             $table->string('nomeCompletoUsuario', 255);
@@ -24,8 +24,14 @@ return new class extends Migration
 
             $table->string('estadoUsuario', 100)->nullable();
             $table->string('cidadeUsuario', 100)->nullable();
+            
+            
             $table->date('dataCadastroUsuario')->nullable();
+            
+            
             $table->text('bioUsuario')->nullable();
+
+
             $table->integer('alturaCm')->nullable();
             $table->float('pesoKg')->nullable();
             $table->string('peDominante', 50)->nullable();
@@ -33,7 +39,7 @@ return new class extends Migration
             $table->string('temporadasUsuario', 50)->nullable();
 
             //Fotos
-            
+
             $table->string('fotoPerfilUsuario')->nullable();
             $table->string('fotoBannerUsuario')->nullable();
             
@@ -46,6 +52,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tbusuario');
+        Schema::dropIfExists('Usuario');
     }
 };

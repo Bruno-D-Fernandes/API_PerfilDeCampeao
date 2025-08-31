@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Esporte;
+use App\Models\Usuario;
 
 
 class Clube extends Authenticatable
@@ -28,7 +29,10 @@ class Clube extends Authenticatable
 
     function esportes()
     {
-
         return $this->belongsToMany(Esporte::class);
+    }
+    public function usuarios()
+    {
+        return $this->belongsToMany(Usuario::class);
     }
 }
