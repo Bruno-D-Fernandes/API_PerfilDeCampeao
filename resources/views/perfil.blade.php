@@ -28,8 +28,15 @@
                     <p>Nome: ${user.nomeCompletoUsuario}</p>
                     <p>Usuário: ${user.nomeUsuario}</p>
                     <p>Email: ${user.emailUsuario}</p>
+                    <p>Email: ${user.}</p>
+                    <p>Email: ${user.emailUsuario}</p>
+                    <p>Email: ${user.emailUsuario}</p>
+                    <p>Email: ${user.emailUsuario}</p>
+                    <p>Email: ${user.emailUsuario}</p>
+                    <p>Email: ${user.emailUsuario}</p>
+                    <p>Email: ${user.emailUsuario}</p>
                     <p>Bio: ${user.bioUsuario || 'Sem bio'}</p>
-                    
+
                 `;
             })
             .catch(err => {
