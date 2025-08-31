@@ -21,14 +21,13 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
+           'access_token' => "Bearer $token"
         ]);
     }
 
     public function perfil(Request $request)
     {
-        return response()->json($request->user());
+        return response()->json($request->user(), 200);
     }
 
     public function logout(Request $request)

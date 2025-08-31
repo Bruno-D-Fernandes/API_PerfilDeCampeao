@@ -6,13 +6,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 
 class tbusuario extends Authenticatable
 {
-    use HasApiTokens, HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'tbusuario';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'nomeCompletoUsuario',
         'nomeUsuario',
@@ -20,7 +26,6 @@ class tbusuario extends Authenticatable
         'senhaUsuario',
         'nacionalidadeUsuario',
         'dataNascimentoUsuario',
-        'dataCadastroUsuario',
         'fotoPerfilUsuario',
         'fotoBannerUsuario',
         'bioUsuario',
@@ -28,16 +33,40 @@ class tbusuario extends Authenticatable
         'pesoKg',
         'peDominante',
         'maoDominante',
+        'generoUsuario',
+        'esporte',
+        'posicao',
+        'estadoUsuario',
+        'cidadeUsuario',
+        'categoria',
+        'temporadasUsuario',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
     protected $hidden = [
         'senhaUsuario',
-        'remember_token',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'dataNascimentoUsuario' => 'date',
+    ];
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
     public function getAuthPassword()
     {
-    return $this->senhaUsuario;
+        return $this->senhaUsuario;
     }
-
 }

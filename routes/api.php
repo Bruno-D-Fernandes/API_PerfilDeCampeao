@@ -19,10 +19,13 @@ use Illuminate\Support\Facades\Hash;
 
 use App\Http\Controllers\AuthController;
 
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/perfil', [AuthController::class, 'perfil']);
-Route::post('/registro', [UserController::class, 'store']);
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/cadastro', [UserController::class, 'store']);
 
-Route::middleware('auth:sanctum')->get('/perfil', [AuthController::class, 'perfil']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+// Login de usuário
+Route::post('/login', [AuthController::class, 'login']);
+
+// Rotas protegidas por token
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get('/perfil', [AuthController::class, 'perfil']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+});

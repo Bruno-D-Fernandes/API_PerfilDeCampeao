@@ -13,24 +13,31 @@ return new class extends Migration
     {
         Schema::create('tbusuario', function (Blueprint $table) {
             $table->id();
-            $table->string('nomeCompletoUsuario');
-            $table->string('nomeUsuario')->unique();
-            $table->string('emailUsuario')->unique();
-            $table->string('senhaUsuario');
-            
-            $table->string('nacionalidadeUsuario')->nullable();
+
+            $table->string('nomeCompletoUsuario', 255);
+            $table->string('nomeUsuario', 100)->nullable();
+            $table->string('emailUsuario', 255)->unique();
+            $table->string('senhaUsuario', 255);
+            $table->string('nacionalidadeUsuario', 100)->nullable();
             $table->date('dataNascimentoUsuario')->nullable();
-            $table->dateTime('dataCadastroUsuario')->nullable();
-            
+            $table->string('generoUsuario', 50)->nullable();
+
+            $table->string('estadoUsuario', 100)->nullable();
+            $table->string('cidadeUsuario', 100)->nullable();
+            $table->date('dataCadastroUsuario')->nullable();
+            $table->text('bioUsuario')->nullable();
+            $table->integer('alturaCm')->nullable();
+            $table->float('pesoKg')->nullable();
+            $table->string('peDominante', 50)->nullable();
+            $table->string('maoDominante', 50)->nullable();
+            $table->string('esporte', 100)->nullable();
+            $table->string('posicao', 100)->nullable();
+            $table->string('categoria', 100)->nullable();
+            $table->string('temporadasUsuario', 50)->nullable();
+
             $table->string('fotoPerfilUsuario')->nullable();
             $table->string('fotoBannerUsuario')->nullable();
-            $table->text('bioUsuario')->nullable();
             
-            $table->decimal('alturaCmUsuario', 5, 2)->nullable();
-            $table->decimal('pesoKgUsuario', 5, 2)->nullable();
-
-            $table->string('peDominanteUsuario')->nullable();
-            $table->string('maoDominanteUsuario')->nullable();
             $table->timestamps();
         });
     }

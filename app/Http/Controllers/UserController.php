@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\tbusuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\AuthController;
 
 class UserController extends Controller
 {
@@ -28,12 +29,12 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+{
     $validatedData = $request->validate([
         'nomeCompletoUsuario' => 'required|string|max:255',
-        'nomeUsuario' => 'required|string|max:50|unique:tbusuario,nomeUsuario',
+        'nomeUsuario' => 'nullable|string|max:50|unique:tbusuario,nomeUsuario',
         'emailUsuario' => 'required|email|unique:tbusuario,emailUsuario',
-        'senhaUsuario' => 'required|string|min:6',
+        'senhaUsuario' => 'required|string|min:3',
         'nacionalidadeUsuario' => 'nullable|string|max:100',
         'dataNascimentoUsuario' => 'required|date',
         'fotoPerfilUsuario' => 'nullable|string|max:300',
@@ -42,7 +43,15 @@ class UserController extends Controller
         'alturaCmUsuario' => 'nullable|numeric|min:50|max:300',
         'pesoKgUsuario' => 'nullable|numeric|min:20|max:500',
         'peDominanteUsuario' => 'nullable|in:direito,esquerdo',
-        'maoDominanteUsuario' => 'nullable|in:direita,esquerda'
+        'maoDominanteUsuario' => 'nullable|in:direita,esquerda',
+        'generoUsuario' => 'nullable|string|max:100',
+        'esporte' => 'nullable|string|max:100',
+        'posicao' => 'nullable|string|max:100',
+        'estadoUsuario' => 'nullable|string|max:100',
+        'cidadeUsuario' => 'nullable|string|max:100',
+        'categoria' => 'nullable|string|max:100',
+        'temporadasUsuario' => 'nullable|string|max:100',
+        'confirmacaoSenhaUsuario' => 'nullable|string|min:3|same:senhaUsuario'
     ]);
 
     $user = tbusuario::create([
@@ -52,18 +61,26 @@ class UserController extends Controller
         'senhaUsuario' => Hash::make($validatedData['senhaUsuario']),
         'nacionalidadeUsuario' => $validatedData['nacionalidadeUsuario'] ?? null,
         'dataNascimentoUsuario' => $validatedData['dataNascimentoUsuario'],
-        'dataCadastroUsuario' => now(),
         'fotoPerfilUsuario' => $validatedData['fotoPerfilUsuario'] ?? null,
         'fotoBannerUsuario' => $validatedData['fotoBannerUsuario'] ?? null,
         'bioUsuario' => $validatedData['bioUsuario'] ?? null,
-        'alturaCmUsuario' => $validatedData['alturaCmUsuario'] ?? null,
-        'pesoKgUsuario' => $validatedData['pesoKgUsuario'] ?? null,
-        'peDominanteUsuario' => $validatedData['peDominanteUsuario'] ?? null,
-        'maoDominanteUsuario' => $validatedData['maoDominanteUsuario'] ?? null
+        'alturaCm' => $validatedData['alturaCmUsuario'] ?? null,
+        'pesoKg' => $validatedData['pesoKgUsuario'] ?? null,
+        'peDominante' => $validatedData['peDominanteUsuario'] ?? null,
+        'maoDominante' => $validatedData['maoDominanteUsuario'] ?? null,
+        'generoUsuario' => $validatedData['generoUsuario'] ?? null,
+        'esporte' => $validatedData['esporte'] ?? null,
+        'posicao' => $validatedData['posicao'] ?? null,
+        'estadoUsuario' => $validatedData['estadoUsuario'] ?? null,
+        'cidadeUsuario' => $validatedData['cidadeUsuario'] ?? null,
+        'categoria' => $validatedData['categoria'] ?? null,
+        'temporadasUsuario' => $validatedData['temporadasUsuario'] ?? null
     ]);
 
-    return response()->json($user, 201);
-    }
+    $authController = new AuthController();
+    
+    return $authController->login($request);
+}
 
     /**
      * Display the specified resource.
