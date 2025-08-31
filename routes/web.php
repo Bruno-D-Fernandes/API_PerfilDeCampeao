@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\webController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// routes/web.php
+
+Route::get('/perfil', function () {
+    return view('perfil');
+})->name('perfil');
+
+Route::get('/login', function () {
+    return view('login'); 
+})->name('login');
+
+Route::get('/registro', function () {
+    return view('registro');
+})->name('registro');
+
+
+
+
+

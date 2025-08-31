@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Hash;
 
 use App\Http\Controllers\AuthController;
 
-Route::post('/cadastro', [UserController::class, 'store']);
+Route::post('/register', [UserController::class, 'store']);
 
 // Login de usuário
 Route::post('/login', [AuthController::class, 'login']);
