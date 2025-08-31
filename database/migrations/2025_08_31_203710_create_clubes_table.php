@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('cnpjClube')->unique();
             $table->string('enderecoClube');
             $table->string('bioClube');
+            $table->string('senhaClube', 255);
             $table->timestamps();
         });
     }

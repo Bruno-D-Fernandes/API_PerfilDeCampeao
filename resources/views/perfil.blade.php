@@ -25,17 +25,13 @@
             .then(res => res.json())
             .then(user => {
                 userDiv.innerHTML = `
-                    <p>Nome: ${user.nomeCompletoUsuario}</p>
-                    <p>Usuário: ${user.nomeUsuario}</p>
-                    <p>Email: ${user.emailUsuario}</p>
-                    <p>Email: ${user.}</p>
-                    <p>Email: ${user.emailUsuario}</p>
-                    <p>Email: ${user.emailUsuario}</p>
-                    <p>Email: ${user.emailUsuario}</p>
-                    <p>Email: ${user.emailUsuario}</p>
-                    <p>Email: ${user.emailUsuario}</p>
-                    <p>Email: ${user.emailUsuario}</p>
-                    <p>Bio: ${user.bioUsuario || 'Sem bio'}</p>
+                    <p>Nome: ${user.nomeClube}</p>
+                    <p>Cidade: ${user.cidadeClube}</p>
+                    <p>Estado: ${user.estadoClube}</p>
+                    <p>Ano de Criação: ${user.anoCriacaoClube}</p>
+                    <p>CNPJ: ${user.cnpjClube}</p>
+                    <p>Endereço: ${user.enderecoClube}</p>
+                    <p>Bio: ${user.bioClube || 'Sem bio'}</p>
 
                 `;
             })
@@ -47,7 +43,7 @@
         }
 
         logoutBtn.addEventListener('click', () => {
-            fetch('http://localhost:8000/api/logout', {
+            fetch('/api/logout', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,

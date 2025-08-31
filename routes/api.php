@@ -18,11 +18,19 @@ use Illuminate\Support\Facades\Hash;
 */
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\clubeController;
 
+// cadastro de usuario
 Route::post('/register', [UserController::class, 'store']);
+
+// cadastro de Clube
+Route::post('/registerClube', [clubeController::class, 'store']);
 
 // Login de usuário
 Route::post('/login', [AuthController::class, 'login']);
+
+// Login de Clube
+Route::post('/loginClube', [clubeController::class, 'loginClube']);
 
 // Rotas protegidas por token
 Route::middleware('auth:sanctum')->group(function() {

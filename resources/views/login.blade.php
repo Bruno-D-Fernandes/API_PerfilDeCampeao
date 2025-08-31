@@ -9,8 +9,8 @@
     <h1>Login</h1>
 
     <form id="loginForm">
-        <input type="email" name="emailUsuario" placeholder="Email" required>
-        <input type="password" name="senhaUsuario" placeholder="Senha" required>
+        <input type="email" name="emailClube" placeholder="Email" required>
+        <input type="password" name="senhaClube" placeholder="Senha" required>
         <button type="submit">Entrar</button>
     </form>
 
@@ -29,7 +29,7 @@
             const data = Object.fromEntries(formData.entries());
 
             try {
-                const response = await fetch('/api/login', {
+                const response = await fetch('/api/loginClube', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

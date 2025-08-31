@@ -12,28 +12,14 @@
 
 
     <form id="registerForm">
-        <input type="text" name="nomeCompletoUsuario" placeholder="Nome completo" required>
-        <input type="text" name="nomeUsuario" placeholder="Nome de usuário" required>
-        <input type="email" name="emailUsuario" placeholder="Email" required>
-        <input type="password" name="senhaUsuario" placeholder="Senha" required>
-        <input type="text" name="nacionalidadeUsuario" placeholder="Nacionalidade">
-        <input type="date" name="dataNascimentoUsuario" placeholder="Data de nascimento" required>
-        <input type="date" name="dataCadastroUsuario" placeholder="Data de cadastro">
-        <input type="text" name="fotoPerfilUsuario" placeholder="URL da foto de perfil">
-        <input type="text" name="fotoBannerUsuario" placeholder="URL do banner">
-        <textarea name="bioUsuario" placeholder="Bio do usuário"></textarea>
-        <input type="number" name="alturaCmUsuario" placeholder="Altura (cm)">
-        <input type="number" name="pesoKgUsuario" placeholder="Peso (kg)">
-        <select name="peDominanteUsuario">
-            <option value="">Escolha o pé dominante</option>
-            <option value="direito">Direito</option>
-            <option value="esquerdo">Esquerdo</option>
-        </select>
-        <select name="maoDominanteUsuario">
-            <option value="">Escolha a mão dominante</option>
-            <option value="direita">Direita</option>
-            <option value="esquerda">Esquerda</option>
-        </select>
+        <input type="text" name="nomeClube" placeholder="Nome do clube" required>
+        <input type="text" name="cidadeClube" placeholder="Cidade do clube" required>
+        <input type="date" name="anoCriacaoClube" placeholder="Ano de criação" required>
+        <input type="cnpj" name="cnpjClube" placeholder="CNPJ" required>
+        <input type="text" name="enderecoClube" placeholder="Endereço" required>
+        <input type="text" name="bioClube" placeholder="Bio do clube" required>
+        <input type="text" name="senhaClube" placeholder="Senha do clube" required>
+        <input type="text" name="senhaClube_confirmation" placeholder="Confirmação da senha" required>
 
         <button type="submit">Registrar</button>
     </form>
@@ -51,7 +37,7 @@
             const data = Object.fromEntries(formData.entries()); // Converte para objeto JS
 
             try {
-                const response = await fetch('/api/register', {
+                const response = await fetch('/api/registerClube', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json', // Indica que é JSON

@@ -87,7 +87,12 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $usuario = Usuario::find($id);
+        if(!$usuario){
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
+        }
+
+        return response()->json($usuario);
     }
 
     /**
@@ -98,19 +103,25 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+       $usuario = Usuario::find($id);
+        if(!$usuario){
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
+        }
+
+        $usuario->update($request->all());
+        return response()->json($usuario);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $usuario = Usuario::find($id);
+        if(!$usuario){
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
+        }
+
+        $usuario->delete();
+        return response()->json(['message' => 'Usuário deletado com sucesso']);
     }
 }

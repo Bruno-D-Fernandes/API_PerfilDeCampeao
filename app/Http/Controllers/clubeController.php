@@ -4,11 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Clube;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class clubeController extends Controller
 {
     // Listar todos os clubes
+    public function loginClube(Request $request)
+    {
+        $clube = Clube::where('cnpjClube', $request->cnpjClube)->first();
+
+        if (! $clube || ! Hash::check($request->senhaClube, $clube->senhaClube)) {
+            return response()->json(['message' => 'Credenciais inválidas'], 401);
+        }
+
+        $token = $clube->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+           'access_token' => "Bearer $token"
+        ]);
+    }
     public function index()
     {
         $clubes = Clube::all();
@@ -26,6 +41,7 @@ class clubeController extends Controller
             'cnpjClube' => 'required|string|max:20|unique:clubes',
             'enderecoClube' => 'required|string|max:255',
             'bioClube' => 'nullable|string',
+            'senhaClube' => 'required|string|min:8|confirmed',
         ]);
 
         if($validator->fails()){
