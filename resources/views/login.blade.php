@@ -14,37 +14,45 @@
         <button type="submit">Entrar</button>
     </form>
 
-    <div id="result"></div>
+                                    <!-- javascript ta explicado ai, caso queiram que eu explique mais me manda msg
+                                         ass: Luan
+                                          -->
 
     <script>
-        const form = document.getElementById('loginForm');
-        const resultDiv = document.getElementById('result');
+        const loginForm = document.getElementById('loginForm');
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(form);
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Evita o envio padrão do formulário
+
+            // Captura os dados do formulário
+            const formData = new FormData(loginForm);
             const data = Object.fromEntries(formData.entries());
 
             try {
-                const response = await fetch('http://localhost:8000/api/login', {
+                const response = await fetch('/api/login', {
                     method: 'POST',
-                    headers: {'Content-Type':'application/json'},
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
                     body: JSON.stringify(data)
                 });
 
                 const result = await response.json();
 
                 if(response.ok){
-                    localStorage.setItem('token', result.access_token);
-                    resultDiv.innerHTML = '<p style="color:green;">Login realizado! Redirecionando...</p>';
-                    window.location.href = '/perfil';
-                } else {
-                    resultDiv.innerHTML = `<p style="color:red;">${result.message}</p>`;
+                        // Salva o token no localStorage
+                        localStorage.setItem('token', result.access_token);
+                        // Redireciona para o perfil
+                        window.location.href = '/perfil';
+                    } else {
+                        alert('Erro no login: ' + JSON.stringify(result));
+                    }
+
+                } catch(error){
+                    console.error('Erro de rede:', error);
                 }
-            } catch (error) {
-                resultDiv.innerHTML = `<p style="color:red;">Erro na requisição: ${error}</p>`;
-            }
-        });
+            });
     </script>
 </body>
 </html>

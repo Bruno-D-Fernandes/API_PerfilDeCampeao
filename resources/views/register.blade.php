@@ -8,69 +8,72 @@
 <body>
     <h1>Registro de Usuário</h1>
 
-   <form id="registerForm">
-    <input type="text" name="nomeCompletoUsuario" placeholder="Nome completo" required>
-    <input type="text" name="nomeUsuario" placeholder="Nome de usuário" required>
-    <input type="email" name="emailUsuario" placeholder="Email" required>
-    <input type="password" name="senhaUsuario" placeholder="Senha" required>
-    <input type="text" name="nacionalidadeUsuario" placeholder="Nacionalidade">
-    <input type="date" name="dataNascimentoUsuario" placeholder="Data de nascimento" required>
-    <input type="date" name="dataCadastroUsuario" placeholder="Data de cadastro">
-    <input type="text" name="fotoPerfilUsuario" placeholder="URL da foto de perfil">
-    <input type="text" name="fotoBannerUsuario" placeholder="URL do banner">
-    <textarea name="bioUsuario" placeholder="Bio do usuário"></textarea>
-    <input type="number" name="alturaCm" placeholder="Altura (cm)">
-    <input type="number" name="pesoKg" placeholder="Peso (kg)">
-    <select name="peDominante">
-        <option value="">Escolha o pé dominante</option>
-        <option value="direito">Direito</option>
-        <option value="esquerdo">Esquerdo</option>
-    </select>
-    <select name="maoDominante">
-        <option value="">Escolha a mão dominante</option>
-        <option value="direita">Direita</option>
-        <option value="esquerda">Esquerda</option>
-    </select>
-    <button type="submit">Registrar</button>
-</form>
+                                         <!-- trabalhem front-ends -->
 
-    <div id="result"></div>
 
+    <form id="registerForm">
+        <input type="text" name="nomeCompletoUsuario" placeholder="Nome completo" required>
+        <input type="text" name="nomeUsuario" placeholder="Nome de usuário" required>
+        <input type="email" name="emailUsuario" placeholder="Email" required>
+        <input type="password" name="senhaUsuario" placeholder="Senha" required>
+        <input type="text" name="nacionalidadeUsuario" placeholder="Nacionalidade">
+        <input type="date" name="dataNascimentoUsuario" placeholder="Data de nascimento" required>
+        <input type="date" name="dataCadastroUsuario" placeholder="Data de cadastro">
+        <input type="text" name="fotoPerfilUsuario" placeholder="URL da foto de perfil">
+        <input type="text" name="fotoBannerUsuario" placeholder="URL do banner">
+        <textarea name="bioUsuario" placeholder="Bio do usuário"></textarea>
+        <input type="number" name="alturaCmUsuario" placeholder="Altura (cm)">
+        <input type="number" name="pesoKgUsuario" placeholder="Peso (kg)">
+        <select name="peDominanteUsuario">
+            <option value="">Escolha o pé dominante</option>
+            <option value="direito">Direito</option>
+            <option value="esquerdo">Esquerdo</option>
+        </select>
+        <select name="maoDominanteUsuario">
+            <option value="">Escolha a mão dominante</option>
+            <option value="direita">Direita</option>
+            <option value="esquerda">Esquerda</option>
+        </select>
+
+        <button type="submit">Registrar</button>
+    </form>
+                                        <!-- javascript ta explicado ai, caso queiram que eu explique mais me manda msg
+                                         ass: Luan
+                                          -->
     <script>
         const form = document.getElementById('registerForm');
-        const resultDiv = document.getElementById('result');
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Evita o envio padrão do formulário
+
+            // Captura os dados do formulário
             const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
+            const data = Object.fromEntries(formData.entries()); // Converte para objeto JS
 
             try {
-                const response = await fetch('http://localhost:8000/api/registro', {
+                const response = await fetch('/api/registro', {
                     method: 'POST',
-                    headers: {'Content-Type':'application/json'},
-                    body: JSON.stringify(data)
+                    headers: {
+                        'Content-Type': 'application/json', // Indica que é JSON
+                        'Accept': 'application/json'
+                        // CSRF não é necessário em rotas API do Sanctum
+                    },
+                    body: JSON.stringify(data) // Converte o objeto para JSON
                 });
 
                 const result = await response.json();
 
                 if(response.ok){
-                    resultDiv.innerHTML = `<p style="color:green;">${result.message}</p>`;
-                    form.reset();
-                    setTimeout(() => window.location.href = '/login', 1500);
-                } else {
-                    let errors = '';
-                    if(result.errors){
-                        errors = Object.values(result.errors).flat().join('<br>');
-                    } else {
-                        errors = result.message || 'Erro ao registrar';
-                    }
-                    resultDiv.innerHTML = `<p style="color:red;">${errors}</p>`;
-                }
-            } catch (error) {
-                resultDiv.innerHTML = `<p style="color:red;">Erro na requisição: ${error}</p>`;
-            }
-        });
+            alert('Registro realizado com sucesso!');
+            // Redireciona para login
+            window.location.href = '/login';
+        } else {
+            alert('Erro no registro: ' + JSON.stringify(result));
+        }
+    } catch(error){
+        console.error('Erro de rede:', error);
+    }
+});
     </script>
 </body>
 </html>

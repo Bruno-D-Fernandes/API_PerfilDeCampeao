@@ -16,13 +16,21 @@ use App\Http\Controllers\webController;
 |
 */
 
-// Login
-Route::get('/login', [webController::class, 'login'])->name('login');
+// routes/web.php
 
-// Registro
-Route::get('/registro', [webController::class, 'registro'])->name('registro');
+Route::get('/perfil', function () {
+    return view('perfil');
+})->name('perfil');
 
-// Rotas protegidas
+Route::get('/login', function () {
+    return view('login'); 
+})->name('login');
+
+Route::get('/registro', function () {
+    return view('registro');
+})->name('registro');
+
+
 
 
 

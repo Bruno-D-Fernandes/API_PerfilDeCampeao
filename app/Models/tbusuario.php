@@ -24,10 +24,10 @@ class tbusuario extends Authenticatable
         'fotoPerfilUsuario',
         'fotoBannerUsuario',
         'bioUsuario',
-        'alturaCm',
-        'pesoKg',
-        'peDominante',
-        'maoDominante',
+        'alturaCmUsuario',
+        'pesoKgUsuario',
+        'peDominanteUsuario',
+        'maoDominanteUsuario',
     ];
 
     protected $hidden = [

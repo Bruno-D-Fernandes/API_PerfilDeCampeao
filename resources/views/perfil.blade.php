@@ -19,7 +19,7 @@
         if(!token){
             window.location.href = '/login';
         } else {
-            fetch('http://localhost:8000/api/perfil', {
+            fetch('/api/perfil', {
                 headers: { 'Authorization': 'Bearer ' + token }
             })
             .then(res => res.json())
@@ -29,6 +29,7 @@
                     <p>Usuário: ${user.nomeUsuario}</p>
                     <p>Email: ${user.emailUsuario}</p>
                     <p>Bio: ${user.bioUsuario || 'Sem bio'}</p>
+                    
                 `;
             })
             .catch(err => {

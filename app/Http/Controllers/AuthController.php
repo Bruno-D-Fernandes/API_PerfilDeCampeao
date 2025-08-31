@@ -31,7 +31,6 @@ class AuthController extends Controller
     public function perfil(Request $request)
     {
         return response()->json($request->user());
-        return view('perfil');
     }
 
     public function logout(Request $request)
@@ -39,7 +38,6 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
         
         return response()->json(['message' => 'Logout realizado com sucesso']);
-        return redirect('/login')->with('success', 'Logout realizado com sucesso!');
     }
     
     

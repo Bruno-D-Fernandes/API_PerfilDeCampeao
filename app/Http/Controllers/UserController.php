@@ -64,7 +64,6 @@ class UserController extends Controller
 
     
     return response()->json($user, 201);
-    return redirect('/login')->with('success', 'Cadastro realizado com sucesso! Faça login.');
     }
 
     /**
