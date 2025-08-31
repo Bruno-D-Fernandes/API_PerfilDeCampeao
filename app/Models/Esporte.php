@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Clube;
 
 class Esporte extends Model
 {
@@ -15,4 +16,9 @@ class Esporte extends Model
         'nomeEsporte',
         'descricaoEsporte',
     ];
+
+    function clubes()
+    {
+        return $this->belongsToMany(Clube::class);
+    }
 }
