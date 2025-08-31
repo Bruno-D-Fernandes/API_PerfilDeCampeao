@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('clubes', function (Blueprint $table) {
             $table->id();
-            $table->string('nomeClube');
+            $table->string('nomeClube')->unique();
             $table->string('cidadeClube');
             $table->string('estadoClube');
             $table->date('anoCriacaoClube');
-            $table->string('cnpjClube');
+            $table->string('cnpjClube')->unique();
             $table->string('enderecoClube');
             $table->string('bioClube');
             $table->timestamps();
