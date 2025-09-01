@@ -3,28 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Usuario;
+use App\Models\Clube;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
     
-    public function login(Request $request)
+    public function loginClube(Request $request)
     {
-        $user = Usuario::where('emailUsuario', $request->emailUsuario)->first();
+         $clube = Clube::where('cnpjClube', $request->cnpjClube)->first();
 
-        if (! $user || ! Hash::check($request->senhaUsuario, $user->senhaUsuario)) {
+        if (! $clube || ! Hash::check($request->senhaClube, $clube->senhaClube)) {
             return response()->json(['message' => 'Credenciais inválidas'], 401);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $clube->createToken('auth_token')->plainTextToken;
 
         return response()->json([
            'access_token' => "Bearer $token"
         ]);
-        
-        return redirect('/perfil');
     }
 
     public function perfil(Request $request)
