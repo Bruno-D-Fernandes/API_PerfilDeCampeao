@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\tbusuario;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AuthController;
@@ -32,8 +32,8 @@ class UserController extends Controller
 {
     $validatedData = $request->validate([
         'nomeCompletoUsuario' => 'required|string|max:255',
-        'nomeUsuario' => 'nullable|string|max:50|unique:tbusuario,nomeUsuario',
-        'emailUsuario' => 'required|email|unique:tbusuario,emailUsuario',
+        'nomeUsuario' => 'nullable|string|max:50|unique:usuarios,nomeUsuario',
+        'emailUsuario' => 'required|email|unique:usuarios,emailUsuario',
         'senhaUsuario' => 'required|string|min:3',
         'nacionalidadeUsuario' => 'nullable|string|max:100',
         'dataNascimentoUsuario' => 'required|date',
@@ -54,7 +54,7 @@ class UserController extends Controller
         'confirmacaoSenhaUsuario' => 'nullable|string|min:3|same:senhaUsuario'
     ]);
 
-    $user = tbusuario::create([
+    $user = Usuario::create([
         'nomeCompletoUsuario' => $validatedData['nomeCompletoUsuario'],
         'nomeUsuario' => $validatedData['nomeUsuario'],
         'emailUsuario' => $validatedData['emailUsuario'],
@@ -77,9 +77,11 @@ class UserController extends Controller
         'temporadasUsuario' => $validatedData['temporadasUsuario'] ?? null
     ]);
 
-    $authController = new AuthController();
+    return response()->json($user, 201);
+
+    // $authController = new AuthController();
     
-    return $authController->login($request);
+    // return $authController->login($request);
 }
 
     /**

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\tbusuario;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -12,7 +12,7 @@ class AuthController extends Controller
     
     public function login(Request $request)
     {
-        $user = tbusuario::where('emailUsuario', $request->emailUsuario)->first();
+        $user = Usuario::where('emailUsuario', $request->emailUsuario)->first();
 
         if (! $user || ! Hash::check($request->senhaUsuario, $user->senhaUsuario)) {
             return response()->json(['message' => 'Credenciais inválidas'], 401);

@@ -7,16 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Usuario;
-use App\Models\Clube;
 use App\Models\Esporte;
-
+use App\Models\Posicao;
+use App\Models\Categoria;
 
 class Usuario extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'Usuario';  
+    protected $table = 'usuarios';  
 
 
     /**

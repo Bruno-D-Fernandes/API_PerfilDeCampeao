@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Clube;
 use App\Models\Usuario;
+use App\Models\Posicao;
 
 
 class Esporte extends Model
@@ -26,5 +27,9 @@ class Esporte extends Model
     public function usuarios()
     {
         return $this->belongsToMany(Usuario::class);
+    }
+    public function posicoes()
+    {
+        return $this->hasMany(Posicao::class);
     }
 }

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('usuarios_esporte', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usuario_id')->constrained('tbusuario')->onDelete('cascade');
-            $table->foreignId('esporte_id')->constrained('esportes')->onDelete('cascade');
+            $table->foreignId('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreignId('esporte_id')->references('id')->on('esportes')->onDelete('cascade');
             $table->timestamps();
         });
     }

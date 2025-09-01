@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\clubeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +15,6 @@ use Illuminate\Support\Facades\Hash;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\clubeController;
 
 // cadastro de usuario
 Route::post('/register', [UserController::class, 'store']);
