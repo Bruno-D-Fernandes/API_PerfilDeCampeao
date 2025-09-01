@@ -7,7 +7,7 @@ use App\Models\Clube;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class clubeController extends Controller
+class ClubeController extends Controller
 {
     // Listar todos os clubes
     public function loginClube(Request $request)
@@ -33,7 +33,7 @@ class clubeController extends Controller
     // Criar um novo clube
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validatedData = $request->validate([
             'nomeClube' => 'required|string|max:255',
             'cidadeClube' => 'required|string|max:255',
             'estadoClube' => 'required|string|max:255',
@@ -41,15 +41,22 @@ class clubeController extends Controller
             'cnpjClube' => 'required|string|max:20|unique:clubes',
             'enderecoClube' => 'required|string|max:255',
             'bioClube' => 'nullable|string',
-            'senhaClube' => 'required|string|min:8|confirmed',
+            'senhaClube' => 'required|string|min:6|confirmed',
         ]);
 
-        if($validator->fails()){
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        $clube = Clube::create([
+            'nomeClube' => $validatedData['nomeClube'],
+            'cidadeClube' => $validatedData['cidadeClube'],
+            'estadoClube' => $validatedData['estadoClube'],
+            'anoCriacaoClube' => $validatedData['anoCriacaoClube'],
+            'cnpjClube' => $validatedData['cnpjClube'],
+            'enderecoClube' => $validatedData['enderecoClube'],
+            'bioClube' => $validatedData['bioClube'] ?? null,
+            'senhaClube' => Hash::make($validatedData['senhaClube']),
+        ]);
 
-        $clube = Clube::create($request->all());
         return response()->json($clube, 201);
+
     }
 
     // Mostrar um clube específico

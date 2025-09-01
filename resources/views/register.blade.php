@@ -18,8 +18,8 @@
         <input type="cnpj" name="cnpjClube" placeholder="CNPJ" required>
         <input type="text" name="enderecoClube" placeholder="Endereço" required>
         <input type="text" name="bioClube" placeholder="Bio do clube" required>
-        <input type="text" name="senhaClube" placeholder="Senha do clube" required>
-        <input type="text" name="senhaClube_confirmation" placeholder="Confirmação da senha" required>
+        <input type="password" name="senhaClube" placeholder="Senha do clube" required>
+        <input type="password" name="senhaClube_confirmation" placeholder="Confirmação da senha" required>
 
         <button type="submit">Registrar</button>
     </form>

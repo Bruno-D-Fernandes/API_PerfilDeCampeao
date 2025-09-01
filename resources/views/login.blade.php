@@ -9,7 +9,7 @@
     <h1>Login</h1>
 
     <form id="loginForm">
-        <input type="email" name="emailClube" placeholder="Email" required>
+        <input type="cnpj" name="cnpjClube" placeholder="Cnpj" required>
         <input type="password" name="senhaClube" placeholder="Senha" required>
         <button type="submit">Entrar</button>
     </form>

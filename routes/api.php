@@ -20,13 +20,13 @@ use App\Http\Controllers\clubeController;
 Route::post('/register', [UserController::class, 'store']);
 
 // cadastro de Clube
-Route::post('/registerClube', [clubeController::class, 'store']);
+Route::post('/registerClube', [ClubeController::class, 'store']);
 
 // Login de usuário
 Route::post('/login', [AuthController::class, 'login']);
 
 // Login de Clube
-Route::post('/loginClube', [clubeController::class, 'loginClube']);
+Route::post('/loginClube', [ClubeController::class, 'loginClube']);
 
 // Rotas protegidas por token
 Route::middleware('auth:sanctum')->group(function() {
