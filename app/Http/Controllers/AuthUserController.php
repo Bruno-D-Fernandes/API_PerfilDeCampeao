@@ -7,7 +7,7 @@ use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class AuthController extends Controller
+class AuthUserController extends Controller
 {
     
     public function login(Request $request)
