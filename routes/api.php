@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\AuthClubeController;
-use App\Http\Controllers\clubeController;
+use App\Http\Controllers\ClubeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,31 +17,31 @@ use App\Http\Controllers\clubeController;
 |
 */
 
-// cadastro de usuario
-Route::post('/register', [UserController::class, 'store']);
-
-// cadastro de Clube
-Route::post('/registerClube', [ClubeController::class, 'store']);
+// Cadastro de usuário
+Route::post('/usuario/register', [UserController::class, 'store']);
 
 // Login de usuário
-Route::post('/login', [AuthUserController::class, 'login']);
+Route::post('/usuario/login', [AuthUserController::class, 'login']);
+
+// Crud de usuário
+Route::get('/usuario/show', [UserController::class, 'show']);
+Route::put('/usuario/update/{id}', [UserController::class, 'update']);
+Route::delete('/usuario/delete/{id}', [UserController::class, 'destroy']);
+
+// Cadastro de Clube
+Route::post('/clube/register', [ClubeController::class, 'store']);
 
 // Login de Clube
-Route::post('/loginClube', [ClubeController::class, 'loginClube']);
+Route::post('/clube/login', [AuthClubeController::class, 'loginClube']);
 
-Route::get('/show', [UserController::class, 'show']);
-Route::get('/update', [UserController::class, 'update']);
-Route::get('/delete', [UserController::class, 'destroy']);
-
-// Rotas protegidas por token
+// Rotas protegidas por token - Usuário
 Route::middleware('auth:sanctum')->group(function() {
-    Route::get('/perfil', [AuthUserController::class, 'perfil']);
-    Route::post('/logout', [AuthUserController::class, 'logout']);
+    Route::get('/usuario/perfil', [AuthUserController::class, 'perfil']);
+    Route::post('/usuario/logout', [AuthUserController::class, 'logout']);
 });
 
-// Rotas protegidas por token
+// Rotas protegidas por token - Clube
 Route::middleware('auth:sanctum')->group(function() {
-    Route::get('/perfil', [AuthClubeController::class, 'perfil']);
-    Route::post('/logout', [AuthClubeController::class, 'logout']);
+    Route::get('/clube/perfil', [AuthClubeController::class, 'perfil']);
+    Route::post('/clube/logout', [AuthClubeController::class, 'logout']);
 });
-

@@ -7,7 +7,7 @@ use App\Models\Clube;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class AuthController extends Controller
+class AuthClubeController extends Controller
 {
     
     public function loginClube(Request $request)

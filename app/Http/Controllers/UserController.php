@@ -10,24 +10,14 @@ use App\Http\Controllers\AuthController;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Listar todos os usuários
     public function index()
     {
-        
+        $usuarios = Usuario::all();
+        return response()->json($usuarios);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Criar novo usuário
     public function store(Request $request)
 {
     $validatedData = $request->validate([
@@ -84,9 +74,7 @@ class UserController extends Controller
     // return $authController->login($request);
 }
 
-    /**
-     * Display the specified resource.
-     */
+    // Mostrar usuário específico
     public function show(string $id)
     {
         $usuario = Usuario::find($id);
@@ -94,17 +82,10 @@ class UserController extends Controller
             return response()->json(['message' => 'Usuário não encontrado'], 404);
         }
 
-        return response()->json($usuario);
+        return response()->json($usuario, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
+    // Atualizar um usuário
     public function update(Request $request, string $id)
     {
        $usuario = Usuario::find($id);
@@ -113,9 +94,10 @@ class UserController extends Controller
         }
 
         $usuario->update($request->all());
-        return response()->json($usuario);
+        return response()->json($usuario, 200);
     }
 
+    // Deletar um usuário
     public function destroy(string $id)
     {
         $usuario = Usuario::find($id);
@@ -124,6 +106,6 @@ class UserController extends Controller
         }
 
         $usuario->delete();
-        return response()->json(['message' => 'Usuário deletado com sucesso']);
+        return response()->json(['message' => 'Usuário deletado com sucesso'], 200);
     }
 }

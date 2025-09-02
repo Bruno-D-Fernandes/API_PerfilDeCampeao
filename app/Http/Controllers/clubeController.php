@@ -9,11 +9,9 @@ use Illuminate\Support\Facades\Validator;
 
 class ClubeController extends Controller
 {
+    // João: Luan, eu estava pesquisando e, o envio da mensagem de 404 pode ser automático se você usar findOrFail() em vez de find().
+
     // Listar todos os clubes
-    public function loginClube(Request $request)
-    {
-       
-    }
     public function index()
     {
         $clubes = Clube::all();
@@ -53,10 +51,12 @@ class ClubeController extends Controller
     public function show($id)
     {
         $clube = Clube::find($id);
+
         if(!$clube){
             return response()->json(['message' => 'Clube não encontrado'], 404);
         }
-        return response()->json($clube);
+
+        return response()->json($clube, 200);
     }
 
     // Atualizar um clube
@@ -68,18 +68,19 @@ class ClubeController extends Controller
         }
 
         $clube->update($request->all());
-        return response()->json($clube);
+        return response()->json($clube, 200);
     }
 
     // Deletar um clube
     public function destroy($id)
     {
         $clube = Clube::find($id);
+
         if(!$clube){
             return response()->json(['message' => 'Clube não encontrado'], 404);
         }
 
         $clube->delete();
-        return response()->json(['message' => 'Clube deletado com sucesso']);
+        return response()->json(['sucesso' => true], 200);
     }
 }
