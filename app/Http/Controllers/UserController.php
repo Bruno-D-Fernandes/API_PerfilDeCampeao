@@ -77,11 +77,11 @@ class UserController extends Controller
         'temporadasUsuario' => $validatedData['temporadasUsuario'] ?? null
     ]);
 
-    return response()->json($user, 201);
+    // return response()->json($user, 201);
 
-    // $authController = new AuthController();
+    $authController = new AuthController();
     
-    // return $authController->login($request);
+    return $authController->login($request);
 }
 
     /**
