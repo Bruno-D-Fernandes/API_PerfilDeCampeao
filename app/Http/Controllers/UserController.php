@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthUserController;
 
 class UserController extends Controller
 {
@@ -67,11 +67,11 @@ class UserController extends Controller
         'temporadasUsuario' => $validatedData['temporadasUsuario'] ?? null
     ]);
 
-    return response()->json($user, 201);
+    // return response()->json($user, 201);
 
-    // $authController = new AuthController();
+    $authController = new AuthUserController();
     
-    // return $authController->login($request);
+    return $authController->login($request);
 }
 
     // Mostrar usuário específico
