@@ -38,6 +38,7 @@ Route::post('/clube/login', [AuthClubeController::class, 'loginClube']);
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/usuario/perfil', [AuthUserController::class, 'perfil']);
     Route::post('/usuario/logout', [AuthUserController::class, 'logout']);
+    Route::delete('/usuario/destroy/{id}', [UserController::class, 'destroy']); // tem que ta aqui pra toma aquela vistoria
 });
 
 // Rotas protegidas por token - Clube
