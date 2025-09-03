@@ -27,6 +27,8 @@ Route::post('/usuario/login', [AuthUserController::class, 'login']);
 Route::get('/usuario/show', [UserController::class, 'show']);
 Route::put('/usuario/update/{id}', [UserController::class, 'update']);
 Route::delete('/usuario/delete/{id}', [UserController::class, 'destroy']);
+Route::post('/usuario/logout', [AuthUserController::class, 'logout']);
+
 
 // Cadastro de Clube
 Route::post('/clube/register', [ClubeController::class, 'store']);
@@ -38,7 +40,7 @@ Route::post('/clube/login', [AuthClubeController::class, 'loginClube']);
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/usuario/perfil', [AuthUserController::class, 'perfil']);
     Route::post('/usuario/logout', [AuthUserController::class, 'logout']);
-    Route::delete('/usuario/destroy/{id}', [UserController::class, 'destroy']); // tem que ta aqui pra toma aquela vistoria
+    Route::delete('/usuario/destroy/{id}', [UserController::class, 'destroy']); 
 });
 
 // Rotas protegidas por token - Clube
