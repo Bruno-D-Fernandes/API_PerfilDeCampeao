@@ -29,6 +29,8 @@ Route::put('/usuario/update/{id}', [UserController::class, 'update']);
 Route::delete('/usuario/delete/{id}', [UserController::class, 'destroy']);
 Route::post('/usuario/logout', [AuthUserController::class, 'logout']);
 
+// Pesquisa de usuário
+Route::get('/usuario', [UserController::class, 'pesquisa']);
 
 // Cadastro de Clube
 Route::post('/clube/register', [ClubeController::class, 'store']);
