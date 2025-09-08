@@ -17,31 +17,42 @@ use App\Http\Controllers\ClubeController;
 |
 */
 
-// Cadastro de usuário
-Route::post('/usuario/register', [UserController::class, 'store']);
-Route::post('/usuario/login', [AuthUserController::class, 'login']);
-Route::get('/usuario/show', [UserController::class, 'show']);
-Route::put('/usuario/update/{id}', [UserController::class, 'update']);
-Route::delete('/usuario/delete/{id}', [UserController::class, 'destroy']);
-Route::post('/usuario/logout', [AuthUserController::class, 'logout']);
+//usuario
+
+Route::prefix('usuario')->group(function () {
+    Route::post('/register', [UserController::class, 'store']);
+    Route::post('/login', [AuthUserController::class, 'login']);
+    Route::get('/show', [UserController::class, 'show']);
+    Route::put('/update/{id}', [UserController::class, 'update']);
+    Route::delete('/delete/{id}', [UserController::class, 'destroy']);
+    Route::post('//logout', [AuthUserController::class, 'logout']);
+
+    Route::middleware('auth:sanctum')->group(function() {             // Middleware AQUI
+        Route::get('/perfil', [AuthUserController::class, 'perfil']);
+        Route::post('/logout', [AuthUserController::class, 'logout']);
+        Route::delete('/destroy/{id}', [UserController::class, 'destroy']); 
+    });
+});
 
 
-// Crud do Clube
-Route::post('/clube/register', [ClubeController::class, 'store']);
-Route::post('/clube/login', [AuthClubeController::class, 'loginClube']);
+//Clube
+
+Route::prefix('clube')->group(function () {
+    Route::post('/register', [ClubeController::class, 'store']);
+    Route::post('/login', [AuthClubeController::class, 'loginClube']);
+
+    Route::middleware('auth:sanctum')->group(function() {               // Middleware AQUI
+        Route::get('/perfil', [AuthClubeController::class, 'perfil']);
+        Route::post('/logout', [AuthClubeController::class, 'logout']);
+    });
+});
+
+
 // Route::get('/clube/show', [ClubeController::class, 'show']);
 // Route::put('/clube/update/{id}', [ClubeController::class, 'update']);
 // Route::delete('/clube/delete/{id}', [ClubeController::class, 'destroy']);
 
 // Rotas protegidas por token - Usuário
-Route::middleware('auth:sanctum')->group(function() {
-    Route::get('/usuario/perfil', [AuthUserController::class, 'perfil']);
-    Route::post('/usuario/logout', [AuthUserController::class, 'logout']);
-    Route::delete('/usuario/destroy/{id}', [UserController::class, 'destroy']); 
-});
+
 
 // Rotas protegidas por token - Clube
-Route::middleware('auth:sanctum')->group(function() {
-    Route::get('/clube/perfil', [AuthClubeController::class, 'perfil']);
-    Route::post('/clube/logout', [AuthClubeController::class, 'logout']);
-});

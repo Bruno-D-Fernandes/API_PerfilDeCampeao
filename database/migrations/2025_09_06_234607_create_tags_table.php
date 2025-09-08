@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) { // Por enquanto tag para postagem | Usar firstOrCreate!!! --ass: Bruno
             $table->id();
             $table->char('nomeTag', 10);
             $table->timestamps();

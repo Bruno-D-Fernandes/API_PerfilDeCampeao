@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('idUsuario')->references('id')->on('usuarios');            
             $table->text('textoPostagem')->nullable();
-            $table->string('localizacaoPostagem')->nullable(); // não sei se vai ficar assim mesmo | tavez usar api de locali do google?
-            $table->timestamps();
+            $table->string('localizacaoPostagem')->nullable(); // não sei se vai ficar assim mesmo | tavez usar api de locali do google? --ass: Bruno
+            $table->timestamps();                               // Faltam muitas coisa, tabelas de comnetario, Likes etc..
         });
     }
 
