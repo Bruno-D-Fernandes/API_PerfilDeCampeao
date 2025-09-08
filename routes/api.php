@@ -24,7 +24,7 @@ Route::post('/usuario/register', [UserController::class, 'store']);
 Route::post('/usuario/login', [AuthUserController::class, 'login']);
 
 // Crud de usuário
-Route::get('/usuario/show', [UserController::class, 'show']);
+Route::get('/usuario/show/{id}', [UserController::class, 'show']);
 Route::put('/usuario/update/{id}', [UserController::class, 'update']);
 Route::delete('/usuario/delete/{id}', [UserController::class, 'destroy']);
 Route::post('/usuario/logout', [AuthUserController::class, 'logout']);
