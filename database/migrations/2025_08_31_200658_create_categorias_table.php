@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nomeCategoria', 100);
             $table->text('descricaoCategoria')->nullable();
+            $table->timestamps();
         });
     }
 

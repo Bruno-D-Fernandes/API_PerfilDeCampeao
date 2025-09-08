@@ -39,7 +39,6 @@ public function store(Request $request)
             'estadoUsuario' => 'nullable|string|max:100',
             'cidadeUsuario' => 'nullable|string|max:100',
             'temporadasUsuario' => 'nullable|string|max:100',
-            'confirmacaoSenhaUsuario' => 'nullable|string|min:3|same:senhaUsuario',
 
             // Arrays de IDs para relacionamentos N:N || Essa parte os id's devem ser enviados como array no corpo da requisição
             'posicoes' => 'array',                    // Exemplo: "posicoes": [1, 2, 3] || tabelas de pivo --Ass: Bruno

@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\AuthClubeController;
 use App\Http\Controllers\ClubeController;
+use App\Http\Controllers\PostagemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,22 +19,23 @@ use App\Http\Controllers\ClubeController;
 */
 
 //usuario
-
 Route::prefix('usuario')->group(function () {
     Route::post('/register', [UserController::class, 'store']);
     Route::post('/login', [AuthUserController::class, 'login']);
     Route::get('/show', [UserController::class, 'show']);
     Route::put('/update/{id}', [UserController::class, 'update']);
     Route::delete('/delete/{id}', [UserController::class, 'destroy']);
-    Route::post('//logout', [AuthUserController::class, 'logout']);
+    Route::post('/logout', [AuthUserController::class, 'logout']); 
 
-    Route::middleware('auth:sanctum')->group(function() {             // Middleware AQUI
+    Route::middleware('auth:sanctum')->group(function () {
         Route::get('/perfil', [AuthUserController::class, 'perfil']);
         Route::post('/logout', [AuthUserController::class, 'logout']);
-        Route::delete('/destroy/{id}', [UserController::class, 'destroy']); 
+        Route::delete('/destroy/{id}', [UserController::class, 'destroy']);
+
+        // Postagem protegida
+        Route::post('/postagem', [PostagemController::class, 'store']);
     });
 });
-
 
 //Clube
 

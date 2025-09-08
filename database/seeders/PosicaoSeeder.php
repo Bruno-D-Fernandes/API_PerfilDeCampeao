@@ -39,18 +39,12 @@ class PosicaoSeeder extends Seeder
             ],
         ];
 
-        $id = 1; // Para controle manual de ID
-
         foreach ($posicoesPorEsporte as $idEsporte => $posicoes) {
             foreach ($posicoes as $nomePosicao) {
-                Posicao::firstOrCreate(
-                    ['id' => $id],
-                    [
-                        'nomePosicao' => $nomePosicao,
-                        'idEsporte' => $idEsporte,
-                    ]
-                );
-                $id++;
+                Posicao::firstOrCreate([
+                    'nomePosicao' => $nomePosicao,
+                    'idEsporte' => $idEsporte,
+                ]);
             }
         }
     }

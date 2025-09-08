@@ -13,16 +13,16 @@ class EsporteSeeder extends Seeder
     public function run(): void
     {
         $esportes = [
-            ['id' => 1, 'nome' => 'Futebol'],
-            ['id' => 2, 'nome' => 'Basquete'],
-            ['id' => 3, 'nome' => 'Vôlei'],
-            ['id' => 4, 'nome' => 'Tênis'],
+            ['id' => 1, 'nomeEsporte' => 'Futebol'], // Colocar depois desc Esporte --ass: Bruno
+            ['id' => 2, 'nomeEsporte' => 'Basquete'],
+            ['id' => 3, 'nomeEsporte' => 'Vôlei'],
+            ['id' => 4, 'nomeEsporte' => 'Tênis'],
         ];
 
         foreach ($esportes as $esporte) {
             Esporte::updateOrCreate(
                 ['id' => $esporte['id']],
-                ['nome' => $esporte['nome']]
+                ['nomeEsporte' => $esporte['nomeEsporte']]
             );
         }
     }

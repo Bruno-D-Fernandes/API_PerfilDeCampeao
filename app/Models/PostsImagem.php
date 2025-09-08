@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Postagem;
 
-class PostsImagemController extends Model
+class PostsImagem extends Model
 {
     use HasFactory;
 
@@ -17,7 +17,7 @@ class PostsImagemController extends Model
         'caminhoImagem'
     ];
 
-    public function postagem()
+    public function postagens()
     {
         return $this->hasMany(Postagem::class);
     }

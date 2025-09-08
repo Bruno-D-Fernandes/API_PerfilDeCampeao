@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nomePosicao', 100);
             $table->foreignId('idEsporte')->references('id')->on('esportes')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
