@@ -17,7 +17,7 @@ class Posicao extends Model
         'idEsporte',
     ];
 
-    function usuarios()
+    public function usuarios()
     {
         return $this->belongsToMany(Usuario::class);
     }

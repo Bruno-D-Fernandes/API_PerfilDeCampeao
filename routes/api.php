@@ -19,22 +19,19 @@ use App\Http\Controllers\ClubeController;
 
 // Cadastro de usuário
 Route::post('/usuario/register', [UserController::class, 'store']);
-
-// Login de usuário
 Route::post('/usuario/login', [AuthUserController::class, 'login']);
-
-// Crud de usuário
 Route::get('/usuario/show', [UserController::class, 'show']);
 Route::put('/usuario/update/{id}', [UserController::class, 'update']);
 Route::delete('/usuario/delete/{id}', [UserController::class, 'destroy']);
 Route::post('/usuario/logout', [AuthUserController::class, 'logout']);
 
 
-// Cadastro de Clube
+// Crud do Clube
 Route::post('/clube/register', [ClubeController::class, 'store']);
-
-// Login de Clube
 Route::post('/clube/login', [AuthClubeController::class, 'loginClube']);
+// Route::get('/clube/show', [ClubeController::class, 'show']);
+// Route::put('/clube/update/{id}', [ClubeController::class, 'update']);
+// Route::delete('/clube/delete/{id}', [ClubeController::class, 'destroy']);
 
 // Rotas protegidas por token - Usuário
 Route::middleware('auth:sanctum')->group(function() {
