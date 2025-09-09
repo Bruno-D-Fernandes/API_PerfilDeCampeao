@@ -19,6 +19,6 @@ class Posicao extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany(Usuario::class);
+        return $this->belongsToMany(Usuario::class, 'usuarios_posicao', 'posicao_id', 'usuario_id');
     }
 }

@@ -81,16 +81,16 @@ class Usuario extends Authenticatable
 
     public function posicoes()
     {
-        return $this->belongsToMany(Posicao::class);
+        return $this->belongsToMany(Posicao::class, 'usuarios_posicao', 'usuario_id', 'posicao_id');
     }
 
-   public function esportes()
+    public function esportes()
     {
-        return $this->belongsToMany(Esporte::class);
+        return $this->belongsToMany(Esporte::class, 'usuarios_esporte', 'usuario_id', 'esporte_id');
     }
 
     public function categorias()
     {
-        return $this->belongsToMany(Categoria::class);
+        return $this->belongsToMany(Categoria::class, 'usuarios_categoria', 'usuario_id', 'categoria_id');
     }
 }

@@ -26,7 +26,7 @@ class Esporte extends Model
     }
     public function usuarios()
     {
-        return $this->belongsToMany(Usuario::class);
+        return $this->belongsToMany(Usuario::class, 'usuarios_esporte', 'esporte_id', 'usuario_id');
     }
     public function posicoes()
     {

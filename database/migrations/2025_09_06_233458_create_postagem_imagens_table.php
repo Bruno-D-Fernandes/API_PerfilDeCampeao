@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('postagem_images', function (Blueprint $table) { // essa tabela de imagens pode ter o tipo "$table->morphs('imageable')"
-            $table->id();                                           // estou fazendo de um jeito mais simples, já que não decidiram muita
-            $table->foreignId('idImagem')->references('id')->on('postagens'); // coisa do aplicativo que afetaria o MER --ass: Bruno
-            $table->text('camonhoImagem');
+        Schema::create('postagem_images', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('idPostagem')->references('id')->on('postagens')->onDelete('cascade');
+            $table->text('caminhoImagem');
             $table->timestamps();
         });
     }

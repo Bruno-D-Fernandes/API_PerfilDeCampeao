@@ -10,15 +10,15 @@ class PostsImagem extends Model
 {
     use HasFactory;
 
-    protected $table = 'posts_imagens';
+    protected $table = 'postagem_images';
 
     protected $fillable = [
         'idPostagem',
         'caminhoImagem'
     ];
 
-    public function postagens()
+    public function postagem()
     {
-        return $this->hasMany(Postagem::class);
+        return $this->belongsTo(Postagem::class, 'idPostagem');
     }
 }

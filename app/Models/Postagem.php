@@ -19,11 +19,14 @@ class Postagem extends Model
         'textoPostagem',
         'localizacaoPostagem'
     ];
-    
+
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class, 'postagens_tags', 'idPostagem', 'idTag');
     }
 
-
+    public function imagens()
+    {
+        return $this->hasMany(PostsImagem::class, 'idPostagem');
+    }
 }

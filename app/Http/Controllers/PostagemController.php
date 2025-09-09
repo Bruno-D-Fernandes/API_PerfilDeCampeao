@@ -52,7 +52,7 @@ class PostagemController extends Controller
                     'caminhoImagem' => $caminhoImagem,
                 ]);
             }
-            if (!empty($validatedData['tags'])) { // Deus me proteja desse logica --ass: Bruno
+            if (!empty($validatedData['tags'])) {
                 $tagIds = [];
                 foreach ($validatedData['tags'] as $nomeTag) {
                     $tag = Tag::firstOrCreate(['nomeTag' => $nomeTag]);

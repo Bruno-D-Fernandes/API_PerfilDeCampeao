@@ -19,7 +19,7 @@ class Tag extends Model
 
     public function postagens()
     {
-        return $this->belongsToMany(Postagem::class);
+        return $this->belongsToMany(Postagem::class, 'postagens_tags', 'idTag', 'idPostagem');
     }
 
 }
