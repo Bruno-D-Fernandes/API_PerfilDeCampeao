@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\AuthClubeController;
 use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\PostagemController;
+use App\Http\Controllers\AdmController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,15 @@ Route::prefix('clube')->group(function () {
     Route::middleware('auth:sanctum')->group(function() {               // Middleware AQUI
         Route::get('/perfil', [AuthClubeController::class, 'perfil']);
         Route::post('/logout', [AuthClubeController::class, 'logout']);
+    });
+});
+
+//Admin
+Route::prefix('admin')->group(function () {
+    Route::post('/login', [AdmController::class, 'loginAdm']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/perfil', [AdmController::class, 'perfilAdm']);
+        Route::post('/logout', [AdmController::class, 'logoutAdm']);
     });
 });
 

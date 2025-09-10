@@ -19,7 +19,7 @@
         if(!token){
             window.location.href = '/login';
         } else {
-            fetch('/api/perfil', {
+            fetch('/api/clube/perfil', {
                 headers: { 'Authorization': 'Bearer ' + token }
             })
             .then(res => res.json())

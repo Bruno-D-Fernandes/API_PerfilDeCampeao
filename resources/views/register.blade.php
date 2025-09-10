@@ -14,6 +14,7 @@
     <form id="registerForm">
         <input type="text" name="nomeClube" placeholder="Nome do clube" required>
         <input type="text" name="cidadeClube" placeholder="Cidade do clube" required>
+        <input type="text" name="estadoClube" placeholder="Estado do clube" required>
         <input type="date" name="anoCriacaoClube" placeholder="Ano de criação" required>
         <input type="cnpj" name="cnpjClube" placeholder="CNPJ" required>
         <input type="text" name="enderecoClube" placeholder="Endereço" required>
@@ -37,7 +38,7 @@
             const data = Object.fromEntries(formData.entries()); // Converte para objeto JS
 
             try {
-                const response = await fetch('/api/registerClube', {
+                const response = await fetch('/api/clube/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json', // Indica que é JSON

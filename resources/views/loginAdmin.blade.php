@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login Admin</title>
 </head>
 <body>
-    <h1>Login</h1>
+    <h1>Login Admin</h1>
 
     <form id="loginForm">
-        <input type="cnpj" name="cnpjClube" placeholder="Cnpj" required>
-        <input type="password" name="senhaClube" placeholder="Senha" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Senha" required>
         <button type="submit">Entrar</button>
     </form>
 
@@ -29,7 +29,7 @@
             const data = Object.fromEntries(formData.entries());
 
             try {
-                const response = await fetch('/api/clube/login', {
+                const response = await fetch('/api/admin/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@
                         // Salva o token no localStorage
                         localStorage.setItem('token', result.access_token);
                         // Redireciona para o perfil
-                        window.location.href = '/perfil';
+                        window.location.href = '/perfilAdmin';
                     } else {
                         alert('Erro no login: ' + JSON.stringify(result));
                     }
