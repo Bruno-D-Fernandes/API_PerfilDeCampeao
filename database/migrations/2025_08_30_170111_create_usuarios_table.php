@@ -42,6 +42,8 @@ return new class extends Migration
 
             $table->string('fotoPerfilUsuario')->nullable();
             $table->string('fotoBannerUsuario')->nullable();
+
+            $table->foreignId('idStatus')->nullable()->references('id')->on('status')->onDelete('set null');
             
             $table->timestamps();
         });
