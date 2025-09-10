@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use \Database\Seeders\CategoriaSeeder;
 use \Database\Seeders\EsporteSeeder;
 use \Database\Seeders\PosicaoSeeder;
+use \Database\Seeders\AdminSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,9 +23,11 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
+        AdminSeeder::class,
         EsporteSeeder::class,
         PosicaoSeeder::class,
         CategoriaSeeder::class,
+
     ]);
     }
 }
