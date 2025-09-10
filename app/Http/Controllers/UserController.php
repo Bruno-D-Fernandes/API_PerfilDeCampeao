@@ -41,13 +41,13 @@ public function store(Request $request)
             'temporadasUsuario' => 'nullable|string|max:100',
 
             // Arrays de IDs para relacionamentos N:N || Essa parte os id's devem ser enviados como array no corpo da requisição
-            'posicoes' => 'array',                    // Exemplo: "posicoes": [1, 2, 3] || tabelas de pivo --Ass: Bruno
+            'posicoes' => 'nullable|array',                    // Exemplo: "posicoes": [1, 2, 3] || tabelas de pivo --Ass: Bruno
             'posicoes.*' => 'integer|exists:posicoes,id',
 
-            'esportes' => 'array',
+            'esportes' => 'nullable|array',
             'esportes.*' => 'integer|exists:esportes,id',
 
-            'categorias' => 'array',
+            'categorias' => 'nullable|array',
             'categorias.*' => 'integer|exists:categorias,id',
         ]);
 
