@@ -11,7 +11,12 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array<int, string>
      */
-    protected $except = [
-        //
-    ];
+
+    /* ALGUÉM ME LEMBRA DE TIRAR POR FAVOR!!!! */ 
+
+    // Tirei. Não está explicito qual merge com qual web era pra tirar --ass: Bruno
+   /* protected $except = [
+        'api/usuario/update/*',
+        'api/usuario/delete/*',
+    ];*/
 }
