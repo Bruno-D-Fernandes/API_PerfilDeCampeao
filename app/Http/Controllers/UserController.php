@@ -47,6 +47,12 @@ class UserController extends Controller
     // Criar novo usuário
     public function store(Request $request)
     {
+        // Normaliza campos para array se vierem como número
+        foreach (['posicoes', 'esportes', 'categorias'] as $campo) {
+            if ($request->has($campo) && !is_array($request->$campo)) {
+                $request->merge([$campo => [$request->$campo]]);
+            }
+        }
         try {
             $validatedData = $request->validate([
                 'nomeCompletoUsuario' => 'required|string|max:255',
