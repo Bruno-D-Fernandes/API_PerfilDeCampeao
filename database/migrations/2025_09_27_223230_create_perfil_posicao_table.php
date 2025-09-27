@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('perfil_caracteristicas', function (Blueprint $table) {
+        Schema::create('perfil_posicao', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('perfil_id')->constrained('perfis')->onDelete('cascade');
-            $table->foreignId('caracteristica_id')->constrained('caracteristicas')->onDelete('cascade');
-            $table->string('valor'); // "80", "1.75", "Canhoto" --bruno
+            $table->foreignId('perfil_id')->references('id')->on('perfis')->onDelete('cascade');
+            $table->foreignId('posicao_id')->references('id')->on('posicoes')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('perfil_caracteristicas');
+        Schema::dropIfExists('perfil_posicao');
     }
 };

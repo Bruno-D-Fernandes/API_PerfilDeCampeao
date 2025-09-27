@@ -23,8 +23,4 @@ class Categoria extends Model
         return $this->belongsToMany(Clube::class);
     }
 
-    public function usuarios()
-    {
-        return $this->belongsToMany(Usuario::class, 'usuarios_categoria', 'categoria_id', 'usuario_id');
-    }
 }

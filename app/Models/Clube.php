@@ -31,6 +31,7 @@ class Clube extends Authenticatable
     {
         return $this->belongsToMany(Esporte::class);
     }
+    
     public function usuarios()
     {
         return $this->belongsToMany(Usuario::class);

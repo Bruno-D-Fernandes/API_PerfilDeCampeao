@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Esporte;
 use App\Models\Posicao;
 use App\Models\Categoria;
+use App\Models\Perfil;
 
 class Usuario extends Authenticatable
 {
@@ -79,18 +80,8 @@ class Usuario extends Authenticatable
         return $this->senhaUsuario;
     }
 
-    public function posicoes()
+        public function perfis()
     {
-        return $this->belongsToMany(Posicao::class, 'usuarios_posicao', 'usuario_id', 'posicao_id');
-    }
-
-    public function esportes()
-    {
-        return $this->belongsToMany(Esporte::class, 'usuarios_esporte', 'usuario_id', 'esporte_id');
-    }
-
-    public function categorias()
-    {
-        return $this->belongsToMany(Categoria::class, 'usuarios_categoria', 'usuario_id', 'categoria_id');
+        return $this->hasMany(Perfil::class, 'usuario_id');
     }
 }
