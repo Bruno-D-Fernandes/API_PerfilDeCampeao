@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('usuarios_categoria', function (Blueprint $table) {
+        Schema::create('caracteristicas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
-            $table->foreignId('categoria_id')->references('id')->on('categorias')->onDelete('cascade');
+            $table->string('caracterisca');
+            $table->string('unidade_medida')->nullable(); // Kg, Cm, String, Boolean --bruno
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuarios_categoria');
+        Schema::dropIfExists('caracteristicas');
     }
 };
