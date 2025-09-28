@@ -16,7 +16,7 @@ class AdminSeeder extends Seeder
     {
        Admin::create([
             'email' => 'admin@sistema.com',
-            'password' => Hash::make('senha123'), // senha criptografada
+            'password' => Hash::make('senha123'), // senha criptografada | ai
         ]);
     }
 }

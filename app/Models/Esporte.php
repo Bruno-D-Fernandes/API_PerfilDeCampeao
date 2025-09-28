@@ -28,4 +28,9 @@ class Esporte extends Model
     {
         return $this->hasMany(Posicao::class);
     }
+
+    public function caracteristicas()
+    {
+        return $this->hasMany(Caracteristica::class, 'esporte_id');
+    }
 }

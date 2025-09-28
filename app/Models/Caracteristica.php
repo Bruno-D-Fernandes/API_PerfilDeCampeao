@@ -19,8 +19,12 @@ class Caracteristica extends Model
     public function perfis()
     {
         return $this->belongsToMany(Perfil::class, 'perfil_caracteristicas')
-                    ->withPivot('valor')
-                    ->withTimestamps();
+            ->withPivot('valor')
+            ->withTimestamps();
+    }
+
+    public function esporte()
+    {
+        return $this->belongsTo(Esporte::class, 'esporte_id');
     }
 }
-

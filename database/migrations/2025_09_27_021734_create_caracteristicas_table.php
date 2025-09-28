@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('caracteristicas', function (Blueprint $table) {
             $table->id();
-            $table->string('caracterisca');
+            $table->foreignId('esporte_id')->references('id')->on('esportes')->onDelete('cascade');
+            $table->string('caracteristica');
             $table->string('unidade_medida')->nullable(); // Kg, Cm, String, Boolean --bruno
             $table->timestamps();
         });

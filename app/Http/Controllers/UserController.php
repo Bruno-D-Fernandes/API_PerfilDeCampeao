@@ -27,7 +27,7 @@ class UserController extends Controller
 
         $query = Usuario::where(function ($query) use ($search) {
             $query->where('nomeCompletoUsuario', 'like', "%{$search}%")
-                ->orWhere('nomeUsuario', 'like', "%{$search}%");
+                ->orWhere('nomeUsuario', 'like', "%{$search}%"); // Tirei nomeUsuario, talvez tenha que tirar isso se não for colocar denovo
         });
 
         if ($forma !== 'todos') {
@@ -47,77 +47,35 @@ class UserController extends Controller
     // Criar novo usuário
     public function store(Request $request)
     {
-        // Normaliza campos para array se vierem como número
-        foreach (['posicoes', 'esportes', 'categorias'] as $campo) {
-            if ($request->has($campo) && !is_array($request->$campo)) {
-                $request->merge([$campo => [$request->$campo]]);
-            }
-        }
         try {
             $validatedData = $request->validate([
                 'nomeCompletoUsuario' => 'required|string|max:255',
-                'nomeUsuario' => 'nullable|string|max:50|unique:usuarios,nomeUsuario',
                 'emailUsuario' => 'required|email|unique:usuarios,emailUsuario',
                 'senhaUsuario' => 'required|string|min:3',
-                'nacionalidadeUsuario' => 'nullable|string|max:100',
                 'dataNascimentoUsuario' => 'required|date',
-                'fotoPerfilUsuario' => 'nullable|string|max:300',
-                'fotoBannerUsuario' => 'nullable|string|max:400',
-                'bioUsuario' => 'nullable|string|max:500',
-                'alturaCmUsuario' => 'nullable|numeric|min:50|max:300',
-                'pesoKgUsuario' => 'nullable|numeric|min:20|max:500',
-                'peDominanteUsuario' => 'nullable|in:direito,esquerdo',
-                'maoDominanteUsuario' => 'nullable|in:direita,esquerda',
                 'generoUsuario' => 'nullable|string|max:100',
                 'estadoUsuario' => 'nullable|string|max:100',
                 'cidadeUsuario' => 'nullable|string|max:100',
-                'temporadasUsuario' => 'nullable|string|max:100',
-
-                // Arrays de IDs para relacionamentos N:N
-                'posicoes' => 'nullable|array',
-                'posicoes.*' => 'integer|exists:posicoes,id',
-
-                'esportes' => 'nullable|array',
-                'esportes.*' => 'integer|exists:esportes,id',
-
-                'categorias' => 'nullable|array',
-                'categorias.*' => 'integer|exists:categorias,id',
+                'alturaCm' => 'nullable|numeric|min:50|max:300',
+                'pesoKg' => 'nullable|numeric|min:20|max:500',
+                'peDominante' => 'nullable|in:direito,esquerdo',
+                'maoDominante' => 'nullable|in:destro,canhoto',
             ]);
 
             // Cria o usuário
             $user = Usuario::create([
                 'nomeCompletoUsuario' => $validatedData['nomeCompletoUsuario'],
-                'nomeUsuario' => $validatedData['nomeUsuario'] ?? null,
                 'emailUsuario' => $validatedData['emailUsuario'],
                 'senhaUsuario' => Hash::make($validatedData['senhaUsuario']),
-                'nacionalidadeUsuario' => $validatedData['nacionalidadeUsuario'] ?? null,
                 'dataNascimentoUsuario' => $validatedData['dataNascimentoUsuario'],
-                'fotoPerfilUsuario' => $validatedData['fotoPerfilUsuario'] ?? null,
-                'fotoBannerUsuario' => $validatedData['fotoBannerUsuario'] ?? null,
-                'bioUsuario' => $validatedData['bioUsuario'] ?? null,
-                'alturaCm' => $validatedData['alturaCmUsuario'] ?? null,
-                'pesoKg' => $validatedData['pesoKgUsuario'] ?? null,
-                'peDominante' => $validatedData['peDominanteUsuario'] ?? null,
-                'maoDominante' => $validatedData['maoDominanteUsuario'] ?? null,
                 'generoUsuario' => $validatedData['generoUsuario'] ?? null,
                 'estadoUsuario' => $validatedData['estadoUsuario'] ?? null,
                 'cidadeUsuario' => $validatedData['cidadeUsuario'] ?? null,
-                'temporadasUsuario' => $validatedData['temporadasUsuario'] ?? null,
-                'dataCadastroUsuario' => now(),
+                'alturaCm' => $validatedData['alturaCm'] ?? null,
+                'pesoKg' => $validatedData['pesoKg'] ?? null,
+                'peDominante' => $validatedData['peDominante'] ?? null,
+                'maoDominante' => $validatedData['maoDominante'] ?? null,
             ]);
-
-            // Relacionamentos N:N 
-            if (!empty($validatedData['posicoes'])) {
-                $user->posicoes()->sync($validatedData['posicoes']);
-            }
-
-            if (!empty($validatedData['esportes'])) {
-                $user->esportes()->sync($validatedData['esportes']);
-            }
-
-            if (!empty($validatedData['categorias'])) {
-                $user->categorias()->sync($validatedData['categorias']);
-            }
 
             $authController = new AuthUserController();
             return $authController->login($request);
@@ -128,6 +86,7 @@ class UserController extends Controller
             ], 500);
         }
     }
+
 
     // Mostrar usuário específico
     public function show(string $id)

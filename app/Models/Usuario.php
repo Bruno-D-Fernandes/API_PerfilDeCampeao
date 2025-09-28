@@ -25,29 +25,18 @@ class Usuario extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-
-            'nomeCompletoUsuario',
-            'nomeUsuario',
-            'emailUsuario',
-            'senhaUsuario',
-            'nacionalidadeUsuario',
-            'dataNascimentoUsuario',
-            'generoUsuario',
-            'estadoUsuario',
-            'cidadeUsuario',
-
-            'dataCadastroUsuario',
-            'bioUsuario',
-
-            'alturaCm',
-            'pesoKg',
-            'peDominante',
-            'maoDominante',
-            'temporadasUsuario',
-
-            //Fotos
-            'fotoPerfilUsuario',
-            'fotoBannerUsuario',
+        "nomeCompletoUsuario",
+        "dataNascimentoUsuario",
+        "generoUsuario",
+        "estadoUsuario",
+        "cidadeUsuario",
+        "alturaCm",
+        "emailUsuario",
+        "senhaUsuario",
+        "confirmacaoSenhaUsuario",
+        "pesoKg",
+        "peDominante",
+        "maoDominante"
     ];
 
     /**
