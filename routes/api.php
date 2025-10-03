@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthClubeController;
 use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\PostagemController;
 use App\Http\Controllers\AdmController;
+use App\http\Controllers\OportunidadeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,13 +42,16 @@ Route::prefix('usuario')->group(function () {
 //Clube
 
 Route::prefix('clube')->group(function () {
-    Route::post('/register', [ClubeController::class, 'store']);
-    Route::post('/login', [AuthClubeController::class, 'loginClube']);
+  Route::post('/register', [ClubeController::class, 'store']);
+  Route::post('/login',    [AuthClubeController::class, 'loginClube']);
 
-    Route::middleware('auth:sanctum')->group(function() {               // Middleware AQUI
-        Route::get('/perfil', [AuthClubeController::class, 'perfil']);
-        Route::post('/logout', [AuthClubeController::class, 'logout']);
-    });
+  Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/perfil',  [AuthClubeController::class, 'perfil']);
+    Route::post('/logout', [AuthClubeController::class, 'logout']);
+    Route::post('/oportunidade',       [OportunidadeController::class, 'store']);   // <= AQUI
+    Route::put('/oportunidade/{id}',   [OportunidadeController::class, 'update']);
+    Route::delete('/oportunidade/{id}',[OportunidadeController::class, 'destroy']);
+  });
 });
 
 //Admin
@@ -59,6 +63,8 @@ Route::prefix('admin')->group(function () {
     });
 });
 
+Route::get('/oportunidade', [OportunidadeController::class, 'index']);
+Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 
 // Route::get('/clube/show', [ClubeController::class, 'show']);
 // Route::put('/clube/update/{id}', [ClubeController::class, 'update']);

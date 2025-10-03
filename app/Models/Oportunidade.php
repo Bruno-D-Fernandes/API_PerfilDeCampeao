@@ -13,7 +13,6 @@ class Oportunidade extends Model
     protected $table = 'oportunidades';
 
     protected $fillable = [
-        'posicaoOportunidades',
         'descricaoOportunidades',
         'datapostagemOportunidades',
         'esporte_id',

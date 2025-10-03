@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Oportunidade;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class OportunidadeController extends Controller
 {
@@ -14,10 +15,12 @@ class OportunidadeController extends Controller
     public function index()
     {
         try {
-            $oportunidades = Oportunidade::with(['clube', 'esporte', 'posicao'])
+           $oportunidades = Oportunidade::orderBy('datapostagemOportunidades', 'desc')->get();
+            // Incluindo os relacionamentos (opcional, mas bom para o front-end)
+            $oportunidades = Oportunidade::with(['clube', 'esporte', 'posicoes'])
                 ->orderBy('datapostagemOportunidades', 'desc')
                 ->get();
-
+                
             return response()->json($oportunidades, 200);
 
         } catch (\Exception $e) {
@@ -33,32 +36,39 @@ class OportunidadeController extends Controller
      */
     public function store(Request $request)
     {
+       
+        $validatedData = $request->validate([
+            'descricaoOportunidades'    => 'required|string|max:255',
+            'datapostagemOportunidades' => 'required|date',
+            'esporte_id'                => 'required|exists:esportes,id',
+            'posicoes_id'               => 'required|exists:posicoes,id',
+        ]);
+        
+
+        // TEM MUITA COISA ERRADA AQUI, IREI ARRUMAR --Assim que arrumar, irei comentar o que foi alterado --Ass: Luan
+      
+        $clube = auth('sanctum')->user();
+
+        if (!$clube) {
+            return response()->json(['error' => 'Não autenticado como Clube'], 401);
+        }
+
         try {
-            $validatedData = $request->validate([
-                'descricaoOportunidades' => 'required|string|max:255',
-                'posicaoOportunidades'   => 'required|string|max:255',
-                'datapostagemOportunidades' => 'required|date',
-                'esporte_id'             => 'required|exists:esportes,id',
-                'posicoes_id'            => 'required|exists:posicoes,id',
-            ]);
-
-            // Pega o clube logado (ajuste dependendo da autenticação) || ISSO ESTA MUITO ERRADO, Vou mexer nisso depois --Ass: Luan
-            $clubeId = Auth::id(); 
-
+            
             $oportunidade = Oportunidade::create([
                 'descricaoOportunidades'     => $validatedData['descricaoOportunidades'],
-                'posicaoOportunidades'       => $validatedData['posicaoOportunidades'],
                 'datapostagemOportunidades'  => $validatedData['datapostagemOportunidades'],
                 'esporte_id'                 => $validatedData['esporte_id'],
                 'posicoes_id'                => $validatedData['posicoes_id'],
-                'clube_id'                   => $clubeId,
+                'clube_id'                   => $clube->id, // Usando o ID do Clube logado
             ]);
 
-            return response()->json($oportunidade, 201);
+            return response()->json($oportunidade, 201); // Retorno correto para criação
 
         } catch (\Exception $e) {
+            // Captura erros de banco de dados ou outros erros de criação
             return response()->json([
-                'error' => 'Erro ao criar oportunidade',
+                'error' => 'Erro interno ao criar oportunidade',
                 'message' => $e->getMessage()
             ], 500);
         }
@@ -70,7 +80,7 @@ class OportunidadeController extends Controller
     public function show($id)
     {
         try {
-            $oportunidade = Oportunidade::with(['clube', 'esporte', 'posicao'])
+            $oportunidade = Oportunidade::with(['clube', 'esporte', 'posicoes']) // Corrigido 'posicao' para 'posicoes' (nome do relacionamento no Model)
                 ->findOrFail($id);
 
             return response()->json($oportunidade, 200);
@@ -78,7 +88,7 @@ class OportunidadeController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Oportunidade não encontrada',
-                'message' => $e->getMessage()
+                'message' => 'Oportunidade com ID ' . $id . ' não existe.'
             ], 404);
         }
     }
@@ -88,24 +98,26 @@ class OportunidadeController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // 1. Encontra a oportunidade e trata 404
+        $oportunidade = Oportunidade::findOrFail($id);
+        
+        // 2. Confirmação de Autorização (403 Forbidden)
+        if ($oportunidade->clube_id !== Auth::id()) {
+            return response()->json(['error' => 'Acesso negado', 'message' => 'Você não é o clube criador desta oportunidade.'], 403);
+        }
+
+        // 3. Validação (Se falhar, Laravel retorna 422)
+        $validatedData = $request->validate([
+            'descricaoOportunidades'    => 'sometimes|required|string|max:255',
+            'posicaoOportunidades'      => 'sometimes|required|string|max:255',
+            'datapostagemOportunidades' => 'sometimes|required|date',
+            'esporte_id'                => 'sometimes|required|exists:esportes,id',
+            'posicoes_id'               => 'sometimes|required|exists:posicoes,id',
+        ]);
+
         try {
-            $oportunidade = Oportunidade::findOrFail($id);
-
-            // Confirma que o clube dono é o mesmo logado
-            if ($oportunidade->clube_id !== Auth::id()) {
-                return response()->json(['error' => 'Não autorizado'], 403);
-            }
-
-            $validatedData = $request->validate([
-                'descricaoOportunidades' => 'sometimes|required|string|max:255',
-                'posicaoOportunidades'   => 'sometimes|required|string|max:255',
-                'datapostagemOportunidades' => 'sometimes|required|date',
-                'esporte_id'             => 'sometimes|required|exists:esportes,id',
-                'posicoes_id'            => 'sometimes|required|exists:posicoes,id',
-            ]);
-
+            // 4. Atualização
             $oportunidade->update($validatedData);
-
             return response()->json($oportunidade, 200);
 
         } catch (\Exception $e) {
@@ -121,15 +133,17 @@ class OportunidadeController extends Controller
      */
     public function destroy($id)
     {
+        // 1. Encontra a oportunidade e trata 404
+        $oportunidade = Oportunidade::findOrFail($id);
+
+        // 2. Confirmação de Autorização (403 Forbidden)
+        if ($oportunidade->clube_id !== Auth::id()) {
+            return response()->json(['error' => 'Acesso negado', 'message' => 'Você não é o clube criador desta oportunidade.'], 403);
+        }
+
         try {
-            $oportunidade = Oportunidade::findOrFail($id);
-
-            if ($oportunidade->clube_id !== Auth::id()) {
-                return response()->json(['error' => 'Não autorizado'], 403);
-            }
-
+            // 3. Deleção
             $oportunidade->delete();
-
             return response()->json(['message' => 'Oportunidade excluída com sucesso'], 200);
 
         } catch (\Exception $e) {
