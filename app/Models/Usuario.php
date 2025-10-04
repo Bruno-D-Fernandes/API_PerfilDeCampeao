@@ -69,8 +69,18 @@ class Usuario extends Authenticatable
         return $this->senhaUsuario;
     }
 
-        public function perfis()
+    public function perfis()
     {
         return $this->hasMany(Perfil::class, 'usuario_id');
+    }
+
+    public function seguindo()
+    {
+        return $this->belongsToMany(Usuario::class, 'relacionamento_usuarios', 'usuario_seguidor_id', 'usuario_seguido_id');
+    }
+
+    public function seguidores()
+    {
+        return $this->belongsToMany(Usuario::class, 'relacionamento_usuarios', 'usuario_seguido_id', 'usuario_seguidor_id');
     }
 }

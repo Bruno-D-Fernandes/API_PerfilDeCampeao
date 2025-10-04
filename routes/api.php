@@ -35,6 +35,10 @@ Route::prefix('usuario')->group(function () {
 
         // Postagem protegida
         Route::post('/postagem', [PostagemController::class, 'store']);
+
+        // Seguir e deixar de seguir protegidos
+        Route::post('/{id}/seguir', [UserController::class, 'seguir']);
+        Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguir']);
     });
 });
 

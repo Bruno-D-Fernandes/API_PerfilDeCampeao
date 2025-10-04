@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserFollowedEvent;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
@@ -35,6 +36,58 @@ class UserController extends Controller
         }
 
         return response()->json($query->get());
+    }
+
+    public function seguir(string $id)
+    {
+        try {
+            $usuarioSeguido = Usuario::find($id);
+
+            if (!$usuarioSeguido) {
+                return response()->json(['message' => 'Usuário não encontrado'], 404);
+            }
+
+            $seguidor = auth()->user();
+
+            if ($seguidor->id == $usuarioSeguido->id) {
+                return response()->json(['message' => 'Você não pode seguir a si mesmo'], 422);
+            }
+
+            $seguidor->seguindo()->attach($usuarioSeguido->id);
+
+            event(new UserFollowedEvent($seguidor, $usuarioSeguido));
+
+            return response()->json(['message' => 'Usuário seguido com sucesso', 200]);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => 'Ocorreu um erro ao tentar seguir o usuário',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function deixarDeSeguir(string $id)
+    {
+        try {
+            $usuarioDeixado = Usuario::find($id);
+
+            if (!$usuarioDeixado) {
+                return response()->json(['message' => 'Usuário não encontrado'], 404);
+            }
+
+            $seguidor = auth()->user();
+
+            $seguidor->seguindo()->detach($usuarioSeguido->id);
+
+            return response()->json(['message' => 'Você deixou de seguir o usuário com sucesso', 200]);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => 'Ocorreu um erro ao tentar deixar de seguir o usuário',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     // Listar todos os usuários
@@ -86,7 +139,6 @@ class UserController extends Controller
             ], 500);
         }
     }
-
 
     // Mostrar usuário específico
     public function show(string $id)
