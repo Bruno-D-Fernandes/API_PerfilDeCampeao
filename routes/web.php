@@ -1,9 +1,13 @@
 <?php
 
+use App\Events\UserFollowedEvent;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WebController;
+use App\Models\Usuario;
+use App\Notifications\UserFollowedNotification;
+use Illuminate\Notifications\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +42,12 @@ Route::get('/registro', function () {
     return view('register');
 })->name('registro');
 
+Route::get('/test-notif', function () {
+    $follower = Usuario::find(1);
+    $userFollowed = Usuario::find(2);
+    event(new UserFollowedEvent($follower, $userFollowed));
+});
 
-
-
-
+Route::get('/test', function () {
+    return view('test');
+});
