@@ -73,4 +73,8 @@ class Usuario extends Authenticatable
     {
         return $this->hasMany(Perfil::class, 'usuario_id');
     }
+    public function posicoes()
+    {
+        return $this->belongsToMany(Posicao::class, 'usuario_posicoes', 'usuario_id', 'posicao_id');
+    }
 }

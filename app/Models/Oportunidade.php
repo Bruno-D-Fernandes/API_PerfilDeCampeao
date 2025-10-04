@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+// Não é necessário herdar de Authenticatable ou usar HasApiTokens neste Model,
+// pois ele é apenas um registro de dados, não um usuário logável.
+
+class Oportunidade extends Model
+{
+    use HasFactory;
+
+    protected $table = 'oportunidades';
+
+    protected $fillable = [
+        // Campos que podem ser preenchidos via Oportunidade::create()
+        'descricaoOportunidades',
+        'datapostagemOportunidades',
+        'esporte_id',
+        'posicoes_id',
+        'clube_id', // O ID do clube logado
+    ];
+
+    /**
+     * Relacionamento: Uma oportunidade pertence a um clube.
+     */
+    public function clube()
+    {
+        // Certifique-se de que o caminho para o Model 'Clube' está correto
+        return $this->belongsTo(Clube::class, 'clube_id');
+    }
+
+    /**
+     * Relacionamento: Uma oportunidade é para um esporte.
+     */
+    public function esporte()
+    {
+        return $this->belongsTo(Esporte::class, 'esporte_id');
+    }
+
+    /**
+     * Relacionamento: Uma oportunidade é para uma posição específica.
+     */
+    public function posicoes()
+    {
+        // Usando 'posicoes' para corresponder ao nome do campo 'posicoes_id'
+        return $this->belongsTo(Posicao::class, 'posicoes_id');
+    }
+}

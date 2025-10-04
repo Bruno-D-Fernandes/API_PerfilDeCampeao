@@ -4,9 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\AuthClubeController;
-use App\Http\Controllers\ClubeController;
+use App\Http\Controllers\clubeController;
 use App\Http\Controllers\PostagemController;
 use App\Http\Controllers\AdmController;
+use App\Http\Controllers\OportunidadeController;
+use App\Http\Controllers\SearchUsuarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,20 +37,41 @@ Route::prefix('usuario')->group(function () {
 
         // Postagem protegida
         Route::post('/postagem', [PostagemController::class, 'store']);
+        Route::put('/postagem/{id}', [PostagemController::class, 'update']);
+        Route::delete('/postagem/{id}', [PostagemController::class, 'destroy']);
     });
 });
+
+// Postagem pública (index, show)
+Route::get('/postagem', [PostagemController::class, 'index']);
+Route::get('/postagem/{id}', [PostagemController::class, 'show']);
 
 //Clube
 
 Route::prefix('clube')->group(function () {
-    Route::post('/register', [ClubeController::class, 'store']);
+    Route::post('/register', [clubeController::class, 'store']);
     Route::post('/login', [AuthClubeController::class, 'loginClube']);
 
-    Route::middleware('auth:sanctum')->group(function() {               // Middleware AQUI
+    Route::middleware('auth:sanctum')->group(function() {
         Route::get('/perfil', [AuthClubeController::class, 'perfil']);
         Route::post('/logout', [AuthClubeController::class, 'logout']);
+        Route::put('/update/{id}', [clubeController::class, 'update']);
+        Route::delete('/destroy/{id}', [clubeController::class, 'destroy']);
+
+
+
+        Route::get('/jogadores', [SearchUsuarioController::class, 'index']); // Rota para buscar jogadores
+
+        // 💡 ROTAS DE OPORTUNIDADE (PROTEGIDAS) INSERIDAS NOVAMENTE
+        Route::post('/oportunidade', [OportunidadeController::class, 'store']);
+        Route::put('/oportunidade/{id}', [OportunidadeController::class, 'update']);
+        Route::delete('/oportunidade/{id}', [OportunidadeController::class, 'destroy']);
     });
 });
+
+// ... e as rotas públicas (index, show) no final do arquivo:
+Route::get('/oportunidade', [OportunidadeController::class, 'index']);
+Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 
 //Admin
 Route::prefix('admin')->group(function () {

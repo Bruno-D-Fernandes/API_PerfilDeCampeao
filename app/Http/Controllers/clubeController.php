@@ -7,7 +7,7 @@ use App\Models\Clube;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class ClubeController extends Controller
+class clubeController extends Controller
 {
     // João: Luan, eu estava pesquisando e, o envio da mensagem de 404 pode ser automático se você usar findOrFail() em vez de find().
 
