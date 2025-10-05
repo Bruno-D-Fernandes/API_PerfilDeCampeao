@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\ClubFollowedEvent;
 use App\Events\UserFollowedEvent;
+use App\Listeners\SendClubFollowedNotification;
 use App\Listeners\SendUserFollowedNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserFollowedEvent::class => [
             SendUserFollowedNotification::class,
+        ],
+        ClubFollowedEvent::class => [
+            SendClubFollowedNotification::class,
         ],
     ];
 

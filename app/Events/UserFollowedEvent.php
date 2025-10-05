@@ -33,7 +33,7 @@ class UserFollowedEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('notifications.' . $this->userFollowed->id),
+            new PrivateChannel('notifications.user.' . $this->userFollowed->id),
         ];
     }
 

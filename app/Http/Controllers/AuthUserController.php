@@ -37,7 +37,7 @@ class AuthUserController extends Controller
     public function perfil(Request $request)
     {
         try {
-            return response()->json($request->user()->load('seguidores')->load('seguindo'), 200);
+            return response()->json($request->user(), 200);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Ocorreu um erro ao buscar o perfil',

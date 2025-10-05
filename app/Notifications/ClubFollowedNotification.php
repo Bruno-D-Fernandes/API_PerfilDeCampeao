@@ -7,19 +7,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserFollowedNotification extends Notification
+class ClubFollowedNotification extends Notification
 {
     use Queueable;
 
-    public $follower, $userFollowed;
+    public $follower, $clubFollowed;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($follower, $userFollowed)
+    public function __construct($follower, $clubFollowed)
     {
         $this->follower = $follower;
-        $this->userFollowed = $userFollowed;
+        $this->clubFollowed = $clubFollowed;
     }
 
     /**

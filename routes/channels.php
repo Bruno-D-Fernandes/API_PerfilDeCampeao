@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('notifications.{id}', function ($user, $id) {
+Broadcast::channel('notifications.user.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
+});
+
+Broadcast::channel('notifications.club.{id}', function ($club, $id) {
+    return (int) $club->id === (int) $id;
 });

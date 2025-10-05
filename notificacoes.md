@@ -44,7 +44,7 @@ const PUSHER_KEY = ""; // Key do Pusher
 const APP_ADDRESS = ""; // Endereço da API
 
 const BEARER_TOKEN = ""; // Token da autenticação do Sanctum
-const USER_ID = ""; // Id do usuário logado
+const CLUB_ID = ""; // Id do clube logado
 
 var pusher = new Pusher(PUSHER_KEY, {
     cluster: 'sa1',
@@ -59,9 +59,9 @@ var pusher = new Pusher(PUSHER_KEY, {
 
 // Esperar Conexão ficar pronta
 pusher.connection.bind('connected', function () {
-    var channel = pusher.subscribe(`private-notifications.${USER_ID}`);
+    var channel = pusher.subscribe(`private-notifications.club.${CLUB_ID}`); // Canal de notificações pro clube
 
-    channel.bind('user.followed', function(data) {
+    channel.bind('club.followed', function(data) {
     // Sempre que receber dados do canal (aqui poderia estar a chamada da função que cria a div de notificação)
         alert(`${data.follower.nomeCompletoUsuario} começou a seguir você!`)
     });
@@ -126,7 +126,7 @@ const PusherListener = ({ authToken, userId }) => {
 
     pusher.connection.bind('connected', () => {
       console.log(`Pusher Conectado! Ouvindo canal private-notifications.${userId}`);
-      channel = pusher.subscribe(`private-notifications.${userId}`);
+      channel = pusher.subscribe(`private-notifications.user.${userId}`);
 
       channel.bind('user.followed', (data) => {
         console.log('Notificação "user.followed" recebida:', data);
@@ -138,7 +138,7 @@ const PusherListener = ({ authToken, userId }) => {
 
     return () => {
       if (channel) channel.unbind();
-      pusher.unsubscribe(`private-notifications.${userId}`);
+      pusher.unsubscribe(`private-notifications.user.${userId}`);
       pusher.disconnect();
     };
   }, [authToken, userId]);
