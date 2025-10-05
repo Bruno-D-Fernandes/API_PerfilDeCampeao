@@ -10,19 +10,19 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserUnfollowedEvent implements ShouldBroadcast
+class ClubFollowedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $follower, $userFollowed;
+    public $follower, $clubFollowed;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($follower, $userFollowed)
+    public function __construct($follower, $clubFollowed)
     {
         $this->follower = $follower;
-        $this->userFollowed = $userFollowed;
+        $this->clubFollowed = $clubFollowed;
     }
 
     /**
@@ -33,7 +33,12 @@ class UserUnfollowedEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('user_unfollowed_channel'),
+            new PrivateChannel('notifications.clube.' . $this->clubFollowed->id),
         ];
+    }
+
+    public function broadcastAs()
+    {
+        return 'club.followed';
     }
 }
