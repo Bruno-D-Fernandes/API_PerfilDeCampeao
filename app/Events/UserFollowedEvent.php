@@ -36,4 +36,9 @@ class UserFollowedEvent implements ShouldBroadcast
             new PrivateChannel('notifications.' . $this->userFollowed->id),
         ];
     }
+
+    public function broadcastAs()
+    {
+        return 'user.followed';
+    }
 }
