@@ -11,6 +11,8 @@ use App\Models\Esporte;
 use App\Models\Posicao;
 use App\Models\Categoria;
 use App\Models\Perfil;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Collection;
 
 class Usuario extends Authenticatable
 {
@@ -39,6 +41,8 @@ class Usuario extends Authenticatable
         "maoDominante"
     ];
 
+    protected $appends = ['sugestoes'];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -62,7 +66,6 @@ class Usuario extends Authenticatable
      *
      * @return string
      */
-
     
     public function getAuthPassword()
     {
@@ -82,5 +85,32 @@ class Usuario extends Authenticatable
     public function seguidores()
     {
         return $this->belongsToMany(Usuario::class, 'relacionamento_usuarios', 'usuario_seguido_id', 'usuario_seguidor_id');
+    }
+
+    public function amigos()
+    {
+        $seguindoIds = $this->seguindo()->pluck('usuarios.id');
+        return $this->seguidores()->whereIn('usuarios.id', $seguindoIds);
+    }
+
+    public function getSugestoesAttribute(): Collection
+    {
+        $excluirIds = $this->seguindo()->pluck('usuarios.id')->push($this->id)->all();
+
+        $seguindoIds = $this->seguindo()->pluck('usuarios.id');
+
+        if ($seguindoIds->isEmpty()) {
+            return new Collection;
+        }
+
+        $sugestoesIds = DB::table('relacionamento_usuarios')
+            ->whereIn('usuario_seguidor_id', $seguindoIds)
+            ->pluck('usuario_seguido_id');
+
+        return Usuario::whereIn('id', $sugestoesIds)
+            ->whereNotIn('id', $excluirIds)
+            ->inRandomOrder()
+            ->limit(10)
+            ->get();
     }
 }
