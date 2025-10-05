@@ -1,26 +1,40 @@
 <!DOCTYPE html>
 <head>
-  <title>Pusher Test</title>
+  <title>Pusher</title>
   <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
-  <script>
-
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
-
-    var pusher = new Pusher('bdcdf260e039c904f040', {
-      cluster: 'sa1'
-    });
-
-    var channel = pusher.subscribe('user_followed_channel');
-    channel.bind('App\\Events\\UserFollowedEvent', function(data) {
-      console.log(data['message']);
-    });
-  </script>
 </head>
 <body>
-  <h1>Pusher Test</h1>
-  <p>
-    Try publishing an event to channel <code>my-channel</code>
-    with event name <code>my-event</code>.
-  </p>
+  <script>
+    const PUSHER_KEY = ""; // Key do Pusher
+    const APP_ADDRESS = ""; // Endereço da API
+
+    const BEARER_TOKEN = ""; // Token da autenticação
+    const USER_ID = ""; // Usuário logado
+
+    var pusher = new Pusher(PUSHER_KEY, {
+      cluster: 'sa1',
+      authEndpoint: `http://${APP_ADDRESS}/broadcasting/auth`,
+      auth: {
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN}`,
+          'Accept': 'application/json',
+        }
+      }
+    });
+
+    // Esperar Conexão ficar pronta
+    pusher.connection.bind('connected', function () {
+      var channel = pusher.subscribe(`private-notifications.${USER_ID}`);
+
+      channel.bind('App\\Events\\UserFollowedEvent', function(data) {
+        // Sempre que receber dados do canal
+        alert(`${data.follower.nomeCompletoUsuario} começou a seguir você!`)
+      });
+    });
+
+    // Conexão com erro
+    pusher.connection.bind('error', function (err) {
+      console.log("Erro de Conexão do Pusher:", err);
+    })
+  </script>
 </body>

@@ -57,7 +57,7 @@ class UserController extends Controller
 
             event(new UserFollowedEvent($seguidor, $usuarioSeguido));
 
-            return response()->json(['message' => 'Usuário seguido com sucesso', 200]);
+            return response()->json(['message' => 'Usuário seguido com sucesso'], 200);
 
         } catch(\Exception $e) {
             return response()->json([
@@ -78,9 +78,9 @@ class UserController extends Controller
 
             $seguidor = auth()->user();
 
-            $seguidor->seguindo()->detach($usuarioSeguido->id);
+            $seguidor->seguindo()->detach($usuarioDeixado->id);
 
-            return response()->json(['message' => 'Você deixou de seguir o usuário com sucesso', 200]);
+            return response()->json(['message' => 'Você deixou de seguir o usuário com sucesso'], 200);
 
         } catch(\Exception $e) {
             return response()->json([

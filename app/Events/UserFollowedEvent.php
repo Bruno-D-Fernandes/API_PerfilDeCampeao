@@ -14,7 +14,7 @@ class UserFollowedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $follower, $userFollowed, $message;
+    public $follower, $userFollowed;
 
     /**
      * Create a new event instance.
@@ -23,7 +23,6 @@ class UserFollowedEvent implements ShouldBroadcast
     {
         $this->follower = $follower;
         $this->userFollowed = $userFollowed;
-        $this->message = "O usuário {$follower->nomeCompletoUsuario} começou a seguir você!";
     }
 
     /**
@@ -34,7 +33,7 @@ class UserFollowedEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('user_followed_channel'),
+            new PrivateChannel('notifications.' . $this->userFollowed->id),
         ];
     }
 }

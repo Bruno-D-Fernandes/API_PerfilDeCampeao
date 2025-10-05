@@ -43,8 +43,8 @@ Route::get('/registro', function () {
 })->name('registro');
 
 Route::get('/test-notif', function () {
-    $follower = Usuario::find(1);
-    $userFollowed = Usuario::find(2);
+    $follower = Usuario::find(2);
+    $userFollowed = Usuario::find(1);
     event(new UserFollowedEvent($follower, $userFollowed));
 });
 
