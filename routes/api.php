@@ -58,8 +58,6 @@ Route::prefix('clube')->group(function () {
         Route::put('/update/{id}', [clubeController::class, 'update']);
         Route::delete('/destroy/{id}', [clubeController::class, 'destroy']);
 
-
-
         Route::get('/jogadores', [SearchUsuarioController::class, 'index']); // Rota para buscar jogadores
 
         // 💡 ROTAS DE OPORTUNIDADE (PROTEGIDAS) INSERIDAS NOVAMENTE

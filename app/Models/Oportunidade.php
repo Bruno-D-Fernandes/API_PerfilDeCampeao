@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Clube;
+use App\Models\Esporte;
+use App\Models\Posicao;
 
 // Não é necessário herdar de Authenticatable ou usar HasApiTokens neste Model,
 // pois ele é apenas um registro de dados, não um usuário logável.
@@ -15,7 +18,6 @@ class Oportunidade extends Model
     protected $table = 'oportunidades';
 
     protected $fillable = [
-        // Campos que podem ser preenchidos via Oportunidade::create()
         'descricaoOportunidades',
         'datapostagemOportunidades',
         'esporte_id',
