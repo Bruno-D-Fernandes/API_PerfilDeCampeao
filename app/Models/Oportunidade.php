@@ -22,15 +22,15 @@ class Oportunidade extends Model
     protected $fillable = [
         'descricaoOportunidades',
         'datapostagemOportunidades',
+        'esporte_id',
+        'posicoes_id',
+        'clube_id',
         'idadeMinima',
         'idadeMaxima',
         'estadoOportunidade',
         'cidadeOportunidade',
         'enderecoOportunidade',
         'cepOportunidade',
-        'esporte_id',
-        'posicoes_id',
-        'clube_id',
     ];
 
     protected $casts = [

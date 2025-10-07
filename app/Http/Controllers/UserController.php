@@ -13,33 +13,6 @@ use App\Models\Clube;
 
 class UserController extends Controller
 {
-    public function pesquisa(Request $request)
-    {
-        $search = $request->pesquisa;
-        $forma = $request->ordenarpor;
-
-        if (is_null($search)) {
-            $query = Usuario::query();
-
-            if ($forma !== 'todos' && !is_null($forma)) {
-                $query->orderBy($forma);
-            }
-
-            return response()->json($query->get());
-        }
-
-        $query = Usuario::where(function ($query) use ($search) {
-            $query->where('nomeCompletoUsuario', 'like', "%{$search}%")
-                ->orWhere('nomeUsuario', 'like', "%{$search}%"); // Tirei nomeUsuario, talvez tenha que tirar isso se não for colocar denovo
-        });
-
-        if ($forma !== 'todos') {
-            $query->orderBy($forma);
-        }
-
-        return response()->json($query->get());
-    }
-
     public function seguirUsuario(string $id)
     {
         try {

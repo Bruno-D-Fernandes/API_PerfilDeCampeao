@@ -44,17 +44,17 @@ class OportunidadeController extends Controller
         try {
             
             $oportunidade = Oportunidade::create([
-                'descricaoOportunidades'    => $data['descricaoOportunidades'],
-                'datapostagemOportunidades' => $data['datapostagemOportunidades'],
-                'esporte_id'                => $data['esporte_id'],
-                'posicoes_id'               => $data['posicoes_id'],
+                'descricaoOportunidades'    => $validatedData['descricaoOportunidades'],
+                'datapostagemOportunidades' => $validatedData['datapostagemOportunidades'],
+                'esporte_id'                => $validatedData['esporte_id'],
+                'posicoes_id'               => $validatedData['posicoes_id'],
                 'clube_id'                  => $clube->id,
-                'idadeMinima'               => $data['idadeMinima']        ?? null,
-                'idadeMaxima'               => $data['idadeMaxima']        ?? null,
-                'estadoOportunidade'        => $data['estadoOportunidade'] ?? null,
-                'cidadeOportunidade'        => $data['cidadeOportunidade'] ?? null,
-                'enderecoOportunidade'      => $data['enderecoOportunidade'] ?? null,
-                'cepOportunidade'           => $data['cepOportunidade']    ?? null,
+                'idadeMinima'               => $validatedData['idadeMinima']        ?? null,
+                'idadeMaxima'               => $validatedData['idadeMaxima']        ?? null,
+                'estadoOportunidade'        => $validatedData['estadoOportunidade'] ?? null,
+                'cidadeOportunidade'        => $validatedData['cidadeOportunidade'] ?? null,
+                'enderecoOportunidade'      => $validatedData['enderecoOportunidade'] ?? null,
+                'cepOportunidade'           => $validatedData['cepOportunidade']    ?? null,
             ]);
 
             // 4. Sucesso!
