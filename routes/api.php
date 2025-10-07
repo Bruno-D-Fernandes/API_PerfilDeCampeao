@@ -103,7 +103,7 @@ Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 //Admin
 Route::prefix('admin')->group(function () {
     Route::post('/login', [AdmController::class, 'loginAdm']);
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('auth:adm_sanctum')->group(function () {
         Route::get('/perfil', [AdmController::class, 'perfilAdm']);
         Route::post('/logout', [AdmController::class, 'logoutAdm']);
 

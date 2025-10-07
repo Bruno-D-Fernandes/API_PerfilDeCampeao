@@ -22,14 +22,20 @@ class Oportunidade extends Model
     protected $fillable = [
         'descricaoOportunidades',
         'datapostagemOportunidades',
+        'idadeMinima',
+        'idadeMaxima',
+        'estadoOportunidade',
+        'cidadeOportunidade',
+        'enderecoOportunidade',
+        'cepOportunidade',
         'esporte_id',
         'posicoes_id',
-        'clube_id', // O ID do clube logado
+        'clube_id',
     ];
 
-    /**
-     * Relacionamento: Uma oportunidade pertence a um clube.
-     */
+    protected $casts = [
+        'datapostagemOportunidades' => 'date:Y-m-d',
+    ];
     public function clube()
     {
         // Certifique-se de que o caminho para o Model 'Clube' está correto

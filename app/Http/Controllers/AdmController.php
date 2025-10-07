@@ -20,7 +20,7 @@ class AdmController extends Controller
                 return response()->json(['message' => 'Credenciais inválidas'], 401);
             }
 
-            $token = $user->createToken('auth_token')->plainTextToken;
+            $token = $user->createToken('auth_token',['adm'], null, 'adm_sanctum')->plainTextToken;
 
             return response()->json([
             'access_token' => "Bearer $token"
