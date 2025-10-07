@@ -9,6 +9,7 @@ use App\Http\Controllers\PostagemController;
 use App\Http\Controllers\AdmController;
 use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\SearchUsuarioController;
+use App\Http\Controllers\InscricaoOportunidadeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,13 @@ Route::prefix('usuario')->group(function () {
         Route::post('/postagem', [PostagemController::class, 'store']);
         Route::put('/postagem/{id}', [PostagemController::class, 'update']);
         Route::delete('/postagem/{id}', [PostagemController::class, 'destroy']);
+
+        // Rotas de inscrições em oportunidades
+
+        Route::post('/oportunidades/{id}/inscrever', [InscricaoOportunidadeController::class, 'store']);
+        Route::get('/inscricoes', [InscricaoOportunidadeController::class, 'minhas']);
+        Route::delete('/oportunidades/{id}/inscricao', [InscricaoOportunidadeController::class, 'cancelar']);
+
     });
 });
 
@@ -64,6 +72,11 @@ Route::prefix('clube')->group(function () {
         Route::post('/oportunidade', [OportunidadeController::class, 'store']);
         Route::put('/oportunidade/{id}', [OportunidadeController::class, 'update']);
         Route::delete('/oportunidade/{id}', [OportunidadeController::class, 'destroy']);
+
+        // Rotas de inscrições em oportunidades
+
+        Route::get('/oportunidade/{id}/inscritos', [InscricaoOportunidadeController::class, 'inscritosClube']);
+        Route::delete('/oportunidade/{id}/inscricoes/{usuarioId}', [InscricaoOportunidadeController::class, 'remover']);
     });
 });
 
@@ -77,6 +90,16 @@ Route::prefix('admin')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/perfil', [AdmController::class, 'perfilAdm']);
         Route::post('/logout', [AdmController::class, 'logoutAdm']);
+
+        Route::post('/esporte', [AdmController::class, 'Esportestore']);
+        Route::put('/esporte/{id}', [AdmController::class, 'Esporteupdate']);
+        Route::delete('/esporte/{id}', [AdmController::class, 'Esportedestroy']);
+        Route::get('/esporte', [AdmController::class, 'ListarEsportes']);
+
+        Route::post('/posicao', [AdmController::class, 'Posicaostore']);
+        Route::put('/posicao/{id}', [AdmController::class, 'Posicaoupdate']);
+        Route::delete('/posicao/{id}', [AdmController::class, 'Posicaodestroy']);
+        Route::get('/posicao', [AdmController::class, 'ListarPosicoes']);
     });
 });
 

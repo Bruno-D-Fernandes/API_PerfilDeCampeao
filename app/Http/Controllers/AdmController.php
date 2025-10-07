@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use App\Models\Esporte;
+use App\Models\Posicao;
 
 class AdmController extends Controller
 {
@@ -64,48 +66,99 @@ class AdmController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function ListarEsportes()
     {
-        //
+        try {
+            $esportes = Esporte::all();
+            return response()->json($esportes, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao listar esportes',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function Esportestore(Request $request)
     {
-        //
+        $ValidatedData = $request->validate([
+            'nomeEsporte' => 'required|string|max:255',
+            'descricaoEsporte' => 'nullable|string',
+        ]);
+        $esporte = Esporte::create([
+            'nomeEsporte' => $ValidatedData['nomeEsporte'],
+            'descricaoEsporte' => $ValidatedData['descricaoEsporte'] ?? null,
+        ]);
+        return response()->json($esporte, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function EsporteUpdate(string $id)
     {
-        //
+        $esporte = Esporte::find($id);
+        if (!$esporte) {
+            return response()->json(['message' => 'Esporte não encontrado'], 404);
+        }
+        $ValidatedData = request()->validate([
+            'nomeEsporte' => 'sometimes|required|string|max:255',
+            'descricaoEsporte' => 'sometimes|nullable|string',
+        ]);
+        $esporte->update($ValidatedData);
+        return response()->json($esporte, 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function EsporteDestroy(string $id)
     {
-        //
+        $esporte = Esporte::find($id);
+        if (!$esporte) {
+            return response()->json(['message' => 'Esporte não encontrado'], 404);
+        }
+        $esporte->delete();
+        return response()->json(['message' => 'Esporte deletado com sucesso'], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function listarPosicoes(Request $request){
+        $idEsporte = $request->query('idEsporte');
+        $q = Posicao::with('esporte:id,nomeEsporte')
+            ->when($idEsporte, fn($w) => $w->where('idEsporte', $idEsporte))
+            ->orderByDesc('id');
+
+        return response()->json($q->get());
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function storePosicao(Request $request)
     {
-        //
+        $data = $request->validate([
+            'nomePosicao' => 'required|string|max:255',
+            'idEsporte'   => 'required|exists:esportes,id', // sua FK na tabela posicoes
+        ]);
+        $posicao = Posicao::create($data);
+        return response()->json($posicao, 201);
+    }
+
+    public function updatePosicao(Request $request, $id)
+    {
+        $posicao = Posicao::findOrFail($id);
+        $data = $request->validate([
+            'nomePosicao' => 'sometimes|required|string|max:255',
+            'idEsporte'   => 'sometimes|required|exists:esportes,id',
+        ]);
+        $posicao->update($data);
+        return response()->json($posicao);
+    }
+
+    public function destroyPosicao($id)
+    {
+        $posicao = Posicao::findOrFail($id);
+        $posicao->delete();
+        return response()->json(['ok' => true]);
     }
 }

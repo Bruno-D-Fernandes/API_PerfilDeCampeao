@@ -11,6 +11,8 @@ use App\Models\Esporte;
 use App\Models\Posicao;
 use App\Models\Categoria;
 use App\Models\Perfil;
+use App\Models\Inscricao;
+use App\Models\Oportunidade;
 
 class Usuario extends Authenticatable
 {
@@ -77,4 +79,13 @@ class Usuario extends Authenticatable
     {
         return $this->belongsToMany(Posicao::class, 'usuario_posicoes', 'usuario_id', 'posicao_id');
     }
+
+    public function inscricoes(){
+        return $this->hasMany(Inscricao::class, 'usuario_id');
+    }
+    public function oportunidadesInscritas(){
+        return $this->belongsToMany(Oportunidade::class, 'inscricoes', 'usuario_id', 'oportunidade_id')
+            ->withPivot('status','mensagem')->withTimestamps();
+    }
+
 }

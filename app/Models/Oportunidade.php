@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Clube;
 use App\Models\Esporte;
 use App\Models\Posicao;
+use App\Models\Inscricao;
+use App\Models\Usuario;
 
 // Não é necessário herdar de Authenticatable ou usar HasApiTokens neste Model,
 // pois ele é apenas um registro de dados, não um usuário logável.
@@ -49,5 +51,12 @@ class Oportunidade extends Model
     {
         // Usando 'posicoes' para corresponder ao nome do campo 'posicoes_id'
         return $this->belongsTo(Posicao::class, 'posicoes_id');
+    }
+    public function inscricoes(){
+        return $this->hasMany(Inscricao::class, 'oportunidade_id');
+    }
+    public function candidatos(){
+        return $this->belongsToMany(Usuario::class, 'inscricoes', 'oportunidade_id', 'usuario_id')
+            ->withPivot('status','mensagem')->withTimestamps();
     }
 }
