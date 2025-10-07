@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthUserController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\AuthClubeController;
 use App\Http\Controllers\clubeController;
 use App\Http\Controllers\PostagemController;
 use App\Http\Controllers\AdmController;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\SearchUsuarioController;
@@ -40,6 +42,11 @@ Route::prefix('usuario')->group(function () {
 
         // Postagem protegida
         Route::post('/postagem', [PostagemController::class, 'store']);
+
+        // Seguir e deixar de seguir protegidos
+        Route::post('/{id}/seguir', [UserController::class, 'seguirUsuario']);
+
+        Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirUsuario']);
 
         // Seguir e deixar de seguir protegidos
         Route::post('/{id}/seguir', [UserController::class, 'seguirUsuario']);
