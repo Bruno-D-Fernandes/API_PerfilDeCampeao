@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
@@ -13,6 +12,7 @@ use App\Models\Categoria;
 use App\Models\Perfil;
 use App\Models\Inscricao;
 use App\Models\Oportunidade;
+use Illuminate\Support\Facades\DB;
 
 class Usuario extends Authenticatable
 {
@@ -20,6 +20,7 @@ class Usuario extends Authenticatable
 
     protected $table = 'usuarios';  
 
+    protected $appends = ['amigos', 'sugestoes'];
 
     /**
      * The attributes that are mass assignable.
@@ -64,7 +65,6 @@ class Usuario extends Authenticatable
      *
      * @return string
      */
-
     
     public function getAuthPassword()
     {
@@ -111,5 +111,52 @@ class Usuario extends Authenticatable
     {
         return $this->belongsToMany(Lista::class, 'lista_usuario', 'usuario_id', 'lista_id')
             ->withTimestamps();
+    }
+
+    public function getAmigosAttribute()
+    {
+        $seguindoIds = $this->seguindoUsuarios()->pluck('usuarios.id');
+        return $this->seguidores()->whereIn('usuarios.id', $seguindoIds)->get();
+    }
+
+    public function getSugestoesAttribute()
+    {
+        $seguindoIds = $this->seguindoUsuarios()->pluck('usuarios.id');
+
+        if ($seguindoIds->isEmpty()) {
+            return [
+                'usuarios' => [],
+                'clubes' => [],
+            ];
+        }
+
+        $excluirUsuariosIds = $this->seguindoUsuarios()->pluck('usuarios.id')->push($this->id)->all();
+        $sugestoesUsuariosIds = DB::table('seguidores')
+            ->whereIn('usuario_id', $seguindoIds)
+            ->where('seguivel_type', Usuario::class)
+            ->distinct()
+            ->pluck('seguivel_id');
+        $sugerirUsuarios = Usuario::whereIn('id', $sugestoesUsuariosIds)
+            ->whereNotIn('id', $excluirUsuariosIds)
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
+
+        $excluirClubesIds = $this->seguindoClubes()->pluck('clubes.id')->all();
+        $sugestoesClubesIds = DB::table('seguidores')
+            ->whereIn('usuario_id', $seguindoIds)
+            ->where('seguivel_type', Clube::class)
+            ->distinct()
+            ->pluck('seguivel_id');
+        $sugerirClubes = Clube::whereIn('id', $sugestoesClubesIds)
+            ->whereNotIn('id', $excluirClubesIds)
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
+
+        return [
+            'usuarios' => $sugerirUsuarios,
+            'clubes' => $sugerirClubes,
+        ];
     }
 }

@@ -36,11 +36,8 @@ class OportunidadeController extends Controller
             'cepOportunidade'           => 'nullable|string|max:9',
         ]);
         
-        
-           $clube = $request->user();
-        if (!$clube || !($clube instanceof Clube)) {
-        return response()->json(['message' => 'Somente clube autenticado pode criar oportunidade'], 403);
-    }
+        $clube = $request->user();
+
         try {
             
             $oportunidade = Oportunidade::create([

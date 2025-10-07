@@ -28,6 +28,12 @@ class UserController extends Controller
                 return response()->json(['message' => 'Você não pode seguir a si mesmo'], 422);
             }
 
+            $jaSegue = $seguidor->seguindoUsuarios()->where('usuario_seguido_id', $usuarioSeguido->id)->exists();
+        
+            if ($jaSegue) {
+                return response()->json(['message' => 'Você já está seguindo este usuário'], 409);
+            }
+
             $seguidor->seguindoUsuarios()->attach($usuarioSeguido->id);
 
             event(new UserFollowedEvent($seguidor, $usuarioSeguido));
@@ -52,6 +58,12 @@ class UserController extends Controller
             }
 
             $seguidor = auth()->user();
+
+            $jaSegue = $seguidor->seguindoClubes()->where('clube_id', $clubeSeguido->id)->exists();
+        
+            if ($jaSegue) {
+                return response()->json(['message' => 'Você já está seguindo este clube'], 409);
+            }
 
             $seguidor->seguindoClubes()->attach($clubeSeguido->id);
 

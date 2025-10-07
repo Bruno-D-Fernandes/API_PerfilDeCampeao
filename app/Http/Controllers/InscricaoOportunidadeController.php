@@ -1,8 +1,8 @@
 <?php
 
-// app/Http/Controllers/InscricaoOportunidadeController.php
 namespace App\Http\Controllers;
 
+use App\Events\OpportunityApplicationCreatedEvent;
 use Illuminate\Http\Request;
 use App\Models\Inscricao;
 use App\Models\Oportunidade;
@@ -15,6 +15,7 @@ class InscricaoOportunidadeController extends Controller
     public function store(Request $request, $oportunidadeId)
     {
         $user = $request->user();
+        
         if (!$user || !($user instanceof Usuario)) {
             return response()->json(['message' => 'Somente usuário autenticado pode se inscrever'], 403);
         }
@@ -32,6 +33,8 @@ class InscricaoOportunidadeController extends Controller
             'usuario_id'      => $user->id,
             'status'          => 'pendente',
         ]);
+
+        event(new OpportunityApplicationCreatedEvent($user, $op, $op->clube));
 
         return response()->json($insc, 201);
     }
@@ -59,6 +62,7 @@ class InscricaoOportunidadeController extends Controller
     // CLUBE: ver inscritos de uma oportunidade do próprio clube
     public function inscritosClube(Request $request, $oportunidadeId)
     {
+        try{
         $clube = $request->user();
         if (!$clube || !($clube instanceof Clube)) {
             return response()->json(['message' => 'Somente clube autenticado'], 403);
@@ -95,6 +99,10 @@ class InscricaoOportunidadeController extends Controller
 
         $inscritos->setCollection($mapped);
         return response()->json($inscritos);
+    }catch(\Exception $e){
+        return response()->json(['message' => 'Oportunidade não encontrada'], 500);
+
+    }
     }
 
     // CLUBE: remover um inscrito (ex.: botão "Remover")

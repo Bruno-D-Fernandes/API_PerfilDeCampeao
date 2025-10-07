@@ -45,8 +45,16 @@ Route::prefix('usuario')->group(function () {
         Route::post('/{id}/seguir', [UserController::class, 'seguirUsuario']);
 
         Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirUsuario']);
+
+        // Seguir e deixar de seguir protegidos
+        Route::post('/{id}/seguir', [UserController::class, 'seguirUsuario']);
+
+        Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirUsuario']);
         Route::put('/postagem/{id}', [PostagemController::class, 'update']);
         Route::delete('/postagem/{id}', [PostagemController::class, 'destroy']);
+
+        Route::get('/{id}/seguindo/usuarios', [UserController::class, 'getSeguindoUsuarios']);
+        Route::get('/{id}/seguindo/clubes', [UserController::class, 'getSeguindoClubes']);
 
         // Rotas de inscrições em oportunidades
         Route::post('/oportunidades/{id}/inscrever', [InscricaoOportunidadeController::class, 'store']);

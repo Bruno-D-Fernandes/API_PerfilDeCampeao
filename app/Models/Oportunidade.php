@@ -53,14 +53,16 @@ class Oportunidade extends Model
     /**
      * Relacionamento: Uma oportunidade é para uma posição específica.
      */
-    public function posicoes()
+    public function posicao()
     {
         // Usando 'posicoes' para corresponder ao nome do campo 'posicoes_id'
         return $this->belongsTo(Posicao::class, 'posicoes_id');
     }
+    
     public function inscricoes(){
         return $this->hasMany(Inscricao::class, 'oportunidade_id');
     }
+
     public function candidatos(){
         return $this->belongsToMany(Usuario::class, 'inscricoes', 'oportunidade_id', 'usuario_id')
             ->withPivot('status','mensagem')->withTimestamps();
