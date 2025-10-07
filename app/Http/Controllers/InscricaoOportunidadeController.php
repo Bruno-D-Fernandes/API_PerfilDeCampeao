@@ -12,7 +12,6 @@ use Carbon\Carbon;
 
 class InscricaoOportunidadeController extends Controller
 {
-    // USUÁRIO: inscrever-se (sem body)
     public function store(Request $request, $oportunidadeId)
     {
         $user = $request->user();

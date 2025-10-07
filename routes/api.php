@@ -66,7 +66,7 @@ Route::prefix('clube')->group(function () {
     Route::post('/register', [clubeController::class, 'store']);
     Route::post('/login', [AuthClubeController::class, 'loginClube']);
 
-    Route::middleware('auth:sanctum')->group(function() {
+    Route::middleware('auth:club_sanctum')->group(function() {
         Route::get('/perfil', [AuthClubeController::class, 'perfil']);
         Route::post('/logout', [AuthClubeController::class, 'logout']);
 
@@ -95,7 +95,7 @@ Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 //Admin
 Route::prefix('admin')->group(function () {
     Route::post('/login', [AdmController::class, 'loginAdm']);
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('auth:adm_sanctum')->group(function () {
         Route::get('/perfil', [AdmController::class, 'perfilAdm']);
         Route::post('/logout', [AdmController::class, 'logoutAdm']);
 

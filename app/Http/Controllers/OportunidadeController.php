@@ -28,6 +28,12 @@ class OportunidadeController extends Controller
             'datapostagemOportunidades' => 'required|date',
             'esporte_id'                => 'required|exists:esportes,id',
             'posicoes_id'               => 'required|exists:posicoes,id',
+            'idadeMinima'               => 'nullable|integer|min:0|max:120',
+            'idadeMaxima'               => 'nullable|integer|min:0|max:120|gte:idadeMinima',
+            'estadoOportunidade'        => 'nullable|string|size:2',
+            'cidadeOportunidade'        => 'nullable|string|max:100',
+            'enderecoOportunidade'      => 'nullable|string|max:255',
+            'cepOportunidade'           => 'nullable|string|max:9',
         ]);
         
         
@@ -38,11 +44,17 @@ class OportunidadeController extends Controller
         try {
             
             $oportunidade = Oportunidade::create([
-                'descricaoOportunidades'     => $validatedData['descricaoOportunidades'],
-                'datapostagemOportunidades'  => $validatedData['datapostagemOportunidades'],
-                'esporte_id'                 => $validatedData['esporte_id'],
-                'posicoes_id'                => $validatedData['posicoes_id'],
-                'clube_id'                   => $clube->id, // ID do clube autenticado
+                'descricaoOportunidades'    => $data['descricaoOportunidades'],
+                'datapostagemOportunidades' => $data['datapostagemOportunidades'],
+                'esporte_id'                => $data['esporte_id'],
+                'posicoes_id'               => $data['posicoes_id'],
+                'clube_id'                  => $clube->id,
+                'idadeMinima'               => $data['idadeMinima']        ?? null,
+                'idadeMaxima'               => $data['idadeMaxima']        ?? null,
+                'estadoOportunidade'        => $data['estadoOportunidade'] ?? null,
+                'cidadeOportunidade'        => $data['cidadeOportunidade'] ?? null,
+                'enderecoOportunidade'      => $data['enderecoOportunidade'] ?? null,
+                'cepOportunidade'           => $data['cepOportunidade']    ?? null,
             ]);
 
             // 4. Sucesso!
