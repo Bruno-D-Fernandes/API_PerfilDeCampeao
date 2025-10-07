@@ -88,4 +88,10 @@ class Usuario extends Authenticatable
             ->withPivot('status','mensagem')->withTimestamps();
     }
 
+    public function listas()
+    {
+        return $this->belongsToMany(Lista::class, 'lista_usuario', 'usuario_id', 'lista_id')
+            ->withTimestamps();
+    }
+
 }
