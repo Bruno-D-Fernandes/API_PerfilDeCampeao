@@ -45,11 +45,6 @@ return [
             'driver' => 'eloquent',
             'model'  => App\Models\Usuario::class,
         ],
-        'clubes' => [
-            'driver' => 'eloquent',
-            'model'  => App\Models\Clube::class,
-        ],
-    ],
 
         'clubs' => [
             'driver' => 'eloquent',

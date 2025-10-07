@@ -24,7 +24,7 @@ use App\Http\Controllers\InscricaoOportunidadeController;
 |
 */
 
-//usuario
+// Usuario
 Route::prefix('usuario')->group(function () {
     Route::post('/register', [UserController::class, 'store']);
     Route::post('/login', [AuthUserController::class, 'login']);
@@ -49,7 +49,6 @@ Route::prefix('usuario')->group(function () {
         Route::delete('/postagem/{id}', [PostagemController::class, 'destroy']);
 
         // Rotas de inscrições em oportunidades
-
         Route::post('/oportunidades/{id}/inscrever', [InscricaoOportunidadeController::class, 'store']);
         Route::get('/inscricoes', [InscricaoOportunidadeController::class, 'minhas']);
         Route::delete('/oportunidades/{id}/inscricao', [InscricaoOportunidadeController::class, 'cancelar']);
@@ -79,7 +78,6 @@ Route::prefix('clube')->group(function () {
 
         Route::get('/jogadores', [SearchUsuarioController::class, 'index']); // Rota para buscar jogadores
 
-        // 💡 ROTAS DE OPORTUNIDADE (PROTEGIDAS) INSERIDAS NOVAMENTE
         Route::post('/oportunidade', [OportunidadeController::class, 'store']);
         Route::put('/oportunidade/{id}', [OportunidadeController::class, 'update']);
         Route::delete('/oportunidade/{id}', [OportunidadeController::class, 'destroy']);
@@ -91,7 +89,6 @@ Route::prefix('clube')->group(function () {
     });
 });
 
-// ... e as rotas públicas (index, show) no final do arquivo:
 Route::get('/oportunidade', [OportunidadeController::class, 'index']);
 Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 

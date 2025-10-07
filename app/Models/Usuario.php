@@ -75,15 +75,34 @@ class Usuario extends Authenticatable
     {
         return $this->hasMany(Perfil::class, 'usuario_id');
     }
+
+    public function seguindoUsuarios()
+    {
+        return $this->morphedByMany(Usuario::class, 'seguivel', 'seguidores', 'usuario_id');
+    }
+
+    public function seguindoClubes()
+    {
+        return $this->morphedByMany(Clube::class, 'seguivel', 'seguidores', 'usuario_id');
+    }
+
+    public function seguidores()
+    {
+        return $this->morphToMany(Usuario::class, 'seguivel', 'seguidores', null, 'seguivel_id');
+    }
+
     public function posicoes()
     {
         return $this->belongsToMany(Posicao::class, 'usuario_posicoes', 'usuario_id', 'posicao_id');
     }
 
-    public function inscricoes(){
+    public function inscricoes()
+    {
         return $this->hasMany(Inscricao::class, 'usuario_id');
     }
-    public function oportunidadesInscritas(){
+
+    public function oportunidadesInscritas()
+    {
         return $this->belongsToMany(Oportunidade::class, 'inscricoes', 'usuario_id', 'oportunidade_id')
             ->withPivot('status','mensagem')->withTimestamps();
     }
@@ -93,5 +112,4 @@ class Usuario extends Authenticatable
         return $this->belongsToMany(Lista::class, 'lista_usuario', 'usuario_id', 'lista_id')
             ->withTimestamps();
     }
-
 }
