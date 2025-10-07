@@ -26,9 +26,9 @@
     pusher.connection.bind('connected', function () {
       var channel = pusher.subscribe(`private-notifications.club.${CLUB_ID}`);
 
-      channel.bind('club.followed', function(data) {
+      channel.bind('opportunity.applied', function(data) {
         // Sempre que receber dados do canal
-        alert(`${data.follower.nomeCompletoUsuario} começou a seguir você!`)
+        alert(`${data.userApplier.nomeCompletoUsuario} se inscreveu na oportunidade!`)
       });
     });
 

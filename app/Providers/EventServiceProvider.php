@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Events\ClubFollowedEvent;
+use App\Events\OpportunityApplicationCreatedEvent;
 use App\Events\UserFollowedEvent;
 use App\Listeners\SendClubFollowedNotification;
+use App\Listeners\SendOpportunityApplication;
 use App\Listeners\SendUserFollowedNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -27,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ClubFollowedEvent::class => [
             SendClubFollowedNotification::class,
+        ],
+        OpportunityApplicationCreatedEvent::class => [
+            SendOpportunityApplication::class,
         ],
     ];
 

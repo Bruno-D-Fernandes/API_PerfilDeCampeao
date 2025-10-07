@@ -1,8 +1,8 @@
 <?php
 
-// app/Http/Controllers/InscricaoOportunidadeController.php
 namespace App\Http\Controllers;
 
+use App\Events\OpportunityApplicationCreatedEvent;
 use Illuminate\Http\Request;
 use App\Models\Inscricao;
 use App\Models\Oportunidade;
@@ -16,6 +16,7 @@ class InscricaoOportunidadeController extends Controller
     public function store(Request $request, $oportunidadeId)
     {
         $user = $request->user();
+        
         if (!$user || !($user instanceof Usuario)) {
             return response()->json(['message' => 'Somente usuário autenticado pode se inscrever'], 403);
         }
@@ -33,6 +34,8 @@ class InscricaoOportunidadeController extends Controller
             'usuario_id'      => $user->id,
             'status'          => 'pendente',
         ]);
+
+        event(new OpportunityApplicationCreatedEvent($user, $op, $op->clube));
 
         return response()->json($insc, 201);
     }

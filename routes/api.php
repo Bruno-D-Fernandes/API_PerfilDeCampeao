@@ -48,6 +48,9 @@ Route::prefix('usuario')->group(function () {
         Route::put('/postagem/{id}', [PostagemController::class, 'update']);
         Route::delete('/postagem/{id}', [PostagemController::class, 'destroy']);
 
+        Route::get('/{id}/seguindo/usuarios', [UserController::class, 'getSeguindoUsuarios']);
+        Route::get('/{id}/seguindo/clubes', [UserController::class, 'getSeguindoClubes']);
+
         // Rotas de inscrições em oportunidades
         Route::post('/oportunidades/{id}/inscrever', [InscricaoOportunidadeController::class, 'store']);
         Route::get('/inscricoes', [InscricaoOportunidadeController::class, 'minhas']);
@@ -66,7 +69,7 @@ Route::prefix('clube')->group(function () {
     Route::post('/register', [clubeController::class, 'store']);
     Route::post('/login', [AuthClubeController::class, 'loginClube']);
 
-    Route::middleware('auth:sanctum')->group(function() {
+    Route::middleware('auth:club_sanctum')->group(function() {
         Route::get('/perfil', [AuthClubeController::class, 'perfil']);
         Route::post('/logout', [AuthClubeController::class, 'logout']);
 

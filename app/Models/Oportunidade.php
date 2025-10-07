@@ -52,9 +52,11 @@ class Oportunidade extends Model
         // Usando 'posicoes' para corresponder ao nome do campo 'posicoes_id'
         return $this->belongsTo(Posicao::class, 'posicoes_id');
     }
+    
     public function inscricoes(){
         return $this->hasMany(Inscricao::class, 'oportunidade_id');
     }
+
     public function candidatos(){
         return $this->belongsToMany(Usuario::class, 'inscricoes', 'oportunidade_id', 'usuario_id')
             ->withPivot('status','mensagem')->withTimestamps();

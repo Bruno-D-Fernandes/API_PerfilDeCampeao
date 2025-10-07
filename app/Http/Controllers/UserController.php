@@ -30,7 +30,7 @@ class UserController extends Controller
 
         $query = Usuario::where(function ($query) use ($search) {
             $query->where('nomeCompletoUsuario', 'like', "%{$search}%")
-                ->orWhere('nomeUsuario', 'like', "%{$search}%"); // Tirei nomeUsuario, talvez tenha que tirar isso se não for colocar denovo
+                ->orWhere('nomeUsuario', 'like', "%{$search}%");
         });
 
         if ($forma !== 'todos') {
@@ -38,6 +38,42 @@ class UserController extends Controller
         }
 
         return response()->json($query->get());
+    }
+
+    public function getSeguindoUsuarios(string $id)
+    {
+        try {
+            $usuario = Usuario::find($id);
+
+            if (!$usuario) {
+                return response()->json(['message' => 'Usuário não encontrado'], 404);
+            }
+
+            $seguindo = $usuario->seguindoUsuarios()->paginate(15); 
+
+            return response()->json($seguindo, 200);
+            
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erro ao listar quem o usuário segue.'], 500);
+        }
+    }
+
+    public function getSeguindoClubes(string $id)
+    {
+        try {
+            $usuario = Usuario::find($id);
+
+            if (!$usuario) {
+                return response()->json(['message' => 'Usuário não encontrado'], 404);
+            }
+
+            $seguindo = $usuario->seguindoClubes()->paginate(15);
+
+            return response()->json($seguindo, 200);
+            
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erro ao listar os clubes que o usuário segue.'], 500);
+        }
     }
 
     public function seguirUsuario(string $id)
@@ -53,6 +89,12 @@ class UserController extends Controller
 
             if ($seguidor->id == $usuarioSeguido->id) {
                 return response()->json(['message' => 'Você não pode seguir a si mesmo'], 422);
+            }
+
+            $jaSegue = $seguidor->seguindoUsuarios()->where('usuario_seguido_id', $usuarioSeguido->id)->exists();
+        
+            if ($jaSegue) {
+                return response()->json(['message' => 'Você já está seguindo este usuário'], 409);
             }
 
             $seguidor->seguindoUsuarios()->attach($usuarioSeguido->id);
@@ -79,6 +121,12 @@ class UserController extends Controller
             }
 
             $seguidor = auth()->user();
+
+            $jaSegue = $seguidor->seguindoClubes()->where('clube_id', $clubeSeguido->id)->exists();
+        
+            if ($jaSegue) {
+                return response()->json(['message' => 'Você já está seguindo este clube'], 409);
+            }
 
             $seguidor->seguindoClubes()->attach($clubeSeguido->id);
 

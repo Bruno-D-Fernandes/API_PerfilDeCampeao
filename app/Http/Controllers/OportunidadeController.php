@@ -30,11 +30,8 @@ class OportunidadeController extends Controller
             'posicoes_id'               => 'required|exists:posicoes,id',
         ]);
         
-        
-           $clube = $request->user();
-        if (!$clube || !($clube instanceof Clube)) {
-        return response()->json(['message' => 'Somente clube autenticado pode criar oportunidade'], 403);
-    }
+        $clube = $request->user();
+
         try {
             
             $oportunidade = Oportunidade::create([
