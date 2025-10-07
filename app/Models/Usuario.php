@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
@@ -13,6 +12,7 @@ use App\Models\Categoria;
 use App\Models\Perfil;
 use App\Models\Inscricao;
 use App\Models\Oportunidade;
+use Illuminate\Support\Facades\DB;
 
 class Usuario extends Authenticatable
 {
@@ -111,21 +111,6 @@ class Usuario extends Authenticatable
     {
         return $this->belongsToMany(Lista::class, 'lista_usuario', 'usuario_id', 'lista_id')
             ->withTimestamps();
-    }
-
-    public function seguindoUsuarios()
-    {
-        return $this->morphedByMany(Usuario::class, 'seguivel', 'seguidores', 'usuario_id');
-    }
-
-    public function seguindoClubes()
-    {
-        return $this->morphedByMany(Clube::class, 'seguivel', 'seguidores', 'usuario_id');
-    }
-
-    public function seguidores()
-    {
-        return $this->morphToMany(Usuario::class, 'seguivel', 'seguidores', null, 'seguivel_id');
     }
 
     public function getAmigosAttribute()
