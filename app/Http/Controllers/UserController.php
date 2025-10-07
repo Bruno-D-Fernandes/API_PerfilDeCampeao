@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserFollowedEvent;
+use App\Events\ClubFollowedEvent;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AuthUserController;
+use App\Models\Clube;
 
 class UserController extends Controller
 {
@@ -35,6 +38,106 @@ class UserController extends Controller
         }
 
         return response()->json($query->get());
+    }
+
+    public function seguirUsuario(string $id)
+    {
+        try {
+            $usuarioSeguido = Usuario::find($id);
+
+            if (!$usuarioSeguido) {
+                return response()->json(['message' => 'Usuário não encontrado'], 404);
+            }
+
+            $seguidor = auth()->user();
+
+            if ($seguidor->id == $usuarioSeguido->id) {
+                return response()->json(['message' => 'Você não pode seguir a si mesmo'], 422);
+            }
+
+            $seguidor->seguindoUsuarios()->attach($usuarioSeguido->id);
+
+            event(new UserFollowedEvent($seguidor, $usuarioSeguido));
+
+            return response()->json(['message' => 'Usuário seguido com sucesso'], 200);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => 'Ocorreu um erro ao tentar seguir o usuário',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function seguirClube(string $id)
+    {
+        try {
+            $clubeSeguido = Clube::find($id);
+
+            if (!$clubeSeguido) {
+                return response()->json(['message' => 'Clube não encontrado'], 404);
+            }
+
+            $seguidor = auth()->user();
+
+            $seguidor->seguindoClubes()->attach($clubeSeguido->id);
+
+            event(new ClubFollowedEvent($seguidor, $clubeSeguido));
+
+            return response()->json(['message' => 'Clube seguido com sucesso'], 200);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => 'Ocorreu um erro ao tentar seguir o usuário',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function deixarDeSeguirUsuario(string $id)
+    {
+        try {
+            $usuarioDeixado = Usuario::find($id);
+
+            if (!$usuarioDeixado) {
+                return response()->json(['message' => 'Usuário não encontrado'], 404);
+            }
+
+            $seguidor = auth()->user();
+
+            $seguidor->seguindoUsuarios()->detach($usuarioDeixado->id);
+
+            return response()->json(['message' => 'Você deixou de seguir o usuário com sucesso'], 200);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => 'Ocorreu um erro ao tentar deixar de seguir o usuário',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function deixarDeSeguirClube(string $id)
+    {
+        try {
+            $clubeDeixado = Clube::find($id);
+
+            if (!$clubeDeixado) {
+                return response()->json(['message' => 'Clube não encontrado'], 404);
+            }
+
+            $seguidor = auth()->user();
+
+            $seguidor->seguindoClubes()->detach($clubeDeixado->id);
+
+            return response()->json(['message' => 'Você deixou de seguir o clube com sucesso'], 200);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => 'Ocorreu um erro ao tentar deixar de seguir o clube',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     // Listar todos os usuários
@@ -86,7 +189,6 @@ class UserController extends Controller
             ], 500);
         }
     }
-
 
     // Mostrar usuário específico
     public function show(string $id)

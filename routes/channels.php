@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Usuario;
+use App\Models\Clube;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -13,6 +15,11 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('notifications.user.{id}', function ($model, $id) {
+    return ($model instanceof Usuario) && ((int) $model->id === (int) $id);
+});
+
+// Canal de Clube
+Broadcast::channel('notifications.club.{id}', function ($model, $id) {
+    return ($model instanceof Clube) && ((int) $model->id === (int) $id);
 });

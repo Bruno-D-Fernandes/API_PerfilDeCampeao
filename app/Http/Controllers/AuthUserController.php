@@ -34,29 +34,28 @@ class AuthUserController extends Controller
     }
 
     // Perfil do usuario com token
-        public function perfil(Request $request)
-        {
-            try {
-                return response()->json($request->user(), 200);
-            } catch (\Exception $e) {
-                return response()->json([
-                    'error' => 'Ocorreu um erro ao buscar o perfil',
-                    'message' => $e->getMessage()
-                ], 500);
-            }
+    public function perfil(Request $request)
+    {
+        try {
+            return response()->json($request->user(), 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Ocorreu um erro ao buscar o perfil',
+                'message' => $e->getMessage()
+            ], 500);
         }
+    }
 
-        public function logout(Request $request)
-        {
-            try {
-                $request->user()->currentAccessToken()->delete();
-                return response()->json(['message' => 'Logout realizado com sucesso'], 200);
-            } catch (\Exception $e) {
-                return response()->json([
-                    'error' => 'Ocorreu um erro durante o logout',
-                    'message' => $e->getMessage()
-                ], 500);
-            }
+    public function logout(Request $request)
+    {
+        try {
+            $request->user()->currentAccessToken()->delete();
+            return response()->json(['message' => 'Logout realizado com sucesso'], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Ocorreu um erro durante o logout',
+                'message' => $e->getMessage()
+            ], 500);
         }
-
+    }
 }

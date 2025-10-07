@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\ClubFollowedEvent;
+use App\Events\UserFollowedEvent;
+use App\Listeners\SendClubFollowedNotification;
+use App\Listeners\SendUserFollowedNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +21,12 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        UserFollowedEvent::class => [
+            SendUserFollowedNotification::class,
+        ],
+        ClubFollowedEvent::class => [
+            SendClubFollowedNotification::class,
         ],
     ];
 
