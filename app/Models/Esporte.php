@@ -8,6 +8,7 @@ use App\Models\Clube;
 use App\Models\Posicao;
 
 
+
 class Esporte extends Model
 {
     use HasFactory;

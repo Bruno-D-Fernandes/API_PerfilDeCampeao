@@ -1,0 +1,132 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Oportunidade;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Clube;
+
+class OportunidadeController extends Controller
+{
+    /**
+     * Cria uma nova oportunidade (somente clube autenticado)
+     */
+
+    
+
+    //ALGUEM ME AJUDA PELO AMOR DE DEUS --ASS: Luan
+
+
+    public function store(Request $request)
+    {
+       
+        $validatedData = $request->validate([
+            'descricaoOportunidades'    => 'required|string|max:255',
+            'datapostagemOportunidades' => 'required|date',
+            'esporte_id'                => 'required|exists:esportes,id',
+            'posicoes_id'               => 'required|exists:posicoes,id',
+        ]);
+        
+        
+           $clube = $request->user();
+        if (!$clube || !($clube instanceof Clube)) {
+        return response()->json(['message' => 'Somente clube autenticado pode criar oportunidade'], 403);
+    }
+        try {
+            
+            $oportunidade = Oportunidade::create([
+                'descricaoOportunidades'     => $validatedData['descricaoOportunidades'],
+                'datapostagemOportunidades'  => $validatedData['datapostagemOportunidades'],
+                'esporte_id'                 => $validatedData['esporte_id'],
+                'posicoes_id'                => $validatedData['posicoes_id'],
+                'clube_id'                   => $clube->id, // ID do clube autenticado
+            ]);
+
+            // 4. Sucesso!
+            return response()->json($oportunidade, 201); 
+
+        } catch (\Exception $e) {
+            
+            return response()->json([
+                'error' => 'Erro interno ao criar oportunidade',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function index()
+    {
+        $oportunidades = Oportunidade::with(['esporte', 'posicao', 'clube'])->get();
+        return response()->json($oportunidades, 200);
+    }
+
+    public function show($id)
+    {
+        $oportunidade = Oportunidade::with(['esporte', 'posicao', 'clube'])->find($id);
+
+        if (!$oportunidade) {
+            return response()->json(['message' => 'Oportunidade não encontrada'], 404);
+        }
+
+        return response()->json($oportunidade, 200);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $oportunidade = Oportunidade::find($id);
+
+        if (!$oportunidade) {
+            return response()->json(['message' => 'Oportunidade não encontrada'], 404);
+        }
+
+        $clube = $request->user();
+        if (!$clube || !($clube instanceof Clube) || $oportunidade->clube_id !== $clube->id) {
+            return response()->json(['message' => 'Apenas o clube que criou a oportunidade pode atualizá-la'], 403);
+        }
+
+        $validatedData = $request->validate([
+            'descricaoOportunidades'    => 'sometimes|required|string|max:255',
+            'datapostagemOportunidades' => 'sometimes|required|date',
+            'esporte_id'                => 'sometimes|required|exists:esportes,id',
+            'posicoes_id'               => 'sometimes|required|exists:posicoes,id',
+        ]);
+
+        try {
+            $oportunidade->update($validatedData);
+            return response()->json($oportunidade, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro interno ao atualizar oportunidade',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $oportunidade = Oportunidade::find($id);
+
+        if (!$oportunidade) {
+            return response()->json(['message' => 'Oportunidade não encontrada'], 404);
+        }
+
+        $clube = $request->user();
+        if (!$clube || !($clube instanceof Clube) || $oportunidade->clube_id !== $clube->id) {
+            return response()->json(['message' => 'Apenas o clube que criou a oportunidade pode deletá-la'], 403);
+        }
+
+        try {
+            $oportunidade->delete();
+            return response()->json(['message' => 'Oportunidade deletada com sucesso'], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro interno ao deletar oportunidade',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
+}

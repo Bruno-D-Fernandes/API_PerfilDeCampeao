@@ -5,10 +5,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\AuthClubeController;
-use App\Http\Controllers\ClubeController;
+use App\Http\Controllers\clubeController;
 use App\Http\Controllers\PostagemController;
 use App\Http\Controllers\AdmController;
 use Illuminate\Support\Facades\Broadcast;
+use App\Http\Controllers\OportunidadeController;
+use App\Http\Controllers\SearchUsuarioController;
+use App\Http\Controllers\InscricaoOportunidadeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,24 +45,55 @@ Route::prefix('usuario')->group(function () {
         Route::post('/{id}/seguir', [UserController::class, 'seguirUsuario']);
 
         Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirUsuario']);
+        Route::put('/postagem/{id}', [PostagemController::class, 'update']);
+        Route::delete('/postagem/{id}', [PostagemController::class, 'destroy']);
+
+        // Rotas de inscrições em oportunidades
+
+        Route::post('/oportunidades/{id}/inscrever', [InscricaoOportunidadeController::class, 'store']);
+        Route::get('/inscricoes', [InscricaoOportunidadeController::class, 'minhas']);
+        Route::delete('/oportunidades/{id}/inscricao', [InscricaoOportunidadeController::class, 'cancelar']);
+
     });
 });
+
+// Postagem pública (index, show)
+Route::get('/postagem', [PostagemController::class, 'index']);
+Route::get('/postagem/{id}', [PostagemController::class, 'show']);
 
 //Clube
 
 Route::prefix('clube')->group(function () {
-    Route::post('/register', [ClubeController::class, 'store']);
+    Route::post('/register', [clubeController::class, 'store']);
     Route::post('/login', [AuthClubeController::class, 'loginClube']);
 
-    Route::middleware('auth:sanctum')->group(function() {               // Middleware AQUI
+    Route::middleware('auth:sanctum')->group(function() {
         Route::get('/perfil', [AuthClubeController::class, 'perfil']);
         Route::post('/logout', [AuthClubeController::class, 'logout']);
 
         // Seguir e deixar de seguir clube protegidos
         Route::post('/{id}/seguir', [UserController::class, 'seguirClube']);
         Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirClube']);
+        Route::put('/update/{id}', [clubeController::class, 'update']);
+        Route::delete('/destroy/{id}', [clubeController::class, 'destroy']);
+
+        Route::get('/jogadores', [SearchUsuarioController::class, 'index']); // Rota para buscar jogadores
+
+        // 💡 ROTAS DE OPORTUNIDADE (PROTEGIDAS) INSERIDAS NOVAMENTE
+        Route::post('/oportunidade', [OportunidadeController::class, 'store']);
+        Route::put('/oportunidade/{id}', [OportunidadeController::class, 'update']);
+        Route::delete('/oportunidade/{id}', [OportunidadeController::class, 'destroy']);
+
+        // Rotas de inscrições em oportunidades
+
+        Route::get('/oportunidade/{id}/inscritos', [InscricaoOportunidadeController::class, 'inscritosClube']);
+        Route::delete('/oportunidade/{id}/inscricoes/{usuarioId}', [InscricaoOportunidadeController::class, 'remover']);
     });
 });
+
+// ... e as rotas públicas (index, show) no final do arquivo:
+Route::get('/oportunidade', [OportunidadeController::class, 'index']);
+Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 
 //Admin
 Route::prefix('admin')->group(function () {
@@ -67,6 +101,16 @@ Route::prefix('admin')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/perfil', [AdmController::class, 'perfilAdm']);
         Route::post('/logout', [AdmController::class, 'logoutAdm']);
+
+        Route::post('/esporte', [AdmController::class, 'Esportestore']);
+        Route::put('/esporte/{id}', [AdmController::class, 'Esporteupdate']);
+        Route::delete('/esporte/{id}', [AdmController::class, 'Esportedestroy']);
+        Route::get('/esporte', [AdmController::class, 'ListarEsportes']);
+
+        Route::post('/posicao', [AdmController::class, 'Posicaostore']);
+        Route::put('/posicao/{id}', [AdmController::class, 'Posicaoupdate']);
+        Route::delete('/posicao/{id}', [AdmController::class, 'Posicaodestroy']);
+        Route::get('/posicao', [AdmController::class, 'ListarPosicoes']);
     });
 });
 

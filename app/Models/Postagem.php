@@ -29,4 +29,9 @@ class Postagem extends Model
     {
         return $this->hasMany(PostsImagem::class, 'idPostagem');
     }
+
+    public function usuario()
+{
+    return $this->belongsTo(Usuario::class, 'idUsuario');
+}
 }

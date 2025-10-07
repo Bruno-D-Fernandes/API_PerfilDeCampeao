@@ -11,6 +11,8 @@ use App\Models\Esporte;
 use App\Models\Posicao;
 use App\Models\Categoria;
 use App\Models\Perfil;
+use App\Models\Inscricao;
+use App\Models\Oportunidade;
 
 class Usuario extends Authenticatable
 {
@@ -73,19 +75,23 @@ class Usuario extends Authenticatable
     {
         return $this->hasMany(Perfil::class, 'usuario_id');
     }
-
-    public function seguindoUsuarios()
+    public function posicoes()
     {
-        return $this->morphedByMany(Usuario::class, 'seguivel', 'seguidores', 'usuario_id');
+        return $this->belongsToMany(Posicao::class, 'usuario_posicoes', 'usuario_id', 'posicao_id');
     }
 
-    public function seguindoClubes()
-    {
-        return $this->morphedByMany(Clube::class, 'seguivel', 'seguidores', 'usuario_id');
+    public function inscricoes(){
+        return $this->hasMany(Inscricao::class, 'usuario_id');
+    }
+    public function oportunidadesInscritas(){
+        return $this->belongsToMany(Oportunidade::class, 'inscricoes', 'usuario_id', 'oportunidade_id')
+            ->withPivot('status','mensagem')->withTimestamps();
     }
 
-    public function seguidores()
+    public function listas()
     {
-        return $this->morphToMany(Usuario::class, 'seguivel', 'seguidores', null, 'seguivel_id');
+        return $this->belongsToMany(Lista::class, 'lista_usuario', 'usuario_id', 'lista_id')
+            ->withTimestamps();
     }
+
 }

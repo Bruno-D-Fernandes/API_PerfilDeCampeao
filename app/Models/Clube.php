@@ -8,7 +8,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Esporte;
 use App\Models\Usuario;
-
+use App\Models\Lista;
 
 class Clube extends Authenticatable
 {
@@ -40,5 +40,10 @@ class Clube extends Authenticatable
     public function seguidores()
     {
         return $this->morphToMany(Usuario::class, 'seguivel', 'seguidores', null, 'seguivel_id');
+    }
+
+    public function listas()
+    {
+        return $this->hasMany(Lista::class, 'clube_id');
     }
 }
