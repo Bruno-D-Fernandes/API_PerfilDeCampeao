@@ -36,4 +36,9 @@ class Clube extends Authenticatable
     {
         return $this->belongsToMany(Usuario::class);
     }
+
+    public function seguidores()
+    {
+        return $this->morphToMany(Usuario::class, 'seguivel', 'seguidores', null, 'seguivel_id');
+    }
 }

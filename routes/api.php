@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthUserController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\AuthClubeController;
 use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\PostagemController;
 use App\Http\Controllers\AdmController;
+use Illuminate\Support\Facades\Broadcast;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +37,11 @@ Route::prefix('usuario')->group(function () {
 
         // Postagem protegida
         Route::post('/postagem', [PostagemController::class, 'store']);
+
+        // Seguir e deixar de seguir protegidos
+        Route::post('/{id}/seguir', [UserController::class, 'seguirUsuario']);
+
+        Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirUsuario']);
     });
 });
 
@@ -47,6 +54,10 @@ Route::prefix('clube')->group(function () {
     Route::middleware('auth:sanctum')->group(function() {               // Middleware AQUI
         Route::get('/perfil', [AuthClubeController::class, 'perfil']);
         Route::post('/logout', [AuthClubeController::class, 'logout']);
+
+        // Seguir e deixar de seguir clube protegidos
+        Route::post('/{id}/seguir', [UserController::class, 'seguirClube']);
+        Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirClube']);
     });
 });
 

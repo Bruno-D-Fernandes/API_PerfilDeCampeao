@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'sanctum',
         'passwords' => 'users',
     ],
 
@@ -40,9 +40,15 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
         'sanctum' => [
             'driver' => 'sanctum',
             'provider' => 'users',
+        ],
+
+        'club_sanctum' => [ 
+            'driver' => 'sanctum',
+            'provider' => 'clubs',
         ],
     ],
 
@@ -67,6 +73,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\Usuario::class,
+        ],
+
+        'clubs' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Clube::class, 
         ],
 
         // 'users' => [
