@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\SearchUsuarioController;
 use App\Http\Controllers\InscricaoOportunidadeController;
+use App\Http\Controllers\NotificacoesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,24 +44,25 @@ Route::prefix('usuario')->group(function () {
 
         // Seguir e deixar de seguir protegidos
         Route::post('/{id}/seguir', [UserController::class, 'seguirUsuario']);
-
         Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirUsuario']);
 
-        // Seguir e deixar de seguir protegidos
-        Route::post('/{id}/seguir', [UserController::class, 'seguirUsuario']);
+        Route::get('/seguidores', [UserController::class, 'getSeguidores']);
+        Route::get('/seguindo', [UserController::class, 'getSeguindo']);
+        Route::get('/amigos', [UserController::class, 'getAmigos']);
+        Route::get('/sugestoes', [UserController::class, 'getSugestoes']);
 
-        Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirUsuario']);
         Route::put('/postagem/{id}', [PostagemController::class, 'update']);
         Route::delete('/postagem/{id}', [PostagemController::class, 'destroy']);
-
-        Route::get('/{id}/seguindo/usuarios', [UserController::class, 'getSeguindoUsuarios']);
-        Route::get('/{id}/seguindo/clubes', [UserController::class, 'getSeguindoClubes']);
 
         // Rotas de inscrições em oportunidades
         Route::post('/oportunidades/{id}/inscrever', [InscricaoOportunidadeController::class, 'store']);
         Route::get('/inscricoes', [InscricaoOportunidadeController::class, 'minhas']);
         Route::delete('/oportunidades/{id}/inscricao', [InscricaoOportunidadeController::class, 'cancelar']);
 
+        // Rotas de notificações
+        Route::get('/notificacoes', [NotificacoesController::class, 'index']);
+        Route::post('notificacao/{id}/ler', [NotificacoesController::class, 'markAsRead']);
+        Route::post('notificacoes/ler', [NotificacoesController::class, 'markAllAsRead']);
     });
 });
 
@@ -78,12 +80,6 @@ Route::prefix('clube')->group(function () {
         Route::get('/perfil', [AuthClubeController::class, 'perfil']);
         Route::post('/logout', [AuthClubeController::class, 'logout']);
 
-        // Seguir e deixar de seguir clube protegidos
-        Route::post('/{id}/seguir', [UserController::class, 'seguirClube']);
-        Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirClube']);
-        Route::put('/update/{id}', [clubeController::class, 'update']);
-        Route::delete('/destroy/{id}', [clubeController::class, 'destroy']);
-
         Route::get('/jogadores', [SearchUsuarioController::class, 'index']); // Rota para buscar jogadores
 
         Route::post('/oportunidade', [OportunidadeController::class, 'store']);
@@ -91,10 +87,20 @@ Route::prefix('clube')->group(function () {
         Route::delete('/oportunidade/{id}', [OportunidadeController::class, 'destroy']);
 
         // Rotas de inscrições em oportunidades
-
         Route::get('/oportunidade/{id}/inscritos', [InscricaoOportunidadeController::class, 'inscritosClube']);
         Route::delete('/oportunidade/{id}/inscricoes/{usuarioId}', [InscricaoOportunidadeController::class, 'remover']);
+
+        // Rotas de notificações
+        Route::get('/notificacoes', [NotificacoesController::class, 'index']);
+        Route::post('notificacao/{id}/ler', [NotificacoesController::class, 'markAsRead']);
+        Route::post('notificacoes/ler', [NotificacoesController::class, 'markAllAsRead']);
     });
+
+    // Seguir e deixar de seguir clube protegidos
+    Route::post('/{id}/seguir', [UserController::class, 'seguirClube']);
+    Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirClube']);
+    Route::put('/update/{id}', [clubeController::class, 'update']);
+    Route::delete('/destroy/{id}', [clubeController::class, 'destroy']);
 });
 
 Route::get('/oportunidade', [OportunidadeController::class, 'index']);
