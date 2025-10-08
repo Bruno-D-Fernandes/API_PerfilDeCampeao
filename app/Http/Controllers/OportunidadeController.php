@@ -66,9 +66,12 @@ class OportunidadeController extends Controller
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $oportunidades = Oportunidade::with(['esporte', 'posicao', 'clube'])->get();
+        $perPage = $request->query('per_page', 15);
+
+        $oportunidades = Oportunidade::with(['esporte', 'posicao', 'clube'])->paginate($perPage);
+        
         return response()->json($oportunidades, 200);
     }
 
