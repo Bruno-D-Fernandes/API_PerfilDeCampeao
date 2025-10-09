@@ -13,6 +13,7 @@ use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\SearchUsuarioController;
 use App\Http\Controllers\InscricaoOportunidadeController;
 use App\Http\Controllers\NotificacoesController;
+use App\Http\Controllers\ListaClubeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,13 +95,20 @@ Route::prefix('clube')->group(function () {
         Route::get('/notificacoes', [NotificacoesController::class, 'index']);
         Route::post('notificacao/{id}/ler', [NotificacoesController::class, 'markAsRead']);
         Route::post('notificacoes/ler', [NotificacoesController::class, 'markAllAsRead']);
+
+        // Listas do Clube
+        Route::post('/listas', [ListaClubeController::class, 'store']);                         // criar lista
+        Route::post('/listas/{listaId}/usuarios', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário
+        Route::delete('/listas/{listaId}/usuarios', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
+        Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                      // ver lista (com usuários)
+
+          // Seguir e deixar de seguir clube protegidos
+        Route::post('/{id}/seguir', [UserController::class, 'seguirClube']);
+        Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirClube']);
+        Route::put('/update/{id}', [clubeController::class, 'update']);
+        Route::delete('/destroy/{id}', [clubeController::class, 'destroy']);
     });
 
-    // Seguir e deixar de seguir clube protegidos
-    Route::post('/{id}/seguir', [UserController::class, 'seguirClube']);
-    Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirClube']);
-    Route::put('/update/{id}', [clubeController::class, 'update']);
-    Route::delete('/destroy/{id}', [clubeController::class, 'destroy']);
 });
 
 Route::get('/oportunidade', [OportunidadeController::class, 'index']);
