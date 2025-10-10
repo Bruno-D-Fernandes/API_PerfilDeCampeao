@@ -20,8 +20,6 @@ class Usuario extends Authenticatable
 
     protected $table = 'usuarios';  
 
-    protected $appends = ['amigos', 'sugestoes'];
-
     /**
      * The attributes that are mass assignable.
      *
@@ -113,50 +111,49 @@ class Usuario extends Authenticatable
             ->withTimestamps();
     }
 
-    public function getAmigosAttribute()
+    public function amigos()
     {
         $seguindoIds = $this->seguindoUsuarios()->pluck('usuarios.id');
-        return $this->seguidores()->whereIn('usuarios.id', $seguindoIds)->get();
+        return $this->seguidores()->whereIn('usuarios.id', $seguindoIds);
     }
 
-    public function getSugestoesAttribute()
+    public function sugestoesQuery()
     {
         $seguindoIds = $this->seguindoUsuarios()->pluck('usuarios.id');
 
         if ($seguindoIds->isEmpty()) {
-            return [
-                'usuarios' => [],
-                'clubes' => [],
-            ];
+            return Usuario::whereRaw('0 = 1');
         }
 
         $excluirUsuariosIds = $this->seguindoUsuarios()->pluck('usuarios.id')->push($this->id)->all();
         $sugestoesUsuariosIds = DB::table('seguidores')
-            ->whereIn('usuario_id', $seguindoIds)
-            ->where('seguivel_type', Usuario::class)
-            ->distinct()
-            ->pluck('seguivel_id');
-        $sugerirUsuarios = Usuario::whereIn('id', $sugestoesUsuariosIds)
+            ->whereIn('usuario_id', $seguindoIds)->where('seguivel_type', Usuario::class)
+            ->distinct()->pluck('seguivel_id');
+        
+        $usuariosQuery = Usuario::whereIn('id', $sugestoesUsuariosIds)
             ->whereNotIn('id', $excluirUsuariosIds)
-            ->inRandomOrder()
-            ->limit(5)
-            ->get();
+            ->select('id', 'nomeCompletoUsuario as nome', DB::raw("'usuario' as tipo"));
 
         $excluirClubesIds = $this->seguindoClubes()->pluck('clubes.id')->all();
         $sugestoesClubesIds = DB::table('seguidores')
-            ->whereIn('usuario_id', $seguindoIds)
-            ->where('seguivel_type', Clube::class)
-            ->distinct()
-            ->pluck('seguivel_id');
-        $sugerirClubes = Clube::whereIn('id', $sugestoesClubesIds)
-            ->whereNotIn('id', $excluirClubesIds)
-            ->inRandomOrder()
-            ->limit(5)
-            ->get();
+            ->whereIn('usuario_id', $seguindoIds)->where('seguivel_type', Clube::class)
+            ->distinct()->pluck('seguivel_id');
 
-        return [
-            'usuarios' => $sugerirUsuarios,
-            'clubes' => $sugerirClubes,
-        ];
+        $clubesQuery = Clube::whereIn('id', $sugestoesClubesIds)
+            ->whereNotIn('id', $excluirClubesIds)
+            ->select('id', 'nomeClube as nome', DB::raw("'clube' as tipo"));
+
+        return $usuariosQuery->union($clubesQuery);
+    }
+
+    public function seguindoQuery()
+    {
+        $usuariosQuery = $this->seguindoUsuarios()
+            ->select('id', 'nomeCompletoUsuario as nome', DB::raw("'usuario' as tipo"));
+
+        $clubesQuery = $this->seguindoClubes()
+            ->select('id', 'nomeClube as nome', DB::raw("'clube' as tipo"));
+
+        return $usuariosQuery->union($clubesQuery);
     }
 }
