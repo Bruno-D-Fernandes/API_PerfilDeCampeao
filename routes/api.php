@@ -14,6 +14,7 @@ use App\Http\Controllers\SearchUsuarioController;
 use App\Http\Controllers\InscricaoOportunidadeController;
 use App\Http\Controllers\NotificacoesController;
 use App\Http\Controllers\ListaClubeController;
+use App\Http\Controllers\SeguidorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ use App\Http\Controllers\ListaClubeController;
 Route::prefix('usuario')->group(function () {
     Route::post('/register', [UserController::class, 'store']);
     Route::post('/login', [AuthUserController::class, 'login']);
-    Route::get('/show', [UserController::class, 'show']);
+    Route::get('/show/{id}', [UserController::class, 'show']);
     Route::put('/update/{id}', [UserController::class, 'update']);
     Route::delete('/delete/{id}', [UserController::class, 'destroy']);
     Route::post('/logout', [AuthUserController::class, 'logout']); 
@@ -44,13 +45,13 @@ Route::prefix('usuario')->group(function () {
         Route::post('/postagem', [PostagemController::class, 'store']);
 
         // Seguir e deixar de seguir protegidos
-        Route::post('/{id}/seguir', [UserController::class, 'seguirUsuario']);
-        Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirUsuario']);
+        Route::post('/{id}/seguir', [SeguidorController::class, 'seguirUsuario']);
+        Route::post('/{id}/deixar-de-seguir', [SeguidorController::class, 'deixarDeSeguirUsuario']);
 
-        Route::get('/seguidores', [UserController::class, 'getSeguidores']);
-        Route::get('/seguindo', [UserController::class, 'getSeguindo']);
-        Route::get('/amigos', [UserController::class, 'getAmigos']);
-        Route::get('/sugestoes', [UserController::class, 'getSugestoes']);
+        Route::get('/seguidores', [SeguidorController::class, 'getSeguidores']);
+        Route::get('/seguindo', [SeguidorController::class, 'getSeguindo']);
+        Route::get('/amigos', [SeguidorController::class, 'getAmigos']);
+        Route::get('/sugestoes', [SeguidorController::class, 'getSugestoes']);
 
         Route::put('/postagem/{id}', [PostagemController::class, 'update']);
         Route::delete('/postagem/{id}', [PostagemController::class, 'destroy']);
@@ -72,7 +73,6 @@ Route::get('/postagem', [PostagemController::class, 'index']);
 Route::get('/postagem/{id}', [PostagemController::class, 'show']);
 
 //Clube
-
 Route::prefix('clube')->group(function () {
     Route::post('/register', [clubeController::class, 'store']);
     Route::post('/login', [AuthClubeController::class, 'loginClube']);
@@ -102,13 +102,15 @@ Route::prefix('clube')->group(function () {
         Route::delete('/listas/{listaId}/usuarios', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
         Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                      // ver lista (com usuários)
 
-          // Seguir e deixar de seguir clube protegidos
-        Route::post('/{id}/seguir', [UserController::class, 'seguirClube']);
-        Route::post('/{id}/deixar-de-seguir', [UserController::class, 'deixarDeSeguirClube']);
         Route::put('/update/{id}', [clubeController::class, 'update']);
         Route::delete('/destroy/{id}', [clubeController::class, 'destroy']);
     });
 
+    Route::middleware('auth:sanctum')->group(function () {
+        // Seguir e deixar de seguir clube protegidos
+        Route::post('/{id}/seguir', [SeguidorController::class, 'seguirClube']);
+        Route::post('/{id}/deixar-de-seguir', [SeguidorController::class, 'deixarDeSeguirClube']);
+    });
 });
 
 Route::get('/oportunidade', [OportunidadeController::class, 'index']);
