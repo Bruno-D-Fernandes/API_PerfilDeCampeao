@@ -9,7 +9,7 @@ use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AuthUserController;
-use App\Models\Clube;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -36,10 +36,22 @@ class UserController extends Controller
                 'pesoKg' => 'nullable|numeric|min:20|max:500',
                 'peDominante' => 'nullable|in:direito,esquerdo',
                 'maoDominante' => 'nullable|in:destro,canhoto',
+                'fotoPerfilUsuario' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048',
+                'fotoBannerUsuario' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048'
             ]);
 
-            // Cria o usuário
-            $user = Usuario::create([
+            $caminhoFotoPerfil = null;
+            $caminhoFotoBanner = null;
+
+            if ($request->hasFile('fotoPerfilUsuario')) {
+                $caminhoFotoPerfil = $request->file('fotoPerfilUsuario')->store('usuarios/perfis', 'public');
+            }
+
+            if ($request->hasFile('fotoBannerUsuario')) {
+                $caminhoFotoBanner = $request->file('fotoBannerUsuario')->store('usuarios/banners', 'public');
+            }
+
+            Usuario::create([
                 'nomeCompletoUsuario' => $validatedData['nomeCompletoUsuario'],
                 'emailUsuario' => $validatedData['emailUsuario'],
                 'senhaUsuario' => Hash::make($validatedData['senhaUsuario']),
@@ -51,6 +63,8 @@ class UserController extends Controller
                 'pesoKg' => $validatedData['pesoKg'] ?? null,
                 'peDominante' => $validatedData['peDominante'] ?? null,
                 'maoDominante' => $validatedData['maoDominante'] ?? null,
+                'fotoPerfilUsuario' => $caminhoFotoPerfil,
+                'fotoBannerUsuario' => $caminhoFotoBanner,
             ]);
 
             $authController = new AuthUserController();
@@ -68,6 +82,7 @@ class UserController extends Controller
     {
         try {
             $usuario = Usuario::find($id);
+
             if (!$usuario) {
                 return response()->json(['message' => 'Usuário não encontrado'], 404);
             }
@@ -87,13 +102,52 @@ class UserController extends Controller
     {
         try {
             $usuario = Usuario::find($id);
+
             if (!$usuario) {
                 return response()->json(['message' => 'Usuário não encontrado'], 404);
             }
 
-            $usuario->update($request->all());
+            $validatedData = $request->validate([
+                'nomeCompletoUsuario' => 'sometimes|string|max:255',
+                'emailUsuario' => ['sometimes', 'required', 'email', Rule::unique('usuarios', 'emailUsuario')->ignore($usuario->id)],
+                'senhaUsuario' => 'sometimes|string|min:3',
+                'dataNascimentoUsuario' => 'sometimes|date',
+                'generoUsuario' => 'nullable|string|max:100',
+                'estadoUsuario' => 'nullable|string|max:100',
+                'cidadeUsuario' => 'nullable|string|max:100',
+                'alturaCm' => 'nullable|numeric|min:50|max:300',
+                'pesoKg' => 'nullable|numeric|min:20|max:500',
+                'peDominante' => 'nullable|in:direito,esquerdo',
+                'maoDominante' => 'nullable|in:destro,canhoto',
+                'fotoPerfilUsuario' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048',
+                'fotoBannerUsuario' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048'
+            ]);
 
-            return response()->json($usuario, 200);
+            $usuario->fill($validatedData);
+
+            if ($request->filled('senhaUsuario')) {
+                $usuario->senhaUsuario = Hash::make($validatedData['senhaUsuario']);
+            }
+
+            if ($request->hasFile('fotoPerfilUsuario')) {
+                if ($usuario->fotoPerfilUsuario) {
+                    Storage::disk('public')->delete($usuario->getRawOriginal('fotoPerfilUsuario'));
+                }
+
+                $usuario->fotoPerfilUsuario = $request->file('fotoPerfilUsuario')->store('usuarios/perfis', 'public');
+            }
+
+            if ($request->hasFile('fotoBannerUsuario')) {
+                if ($usuario->fotoBannerUsuario) {
+                    Storage::disk('public')->delete($usuario->getRawOriginal('fotoBannerUsuario'));
+                }
+
+                $usuario->fotoBannerUsuario = $request->file('fotoBannerUsuario')->store('usuarios/banners', 'public');
+            }
+
+            $usuario->save();
+
+            return response()->json($usuario->fresh(), 200);
 
         } catch (\Exception $e) {
             return response()->json([
@@ -108,8 +162,17 @@ class UserController extends Controller
     {
         try {
             $usuario = Usuario::find($id);
+
             if (!$usuario) {
                 return response()->json(['message' => 'Usuário não encontrado'], 404);
+            }
+
+            if ($usuario->fotoPerfilUsuario) {
+                Storage::disk('public')->delete($usuario->getRawOriginal('fotoPerfilUsuario'));
+            }
+
+            if ($usuario->fotoBannerUsuario) {
+                Storage::disk('public')->delete($usuario->getRawOriginal('fotoBannerUsuario'));
             }
 
             $usuario->delete();

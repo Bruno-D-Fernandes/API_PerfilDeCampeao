@@ -78,8 +78,10 @@ Route::get('/postagem/{id}', [PostagemController::class, 'show']);
 
 //Clube
 Route::prefix('clube')->group(function () {
-    Route::post('/register', [clubeController::class, 'store']);
+    Route::post('/register', [ClubeController::class, 'store']);
     Route::post('/login', [AuthClubeController::class, 'loginClube']);
+    Route::put('/update/{id}', [ClubeController::class, 'update']);
+    Route::delete('/delete/{id}', [ClubeController::class, 'destroy']);
 
     Route::middleware('auth:club_sanctum')->group(function () {
         Route::get('/perfil', [AuthClubeController::class, 'perfil']);
@@ -105,9 +107,6 @@ Route::prefix('clube')->group(function () {
         Route::post('/listas/{listaId}/usuarios', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário
         Route::delete('/listas/{listaId}/usuarios', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
         Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                      // ver lista (com usuários)
-
-        Route::put('/update/{id}', [clubeController::class, 'update']);
-        Route::delete('/destroy/{id}', [clubeController::class, 'destroy']);
     });
 
     Route::middleware('auth:sanctum')->group(function () {

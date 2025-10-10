@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Clube;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
-class clubeController extends Controller
+class ClubeController extends Controller
 {
-    // João: Luan, eu estava pesquisando e, o envio da mensagem de 404 pode ser automático se você usar findOrFail() em vez de find().
-
     // Listar todos os clubes
     public function index()
     {
@@ -21,66 +21,156 @@ class clubeController extends Controller
     // Criar um novo clube
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'nomeClube' => 'required|string|max:255',
-            'cidadeClube' => 'required|string|max:255',
-            'estadoClube' => 'required|string|max:255',
-            'anoCriacaoClube' => 'required|date',
-            'cnpjClube' => 'required|string|max:20|unique:clubes',
-            'enderecoClube' => 'required|string|max:255',
-            'bioClube' => 'nullable|string',
-            'senhaClube' => 'required|string|min:6|confirmed',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'nomeClube' => 'required|string|max:255',
+                'cidadeClube' => 'required|string|max:255',
+                'estadoClube' => 'required|string|max:255',
+                'anoCriacaoClube' => 'required|date',
+                'cnpjClube' => 'required|string|max:20|unique:clubes',
+                'enderecoClube' => 'required|string|max:255',
+                'bioClube' => 'nullable|string',
+                'senhaClube' => 'required|string|min:6|confirmed',
+                'fotoPerfilClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048',
+                'fotoBannerClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048'
+            ]);
 
-        $clube = Clube::create([
-            'nomeClube' => $validatedData['nomeClube'],
-            'cidadeClube' => $validatedData['cidadeClube'],
-            'estadoClube' => $validatedData['estadoClube'],
-            'anoCriacaoClube' => $validatedData['anoCriacaoClube'],
-            'cnpjClube' => $validatedData['cnpjClube'],
-            'enderecoClube' => $validatedData['enderecoClube'],
-            'bioClube' => $validatedData['bioClube'] ?? null,
-            'senhaClube' => Hash::make($validatedData['senhaClube']),
-        ]);
+            $caminhoFotoPerfil = null;
+            $caminhoFotoBanner = null;
 
-        return response()->json($clube, 201);
+            if ($request->hasFile('fotoPerfilClube')) {
+                $caminhoFotoPerfil = $request->file('fotoPerfilClube')->store('clubes/perfis', 'public');
+            }
 
+            if ($request->hasFile('fotoBannerClube')) {
+                $caminhoFotoBanner = $request->file('fotoBannerClube')->store('clubes/banners', 'public');
+            }
+
+            Clube::create([
+                'nomeClube' => $validatedData['nomeClube'],
+                'cidadeClube' => $validatedData['cidadeClube'],
+                'estadoClube' => $validatedData['estadoClube'],
+                'anoCriacaoClube' => $validatedData['anoCriacaoClube'],
+                'cnpjClube' => $validatedData['cnpjClube'],
+                'enderecoClube' => $validatedData['enderecoClube'],
+                'bioClube' => $validatedData['bioClube'] ?? null,
+                'senhaClube' => Hash::make($validatedData['senhaClube']),
+                'fotoPerfilClube' => $caminhoFotoPerfil,
+                'fotoBannerClube' => $caminhoFotoBanner,
+            ]);
+
+            $authController = new AuthClubeController();
+            return $authController->login($request);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     // Mostrar um clube específico
     public function show($id)
     {
-        $clube = Clube::find($id);
+        try {
+            $clube = Clube::find($id);
 
-        if(!$clube){
-            return response()->json(['message' => 'Clube não encontrado'], 404);
+            if(!$clube){
+                return response()->json(['message' => 'Clube não encontrado'], 404);
+            }
+
+            return response()->json($clube, 200);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        return response()->json($clube, 200);
     }
 
     // Atualizar um clube
     public function update(Request $request, $id)
     {
-        $clube = Clube::find($id);
-        if(!$clube){
-            return response()->json(['message' => 'Clube não encontrado'], 404);
-        }
+        try {
+            $clube = Clube::find($id);
 
-        $clube->update($request->all());
-        return response()->json($clube, 200);
+            if (!$clube) {
+                return response()->json(['message' => 'Clube não encontrado'], 404);
+            }
+
+            $validatedData = $request->validate([
+                'nomeClube' => 'sometimes|string|max:255',
+                'cidadeClube' => 'sometimes|string|max:255',
+                'estadoClube' => 'sometimes|string|max:255',
+                'anoCriacaoClube' => 'sometimes|date',
+                'cnpjClube' => ['sometimes', 'string', 'max:20', Rule::unique('clubes', 'cnpjClube')->ignore($clube->id)],
+                'enderecoClube' => 'sometimes|string|max:255',
+                'bioClube' => 'nullable|string',
+                'senhaClube' => 'sometimes|string|min:6|confirmed',
+                'fotoPerfilClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048',
+                'fotoBannerClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048'
+            ]);
+
+            $clube->fill($validatedData);
+
+            if ($request->filled('senhaClube')) {
+                $clube->senhaClube = Hash::make($validatedData['senhaClube']);
+            }
+
+            if ($request->hasFile('fotoPerfilClube')) {
+                if ($clube->fotoPerfilClube) {
+                    Storage::disk('public')->delete($clube->getRawOriginal('fotoPerfilClube'));
+                }
+
+                $clube->fotoPerfilClube = $request->file('fotoPerfilClube')->store('clubes/perfis', 'public');
+            }
+
+            if ($request->hasFile('fotoBannerClube')) {
+                if ($clube->fotoBannerClube) {
+                    Storage::disk('public')->delete($clube->getRawOriginal('fotoBannerClube'));
+                }
+
+                $clube->fotoBannerClube = $request->file('fotoBannerClube')->store('clubes/banners', 'public');
+            }
+
+            $clube->save();
+
+            return response()->json($clube->fresh(), 200);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => 'Ocorreu um erro ao atualizar o clube',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     // Deletar um clube
     public function destroy($id)
     {
-        $clube = Clube::find($id);
+        try {
+            $clube = Clube::find($id);
 
-        if(!$clube){
-            return response()->json(['message' => 'Clube não encontrado'], 404);
+            if (!$clube) {
+                return response()->json(['message' => 'Clube não encontrado'], 404);
+            }
+
+            if ($clube->fotoPerfilClube) {
+                Storage::disk('public')->delete($clube->getRawOriginal('fotoPerfilClube'));
+            }
+
+            if ($clube->fotoBannerClube) {
+                Storage::disk('public')->delete($clube->getRawOriginal('fotoBannerClube'));
+            }
+
+            $clube->delete();
+
+            return response()->json(['message' => 'Clube deletado com sucesso'], 200);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        $clube->delete();
-        return response()->json(['sucesso' => true], 200);
     }
 }
