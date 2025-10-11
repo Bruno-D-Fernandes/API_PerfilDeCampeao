@@ -146,11 +146,6 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/search-usuarios', [SearchUsuarioController::class, 'index']);
 
-Route::post('/api/oportunidades', [OportunidadeController::class, 'store'])
-        ->name('api.oportunidades.store');
-
-    Route::get('/api/oportunidades/{id}', [OportunidadeController::class, 'show'])
-        ->name('api.oportunidades.show');
 // Route::get('/clube/show', [ClubeController::class, 'show']);
 // Route::put('/clube/update/{id}', [ClubeController::class, 'update']);
 // Route::delete('/clube/delete/{id}', [ClubeController::class, 'destroy']);

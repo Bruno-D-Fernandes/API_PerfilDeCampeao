@@ -10,7 +10,7 @@
         width: 150px;
         border-radius: 20px;
     }
-    </style><link rel="stylesheet" href="./css/dashClub/dashClub.css">
+    </style><link rel="stylesheet" href="./css/dashClub.css">
 </head>
 <body>
     <div class="container">
@@ -71,7 +71,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('logout')}}" class="nav-link">
+                        <a href="#" class="nav-link">
                             <img class="nav-icon" src="./img/sair.png" alt="Sair">
                             <span class="nav-text">Sair</span>
                         </a>

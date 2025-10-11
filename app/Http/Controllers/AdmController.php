@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Models\Esporte;
 use App\Models\Posicao;
-
+ 
 class AdmController extends Controller
 {
      public function loginAdm(Request $request)

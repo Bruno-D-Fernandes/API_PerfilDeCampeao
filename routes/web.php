@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WebController;
+use App\Http\Controllers\OportunidadeController;
 use App\Models\Clube;
 use App\Models\Usuario;
 use App\Notifications\UserFollowedNotification;
@@ -64,8 +65,40 @@ Route::get('/oportunidades', function () {
     return view('oportunidadesClub');
 })->name('Oportunidades');
 
+Route::get('/configuracoes', function () {
+    return view('configuraçoesClub');
+})->name('Configurações');
+
+Route::get('/dashClub', function () {
+    return view('dashClub');
+})->name('Dash Do Club');
+
+//arrumando as rotas ainda
+Route::delete('/api/conta/delete', [ContaController::class, 'destroyAccount'])->name('conta.delete');
+
+ Route::put('/api/conta/update-email', [ContaController::class, 'updateEmail'])->name('conta.update.email');
+    Route::put('/api/conta/update-password', [ContaController::class, 'updatePassword'])->name('conta.update.password');
+
+    // Rotas do ClubeController
+    Route::put('/clube/update-info', [ClubeController::class, 'updateInfo'])->name('clube.updateInfo');
+    Route::put('/clube/update-password', [ClubeController::class, 'updatePassword'])->name('clube.updatePassword');
 
 
+
+
+
+
+//Novas Rotas ADM
+
+Route::get('/usuarios', function () {
+    return view('usuarios');
+})->name('usuarios');
+
+Route::get('/esporte', function () {
+    return view('esportes');
+})->name('Lista Esportes');
+
+    
 Route::get('/test-notif', function () {
     $follower = Usuario::find(1);
     $clubeFollowed = Clube::find(1);

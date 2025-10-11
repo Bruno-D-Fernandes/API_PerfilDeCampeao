@@ -10,6 +10,7 @@ use \Database\Seeders\PosicaoSeeder;
 use \Database\Seeders\AdminSeeder;
 use \Database\Seeders\ClubeSeeder;
 use \Database\Seeders\AtletaSeeder;
+use \Database\Seeders\OportunidadeSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,6 +33,7 @@ class DatabaseSeeder extends Seeder
         CaracteristicaSeeder::class,
         AtletaSeeder::class,
         ClubeSeeder::class,
+        OportunidadeSeeder::class,
 
 
     ]);

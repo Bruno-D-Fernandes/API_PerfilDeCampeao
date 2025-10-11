@@ -13,10 +13,10 @@ class EsporteSeeder extends Seeder
     public function run(): void
     {
         $esportes = [
-            ['id' => 1, 'nomeEsporte' => 'Futebol'], // Colocar depois desc Esporte --ass: Bruno
-            ['id' => 2, 'nomeEsporte' => 'Basquete'],
-            ['id' => 3, 'nomeEsporte' => 'Vôlei'],
-            ['id' => 4, 'nomeEsporte' => 'Tênis'],
+            ['id' => 1, 'nomeEsporte' => 'Futebol','descricaoEsporte' =>'jogo com bola'], // Colocar depois desc Esporte --ass: Bruno
+            ['id' => 2, 'nomeEsporte' => 'Basquete','descricaoEsporte' =>'jogo de colocar a bola'],
+            ['id' => 3, 'nomeEsporte' => 'Vôlei','descricaoEsporte' =>'bater a bola na mão'],
+            ['id' => 4, 'nomeEsporte' => 'Tênis','descricaoEsporte' =>'bater na bola com o taco'],
         ];
 
         foreach ($esportes as $esporte) {
