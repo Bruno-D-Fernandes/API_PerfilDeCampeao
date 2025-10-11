@@ -24,7 +24,7 @@ use Illuminate\Notifications\Notification;
 
 // routes/web.php
 
-Route::get('/perfil', function () {
+Route::get('/perfil1', function () {
     return view('perfil');
 })->name('perfil');
 
@@ -43,7 +43,7 @@ Route::get('/perfilAdmin', function () {
 Route::get('/registro', function () {
     return view('register');
 })->name('registro');
-
+/*Novas Club*/
 Route::get('/cadastro', function () {
     return view('cadastro');
 })->name('Cadastro');
@@ -55,6 +55,14 @@ Route::get('/lista', function () {
 Route::get('/pesquisa', function () {
     return view('pesquisaClub');
 })->name('Pesquisa');
+
+Route::get('/perfil', function () {
+    return view('perfilClub');
+})->name('Perfil');
+
+Route::get('/oportunidades', function () {
+    return view('oportunidadesClub');
+})->name('Oportunidades');
 
 
 

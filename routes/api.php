@@ -76,6 +76,7 @@ Route::prefix('usuario')->group(function () {
 Route::get('/postagem', [PostagemController::class, 'index']);
 Route::get('/postagem/{id}', [PostagemController::class, 'show']);
 
+
 //Clube
 Route::prefix('clube')->group(function () {
     Route::post('/register', [clubeController::class, 'store']);
@@ -104,7 +105,9 @@ Route::prefix('clube')->group(function () {
        
         Route::post('/listas/{listaId}/usuarios', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário
         Route::delete('/listas/{listaId}/usuarios', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
-        Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                      // ver lista (com usuários)
+        Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                   // ver lista (com usuários)
+
+        Route::get('/search-usuarios', [SearchUsuarioController::class, 'index']);
 
         Route::put('/update/{id}', [clubeController::class, 'update']);
         Route::delete('/destroy/{id}', [clubeController::class, 'destroy']);
@@ -136,8 +139,18 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-//to deixando essa rota aqui por enquanto porque não to conseguindo fazer login
-Route::get('/search-usuarios', [SearchUsuarioController::class, 'index']);
+//to deixando essas rota aqui por enquanto porque não to conseguindo fazer login
+// Rotas do ClubeController
+    Route::put('/clube/update-info', [ClubeController::class, 'updateInfo'])->name('clube.updateInfo');
+    Route::put('/clube/update-password', [ClubeController::class, 'updatePassword'])->name('clube.updatePassword');
+
+    Route::get('/search-usuarios', [SearchUsuarioController::class, 'index']);
+
+Route::post('/api/oportunidades', [OportunidadeController::class, 'store'])
+        ->name('api.oportunidades.store');
+
+    Route::get('/api/oportunidades/{id}', [OportunidadeController::class, 'show'])
+        ->name('api.oportunidades.show');
 // Route::get('/clube/show', [ClubeController::class, 'show']);
 // Route::put('/clube/update/{id}', [ClubeController::class, 'update']);
 // Route::delete('/clube/delete/{id}', [ClubeController::class, 'destroy']);

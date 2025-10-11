@@ -413,7 +413,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="perfil" class="nav-link">
                             <img class="nav-icon" src="{{ asset('img/perfil.png') }}" alt="Perfil">
                             <span class="nav-text">Perfil</span>
                         </a>
@@ -786,19 +786,33 @@
                     this.currentFilters = filters;
 
                     // Construir URL com parâmetros
-                    const url = new URL(`${API_BASE_URL}/api/search-usuarios`);
+                    const url = new URL(`${API_BASE_URL}/api/clube/search-usuarios`);
                     Object.keys(filters).forEach(key => {
                         if (filters[key] !== null && filters[key] !== undefined && filters[key] !== '') {
                             url.searchParams.append(key, filters[key]);
                         }
                     });
 
-                    const response = await fetch(url, {
-                        headers: {
-                            'X-CSRF-TOKEN': CSRF_TOKEN,
-                            'Accept': 'application/json',
-                        }
-                    });
+
+
+                    const authToken = localStorage.getItem('token');
+
+                    const headers = {
+                        'X-CSRF-TOKEN': CSRF_TOKEN,
+                         'Accept': 'application/json',
+                    };
+
+                    if (authToken) {
+            headers['Authorization'] = authToken; // O token já deve ter o "Bearer " do login
+        } else {
+            console.error('Token de autenticação não encontrado. Faça o login primeiro.');
+            this.showError('Você não está autenticado. Por favor, faça o login e tente novamente.');
+            return; // Interrompe a busca se não houver token
+        }
+
+         const response = await fetch(url, {
+            headers: headers // Use o objeto de headers que acabamos de criar
+        });
                     
                     if (!response.ok) {
                         throw new Error(`Erro HTTP: ${response.status}`);
