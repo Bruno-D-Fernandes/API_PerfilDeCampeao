@@ -18,10 +18,11 @@ class Clube extends Authenticatable
 
     protected $fillable = [
         'nomeClube',
+        'cnpjClube',
+        'emailClube',
         'cidadeClube',
         'estadoClube',
         'anoCriacaoClube',
-        'cnpjClube',
         'enderecoClube',
         'bioClube',
         'senhaClube',

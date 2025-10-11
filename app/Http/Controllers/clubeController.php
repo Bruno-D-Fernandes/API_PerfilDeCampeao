@@ -23,11 +23,12 @@ class ClubeController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'nomeClube' => 'required|string|max:255',
+                'nomeClube' => 'required|string|max:255|unique:clubes,nomeClube',
+                'cnpjClube' => 'required|string|max:20|unique:clubes,cnpjClube',
+                'emailClube' => 'required|string|max:255|unique:clubes,emailClube',
                 'cidadeClube' => 'required|string|max:255',
                 'estadoClube' => 'required|string|max:255',
                 'anoCriacaoClube' => 'required|date',
-                'cnpjClube' => 'required|string|max:20|unique:clubes',
                 'enderecoClube' => 'required|string|max:255',
                 'bioClube' => 'nullable|string',
                 'senhaClube' => 'required|string|min:6|confirmed',
@@ -48,10 +49,11 @@ class ClubeController extends Controller
 
             Clube::create([
                 'nomeClube' => $validatedData['nomeClube'],
+                'cnpjClube' => $validatedData['cnpjClube'],
+                'emailClube' => $validatedData['emailClube'],
                 'cidadeClube' => $validatedData['cidadeClube'],
                 'estadoClube' => $validatedData['estadoClube'],
                 'anoCriacaoClube' => $validatedData['anoCriacaoClube'],
-                'cnpjClube' => $validatedData['cnpjClube'],
                 'enderecoClube' => $validatedData['enderecoClube'],
                 'bioClube' => $validatedData['bioClube'] ?? null,
                 'senhaClube' => Hash::make($validatedData['senhaClube']),
@@ -100,10 +102,11 @@ class ClubeController extends Controller
 
             $validatedData = $request->validate([
                 'nomeClube' => 'sometimes|string|max:255',
+                'cnpjClube' => ['sometimes', 'string', 'max:20', Rule::unique('clubes', 'cnpjClube')->ignore($clube->id)],
+                'emailClube' => ['sometimes', 'string', 'max:255', Rule::unique('clubes', 'emailClube')->ignore($clube->id)],
                 'cidadeClube' => 'sometimes|string|max:255',
                 'estadoClube' => 'sometimes|string|max:255',
                 'anoCriacaoClube' => 'sometimes|date',
-                'cnpjClube' => ['sometimes', 'string', 'max:20', Rule::unique('clubes', 'cnpjClube')->ignore($clube->id)],
                 'enderecoClube' => 'sometimes|string|max:255',
                 'bioClube' => 'nullable|string',
                 'senhaClube' => 'sometimes|string|min:6|confirmed',
