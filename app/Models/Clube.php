@@ -25,6 +25,8 @@ class Clube extends Authenticatable
         'enderecoClube',
         'bioClube',
         'senhaClube',
+        'fotoPerfilClube',
+        'fotoBannerClube',
     ];
 
     function esportes()

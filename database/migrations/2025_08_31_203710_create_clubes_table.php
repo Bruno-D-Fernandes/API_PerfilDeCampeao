@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('enderecoClube');
             $table->string('bioClube');
             $table->string('senhaClube', 255);
+            $table->string('fotoPerfilClube')->nullable();
+            $table->string('fotoBannerClube')->nullable();
             $table->timestamps();
         });
     }

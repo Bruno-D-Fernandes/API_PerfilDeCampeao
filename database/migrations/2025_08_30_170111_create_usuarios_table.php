@@ -20,17 +20,12 @@ return new class extends Migration
             $table->string('generoUsuario', 50);
             $table->string('estadoUsuario', 100);
             $table->string('cidadeUsuario', 100);
-            $table->text('bioUsuario')->nullable();
-
             $table->integer('alturaCm');
             $table->float('pesoKg');
             $table->string('peDominante', 50);
             $table->string('maoDominante', 50);
-
-            //Fotos
             $table->string('fotoPerfilUsuario')->nullable();
             $table->string('fotoBannerUsuario')->nullable();
-            
             $table->timestamps();
         });
     }

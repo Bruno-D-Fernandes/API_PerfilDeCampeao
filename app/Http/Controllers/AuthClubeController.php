@@ -10,12 +10,12 @@ use Illuminate\Validation\ValidationException;
 class AuthClubeController extends Controller
 {
     
-    public function loginClube(Request $request)
+    public function login(Request $request)
     {
         $clube = Clube::where('cnpjClube', $request->cnpjClube)->first();
 
         if (! $clube || ! Hash::check($request->senhaClube, $clube->senhaClube)) {
-            return response()->json(['message' => 'Credenciais invÃ¡lidas'], 401);
+            return response()->json(['message' => 'Credenciais inválidas'], 401);
         }
 
         $token = $clube->createToken('auth_token', ['club'], null, 'club_sanctum')->plainTextToken;

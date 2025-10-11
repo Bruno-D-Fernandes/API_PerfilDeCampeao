@@ -37,7 +37,9 @@ class Usuario extends Authenticatable
         "confirmacaoSenhaUsuario",
         "pesoKg",
         "peDominante",
-        "maoDominante"
+        "maoDominante",
+        "fotoPerfilUsuario",
+        "fotoBannerUsuario",
     ];
 
     /**

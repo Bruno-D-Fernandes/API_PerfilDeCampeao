@@ -6,10 +6,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WebController;
+use App\Mail\ClubWelcomeEmail;
+use App\Mail\UserWelcomeEmail;
 use App\Models\Clube;
 use App\Models\Usuario;
 use App\Notifications\UserFollowedNotification;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +51,16 @@ Route::get('/test-notif', function () {
     $follower = Usuario::find(1);
     $clubeFollowed = Clube::find(1);
     event(new ClubFollowedEvent($follower, $clubeFollowed));
+});
+
+Route::get('/test-email', function () {
+    Mail::to('norventcc@gmail.com')->send(
+        new UserWelcomeEmail()
+    );
+
+    Mail::to('norventcc@gmail.com')->send(
+        new ClubWelcomeEmail()
+    );
 });
 
 Route::get('/test', function () {
