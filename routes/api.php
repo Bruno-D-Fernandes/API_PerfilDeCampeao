@@ -101,7 +101,7 @@ Route::prefix('clube')->group(function () {
         Route::post('notificacoes/ler', [NotificacoesController::class, 'markAllAsRead']);
 
         // Listas do Clube
-        Route::post('/listas', [ListaClubeController::class, 'store']);                         // criar lista
+       
         Route::post('/listas/{listaId}/usuarios', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário
         Route::delete('/listas/{listaId}/usuarios', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
         Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                      // ver lista (com usuários)
@@ -136,7 +136,8 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-
+//to deixando essa rota aqui por enquanto porque não to conseguindo fazer login
+Route::get('/search-usuarios', [SearchUsuarioController::class, 'index']);
 // Route::get('/clube/show', [ClubeController::class, 'show']);
 // Route::put('/clube/update/{id}', [ClubeController::class, 'update']);
 // Route::delete('/clube/delete/{id}', [ClubeController::class, 'destroy']);

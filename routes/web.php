@@ -44,6 +44,20 @@ Route::get('/registro', function () {
     return view('register');
 })->name('registro');
 
+Route::get('/cadastro', function () {
+    return view('cadastro');
+})->name('Cadastro');
+
+Route::get('/lista', function () {
+    return view('listaClub');
+})->name('Lista');
+
+Route::get('/pesquisa', function () {
+    return view('pesquisaClub');
+})->name('Pesquisa');
+
+
+
 Route::get('/test-notif', function () {
     $follower = Usuario::find(1);
     $clubeFollowed = Clube::find(1);

@@ -8,6 +8,8 @@ use \Database\Seeders\CategoriaSeeder;
 use \Database\Seeders\EsporteSeeder;
 use \Database\Seeders\PosicaoSeeder;
 use \Database\Seeders\AdminSeeder;
+use \Database\Seeders\ClubeSeeder;
+use \Database\Seeders\AtletaSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,7 +29,11 @@ class DatabaseSeeder extends Seeder
         EsporteSeeder::class,
         PosicaoSeeder::class,
         CategoriaSeeder::class,
-        CaracteristicaSeeder::class
+        CaracteristicaSeeder::class,
+        AtletaSeeder::class,
+        ClubeSeeder::class,
+
+
     ]);
     }
 }
