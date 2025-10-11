@@ -27,7 +27,9 @@ class DatabaseSeeder extends Seeder
         EsporteSeeder::class,
         PosicaoSeeder::class,
         CategoriaSeeder::class,
-        CaracteristicaSeeder::class
+        CaracteristicaSeeder::class,
+        ClubeSeeder::class,
+        OportunidadeSeeder::class,
     ]);
     }
 }
