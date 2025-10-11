@@ -8,6 +8,7 @@ use App\Models\Clube;
 use App\Models\Esporte;
 use App\Models\Posicao;
 use App\Models\Inscricao;
+use App\Models\Adm;
 use App\Models\Usuario;
 
 // Não é necessário herdar de Authenticatable ou usar HasApiTokens neste Model,
@@ -17,7 +18,15 @@ class Oportunidade extends Model
 {
     use HasFactory;
 
+
+
+
     protected $table = 'oportunidades';
+
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_APPROVED = 'approved';
+    public const STATUS_REJECTED = 'rejected';
+
 
     protected $fillable = [
         'descricaoOportunidades',
@@ -31,11 +40,36 @@ class Oportunidade extends Model
         'cidadeOportunidade',
         'enderecoOportunidade',
         'cepOportunidade',
+        "status",
+        "reviewed_by",
+        "reviewed_at",
+        "rejection_reason",
     ];
 
     protected $casts = [
         'datapostagemOportunidades' => 'date:Y-m-d',
+        'reviewed_at'               => 'datetime'
     ];
+
+    public function scopeApproved($query)
+    {
+        return $query->where('status', self::STATUS_APPROVED);
+    }
+    
+    public function scopePending($query)
+    {
+        return $query->where('status', self::STATUS_PENDING);
+    }
+    public function scopeRejected($query)
+    {
+        return $query->where('status', self::STATUS_REJECTED);
+    }
+
+    public function reviewer()
+    {
+        return $this->belongsTo(Adm::class, 'reviewed_by');
+    }
+
     public function clube()
     {
         // Certifique-se de que o caminho para o Model 'Clube' está correto

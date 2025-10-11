@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\Oportunidade;
+use App\Models\Usuario;
+use App\Models\Clube;
+use App\Models\Categoria;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Models\Esporte;
@@ -94,6 +98,52 @@ class AdmController extends Controller
         ]);
         return response()->json($esporte, 201);
     }
+    public function CategoriaStore(Request $request)
+    {
+        $ValidatedData = $request->validate([
+            'nomeCategoria' => 'required|string|max:255',
+            'descricaoCategoria' => 'nullable|string',
+        ]);
+        $categoria = Categoria::create([
+            'nomeCategoria' => $ValidatedData['nomeCategoria'],
+            'descricaoCategoria' => $ValidatedData['descricaoCategoria'] ?? null,
+        ]);
+        return response()->json($categoria, 201);
+    }
+    public function listarCategorias()
+    {
+        try {
+            $categorias = Categoria::all();
+            return response()->json($categorias, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao listar categorias',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+    public function CategoriaUpdate(string $id)
+    {
+        $categoria = Categoria::find($id);
+        if (!$categoria) {
+            return response()->json(['message' => 'Categoria não encontrada'], 404);
+        }
+        $ValidatedData = request()->validate([
+            'nomeCategoria' => 'sometimes|required|string|max:255',
+            'descricaoCategoria' => 'sometimes|nullable|string',
+        ]);
+        $categoria->update($ValidatedData);
+        return response()->json($categoria, 200);
+    }
+    public function CategoriaDestroy(string $id)
+    {
+        $categoria = Categoria::find($id);
+        if (!$categoria) {
+            return response()->json(['message' => 'Categoria não encontrada'], 404);
+        }
+        $categoria->delete();
+        return response()->json(['message' => 'Categoria deletada com sucesso'], 200);
+    }
 
     /**
      * Display the specified resource.
@@ -160,5 +210,111 @@ class AdmController extends Controller
         $posicao = Posicao::findOrFail($id);
         $posicao->delete();
         return response()->json(['ok' => true]);
+    }
+
+    public function UsuarioDestroy(string $id)
+    {
+        $usuario = Usuario::find($id);
+        if (!$usuario instanceof Usuario) {
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
+        }
+        $usuario->delete();
+        return response()->json(['message' => 'Usuário deletado com sucesso'], 200);
+    }
+    public function ClubeDestroy(string $id)
+    {
+        $clube = Clube::find($id);
+        if (!$clube instanceof Clube) {
+            return response()->json(['message' => 'Clube não encontrado'], 404);
+        }
+        $clube->delete();
+        return response()->json(['message' => 'Clube deletado com sucesso'], 200);
+    }
+    public function OportunidadeDestroy(string $id){
+        $oportunidade = Oportunidade::find($id);
+        if (!$oportunidade instanceof Oportunidade) {
+            return response()->json(['message' => 'Oportunidade não encontrada'], 404);
+        }
+        $oportunidade->delete();
+        return response()->json(['message' => 'Oportunidade deletada com sucesso'], 200);
+    }
+
+    public function clubeUpdate(Request $request, $id){
+        $clube = Clube::find($id);
+        if(!$clube instanceof Clube){
+            return response()->json(['message' => 'Clube não encontrado'], 404);
+        }
+
+        $clube->update($request->all());
+        return response()->json($clube, 200);
+    }
+
+    public function usuarioUpdate(Request $request, $id){
+        $usuario = Usuario::find($id);
+        if(!$usuario instanceof Usuario){
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
+        }
+
+        $usuario->update($request->all());
+        return response()->json($usuario, 200);
+    }
+
+    public function oportunidadeUpdate(Request $request, $id){
+        $oportunidade = Oportunidade::find($id);
+        if(!$oportunidade instanceof Oportunidade){
+            return response()->json(['message' => 'Oportunidade não encontrada'], 404);
+        }
+
+        $oportunidade->update($request->all());
+        return response()->json($oportunidade, 200);
+    }
+
+    public function listPending(Request $request){
+        $perPage = $request->query('per_page', 15);
+        $oportunidades = Oportunidade::pending()
+        ->with(['esporte', 'posicao', 'clube'])
+        ->orderBy('created_at')
+        ->paginate($perPage);
+        
+        return response()->json($oportunidades, 200);
+    }
+    public function aproved(Request $request, $id){
+        $admin = $request->user();
+        if (!$admin || !($admin instanceof Admin)) {
+            return response()->json(['message' => 'Somente admin autenticado'], 403);
+        }
+        $opp = Oportunidade::find($id);
+        if (!$opp) return response()->json(['message' => 'Oportunidade não encontrada'], 404);
+
+        $opp->update([
+            'status'         => Oportunidade::STATUS_APPROVED,
+            'reviewed_by'    => $admin->id,
+            'reviewed_at'    => now(),
+            'rejection_reason' => null,
+        ]);
+
+        return response()->json(['message' => 'Oportunidade aprovada'], 200);
+    }
+
+    public function reject(Request $request, $id){
+        $admin = $request->user();
+        if (!$admin || !($admin instanceof Admin)) {
+            return response()->json(['message' => 'Somente admin autenticado'], 403);
+        }
+        $opp = Oportunidade::find($id);
+        if (!$opp) return response()->json(['message' => 'Oportunidade não encontrada'], 404);
+
+        $validatedData = $request->validate([
+            'rejection_reason' => 'required|string|max:1000',
+        ]);
+
+        $opp->update([
+            'status'         => Oportunidade::STATUS_REJECTED,
+            'reviewed_by'    => $admin->id,
+            'reviewed_at'    => now(),
+            'rejection_reason' => $validatedData['rejection_reason'],
+        ]);
+
+        return response()->json(['message' => 'Oportunidade rejeitada'], 200);
     }
 }

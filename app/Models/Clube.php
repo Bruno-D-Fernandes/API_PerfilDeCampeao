@@ -17,15 +17,18 @@ class Clube extends Authenticatable
     protected $table = 'clubes';
 
     protected $fillable = [
-        'nomeClube',
-        'cidadeClube',
-        'estadoClube',
-        'anoCriacaoClube',
-        'cnpjClube',
-        'enderecoClube',
-        'bioClube',
-        'senhaClube',
+    'nomeClube',
+    'cidadeClube',
+    'estadoClube',
+    'anoCriacaoClube',
+    'cnpjClube',
+    'enderecoClube',
+    'bioClube',
+    'senhaClube',
+    'categoria_id',
+    'esporte_id',
     ];
+
 
     function esportes()
     {

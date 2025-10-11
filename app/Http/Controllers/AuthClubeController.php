@@ -36,6 +36,46 @@ class AuthClubeController extends Controller
         
         return response()->json(['message' => 'Logout realizado com sucesso']);
     }
+
+    public function deleteAccount(Request $request)
+    {
+        $clube = $request->user();
+
+        if (!$clube) {
+            return response()->json(['message' => 'Clube não encontrado'], 404);
+        }
+
+        $clube->delete();
+
+        return response()->json(['message' => 'Conta do clube excluida com sucesso'], 200);
+    }
+    public function updateAccount(Request $request)
+    {
+        $clube = $request->user();
+
+        if (!$clube instanceof Clube) {
+            return response()->json(['message' => 'Clube não encontrado'], 404);
+        }
+
+        $validatedData = $request->validate([
+            'nomeClube' => 'sometimes|required|string|max:255',
+            'cidadeClube' => 'sometimes|required|string|max:255',
+            'estadoClube' => 'sometimes|required|string|max:255',
+            'anoCriacaoClube' => 'sometimes|required|date',
+            'cnpjClube' => 'sometimes|required|string|max:20|unique:clubes,cnpjClube,' . $clube->id,
+            'enderecoClube' => 'sometimes|required|string|max:255',
+            'bioClube' => 'nullable|string',
+            'senhaClube' => 'sometimes|required|string|min:6|confirmed',
+        ]);
+
+        if (isset($validatedData['senhaClube'])) {
+            $validatedData['senhaClube'] = Hash::make($validatedData['senhaClube']);
+        }
+
+        $clube->update($validatedData);
+
+        return response()->json($clube, 200);
+    }
     
     
     

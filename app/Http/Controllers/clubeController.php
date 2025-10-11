@@ -22,29 +22,32 @@ class clubeController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nomeClube' => 'required|string|max:255',
-            'cidadeClube' => 'required|string|max:255',
-            'estadoClube' => 'required|string|max:255',
+            'nomeClube'       => 'required|string|max:255',
+            'cidadeClube'     => 'required|string|max:255',
+            'estadoClube'     => 'required|string|max:255',
             'anoCriacaoClube' => 'required|date',
-            'cnpjClube' => 'required|string|max:20|unique:clubes',
-            'enderecoClube' => 'required|string|max:255',
-            'bioClube' => 'nullable|string',
-            'senhaClube' => 'required|string|min:6|confirmed',
+            'cnpjClube'       => 'required|string|max:20|unique:clubes,cnpjClube',
+            'enderecoClube'   => 'required|string|max:255',
+            'bioClube'        => 'nullable|string',
+            'senhaClube'      => 'required|string|min:6|confirmed',
+            'categoria_id'    => 'required|exists:categorias,id',
+            'esporte_id'      => 'required|exists:esportes,id', // ou 'idEsporte'
         ]);
 
         $clube = Clube::create([
-            'nomeClube' => $validatedData['nomeClube'],
-            'cidadeClube' => $validatedData['cidadeClube'],
-            'estadoClube' => $validatedData['estadoClube'],
+            'nomeClube'       => $validatedData['nomeClube'],
+            'cidadeClube'     => $validatedData['cidadeClube'],
+            'estadoClube'     => $validatedData['estadoClube'],
             'anoCriacaoClube' => $validatedData['anoCriacaoClube'],
-            'cnpjClube' => $validatedData['cnpjClube'],
-            'enderecoClube' => $validatedData['enderecoClube'],
-            'bioClube' => $validatedData['bioClube'] ?? null,
-            'senhaClube' => Hash::make($validatedData['senhaClube']),
+            'cnpjClube'       => $validatedData['cnpjClube'],
+            'enderecoClube'   => $validatedData['enderecoClube'],
+            'bioClube'        => $validatedData['bioClube'] ?? null,
+            'senhaClube'      => Hash::make($validatedData['senhaClube']),
+            'categoria_id'    => $validatedData['categoria_id'],
+            'esporte_id'      => $validatedData['esporte_id'], // ou 'idEsporte'
         ]);
 
         return response()->json($clube, 201);
-
     }
 
     // Mostrar um clube específico
@@ -71,16 +74,4 @@ class clubeController extends Controller
         return response()->json($clube, 200);
     }
 
-    // Deletar um clube
-    public function destroy($id)
-    {
-        $clube = Clube::find($id);
-
-        if(!$clube){
-            return response()->json(['message' => 'Clube não encontrado'], 404);
-        }
-
-        $clube->delete();
-        return response()->json(['sucesso' => true], 200);
-    }
 }
