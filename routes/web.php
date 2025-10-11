@@ -54,10 +54,12 @@ Route::get('/test-notif', function () {
 });
 
 Route::get('/test-email', function () {
+    /* Colocar caso o usuário seja aprovado ou seja criado (no lugar da norven seria o email dele) */
     Mail::to('norventcc@gmail.com')->send(
         new UserWelcomeEmail()
     );
 
+    /* Colocar caso o clube seja aprovado ou seja criado (no lugar da norven seria o email dele) */
     Mail::to('norventcc@gmail.com')->send(
         new ClubWelcomeEmail()
     );
