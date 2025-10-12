@@ -14,6 +14,7 @@ use App\Http\Controllers\SearchUsuarioController;
 use App\Http\Controllers\InscricaoOportunidadeController;
 use App\Http\Controllers\NotificacoesController;
 use App\Http\Controllers\ListaClubeController;
+use App\Http\Controllers\MembroClubeController;
 use App\Http\Controllers\SeguidorController;
 
 /*
@@ -106,6 +107,10 @@ Route::prefix('clube')->group(function () {
         Route::post('/listas/{listaId}/usuarios', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário
         Route::delete('/listas/{listaId}/usuarios', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
         Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                      // ver lista (com usuários)
+
+        Route::get('/{clubeId}/membros', [MembroClubeController::class, 'listarMembros']);
+        Route::post('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'adicionarMembro']);
+        Route::delete('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'removerMembro']);
     });
 
     Route::middleware('auth:sanctum')->group(function () {
@@ -131,6 +136,11 @@ Route::prefix('admin')->group(function () {
         Route::put('/posicao/{id}', [AdmController::class, 'Posicaoupdate']);
         Route::delete('/posicao/{id}', [AdmController::class, 'Posicaodestroy']);
         Route::get('/posicao', [AdmController::class, 'ListarPosicoes']);
+
+        Route::post('/funcao', [AdmController::class, 'storeFuncao']);
+        Route::put('/funcao/{id}', [AdmController::class, 'updateFuncao']);
+        Route::delete('/funcao/{id}', [AdmController::class, 'destroyFuncao']);
+        Route::get('/funcao', [AdmController::class, 'listarFuncoes']);
     });
 });
 

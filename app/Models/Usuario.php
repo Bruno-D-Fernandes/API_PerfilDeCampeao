@@ -76,6 +76,11 @@ class Usuario extends Authenticatable
         return $this->hasMany(Perfil::class, 'usuario_id');
     }
 
+    public function clubes()
+    {
+        return $this->belongsToMany(Usuario::class, 'usuario_id')->withPivot('esporte_id', 'funcao_id');
+    }
+
     public function seguindoUsuarios()
     {
         return $this->morphedByMany(Usuario::class, 'seguivel', 'seguidores', 'usuario_id');

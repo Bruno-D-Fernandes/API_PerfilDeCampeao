@@ -23,11 +23,12 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
-        AdminSeeder::class,
-        EsporteSeeder::class,
-        PosicaoSeeder::class,
-        CategoriaSeeder::class,
-        CaracteristicaSeeder::class
-    ]);
+            AdminSeeder::class,
+            EsporteSeeder::class,
+            PosicaoSeeder::class,
+            CategoriaSeeder::class,
+            CaracteristicaSeeder::class,
+            FuncaoSeeder::class,
+        ]);
     }
 }

@@ -35,9 +35,9 @@ class Clube extends Authenticatable
         return $this->belongsToMany(Esporte::class);
     }
     
-    public function usuarios()
+    public function membros()
     {
-        return $this->belongsToMany(Usuario::class);
+        return $this->belongsToMany(Usuario::class)->withPivot('esporte_id', 'funcao_id');
     }
 
     public function seguidores()
