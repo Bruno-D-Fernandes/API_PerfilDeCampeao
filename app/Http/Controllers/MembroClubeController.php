@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Clube;
 use App\Models\Usuario;
+use App\Models\Funcao;
+use App\Models\Esporte;
 use Illuminate\Http\Request;
 
 class MembroClubeController extends Controller
@@ -18,10 +20,25 @@ class MembroClubeController extends Controller
 
             $clube = Clube::findOrFail($clubeId);
 
-            $perPage = $request->query('per_page', 15);
-            $membros = $clube->membros()->paginate($perPage);
+            $membros = $clube->membros()->get();
 
-            return response()->json($membros, 200);
+            $esportesIds = $membros->pluck('pivot.esporte_id')->unique()->filter();
+            $funcoesIds = $membros->pluck('pivot.funcao_id')->unique()->filter();
+            
+            $esportesMap = Esporte::whereIn('id', $esportesIds)->pluck('nomeEsporte', 'id');
+            $funcoesMap = Funcao::whereIn('id', $funcoesIds)->pluck('nomeFuncao', 'id');
+
+            $membrosAgrupados = [];
+
+            foreach ($membros as $membro) {
+                $nomeEsporte = $esportesMap->get($membro->pivot->esporte_id, 'Sem esporte');
+
+                $nomeFuncao = $funcoesMap->get($membro->pivot->funcao_id, 'Sem função');
+
+                $membrosAgrupados[$nomeEsporte][$nomeFuncao][] = $membro;
+            }
+
+            return response()->json($membrosAgrupados, 200);
 
         } catch (\Exception $e) {
             return response()->json([

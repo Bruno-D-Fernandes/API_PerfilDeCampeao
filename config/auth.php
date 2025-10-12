@@ -21,6 +21,7 @@ return [
             'driver' => 'sanctum',
             'provider' => 'clubs',
         ],
+        
         'adm_sanctum' => [ 
             'driver' => 'sanctum',
             'provider' => 'adms',

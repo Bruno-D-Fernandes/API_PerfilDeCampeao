@@ -37,7 +37,7 @@ class Clube extends Authenticatable
     
     public function membros()
     {
-        return $this->belongsToMany(Usuario::class)->withPivot('esporte_id', 'funcao_id');
+        return $this->belongsToMany(Usuario::class, 'clubes_usuario', 'clube_id')->withPivot('esporte_id', 'funcao_id');
     }
 
     public function seguidores()

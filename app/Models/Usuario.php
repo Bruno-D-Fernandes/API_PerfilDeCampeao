@@ -78,7 +78,7 @@ class Usuario extends Authenticatable
 
     public function clubes()
     {
-        return $this->belongsToMany(Usuario::class, 'usuario_id')->withPivot('esporte_id', 'funcao_id');
+        return $this->belongsToMany(Clube::class, ' clubes_usuario', 'usuario_id')->withPivot('esporte_id', 'funcao_id');
     }
 
     public function seguindoUsuarios()
