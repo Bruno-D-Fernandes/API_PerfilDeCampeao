@@ -100,7 +100,10 @@ Route::prefix('clube')->group(function () {
         Route::post('notificacoes/ler', [NotificacoesController::class, 'markAllAsRead']);
 
         // Listas do Clube
-       
+        Route::get('/listas', [ListaClubeController::class, 'index']);               // listar todas as listas
+        Route::post('/listas', [ListaClubeController::class, 'store']);          // criar nova lista
+        Route::put('/listas/{id}', [ListaClubeController::class, 'update']);        // editar lista
+        Route::delete('/listas/{id}', [ListaClubeController::class, 'destroy']);     // deletar lista
         Route::post('/listas/{listaId}/usuarios', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário
         Route::delete('/listas/{listaId}/usuarios', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
         Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                   // ver lista (com usuários)
