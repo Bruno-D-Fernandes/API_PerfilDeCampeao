@@ -18,19 +18,19 @@ class ListaClubeController extends Controller
         }
 
         $data = $request->validate([
-            'nomeLista'       => 'required|string|max:255',
-            'descricaoLista'  => 'nullable|string|max:255',
+            'nome'       => 'required|string|max:255',
+            'descricao'  => 'nullable|string|max:255',
         ]);
 
-        $existe = Lista::where('clube_id', $clube->id)->where('nomeLista', $data['nomeLista'])->exists();
+        $existe = Lista::where('clube_id', $clube->id)->where('nome', $data['nome'])->exists();
         if ($existe) {
             return response()->json(['message' => 'Já existe uma lista com esse nome'], 422);
         }
 
         $lista = Lista::create([
             'clube_id'  => $clube->id,      
-            'nomeLista'      => $data['nomeLista'],
-            'descricaoLista' => $data['descricaoLista'] ?? null,
+            'nome'      => $data['nome'],
+            'descricao' => $data['descricao'] ?? null,
         ]);
 
         return response()->json(['message' => 'Lista criada com sucesso', 'data' => $lista], 201);

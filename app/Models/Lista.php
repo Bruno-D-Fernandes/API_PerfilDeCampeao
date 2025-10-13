@@ -14,8 +14,8 @@ class Lista extends Model
     protected $table = 'listas';
 
     protected $fillable = [
-        'nomeLista',
-        'descricaoLista',
+        'nome',
+        'descricao',
         'clube_id',
     ];
 

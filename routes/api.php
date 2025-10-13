@@ -104,8 +104,8 @@ Route::prefix('clube')->group(function () {
         Route::post('/listas', [ListaClubeController::class, 'store']);          // criar nova lista
         Route::put('/listas/{id}', [ListaClubeController::class, 'update']);        // editar lista
         Route::delete('/listas/{id}', [ListaClubeController::class, 'destroy']);     // deletar lista
-        Route::post('/listas/{listaId}/usuarios', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário
-        Route::delete('/listas/{listaId}/usuarios', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
+        Route::post('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário
+        Route::delete('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
         Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                   // ver lista (com usuários)
 
         Route::get('/search-usuarios', [SearchUsuarioController::class, 'index']);
