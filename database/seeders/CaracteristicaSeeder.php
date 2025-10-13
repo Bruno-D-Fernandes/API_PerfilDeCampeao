@@ -13,15 +13,9 @@ class CaracteristicaSeeder extends Seeder
     public function run(): void
     {
         $caracteristicas = [
-            // Futebol id = 1
-            ['caracteristica' => 'Altura', 'unidade_medida' => 'cm', 'esporte_id' => 1],
-            ['caracteristica' => 'Peso', 'unidade_medida' => 'kg', 'esporte_id' => 1],
-            ['caracteristica' => 'Perna dominante', 'unidade_medida' => 'string', 'esporte_id' => 1],
-
             // Basquete id = 2
-            ['caracteristica' => 'Altura', 'unidade_medida' => 'cm', 'esporte_id' => 2],
             ['caracteristica' => 'Envergadura', 'unidade_medida' => 'cm', 'esporte_id' => 2],
-            ['caracteristica' => 'Mão dominante', 'unidade_medida' => 'string', 'esporte_id' => 2],
+            ['caracteristica' => 'Altura do Salto', 'unidade_medida' => 'cm', 'esporte_id' => 2],
         ];
 
         foreach ($caracteristicas as $data) {

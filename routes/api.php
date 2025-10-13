@@ -15,6 +15,7 @@ use App\Http\Controllers\InscricaoOportunidadeController;
 use App\Http\Controllers\NotificacoesController;
 use App\Http\Controllers\ListaClubeController;
 use App\Http\Controllers\SeguidorController;
+use App\Http\Controllers\perfilController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,11 @@ Route::prefix('usuario')->group(function () {
         Route::get('/perfil', [AuthUserController::class, 'perfil']);
         Route::post('/logout', [AuthUserController::class, 'logout']);
         Route::delete('/destroy/{id}', [UserController::class, 'destroy']);
+
+        // Multiplos perfis
+        Route::post('/perfis', [perfilController::class, 'store']);
+
+        // Fim multilpos perfis
 
         // Postagem protegida
         Route::post('/postagem', [PostagemController::class, 'store']);

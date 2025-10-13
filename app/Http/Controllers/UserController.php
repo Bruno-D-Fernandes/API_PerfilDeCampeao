@@ -9,7 +9,8 @@ use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AuthUserController;
-use App\Models\Clube;
+use Illuminate\Validation\ValidationException;
+
 
 class UserController extends Controller
 {
@@ -34,8 +35,8 @@ class UserController extends Controller
                 'cidadeUsuario' => 'nullable|string|max:100',
                 'alturaCm' => 'nullable|numeric|min:50|max:300',
                 'pesoKg' => 'nullable|numeric|min:20|max:500',
-                'peDominante' => 'nullable|in:direito,esquerdo',
-                'maoDominante' => 'nullable|in:destro,canhoto',
+                'peDominante' => 'nullable|in:Direito,Esquerdo',
+                'maoDominante' => 'nullable|in:Destro,Canhoto',
             ]);
 
             // Cria o usuário
@@ -63,7 +64,71 @@ class UserController extends Controller
         }
     }
 
-    // Mostrar usuário específico
+   public function update(Request $request, string $id)
+    {
+
+        
+        try {
+            $usuario = Usuario::find($id);
+            if (!$usuario) {
+                return response()->json(['message' => 'Usuário não encontrado'], 404);
+            }
+
+            // 1. Validação dos dados
+            $validatedData = $request->validate([
+                'nomeCompletoUsuario' => 'nullable|string|max:255',
+                'emailUsuario' => 'nullable|email|unique:usuarios,emailUsuario,' . $id,
+                'dataNascimentoUsuario' => 'nullable|date',
+                'generoUsuario' => 'nullable|string|max:100',
+                'estadoUsuario' => 'nullable|string|max:100',
+                'cidadeUsuario' => 'nullable|string|max:100',
+                'alturaCm' => 'nullable|numeric|min:50|max:300',
+                'pesoKg' => 'nullable|numeric|min:20|max:500',
+                'peDominante' => 'nullable|in:Direito,Esquerdo',
+                'maoDominante' => 'nullable|in:Destro,Canhoto',
+
+                'fotoPerfilUsuario' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg',
+                'fotoBannerUsuario' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg',
+            ]);
+
+            $dataToUpdate = $validatedData;
+
+            if ($request->hasFile('fotoPerfilUsuario')) {
+                if ($usuario->fotoPerfilUsuario) {
+                    Storage::disk('public')->delete($usuario->fotoPerfilUsuario);
+                }
+                $perfilPath = $request->file('fotoPerfilUsuario')->store('perfil_fotos', 'public');
+                $dataToUpdate['fotoPerfilUsuario'] = $perfilPath;
+            }
+
+            if ($request->hasFile('fotoBannerUsuario')) {
+                if ($usuario->fotoBannerUsuario) {
+                    Storage::disk('public')->delete($usuario->fotoBannerUsuario);
+                }
+                $bannerPath = $request->file('fotoBannerUsuario')->store('banner_fotos', 'public');
+                $dataToUpdate['fotoBannerUsuario'] = $bannerPath;
+            }
+
+            $usuario->update($dataToUpdate);
+
+            return response()->json($usuario, 200);
+
+        } catch (ValidationException $e) {
+            return response()->json([
+                'error' => 'Erro de validação',
+                'messages' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Ocorreu um erro ao atualizar o usuário',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Retorna os dados do usuário com as URLs completas das imagens.
+     */
     public function show(string $id)
     {
         try {
@@ -72,7 +137,21 @@ class UserController extends Controller
                 return response()->json(['message' => 'Usuário não encontrado'], 404);
             }
 
-            return response()->json($usuario, 200);
+            $usuarioArray = $usuario->toArray();
+
+            if (!empty($usuarioArray['fotoPerfilUsuario'])) {
+                $usuarioArray['fotoPerfilUsuario'] = Storage::disk('public')->url($usuarioArray['fotoPerfilUsuario']);
+            } else {
+                $usuarioArray['fotoPerfilUsuario'] = null;
+            }
+
+            if (!empty($usuarioArray['fotoBannerUsuario'])) {
+                $usuarioArray['fotoBannerUsuario'] = Storage::disk('public')->url($usuarioArray['fotoBannerUsuario']);
+            } else {
+                $usuarioArray['fotoBannerUsuario'] = null;
+            }
+
+            return response()->json($usuarioArray, 200);
 
         } catch (\Exception $e) {
             return response()->json([
@@ -82,8 +161,10 @@ class UserController extends Controller
         }
     }
 
-    // Atualizar um usuário
-    public function update(Request $request, string $id)
+    /**
+     * Deleta o usuário e suas imagens.
+     */
+    public function destroy(string $id)
     {
         try {
             $usuario = Usuario::find($id);
@@ -91,25 +172,12 @@ class UserController extends Controller
                 return response()->json(['message' => 'Usuário não encontrado'], 404);
             }
 
-            $usuario->update($request->all());
+            if ($usuario->fotoPerfilUsuario) {
+                Storage::disk('public')->delete($usuario->fotoPerfilUsuario);
+            }
 
-            return response()->json($usuario, 200);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Ocorreu um erro ao atualizar o usuário',
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    // Deletar um usuário
-    public function destroy(string $id)
-    {
-        try {
-            $usuario = Usuario::find($id);
-            if (!$usuario) {
-                return response()->json(['message' => 'Usuário não encontrado'], 404);
+            if ($usuario->fotoBannerUsuario) {
+                Storage::disk('public')->delete($usuario->fotoBannerUsuario);
             }
 
             $usuario->delete();
