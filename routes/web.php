@@ -44,7 +44,12 @@ Route::get('/perfilAdmin', function () {
 Route::get('/registro', function () {
     return view('register');
 })->name('registro');
+
 /*Novas Club*/
+Route::get('/', function () {
+    return route('login');
+});
+
 Route::get('/cadastro', function () {
     return view('cadastro');
 })->name('Cadastro');
