@@ -98,6 +98,13 @@ Route::get('/esporte', function () {
     return view('esportes');
 })->name('Lista Esportes');
 
+Route::get('/dashAdm', function () {
+    return view('dashAdm');
+})->name('Dashbord Adm');
+
+Route::get('/oportunidadesAdm', function () {
+    return view('oportunidadesAdm');
+})->name('oportunidades Adm');
     
 Route::get('/test-notif', function () {
     $follower = Usuario::find(1);

@@ -6,6 +6,8 @@
     <title>Pesquisar perfis</title>
     <link rel="stylesheet" href="{{ asset('css/pesquisaClub.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+      <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <style>
         /* Estilos adicionais para os novos filtros */
         .advanced-filters {
@@ -375,7 +377,7 @@
 <body>
     <div class="container">
         <!-- Sidebar -->
-        <aside class="sidebar">
+         <aside class="sidebar">
             <div class="logo-section">
                 <img id="Logo" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil">
             </div>
@@ -384,55 +386,55 @@
                 <ul>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <img class="nav-icon" src="{{ asset('img/dashboard.png') }}" alt="">
+                            <ion-icon name="grid-outline"></ion-icon>
                             <span class="nav-text">Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <img class="nav-icon" src="{{ asset('img/oportunidades.png') }}" alt="Oportunidades">
+                            <ion-icon name="trophy-outline"></ion-icon>
                             <span class="nav-text">Oportunidades</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <img class="nav-icon" src="{{ asset('img/vector.png') }}" alt="Lista">
+                            <ion-icon name="list-outline"></ion-icon>
                             <span class="nav-text">Listas</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <img class="nav-icon" src="{{ asset('img/mensagem.png') }}" alt="Mensagens">
+                            <ion-icon name="chatbubbles-outline"></ion-icon>
                             <span class="nav-text">Mensagens</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <img class="nav-icon" src="{{ asset('img/notificaçao.png') }}" alt="Notificações">
+                            <ion-icon name="notifications-outline"></ion-icon>
                             <span class="nav-text">Notificações</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="perfil" class="nav-link">
-                            <img class="nav-icon" src="{{ asset('img/perfil.png') }}" alt="Perfil">
+                            <ion-icon name="person-circle-outline"></ion-icon>
                             <span class="nav-text">Perfil</span>
                         </a>
                     </li>
                     <li class="nav-item active">
                         <a href="#" class="nav-link">
-                            <img class="nav-icon" src="{{ asset('img/pesquisa.png') }}" alt="Pesquisa">
+                            <ion-icon name="search-outline"></ion-icon>
                             <span class="nav-text">Pesquisa</span>
                         </a>
                     </li>
                     <li class="nav-item">
                        <a href="configuracoes" class="nav-link">
-                            <img class="nav-icon" src="{{ asset('img/configuracoes.png') }}" alt="Configurações">
+                            <ion-icon name="settings-outline"></ion-icon>
                             <span class="nav-text">Configurações</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <img class="nav-icon" src="{{ asset('img/sair.png') }}" alt="Sair">
+                            <ion-icon name="log-out-outline"></ion-icon>
                             <span class="nav-text">Sair</span>
                         </a>
                     </li>
@@ -443,13 +445,13 @@
         <!-- Main Content -->
         <main class="main-content search-page">
             <!-- Header -->
-            <header class="search-header">
+           <header class="search-header">
                 <h1 class="page-title">Pesquisar perfis</h1>
                 <div class="header-actions">
                     <div class="user-info">
-                        <span class="notification-icon">🔔</span>
+                        <span class="notification-icon"><ion-icon name="notifications-outline"></ion-icon></span>
                         <div class="user-profile">
-                            <span class="user-avatar">👤</span>
+                            <span class="user-avatar"><ion-icon name="person-circle-outline"></ion-icon></span>
                             <span class="user-name">
                                 @auth
                                     {{ Auth::user()->nomeClube ?? 'Clube' }}
@@ -464,13 +466,13 @@
 
             <!-- Search Section -->
             <section class="search-section">
-                <div class="search-container">
+                 <div class="search-container">
                     <div class="search-input-wrapper">
-                        <span class="search-icon">🔍</span>
+                        <span class="search-icon"><ion-icon name="search-outline"></ion-icon></span>
                         <input type="text" id="search-input" class="search-input" placeholder="Pesquisar por nome ou email...">
                     </div>
                     <button class="advanced-search-btn" id="toggle-filters">
-                        <span class="filter-icon">🔽</span>
+                        <span class="filter-icon"><ion-icon name="chevron-down-outline"></ion-icon></span>
                         Pesquisa avançada
                     </button>
                 </div>
@@ -867,17 +869,43 @@
                         <div class="profile-header">
                             <h3 class="profile-name">${usuario.nomeCompletoUsuario}</h3>
                             <div class="profile-badges">
-                                <span class="badge athlete">⭐ Atleta</span>
-                                <span class="badge position">⚽ ${posicoes}</span>
-                                <span class="badge location">📍 ${localizacao}</span>
-                                <span class="badge age">👤 ${idade} anos</span>
+                               <span class="badge athlete">
+  <ion-icon name="star"></ion-icon> Atleta
+</span>
+
+<span class="badge position">
+  <ion-icon name="football-outline"></ion-icon> ${posicoes}
+</span>
+
+<span class="badge location">
+  <ion-icon name="location-outline"></ion-icon> ${localizacao}
+</span>
+
+<span class="badge age">
+  <ion-icon name="person-outline"></ion-icon> ${idade} anos
+</span>
                             </div>
                         </div>
                         <div class="profile-stats">
-                            ${usuario.alturaCm ? `<div class="profile-stat">📏 ${usuario.alturaCm}cm</div>` : ''}
-                            ${usuario.pesoKg ? `<div class="profile-stat">⚖️ ${usuario.pesoKg}kg</div>` : ''}
-                            ${usuario.peDominante ? `<div class="profile-stat">🦶 ${usuario.peDominante}</div>` : ''}
-                            ${usuario.maoDominante ? `<div class="profile-stat">✋ ${usuario.maoDominante}</div>` : ''}
+                        ${usuario.alturaCm ? `
+  <div class="profile-stat">
+    <ion-icon name="resize-outline"></ion-icon> ${usuario.alturaCm}cm
+  </div>` : ''}
+
+${usuario.pesoKg ? `
+  <div class="profile-stat">
+    <ion-icon name="barbell-outline"></ion-icon> ${usuario.pesoKg}kg
+  </div>` : ''}
+
+${usuario.peDominante ? `
+  <div class="profile-stat">
+    <ion-icon name="walk-outline"></ion-icon> ${usuario.peDominante}
+  </div>` : ''}
+
+${usuario.maoDominante ? `
+  <div class="profile-stat">
+    <ion-icon name="hand-left-outline"></ion-icon> ${usuario.maoDominante}
+  </div>` : ''}
                         </div>
                         <div class="profile-actions">
                             <button class="profile-btn view-btn" onclick="verPerfil(${usuario.id})">Ver perfil</button>

@@ -1,0 +1,68 @@
+ /* Estilos CSS para replicar o layout da imagem */
+        :root {
+            --primary-blue: #3B82F6; --primary-blue-light: #EFF6FF; --text-dark: #1F2937; --text-light: #6B7280; --bg-light: #F9FAFB; --bg-white: #FFFFFF; --border-color: #E5E7EB; --status-green: #10B981; --status-red: #EF4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-light ); color: var(--text-dark); }
+        .dashboard-container { display: flex; min-height: 100vh; }
+
+        /* --- Sidebar (Idêntica à imagem) --- */
+        .sidebar { width: 250px; background-color: var(--bg-white); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 24px 12px; position: fixed; height: 100%; }
+        .sidebar-header { padding: 0 12px 24px 12px; font-size: 20px; font-weight: 700; }
+        .sidebar-nav { flex-grow: 1; }
+        .menu-title { font-size: 12px; font-weight: 600; color: var(--text-light); text-transform: uppercase; padding: 16px 12px 8px; }
+        .sidebar-nav ul, .sidebar-footer ul { list-style: none; }
+        .sidebar-nav li a, .sidebar-footer li a { display: flex; align-items: center; padding: 10px 12px; margin-bottom: 4px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: 500; color: var(--text-light); transition: all 0.2s; }
+        .sidebar-nav li a:hover { background-color: var(--bg-light); color: var(--text-dark); }
+        .sidebar-nav li.active a { background-color: var(--primary-blue); color: var(--bg-white); }
+        .sidebar-nav li a ion-icon, .sidebar-footer li a ion-icon { font-size: 20px; margin-right: 12px; }
+        .sidebar-nav li a .chevron { margin-left: auto; font-size: 16px; }
+        .sidebar-footer { padding-top: 16px; border-top: 1px solid var(--border-color); }
+        .sidebar-footer li a.logout { color: var(--status-red); }
+
+        /* --- Conteúdo Principal --- */
+        .main-content { margin-left: 250px; flex-grow: 1; padding: 24px 32px; }
+        .main-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .page-title { font-size: 32px; font-weight: 700; }
+        .user-menu { display: flex; align-items: center; gap: 24px; }
+        .icon-button { background: none; border: none; cursor: pointer; color: var(--text-light); font-size: 24px; }
+        .user-profile { display: flex; align-items: center; gap: 12px; font-weight: 500; }
+        .user-profile .avatar { font-size: 28px; }
+
+        /* --- Grid do Dashboard --- */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .stat-card { background-color: var(--bg-white); border-radius: 12px; padding: 20px; border: 1px solid var(--border-color); }
+        .stat-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .stat-card-title { font-size: 14px; font-weight: 500; color: var(--text-light); }
+        .stat-card-value { font-size: 36px; font-weight: 700; }
+        .stat-card-footer { font-size: 12px; color: var(--text-light); }
+        
+        .chart-card, .list-card { background-color: var(--bg-white); border-radius: 12px; padding: 24px; border: 1px solid var(--border-color); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .card-title { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .card-title ion-icon { font-size: 20px; }
+        
+        .chart-card { grid-column: span 2; }
+        .list-card { grid-column: span 1; }
+        
+        .opportunity-list { list-style: none; }
+        .opportunity-item { display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
+        .opportunity-item:last-child { border-bottom: none; }
+        .opportunity-item .club-logo { font-size: 28px; color: var(--primary-blue); }
+        .opportunity-info .club-name { font-weight: 600; }
+        .opportunity-info .position-name { font-size: 14px; color: var(--text-light); }
+
+        .actions-card { grid-column: span 3; }
+        .actions-table { width: 100%; text-align: left; border-collapse: collapse; }
+        .actions-table th, .actions-table td { padding: 12px; border-bottom: 1px solid var(--border-color); font-size: 14px; }
+        .actions-table th { color: var(--text-light); font-weight: 500; }
+        .chart-card {
+    grid-column: span 2;
+    max-height: 400px;
+    min-height: 250px;
+}
+
+.chart-card canvas {
+    width: 100% !important;
+    height: 100% !important;
+}

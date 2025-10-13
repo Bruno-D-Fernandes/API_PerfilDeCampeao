@@ -11,6 +11,7 @@ use \Database\Seeders\AdminSeeder;
 use \Database\Seeders\ClubeSeeder;
 use \Database\Seeders\AtletaSeeder;
 use \Database\Seeders\OportunidadeSeeder;
+use \Database\Seeders\InscricaoSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
         AtletaSeeder::class,
         ClubeSeeder::class,
         OportunidadeSeeder::class,
+        InscricaoSeeder::class,
 
 
     ]);

@@ -298,6 +298,28 @@
             // ... seu código existente ...
         }
 
+
+
+async function fetchAllOpportunities() {
+            try {
+                // Usando a rota de admin que você criou.
+                const response = await fetch('/api/admin/oportunidades', { headers: authHeaders });
+                if (!response.ok) throw new Error('Falha ao buscar oportunidades');
+                
+                const result = await response.json();
+                const opportunities = result.data || result;
+
+                document.getElementById('total-opportunities').textContent = result.total || opportunities.length;
+                renderLatestOpportunities(opportunities.slice(0, 3));
+
+            } catch (error) {
+                console.error("Erro ao buscar oportunidades:", error);
+                document.getElementById('total-opportunities').textContent = 'Erro';
+                document.getElementById('latest-opportunities').innerHTML = `<li>${error.message}</li>`;
+            }
+        }
+
+
         // --- NOVA FUNÇÃO PARA CARREGAR SUGESTÕES ---
         async function carregarSugestoes() {
             const container = document.getElementById('suggestions-list-container');
