@@ -6,90 +6,106 @@ use Illuminate\Database\Seeder;
 use App\Models\Oportunidade;
 use App\Models\Esporte;
 use App\Models\Posicao;
-use App\Models\Clube;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class OportunidadeSeeder extends Seeder
 {
-	/**
-	 * Run the database seeds.
-	 */
-	public function run(): void
-	{
+    public function run(): void
+    {
+        // Recupera esportes e posições existentes
+        $futebol = Esporte::where('nomeEsporte', 'Futebol')->first();
+        $volei = Esporte::where('nomeEsporte', 'Vôlei')->first();
+        $basquete = Esporte::where('nomeEsporte', 'Basquete')->first();
 
-		$esporte = Esporte::first();
-		if (!$esporte) {
-			$esporte = Esporte::create(['nomeEsporte' => 'Futebol']);
-		}
+        // Se alguma estiver faltando, evita erro
+        if (!$futebol || !$volei || !$basquete) {
+            $this->command->warn('⚠️ Alguns esportes não foram encontrados. Rode o EsporteSeeder e PosicaoSeeder primeiro.');
+            return;
+        }
 
-		$posicao = Posicao::first();
-		if (!$posicao) {
-			$posicao = Posicao::create(['nomePosicao' => 'Atacante']);
-		}
+        // Busca posições existentes por esporte
+        $posFutebol = Posicao::where('idEsporte', $futebol->id)->inRandomOrder()->first();
+        $posVolei = Posicao::where('idEsporte', $volei->id)->inRandomOrder()->first();
+        $posBasquete = Posicao::where('idEsporte', $basquete->id)->inRandomOrder()->first();
 
-		$clube = Clube::where('nomeClube', 'Vasco')->first();
-		if (!$clube) {
+        $oportunidades = [
+            // Clube 1
+            [
+                'descricaoOportunidades' => 'Seleção para jogadores sub-18 de futebol.',
+                'datapostagemOportunidades' => Carbon::now(),
+                'esporte_id' => $futebol->id,
+                'posicoes_id' => $posFutebol?->id,
+                'clube_id' => 1,
+                'idadeMinima' => 16,
+                'idadeMaxima' => 18,
+                'estadoOportunidade' => 'SP',
+                'cidadeOportunidade' => 'São Paulo',
+                'enderecoOportunidade' => 'Av. Paulista, 1000',
+                'cepOportunidade' => '01000-000',
+            ],
+            [
+                'descricaoOportunidades' => 'Procura-se goleiro para categoria amadora de futebol.',
+                'datapostagemOportunidades' => Carbon::now(),
+                'esporte_id' => $futebol->id,
+                'posicoes_id' => $posFutebol?->id,
+                'clube_id' => 1,
+                'idadeMinima' => 18,
+                'idadeMaxima' => 25,
+                'estadoOportunidade' => 'SP',
+                'cidadeOportunidade' => 'Campinas',
+                'enderecoOportunidade' => 'Rua das Flores, 45',
+                'cepOportunidade' => '13000-200',
+            ],
 
-			$clube = Clube::firstOrCreate([
-				'nomeClube' => 'Clube Exemplo'
-			], [
-				'cidadeClube' => 'São Paulo',
-				'estadoClube' => 'SP',
-				'anoCriacaoClube' => '2000-01-01',
-				'cnpjClube' => '00.000.000/0000-00',
-				'enderecoClube' => 'Rua Exemplo, 123',
-				'bioClube' => 'Clube exemplo para seeds',
-				'senhaClube' => Hash::make('senha123'),
-			]);
-		}
+            // Clube 2
+            [
+                'descricaoOportunidades' => 'Seleção de novos jogadores de vôlei masculino.',
+                'datapostagemOportunidades' => Carbon::now(),
+                'esporte_id' => $volei->id,
+                'posicoes_id' => $posVolei?->id,
+                'clube_id' => 2,
+                'idadeMinima' => 17,
+                'idadeMaxima' => 22,
+                'estadoOportunidade' => 'RJ',
+                'cidadeOportunidade' => 'Rio de Janeiro',
+                'enderecoOportunidade' => 'Av. Atlântica, 500',
+                'cepOportunidade' => '22000-000',
+            ],
+            [
+                'descricaoOportunidades' => 'Procura-se levantador para equipe de vôlei universitário.',
+                'datapostagemOportunidades' => Carbon::now(),
+                'esporte_id' => $volei->id,
+                'posicoes_id' => $posVolei?->id,
+                'clube_id' => 2,
+                'idadeMinima' => 19,
+                'idadeMaxima' => 25,
+                'estadoOportunidade' => 'RJ',
+                'cidadeOportunidade' => 'Niterói',
+                'enderecoOportunidade' => 'Rua do Esporte, 88',
+                'cepOportunidade' => '24000-000',
+            ],
 
-		$today = now()->toDateString();
+            // Clube 3
+            [
+                'descricaoOportunidades' => 'Treinamento de jovens talentos no basquete feminino.',
+                'datapostagemOportunidades' => Carbon::now(),
+                'esporte_id' => $basquete->id,
+                'posicoes_id' => $posBasquete?->id,
+                'clube_id' => 3,
+                'idadeMinima' => 15,
+                'idadeMaxima' => 20,
+                'estadoOportunidade' => 'MG',
+                'cidadeOportunidade' => 'Belo Horizonte',
+                'enderecoOportunidade' => 'Rua da Arena, 300',
+                'cepOportunidade' => '30100-000',
+            ],
+        ];
 
-		$oportunidades = [
-			[
-				'descricaoOportunidades' => 'Vaga para atacante juvenil - treino intensivo',
-				'datapostagemOportunidades' => $today,
-				'esporte_id' => $esporte->id,
-				'posicoes_id' => $posicao->id,
-				'clube_id' => $clube->id,
-				'idadeMinima' => 15,
-				'idadeMaxima' => 18,
-				'estadoOportunidade' => 'SP',
-				'cidadeOportunidade' => 'São Paulo',
-				'enderecoOportunidade' => 'Rua Exemplo, 10',
-				'cepOportunidade' => '01311-000',
-			],
-			[
-				'descricaoOportunidades' => 'Oportunidade para goleiro sub-20',
-				'datapostagemOportunidades' => $today,
-				'esporte_id' => $esporte->id,
-				'posicoes_id' => $posicao->id,
-				'clube_id' => $clube->id,
-				'idadeMinima' => 17,
-				'idadeMaxima' => 20,
-				'estadoOportunidade' => 'SP',
-				'cidadeOportunidade' => 'Santos',
-				'enderecoOportunidade' => 'Av. Teste, 45',
-				'cepOportunidade' => '11010-000',
-			],
-			[
-				'descricaoOportunidades' => 'Seleção aberta para meio-campo adulto',
-				'datapostagemOportunidades' => $today,
-				'esporte_id' => $esporte->id,
-				'posicoes_id' => $posicao->id,
-				'clube_id' => $clube->id,
-				'idadeMinima' => 20,
-				'idadeMaxima' => 30,
-				'estadoOportunidade' => 'RJ',
-				'cidadeOportunidade' => 'Rio de Janeiro',
-				'enderecoOportunidade' => 'Praça Exemplo, 1',
-				'cepOportunidade' => '20010-000',
-			],
-		];
+        foreach ($oportunidades as $dados) {
+            Oportunidade::create($dados);
+        }
 
-		foreach ($oportunidades as $op) {
-			Oportunidade::create($op);
-		}
-	}
+        $this->command->info('✅ 5 oportunidades criadas com sucesso!');
+    }
 }
-
