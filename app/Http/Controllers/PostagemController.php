@@ -75,9 +75,15 @@ class PostagemController extends Controller
     } // php artisan storage:link
 
 
-    /**
-     * Display the specified resource.
-     */
+    public function showUserPosts($userId)
+    {
+        $postagens = Postagem::with(['tags', 'imagens', 'usuario'])
+            ->where('idUsuario', $userId)
+            ->get();
+
+        return response()->json($postagens, 200);
+    }
+    
     public function show(string $id)
     {
         $postagem = Postagem::with(['tags', 'imagens', 'usuario'])->find($id);

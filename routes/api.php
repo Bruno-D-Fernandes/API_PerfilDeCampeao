@@ -48,6 +48,7 @@ Route::prefix('usuario')->group(function () {
 
         // Postagem protegida
         Route::post('/postagem', [PostagemController::class, 'store']);
+        Route::get('/postagem/user/{userId}', [PostagemController::class, 'showUserPosts']); // Rota para pegar posts de um usuário específico
 
         // Seguir e deixar de seguir protegidos
         Route::post('/{id}/seguir', [SeguidorController::class, 'seguirUsuario']);
