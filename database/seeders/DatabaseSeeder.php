@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
         ClubeSeeder::class,
         OportunidadeSeeder::class,
         InscricaoSeeder::class,
-    ]);
+        FuncaoSeeder::class,
+        ]);
     }
 }

@@ -22,7 +22,7 @@ class NotificacoesController extends Controller
         ]);
     }
 
-    public function markAsRead($id)
+    public function marcarComoLida($id)
     {
         $notificavel = auth()->user();
 
@@ -36,7 +36,7 @@ class NotificacoesController extends Controller
         return response()->json(['message' => 'Notificação não encontrada'], 404);
     }
 
-    public function markAllAsRead()
+    public function marcarTodasComoLidas()
     {
         $notificavel = auth()->user();
 

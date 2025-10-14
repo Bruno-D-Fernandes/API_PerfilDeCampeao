@@ -17,20 +17,15 @@ return new class extends Migration
             $table->string('emailUsuario', 255)->unique();
             $table->string('senhaUsuario', 255);
             $table->date('dataNascimentoUsuario');
-            $table->string('generoUsuario', 50);
-            $table->string('estadoUsuario', 100);
-            $table->string('cidadeUsuario', 100);
-            $table->text('bioUsuario')->nullable();
-
-            $table->integer('alturaCm');
-            $table->float('pesoKg');
-            $table->string('peDominante', 50);
-            $table->string('maoDominante', 50);
-
-            //Fotos
+            $table->string('generoUsuario', 50)->nullable();;
+            $table->string('estadoUsuario', 100)->nullable();;
+            $table->string('cidadeUsuario', 100)->nullable();;
+            $table->integer('alturaCm')->nullable();;
+            $table->float('pesoKg')->nullable();;
+            $table->string('peDominante', 50)->nullable();;
+            $table->string('maoDominante', 50)->nullable();;
             $table->string('fotoPerfilUsuario')->nullable();
             $table->string('fotoBannerUsuario')->nullable();
-            
             $table->timestamps();
         });
     }

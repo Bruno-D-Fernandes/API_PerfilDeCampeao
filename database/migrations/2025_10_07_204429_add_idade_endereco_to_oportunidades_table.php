@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('enderecoOportunidade', 255)->nullable(); // Rua/Av, nº, etc
             $table->string('cepOportunidade', 9)->nullable();        // Ex: 01311-000
 
-             $table->index(['esporte_id', 'posicoes_id']);
+            $table->index(['esporte_id', 'posicoes_id']);
         });
     }
 

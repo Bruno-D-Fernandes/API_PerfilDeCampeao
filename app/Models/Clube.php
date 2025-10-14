@@ -18,13 +18,16 @@ class Clube extends Authenticatable
 
     protected $fillable = [
         'nomeClube',
+        'cnpjClube',
+        'emailClube',
         'cidadeClube',
         'estadoClube',
         'anoCriacaoClube',
-        'cnpjClube',
         'enderecoClube',
         'bioClube',
         'senhaClube',
+        'fotoPerfilClube',
+        'fotoBannerClube',
     ];
 
     function esportes()
@@ -32,9 +35,9 @@ class Clube extends Authenticatable
         return $this->belongsToMany(Esporte::class);
     }
     
-    public function usuarios()
+    public function membros()
     {
-        return $this->belongsToMany(Usuario::class);
+        return $this->belongsToMany(Usuario::class, 'clubes_usuario', 'clube_id')->withPivot('esporte_id', 'funcao_id');
     }
 
     public function seguidores()

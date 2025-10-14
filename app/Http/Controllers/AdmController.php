@@ -7,8 +7,10 @@ use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Models\Esporte;
-use App\Models\Posicao;
- 
+use App\Models\Funcao;
+use App\Models\Posicao; 
+use Illuminate\Validation\Rule;
+
 class AdmController extends Controller
 {
      public function loginAdm(Request $request)
@@ -20,7 +22,7 @@ class AdmController extends Controller
                 return response()->json(['message' => 'Credenciais inválidas'], 401);
             }
 
-            $token = $user->createToken('auth_token',['adm'], null, 'adm_sanctum')->plainTextToken;
+            $token = $user->createToken('auth_token', ['adm'], null, 'adm_sanctum')->plainTextToken;
 
             return response()->json([
             'access_token' => "Bearer $token"
@@ -160,5 +162,73 @@ class AdmController extends Controller
         $posicao = Posicao::findOrFail($id);
         $posicao->delete();
         return response()->json(['ok' => true]);
+    }
+
+    /* Adicionando função aqui (Esse controller fere todos os príncipios de responsabilidade e POO) */
+
+    public function storeFuncao(Request $request) 
+    {
+        try {
+            $validatedData = $request->validate([
+                'nomeFuncao' => 'required|unique:funcoes|string|max:100',
+                'descricaoFuncao' => 'nullable|string|max:255',
+            ]);
+
+            $funcao = Funcao::create([
+                'nomeFuncao' => $validatedData['nomeFuncao'],
+                'descricaoFuncao' => $validatedData['descricaoFuncao'] ?? null
+            ]);
+
+            return response()->json($funcao, 201);
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao cadastrar função',
+                'message' => $e->getMessage()
+            ], 500);  
+        }
+    }
+
+    public function listarFuncoes(Request $request)
+    {
+        $perPage = $request->query('per_page', 15);
+
+        $funcoes = Funcao::latest()->paginate($perPage);
+
+        return response()->json($funcoes);
+    }
+
+    public function updateFuncao(Request $request, string $id)
+    {
+        try {
+            $funcao = Funcao::findOrFail($id);
+
+            $validatedData = $request->validate([
+                'nomeFuncao' => ['sometimes', 'string', 'max:255', Rule::unique('funcoes', 'nomeFuncao')->ignore($funcao->id)],
+                'descricaoFuncao'   => 'nullable|string|max:255',
+            ]);
+
+            $funcao->update($validatedData);
+
+            return response()->json($funcao->fresh(), 200);
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao atualizar função',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function destroyFuncao(Request $request, string $id)
+    {
+        try {
+            $funcao = Funcao::findOrFail($id);
+            $funcao->delete();
+            return response()->json(null, 204);
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao deletar a função',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }
