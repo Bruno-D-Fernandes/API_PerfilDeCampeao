@@ -17,7 +17,11 @@ class Posicao extends Model
         'nomePosicao',
         'idEsporte',
     ];
-
+    //não estava conseguindo interligar as posições com os esportes então adicionei esse Relacionamento
+    public function esporte()
+    {
+        return $this->belongsTo(Esporte::class, 'idEsporte');
+    }
     public function perfis()
     {
         return $this->belongsToMany(Perfil::class, 'perfil_posicao')

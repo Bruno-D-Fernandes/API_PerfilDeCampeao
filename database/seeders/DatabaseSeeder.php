@@ -8,6 +8,10 @@ use \Database\Seeders\CategoriaSeeder;
 use \Database\Seeders\EsporteSeeder;
 use \Database\Seeders\PosicaoSeeder;
 use \Database\Seeders\AdminSeeder;
+use \Database\Seeders\ClubeSeeder;
+use \Database\Seeders\AtletaSeeder;
+use \Database\Seeders\OportunidadeSeeder;
+use \Database\Seeders\InscricaoSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,6 +26,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
         $this->call([
         AdminSeeder::class,
         EsporteSeeder::class,
@@ -30,6 +35,7 @@ class DatabaseSeeder extends Seeder
         CaracteristicaSeeder::class,
         ClubeSeeder::class,
         OportunidadeSeeder::class,
+        InscricaoSeeder::class,
     ]);
     }
 }

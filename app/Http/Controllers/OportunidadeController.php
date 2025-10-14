@@ -139,6 +139,9 @@ class OportunidadeController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+        
     }
+    
+
     
 }
