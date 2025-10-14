@@ -58,4 +58,65 @@ class AuthUserController extends Controller
             ], 500);
         }
     }
+
+    public function deleteAccount(Request $request)
+    {
+        try {
+            $user = $request->user();
+            if (!$user instanceof Usuario) {
+                return response()->json(['message' => 'Usuário não encontrado'], 404);
+            }
+            $user->delete();
+            return response()->json(['message' => 'Conta do usuário excluida com sucesso'], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Ocorreu um erro ao deletar a conta',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateAccount(Request $request)
+    {
+        try {
+           $user = $request->user();
+
+            if (!$user instanceof Usuario) {
+                return response()->json(['message' => 'Não autenticado'], 401);
+            }
+
+            $validatedData = $request->validate([
+                'nomeCompletoUsuario'   => 'sometimes|required|string|max:255',
+                'emailUsuario'          => 'sometimes|required|email|unique:usuarios,emailUsuario,' . $user->id,
+                'senhaUsuario'          => 'sometimes|required|string|min:3|confirmed',
+                'dataNascimentoUsuario' => 'sometimes|required|date',
+                'generoUsuario'         => 'sometimes|nullable|string|max:100',
+                'estadoUsuario'         => 'sometimes|nullable|string|max:100',
+                'cidadeUsuario'         => 'sometimes|nullable|string|max:100',
+                'alturaCm'              => 'sometimes|nullable|numeric|min:50|max:300',
+                'pesoKg'                => 'sometimes|nullable|numeric|min:20|max:500',
+                'peDominante'           => 'sometimes|nullable|in:direito,esquerdo',
+                'maoDominante'          => 'sometimes|nullable|in:destro,canhoto',
+                'categoria_id'          => 'sometimes|nullable|exists:categorias,id',
+            ]);
+
+            if (!empty($validatedData['senhaUsuario'])) {
+                $validatedData['senhaUsuario'] = Hash::make($validatedData['senhaUsuario']);
+            }
+
+            $user->update($validatedData);
+
+            $user->makeHidden(['senhaUsuario']);
+
+            return response()->json([
+                'message' => 'Conta atualizada com sucesso',
+                'user'    => $user
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Ocorreu um erro ao atualizar a conta',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

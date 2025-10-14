@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('clubes', function (Blueprint $table) {
+
             $table->id();
+
             $table->string('nomeClube')->unique();
             $table->string('cnpjClube')->unique();
             $table->string('emailClube')->unique();
@@ -20,11 +22,11 @@ return new class extends Migration
             $table->string('estadoClube');
             $table->date('anoCriacaoClube');
             $table->string('enderecoClube');
-            $table->string('bioClube');
+            $table->text('bioClube')->nullable();
             $table->string('senhaClube', 255);
             $table->string('emailClube');
             $table->foreignId('categoria_id')->references('id')->on('categorias');
-            $table->foreignId('idEsporte')->references('id')->on('esportes')->onDelete('cascade');
+            $table->foreignId('esporte_id')->references('id')->on('esportes')->onDelete('cascade'); // ou 'idEsporte'
             $table->string('fotoPerfilClube')->nullable();
             $table->string('fotoBannerClube')->nullable();
             $table->timestamps();

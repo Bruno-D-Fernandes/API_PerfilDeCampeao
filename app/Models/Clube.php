@@ -30,6 +30,7 @@ class Clube extends Authenticatable
         'fotoBannerClube',
     ];
 
+
     function esportes()
     {
         return $this->belongsToMany(Esporte::class);

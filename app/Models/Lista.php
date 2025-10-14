@@ -14,17 +14,19 @@ class Lista extends Model
     protected $table = 'listas';
 
     protected $fillable = [
-        'nomeLista',
-        'descricaoLista',
+        'nome',
+        'descricao',
+        'clube_id',
     ];
 
-    public function clube ()
+    public function clube()
     {
-        return $this->belongsTo(Clube::class, 'clube_id');
+        return $this->belongsTo(\App\Models\Clube::class, 'clube_id');
     }
+
     public function usuarios()
     {
-        return $this->belongsToMany(Usuario::class, 'lista_usuario', 'lista_id', 'usuario_id')
+        return $this->belongsToMany(\App\Models\Usuario::class, 'lista_usuario', 'lista_id', 'usuario_id')
             ->withTimestamps();
     }
 }

@@ -40,9 +40,10 @@ class InscricaoOportunidadeController extends Controller
     }
 
     // USUÁRIO: minhas inscrições
-    public function minhas(Request $request)
+    public function myOportunidadesUsuario(Request $request)
     {
         $user = $request->user();
+        $per_page = $request->query('per_page', 15);
         if (!$user || !($user instanceof Usuario)) {
             return response()->json(['message' => 'Somente usuário autenticado'], 403);
         }
@@ -80,7 +81,6 @@ class InscricaoOportunidadeController extends Controller
             ->orderByDesc('created_at')
             ->paginate(30);
 
-        // Formata saída estilo do seu print (nome, modalidade-posicao, cidade/estado, idade)
         $mapped = $inscritos->getCollection()->map(function($row) use ($op) {
             $u = $row->usuario;
             return [
@@ -92,8 +92,6 @@ class InscricaoOportunidadeController extends Controller
                 'local'        => ($u->cidadeUsuario ? $u->cidadeUsuario.' - ' : '') . ($u->estadoUsuario ?? ''),
                 'idade'        => $u->dataNascimentoUsuario ? Carbon::parse($u->dataNascimentoUsuario)->age . ' anos' : null,
                 'status'       => $row->status,
-                // se quiser, adicione link pro perfil
-                // 'perfil_url' => route('usuario.show', $u->id) // se existir
             ];
         });
 
@@ -125,7 +123,6 @@ class InscricaoOportunidadeController extends Controller
         return response()->json(['ok' => true]);
     }
 
-    // USUÁRIO: cancelar a própria inscrição (opcional)
     public function cancelar(Request $request, $oportunidadeId)
     {
         $user = $request->user();
@@ -138,6 +135,21 @@ class InscricaoOportunidadeController extends Controller
 
         $insc->delete();
         return response()->json(['ok' => true]);
+    }
+
+    public function myOportunidadesClube(Request $request)
+    {
+        $clube = $request->user();
+        $per_page = $request->query('per_page', 15);
+
+        $q = Oportunidade::where('clube_id', $clube->id)
+            ->with(['esporte','posicao'])
+            ->orderByDesc('id');
+
+        if($s = $request->query('status')){
+            $q->where('status', $s);
+        }
+        return response()->json($q->paginate($per_page));
     }
 }
 

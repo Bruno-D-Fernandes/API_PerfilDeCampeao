@@ -46,6 +46,7 @@ class OportunidadeController extends Controller
                 'esporte_id'                => $validatedData['esporte_id'],
                 'posicoes_id'               => $validatedData['posicoes_id'],
                 'clube_id'                  => $clube->id,
+                'status'                    => Oportunidade::STATUS_PENDING,
                 'idadeMinima'               => $validatedData['idadeMinima']        ?? null,
                 'idadeMaxima'               => $validatedData['idadeMaxima']        ?? null,
                 'estadoOportunidade'        => $validatedData['estadoOportunidade'] ?? null,
@@ -70,14 +71,14 @@ class OportunidadeController extends Controller
     {
         $perPage = $request->query('per_page', 15);
 
-        $oportunidades = Oportunidade::with(['esporte', 'posicao', 'clube'])->paginate($perPage);
+        $oportunidades = Oportunidade::approved()->with(['esporte', 'posicao', 'clube'])->paginate($perPage);
         
         return response()->json($oportunidades, 200);
     }
 
     public function show($id)
     {
-        $oportunidade = Oportunidade::with(['esporte', 'posicao', 'clube'])->find($id);
+        $oportunidade = Oportunidade::approved()->with(['esporte', 'posicao', 'clube'])->find($id);
 
         if (!$oportunidade) {
             return response()->json(['message' => 'Oportunidade não encontrada'], 404);
@@ -104,11 +105,28 @@ class OportunidadeController extends Controller
             'datapostagemOportunidades' => 'sometimes|required|date',
             'esporte_id'                => 'sometimes|required|exists:esportes,id',
             'posicoes_id'               => 'sometimes|required|exists:posicoes,id',
+            'idadeMinima'               => 'sometimes|integer|min:0|max:120',
+            'idadeMaxima'               => 'sometimes|integer|min:0|max:120|gte:idadeMinima',
+            'estadoOportunidade'        => 'sometimes|string|size:2',
+            'cidadeOportunidade'        => 'sometimes|string|max:100',
+            'enderecoOportunidade'      => 'sometimes|string|max:255',
+            'cepOportunidade'           => 'sometimes|string|max:9',
         ]);
+
+         if ($oportunidade->status === Oportunidade::STATUS_REJECTED || $oportunidade->status === Oportunidade::STATUS_APPROVED) {
+            $oportunidade->status = \App\Models\Oportunidade::STATUS_PENDING;
+            $oportunidade->reviewed_by = null;
+            $oportunidade->reviewed_at = null;
+            $oportunidade->rejection_reason = null;
+        }
+        $oportunidade->fill($validatedData)->save();
 
         try {
             $oportunidade->update($validatedData);
-            return response()->json($oportunidade, 200);
+            return response()->json([
+            'message' => 'Oportunidade atualizada',
+            'data'    => $oportunidade->load(['esporte','posicoes','clube']),
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Erro interno ao atualizar oportunidade',
