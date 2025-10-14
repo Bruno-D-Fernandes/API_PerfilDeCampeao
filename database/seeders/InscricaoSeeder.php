@@ -13,11 +13,8 @@ class InscricaoSeeder extends Seeder
      */
     public function run(): void
     {
-
-
         $inscricao = [
-            ['id' => 1, 'oportunidade_id' => 1, 'usuario_id' => 1, 'status' => 'nsei oque é isso', 'created_at' => '2025-10-11 18:19:03' ],
-            ['id' => 2, 'oportunidade_id' => 2, 'usuario_id' => 2, 'status' => 'nsei oque éé isso', 'created_at' => '2025-10-11 18:19:03' ],
+            ['id' => 1, 'oportunidade_id' => 1, 'usuario_id' => 1, 'status' => 'approved'],
         ];
 
 foreach ($inscricao as $data) {

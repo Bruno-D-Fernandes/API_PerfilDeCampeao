@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Usuario;
 use Illuminate\Database\Seeder;
 use \Database\Seeders\CategoriaSeeder;
 use \Database\Seeders\EsporteSeeder;
@@ -29,6 +31,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
         AdminSeeder::class,
+        UsuarioSeeder::class,
         EsporteSeeder::class,
         PosicaoSeeder::class,
         CategoriaSeeder::class,

@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('enderecoClube');
             $table->text('bioClube')->nullable();
             $table->string('senhaClube', 255);
-            $table->string('emailClube');
             $table->foreignId('categoria_id')->references('id')->on('categorias');
             $table->foreignId('esporte_id')->references('id')->on('esportes')->onDelete('cascade'); // ou 'idEsporte'
             $table->string('fotoPerfilClube')->nullable();
