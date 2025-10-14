@@ -12,12 +12,20 @@ body {
     line-height: 1.6;
 }
 
+/* ======================================= */
+/* ========== VARIÁVEIS CSS ============== */
+/* ======================================= */
+:root {
+    --sidebar-width-expanded: 250px;
+    --sidebar-width-collapsed: 90px;
+}
+
+/* Container principal */
 /* Container principal */
 .container {
     display: flex;
     min-height: 100vh;
 }
-
 /* Sidebar */
 .sidebar {
     width: 250px;
@@ -78,7 +86,8 @@ body {
 .nav-icon {
     margin-right: 12px;
     font-size: 18px;
-    width: 20px;
+    width: 22px;
+    height: 22px;
     text-align: center;
 }
 
@@ -814,14 +823,7 @@ body {
 }
 
 /* Estilos para ícones de imagem na sidebar */
-.nav-link img.nav-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 12px;
-    object-fit: contain;
-    filter: brightness(0) saturate(100%) invert(50%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(102%) contrast(102%);
-    transition: filter 0.2s ease;
-}
+
 
 .nav-item.active .nav-link img.nav-icon {
     filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
@@ -834,6 +836,8 @@ body {
 .nav-item.active .nav-link:hover img.nav-icon {
     filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
 }
+
+
 
 /* Estilos específicos para a página de pesquisa */
 .search-page {
@@ -2204,4 +2208,133 @@ body.dark-theme .btn-secondary:hover {
     background-color: #444;
     border-color: #666;
     color: #fff;
+}
+/* Reset e configurações básicas */
+.sidebar {
+    width: var(--sidebar-width-collapsed);
+    background-color: #ffffff;
+    border-right: 1px solid #e9ecef;
+    padding: 20px 0;
+    position: fixed;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar:hover {
+    width: var(--sidebar-width-expanded);
+}
+
+.logo-section {
+    padding: 0 20px 30px;
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+}
+
+.logo-section img {
+    display: none;
+    width: 180px;
+    border-radius: 20px;
+}
+
+.sidebar:hover .logo-section img {
+    display: block;
+}
+
+/* Ícone quando sidebar está colapsada */
+.logo-section::before {
+    content: 'mini logo ';
+    font-size: 32px;
+    display: block;
+}
+
+.sidebar:hover .logo-section::before {
+    display: none;
+}
+
+.nav-menu ul {
+    list-style: none;
+}
+
+.nav-item {
+    margin-bottom: 4px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #666;
+    transition: all 0.2s ease;
+    border-radius: 0 25px 25px 0;
+    margin-right: 20px;
+}
+
+.sidebar:hover .nav-link {
+    justify-content: flex-start;
+}
+
+.nav-link:hover {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.nav-item.active .nav-link {
+    background-color: #74d477;
+    color: white;
+}
+
+.nav-icon {
+ margin-right: 0;
+    font-size: 18px;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    filter: brightness(0) saturate(100%) invert(50%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(102%) contrast(102%);
+    transition: all 0.3s ease;
+}
+
+.sidebar:hover .nav-icon {
+    margin-right: 12px;
+}
+
+.nav-text {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    visibility: hidden;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+    display: none;
+}
+
+.sidebar:hover .nav-text {
+    opacity: 1;
+    visibility: visible;
+    display: inline;
+    transition-delay: 0.1s;
+}
+
+/* ======================================= */
+/* ========= CONTEÚDO PRINCIPAL ========== */
+/* ======================================= */
+.main-content {
+    margin-left: var(--sidebar-width-collapsed);
+    flex: 1;
+    padding: 30px;
+    transition: margin-left 0.3s ease;
+    width: calc(100% - var(--sidebar-width-collapsed));
+}
+
+.sidebar:hover ~ .main-content {
+    margin-left: var(--sidebar-width-expanded);
+    width: calc(100% - var(--sidebar-width-expanded));
 }

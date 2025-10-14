@@ -13,7 +13,7 @@ class OportunidadeSeeder extends Seeder
 {
     public function run(): void
     {
-        // Recupera esportes e posições existentes
+        // Pega esportes e posições existentes
         $futebol = Esporte::where('nomeEsporte', 'Futebol')->first();
         $volei = Esporte::where('nomeEsporte', 'Vôlei')->first();
         $basquete = Esporte::where('nomeEsporte', 'Basquete')->first();

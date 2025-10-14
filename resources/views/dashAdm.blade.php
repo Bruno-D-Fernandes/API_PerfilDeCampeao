@@ -27,7 +27,7 @@
                     <li class="active"><a href="#"><ion-icon name="grid-outline"></ion-icon> Dashboard</a></li>
                     <li><a href="/usuarios"><ion-icon name="people-outline"></ion-icon> Usuários <ion-icon class="chevron" name="chevron-down-outline"></ion-icon></a></li>
                     <li><a href="esporte"><ion-icon name="football-outline"></ion-icon> Esportes</a></li>
-                    <li><a href="oportunidades"><ion-icon name="briefcase-outline"></ion-icon> Oportunidades</a></li>
+                    <li><a href="oportunidadesAdm"><ion-icon name="briefcase-outline"></ion-icon> Oportunidades</a></li>
                     <li><a href="#"><ion-icon name="list-outline"></ion-icon> Listas</a></li>
                     <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon> Denúncias <ion-icon class="chevron" name="chevron-down-outline"></ion-icon></a></li>
                     <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> Conteúdo <ion-icon class="chevron" name="chevron-down-outline"></ion-icon></a></li>

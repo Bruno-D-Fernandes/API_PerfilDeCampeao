@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Gerenciar Oportunidades</title>
+    <link rel="stylesheet" href="./css/oportunidadesClub.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,323 +13,78 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
     <style>
-        /* CSS COMPLETO E UNIFICADO */
-        :root {
-            --primary-blue: #3B82F6;
-            --text-dark: #1F2937;
-            --text-light: #6B7280;
-            --bg-light: #F9FAFB;
-            --bg-white: #FFFFFF;
-            --border-color: #E5E7EB;
-            --logout-red: #EF4444;
-            --action-view: #3B82F6;
-            --action-edit: #8B5CF6;
-            --action-delete: #EF4444;
-            --green-text: #16A34A;
-            --green-bg: #DCFCE7;
-            --sidebar-width-expanded: 250px;
-            --sidebar-width-collapsed: 80px;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-        }
-
-        .dashboard-container { display: flex; min-height: 100vh; }
-
-        .main-content {
-            margin-left: var(--sidebar-width-collapsed);
-            flex-grow: 1;
-            padding: 24px 32px;
-            transition: margin-left 0.3s ease;
-        }
-
-        body.sidebar-expanded .main-content {
-            margin-left: var(--sidebar-width-expanded);
-        }
-
-        .sidebar {
-            width: var(--sidebar-width-collapsed);
-            background-color: var(--bg-white);
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            padding: 24px 12px;
-            position: fixed;
-            height: 100%;
-            left: 0;
-            top: 0;
-            transition: width 0.3s ease;
-            overflow-x: hidden;
-        }
-
-        .sidebar:hover {
-            width: var(--sidebar-width-expanded);
-        }
-
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 50px;
-            margin-bottom: 24px;
-            padding: 0 12px;
-        }
-
-        .sidebar:hover .sidebar-header {
-            justify-content: flex-start;
-        }
-
-        #logo-expanded {
-            display: none;
-            width: 150px;
-            border-radius: 20px;
-        }
-        #logo-collapsed {
-            display: block;
-            font-size: 28px;
-            color: var(--primary-blue);
-        }
-
-        .sidebar:hover #logo-expanded { display: block; }
-        .sidebar:hover #logo-collapsed { display: none; }
-
-        .sidebar-nav { flex-grow: 1; }
-
-        .menu-title, .nav-text, .chevron {
-            opacity: 0;
-            visibility: hidden;
-            white-space: nowrap;
-            transition: opacity 0.2s ease;
-            display: none;
-        }
-
-        .sidebar:hover .menu-title,
-        .sidebar:hover .nav-text,
-        .sidebar:hover .chevron {
-            opacity: 1;
-            visibility: visible;
-            display: inline;
-            transition-delay: 0.1s;
-        }
-
-        .sidebar-nav ul, .sidebar-footer ul { list-style: none; padding: 0; }
-
-        .sidebar-nav li a, .sidebar-footer li a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 12px;
-            margin-bottom: 4px;
-            border-radius: 6px;
-            text-decoration: none;
-            color: var(--text-light);
-            transition: background-color 0.2s;
-        }
-
-        .sidebar:hover .sidebar-nav li a,
-        .sidebar:hover .sidebar-footer li a {
-            justify-content: flex-start;
-        }
-
-        .sidebar-nav li a:hover { background-color: var(--bg-light); color: var(--text-dark); }
-        .sidebar-nav li.active a { background-color: var(--primary-blue); color: var(--bg-white); }
-
-        .sidebar-nav li a ion-icon, .sidebar-footer li a ion-icon {
-            font-size: 22px;
-            min-width: 32px;
-            text-align: center;
-            transition: margin-right 0.3s ease;
-        }
-
-        .sidebar:hover .sidebar-nav li a ion-icon,
-        .sidebar:hover .sidebar-footer li a ion-icon {
-            margin-right: 12px;
-        }
-
-        .sidebar-footer { padding-top: 16px; border-top: 1px solid var(--border-color); }
-        .sidebar-footer li a.logout { color: var(--logout-red); }
-
-        .main-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .page-title { font-size: 28px; font-weight: 700; }
-        .user-menu { display: flex; align-items: center; gap: 16px; }
-        .icon-button { background: none; border: none; cursor: pointer; color: var(--text-light); padding: 4px; font-size: 24px; }
-        .user-profile { display: flex; align-items: center; gap: 12px; background-color: var(--bg-white); padding: 6px 12px 6px 6px; border-radius: 999px; border: 1px solid var(--border-color); font-weight: 500; }
-        .user-profile .avatar { width: 32px; height: 32px; border-radius: 50%; background-color: var(--primary-blue-light); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .content-body { background-color: var(--bg-white); border-radius: 12px; padding: 24px; border: 1px solid var(--border-color); }
-        .toolbar { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-        .search-bar { flex-grow: 1; position: relative; }
-        .search-bar ion-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: var(--text-light); }
-        .search-bar input { width: 100%; padding: 10px 16px 10px 44px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-light); font-size: 14px; }
-        .filter-button, .add-button { padding: 10px 16px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-white); font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        .add-button { background-color: var(--text-dark); color: var(--bg-white); }
-        .table-container { width: 100%; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 12px 16px; vertical-align: middle; white-space: nowrap; }
-        thead { border-bottom: 1px solid var(--border-color); }
-        th { font-size: 12px; font-weight: 600; color: var(--text-light); text-transform: uppercase; }
-        tbody tr { border-bottom: 1px solid var(--border-color); }
-        tbody tr:last-child { border-bottom: none; }
-        td { font-size: 14px; color: var(--text-dark); }
-        .action-buttons { display: flex; gap: 8px; }
-        .action-btn { width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--border-color); background-color: var(--bg-white); color: var(--text-light); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-        .action-btn:hover { color: white; }
-        .action-btn.view:hover { background-color: var(--action-view); }
-        .action-btn.edit:hover { background-color: var(--action-edit); }
-        .action-btn.delete:hover { background-color: var(--action-delete); }
-        .tag { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 500; }
-        .tag-status-ativo { background-color: var(--green-bg); color: var(--green-text); }
-        .club-cell { display: flex; align-items: center; gap: 12px; }
-        .club-avatar { width: 32px; height: 32px; border-radius: 50%; background-color: var(--primary-blue-light); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; font-size: 20px; }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background-color: var(--bg-white);
-            padding: 32px;
-            border-radius: 12px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .modal-title {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 28px;
-            cursor: pointer;
-            color: var(--text-light);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--text-dark);
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .submit-button {
-            width: 100%;
-            padding: 12px;
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .submit-button:hover {
-            opacity: 0.9;
-        }
-
-        .submit-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .error-message {
-            color: var(--logout-red);
-            font-size: 12px;
-            margin-top: 4px;
-        }
-
-        .success-message {
-            color: var(--green-text);
-            background-color: var(--green-bg);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-        }
+        #Logo{
+        width: 150px;
+        border-radius: 20px;
+    }
     </style>
 </head>
 <body>
-    <div class="dashboard-container">
+    <div class="container">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <div class="sidebar-header">
-                <img id="logo-expanded" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo Completa">
-                <ion-icon id="logo-collapsed" name="football-outline"></ion-icon>
+            <div class="logo-section">
+                <img id="Logo" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil">
             </div>
-            <nav class="sidebar-nav">
+            
+            <nav class="nav-menu">
                 <ul>
-                    <li><a href="dashAdm"><ion-icon name="grid-outline"></ion-icon> <span class="nav-text">Dashboard</span></a></li>
-                    <li><a href="usuarios"><ion-icon name="people-outline"></ion-icon> <span class="nav-text">Usuários</span></a></li>
-                    <li><a href="esporte"><ion-icon name="football-outline"></ion-icon> <span class="nav-text">Esportes</span></a></li>
-                    <li class="active"><a href="#"><ion-icon name="briefcase-outline"></ion-icon> <span class="nav-text">Oportunidades</span></a></li>
-                    <li><a href="#"><ion-icon name="list-outline"></ion-icon> <span class="nav-text">Listas</span></a></li>
-                    <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon> <span class="nav-text">Denúncias</span></a></li>
-                    <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> <span class="nav-text">Conteúdo</span></a></li>
-                    <li><a href="#"><ion-icon name="stats-chart-outline"></ion-icon> <span class="nav-text">Estatísticas</span></a></li>
+                    <li class="nav-item">
+                        <a href="dashClub" class="nav-link">
+                            <span class="nav-icon"><img class="nav-icon" src="./img/dashboard.png" alt=""></span>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="oportunidades" class="nav-link">
+                            <img class="nav-icon" src="./img/oportunidades.png" alt="Perfil">
+                            <span class="nav-text">Oportunidades</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="lista" class="nav-link">
+                            <img class="nav-icon" src="./img/vector.png" alt="Lista">
+                            <span class="nav-text">Listas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mensagens" class="nav-link">
+                            <img class="nav-icon" src="./img/mensagem.png" alt="Mensagens">
+                            <span class="nav-text">Mensagens</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="notificacao" class="nav-link">
+                            <img class="nav-icon" src="./img/notificaçao.png" alt="Notificação">
+                            <span class="nav-text">Notificações</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="perfil" class="nav-link">
+                            <img class="nav-icon" src="./img/perfil.png" alt="Perfil">
+                            <span class="nav-text">Perfil</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pesquisa" class="nav-link">
+                            <img class="nav-icon" src="./img/pesquisa.png" alt="Pesquisa">
+                            <span class="nav-text">Pesquisa</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                       <a href="configuracao" class="nav-link">
+                            <img class="nav-icon" src="./img/configuracoes.png" alt="Configurações">
+                            <span class="nav-text">Configurações</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <img class="nav-icon" src="./img/sair.png" alt="Sair">
+                            <span class="nav-text">Sair</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
-            <div class="sidebar-footer">
-                <ul>
-                    <li><a href="#"><ion-icon name="settings-outline"></ion-icon> <span class="nav-text">Configurações</span></a></li>
-                    <li><a href="#" class="logout"><ion-icon name="log-out-outline"></ion-icon> <span class="nav-text">Sair</span></a></li>
-                </ul>
-            </div>
         </aside>
 
         <!-- Conteúdo Principal -->

@@ -11,27 +11,29 @@
 <body>
     <div class="dashboard-container">
         <!-- BARRA LATERAL (Sem alterações) -->
-        <aside class="sidebar">
+<aside class="sidebar">
             <div class="sidebar-header">
-                 <img id="Logo" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil">
+                <!-- Logo completa, visível apenas quando expandido -->
+                <img id="logo-expanded" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo Completa">
+                <!-- Logo ícone, visível apenas quando encolhido -->
+                <ion-icon id="logo-collapsed" name="football-outline"></ion-icon>
             </div>
             <nav class="sidebar-nav">
-                <span class="menu-title">Menu</span>
                 <ul>
-                    <li><a href="dashAdm"><ion-icon name="grid-outline"></ion-icon> Dashboard</a></li>
-                    <li><a href="usuarios"><ion-icon name="people-outline"></ion-icon> Usuários</a></li>
-                    <li class="active"><a href="#"><ion-icon name="football-outline"></ion-icon> Esportes</a></li>
-                    <li><a href=""><ion-icon name="rocket-outline"></ion-icon> Oportunidades</a></li>
-                    <li><a href=""><ion-icon name="list-outline"></ion-icon> Listas</a></li>
-                    <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon> Denúncias</a></li>
-                    <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> Conteúdo</a></li>
-                    <li><a href="#"><ion-icon name="stats-chart-outline"></ion-icon> Estatísticas</a></li>
+                    <li><a href="dashAdm"><ion-icon name="grid-outline"></ion-icon> <span class="nav-text">Dashboard</span></a></li>
+                    <li><a href="usuarios"><ion-icon name="people-outline"></ion-icon> <span class="nav-text">Usuários</span></a></li>
+                    <li class="active"><a href="#"><ion-icon name="football-outline"></ion-icon> <span class="nav-text">Esportes</span></a></li>
+                    <li><a href="oportunidadesAdm"><ion-icon name="rocket-outline"></ion-icon> <span class="nav-text">Oportunidades</span></a></li>
+                    <li><a href=""><ion-icon name="list-outline"></ion-icon> <span class="nav-text">Listas</span></a></li>
+                    <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon> <span class="nav-text">Denúncias</span></a></li>
+                    <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> <span class="nav-text">Conteúdo</span></a></li>
+                    <li><a href="#"><ion-icon name="stats-chart-outline"></ion-icon> <span class="nav-text">Estatísticas</span></a></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
                 <ul>
-                    <li><a href="#"><ion-icon name="settings-outline"></ion-icon> Configurações</a></li>
-                    <li><a href="#" class="logout"><ion-icon name="log-out-outline"></ion-icon> Sair</a></li>
+                    <li><a href="#"><ion-icon name="settings-outline"></ion-icon> <span class="nav-text">Configurações</span></a></li>
+                    <li><a href="#" class="logout"><ion-icon name="log-out-outline"></ion-icon> <span class="nav-text">Sair</span></a></li>
                 </ul>
             </div>
         </aside>
@@ -50,8 +52,6 @@
             </header>
 
             <div class="content-body">
-                <!-- ABAS -->
-
                 <!-- CONTEÚDO DA ABA ESPORTES -->
                 <div id="tab-esportes" class="tab-content active">
                     <div class="toolbar">
@@ -71,34 +71,6 @@
                                 </tr>
                             </thead>
                             <tbody id="esportesTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- CONTEÚDO DA ABA POSIÇÕES -->
-                <div id="tab-posicoes" class="tab-content">
-                    <div class="toolbar">
-                         <div class="filter-container">
-                            <select id="posicaoFilterEsporte" class="form-control">
-                                <option value="">Filtrar por esporte</option>
-                            </select>
-                        </div>
-                        <div class="search-bar">
-                            <input type="text" id="posicaoSearchInput" placeholder="Pesquisar posições...">
-                        </div>
-                        <button class="add-button" id="addPosicaoBtn">Adicionar Posição</button>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Posição</th>
-                                    <th>Esporte</th>
-                                    <th>Data de Cadastro</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="posicoesTableBody"></tbody>
                         </table>
                     </div>
                 </div>
