@@ -57,7 +57,7 @@
                         <div class="avatar">
                             <ion-icon name="person-outline"></ion-icon>
                         </div>
-                        <span>João Pedro</span>
+                        <span>Admin</span>
                     </div>
                 </div>
             </header>

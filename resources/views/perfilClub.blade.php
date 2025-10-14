@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <title>Perfil</title>
     <link rel="stylesheet" href="./css/perfilClub.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <style>
     #Logo{
         width: 150px;
@@ -64,12 +66,7 @@
                             <span class="nav-text">Mensagens</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <img class="nav-icon" src="./img/notificaçao.png" alt="Perfil">
-                            <span class="nav-text">Notificações</span>
-                        </a>
-                    </li>
+                    
                     <li class="nav-item active">
                         <a href="#" class="nav-link">
                             <img class="nav-icon" src="./img/perfil.png" alt="">
@@ -104,13 +101,13 @@
             <header class="profile-header">
                 <h1 class="page-title">Perfil</h1>
                 <div class="header-actions">
-                    <div class="user-info">
-                        <span class="notification-icon">🔔</span>
-                        <div class="user-profile">
-                            <span class="user-avatar">👤</span>
-                            <span class="user-name" id="headerClubName">Nome do Clube</span>
-                        </div>
+                    <div class="user-menu">
+                    <button class="icon-button"><ion-icon name="notifications-outline"></ion-icon></button>
+                    <div class="user-profile">
+                        <span class="avatar"><ion-icon name="person-circle-outline"></ion-icon></span>
+                        <span>Usuario</span>
                     </div>
+                </div>
                     <!-- Botão de tema dark -->
                     
                 </div>

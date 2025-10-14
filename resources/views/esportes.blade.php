@@ -458,5 +458,17 @@
 });
 </script>
     </script>
+    <script>
+    const sidebar = document.querySelector('.sidebar');
+    const toggleBtn = document.createElement('button');
+    toggleBtn.textContent = '☰';
+    toggleBtn.classList.add('toggle-sidebar');
+    document.body.appendChild(toggleBtn);
+
+    toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+    });
+</script>
+
 </body>
 </html>

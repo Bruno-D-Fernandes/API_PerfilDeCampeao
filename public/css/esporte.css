@@ -528,3 +528,44 @@ td {
 #tab-posicoes .action-btn.delete:hover {
     background-color: var(--action-delete);
 }
+
+
+@media (max-width: 1024px) {
+    .sidebar {
+        position: fixed;
+        width: 70px;
+        height: 100%;
+        z-index: 20;
+    }
+
+    .sidebar:hover {
+        width: 230px;
+    }
+
+    .main-content {
+        margin-left: 70px;
+    }
+
+    .sidebar:hover ~ .main-content {
+        margin-left: 230px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main-content {
+        padding: 16px;
+    }
+
+    .page-title {
+        font-size: 24px;
+    }
+}
+

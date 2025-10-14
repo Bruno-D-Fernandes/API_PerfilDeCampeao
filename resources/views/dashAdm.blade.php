@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="./css/dashadm.css">k
+    <link rel="stylesheet" href="./css/dashadm.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,39 +18,42 @@
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Sidebar idêntica à imagem -->
-        <aside class="sidebar">
-            <div class="sidebar-header">Logo aqui</div>
-            <nav class="sidebar-nav">
-                <span class="menu-title">Menu</span>
-                <ul>
-                    <li class="active"><a href="#"><ion-icon name="grid-outline"></ion-icon> Dashboard</a></li>
-                    <li><a href="/usuarios"><ion-icon name="people-outline"></ion-icon> Usuários <ion-icon class="chevron" name="chevron-down-outline"></ion-icon></a></li>
-                    <li><a href="esporte"><ion-icon name="football-outline"></ion-icon> Esportes</a></li>
-                    <li><a href="oportunidades"><ion-icon name="briefcase-outline"></ion-icon> Oportunidades</a></li>
-                    <li><a href="#"><ion-icon name="list-outline"></ion-icon> Listas</a></li>
-                    <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon> Denúncias <ion-icon class="chevron" name="chevron-down-outline"></ion-icon></a></li>
-                    <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> Conteúdo <ion-icon class="chevron" name="chevron-down-outline"></ion-icon></a></li>
-                    <li><a href="#"><ion-icon name="stats-chart-outline"></ion-icon> Estatísticas</a></li>
-                </ul>
-            </nav>
-            <div class="sidebar-footer">
-                <ul>
-                    <li><a href="#"><ion-icon name="settings-outline"></ion-icon> Configurações</a></li>
-                    <li><a href="#" class="logout"><ion-icon name="log-out-outline"></ion-icon> Sair</a></li>
-                </ul>
-            </div>
-        </aside>
+      
+ <aside class="sidebar">
+    <div class="sidebar-header">
+        <img id="logo-expanded" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo Completa">
+        <ion-icon id="logo-collapsed" name="football-outline"></ion-icon>
+    </div>
 
+    <nav class="sidebar-nav">
+        <ul>
+            <li class="active"><a href="dashAdm"><ion-icon name="grid-outline"></ion-icon> <span class="nav-text">Dashboard</span></a></li>
+            <li><a href="usuarios"><ion-icon name="people-outline"></ion-icon> <span class="nav-text">Usuários</span></a></li>
+            <li><a href="esporte"><ion-icon name="football-outline"></ion-icon> <span class="nav-text">Esportes</span></a></li>
+            <li><a href="#"><ion-icon name="rocket-outline"></ion-icon> <span class="nav-text">Oportunidades</span></a></li>
+            <li><a href="#"><ion-icon name="list-outline"></ion-icon> <span class="nav-text">Listas</span></a></li>
+            <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon> <span class="nav-text">Denúncias</span></a></li>
+            <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> <span class="nav-text">Conteúdo</span></a></li>
+            <li><a href="#"><ion-icon name="stats-chart-outline"></ion-icon> <span class="nav-text">Estatísticas</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+        <ul>
+            <li><a href="#"><ion-icon name="settings-outline"></ion-icon> <span class="nav-text">Configurações</span></a></li>
+            <li><a href="#" class="logout"><ion-icon name="log-out-outline"></ion-icon> <span class="nav-text">Sair</span></a></li>
+        </ul>
+    </div>
+</aside>
         <!-- Conteúdo Principal -->
         <main class="main-content">
             <header class="main-header">
                 <h1 class="page-title">Dashboard</h1>
-                <div class="user-menu">
+                 <div class="user-menu">
                     <button class="icon-button"><ion-icon name="notifications-outline"></ion-icon></button>
                     <div class="user-profile">
-                        <span class="avatar"><ion-icon name="person-circle-outline"></ion-icon></span>
-                        <span>João Pedro</span>
+                        <div class="avatar"><ion-icon name="person-outline"></ion-icon></div>
+                        <span>Admin</span>
                     </div>
                 </div>
             </header>
