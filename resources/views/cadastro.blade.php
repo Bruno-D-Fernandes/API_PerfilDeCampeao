@@ -58,14 +58,14 @@
 
                 <form id="cadastroUnificado">
                     
-                    <!-- PASSO 1: Informações Básicas -->
+                                        <!-- PASSO 1: Informações Básicas -->
                     <div class="form-step active" id="step1">
                         <div class="step-header">
                             <h2><i class="fas fa-users"></i> Informações Básicas do Clube</h2>
                             <p>Conte-nos sobre seu clube esportivo</p>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group-inline">
                             <label for="nomeClube">Nome do Clube *</label>
                             <div class="input-icon-wrapper">
                                 <i class="fas fa-users icon"></i>
@@ -74,96 +74,74 @@
                             <span class="error-message" id="nomeClubeError"></span>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label for="anoCriacaoClube">Ano de criação *</label>
-                                <div class="input-icon-wrapper">
-                                    <i class="fas fa-calendar-alt icon"></i>
-                                    <input type="date" id="anoCriacaoClube" name="anoCriacaoClube" required>
-                                </div>
-                                <span class="error-message" id="anoCriacaoClubeError"></span>
+                        <div class="form-group-inline">
+                            <label for="anoCriacaoClube">Ano de criação *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-calendar-alt icon"></i>
+                                <input type="date" id="anoCriacaoClube" name="anoCriacaoClube" required>
                             </div>
-                            <div class="form-group half-width">
-                                <label for="interesseClube">Interesse *</label>
-                                <div class="input-icon-wrapper">
-                                    <i class="fas fa-star icon"></i>
-                                    <select id="interesseClube" name="interesseClube" required>
-                                        <option value="" disabled selected hidden>Selecione o interesse</option>
-                                        <option value="Recrutamento">Recrutamento</option>
-                                        <option value="Competição">Competição</option>
-                                        <option value="Lazer">Lazer</option>
-                                    </select>
-                                    <i class="fas fa-chevron-down select-arrow"></i>
-                                </div>
-                                <span class="error-message" id="interesseClubeError"></span>
-                            </div>
+                            <span class="error-message" id="anoCriacaoClubeError"></span>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group-inline">
                             <label for="esporteClube">Esporte *</label>
                             <div class="input-icon-wrapper">
                                 <i class="fas fa-trophy icon"></i>
                                 <select id="esporteClube" name="esporteClube" required>
                                     <option value="" disabled selected hidden>Selecione um esporte</option>
-                                    <option value="Futebol">Futebol</option>
-                                    <option value="Vôlei">Vôlei</option>
-                                    <option value="Basquete">Basquete</option>
-                                    <option value="Tênis">Tênis</option>
-                                    <option value="Natação">Natação</option>
-                                    <option value="Atletismo">Atletismo</option>
+                                    <!-- Opções serão carregadas dinamicamente da API -->
                                 </select>
                                 <i class="fas fa-chevron-down select-arrow"></i>
                             </div>
                             <span class="error-message" id="esporteClubeError"></span>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label for="estadoClube">Estado *</label>
-                                <div class="input-icon-wrapper">
-                                    <i class="fas fa-map-marker-alt icon"></i>
-                                    <select id="estadoClube" name="estadoClube" required>
-                                        <option value="" disabled selected hidden>Selecione o estado</option>
-                                        <option value="AC">Acre</option>
-                                        <option value="AL">Alagoas</option>
-                                        <option value="AP">Amapá</option>
-                                        <option value="AM">Amazonas</option>
-                                        <option value="BA">Bahia</option>
-                                        <option value="CE">Ceará</option>
-                                        <option value="DF">Distrito Federal</option>
-                                        <option value="ES">Espírito Santo</option>
-                                        <option value="GO">Goiás</option>
-                                        <option value="MA">Maranhão</option>
-                                        <option value="MT">Mato Grosso</option>
-                                        <option value="MS">Mato Grosso do Sul</option>
-                                        <option value="MG">Minas Gerais</option>
-                                        <option value="PA">Pará</option>
-                                        <option value="PB">Paraíba</option>
-                                        <option value="PR">Paraná</option>
-                                        <option value="PE">Pernambuco</option>
-                                        <option value="PI">Piauí</option>
-                                        <option value="RJ">Rio de Janeiro</option>
-                                        <option value="RN">Rio Grande do Norte</option>
-                                        <option value="RS">Rio Grande do Sul</option>
-                                        <option value="RO">Rondônia</option>
-                                        <option value="RR">Roraima</option>
-                                        <option value="SC">Santa Catarina</option>
-                                        <option value="SP">São Paulo</option>
-                                        <option value="SE">Sergipe</option>
-                                        <option value="TO">Tocantins</option>
-                                    </select>
-                                    <i class="fas fa-chevron-down select-arrow"></i>
-                                </div>
-                                <span class="error-message" id="estadoClubeError"></span>
+                        <div class="form-group-inline">
+                            <label for="estadoClube">Estado *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-map-marker-alt icon"></i>
+                                <select id="estadoClube" name="estadoClube" required>
+                                    <option value="" disabled selected hidden>Selecione o estado</option>
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+                                </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
                             </div>
-                            <div class="form-group half-width">
-                                <label for="cidadeClube">Cidade *</label>
-                                <div class="input-icon-wrapper">
-                                    <i class="fas fa-building icon"></i>
-                                    <input type="text" id="cidadeClube" name="cidadeClube" required>
-                                </div>
-                                <span class="error-message" id="cidadeClubeError"></span>
+                            <span class="error-message" id="estadoClubeError"></span>
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label for="cidadeClube">Cidade *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-building icon"></i>
+                                <input type="text" id="cidadeClube" name="cidadeClube" required>
                             </div>
+                            <span class="error-message" id="cidadeClubeError"></span>
                         </div>
                     </div>
 
@@ -222,6 +200,44 @@
                                 <div class="char-counter" id="bioCounter">0/1000</div>
                             </div>
                             <span class="error-message" id="bioClubeError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fotoPerfilClube">Foto de Perfil</label>
+                            <div class="file-upload-wrapper">
+                                <div class="file-upload-area" id="fotoUploadArea">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Arraste uma imagem ou clique para selecionar</p>
+                                    <span class="file-info">JPG, PNG, JPEG, WEBP, GIF, SVG (máx. 2MB)</span>
+                                </div>
+                                <input type="file" id="fotoPerfilClube" name="fotoPerfilClube" accept="image/jpeg,image/png,image/jpg,image/webp,image/gif,image/svg+xml" style="display: none;">
+                                <div class="file-preview" id="fotoPreview" style="display: none;">
+                                    <img id="fotoPreviewImg" src="" alt="Preview">
+                                    <button type="button" class="remove-file-btn" id="removeFotoBtn">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <span class="error-message" id="fotoPerfilClubeError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fotoPerfilClube">Foto de Perfil</label>
+                            <div class="file-upload-wrapper">
+                                <div class="file-upload-area" id="fotoUploadArea">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Arraste uma imagem ou clique para selecionar</p>
+                                    <span class="file-info">Formatos aceitos: JPG, PNG, JPEG, WEBP, GIF, SVG (máx. 2MB)</span>
+                                </div>
+                                <input type="file" id="fotoPerfilClube" name="fotoPerfilClube" accept="image/jpeg,image/png,image/jpg,image/webp,image/gif,image/svg+xml" style="display: none;">
+                                <div class="file-preview" id="fotoPreview" style="display: none;">
+                                    <img id="fotoPreviewImg" src="" alt="Preview">
+                                    <button type="button" class="remove-file-btn" id="removeFotoBtn">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <span class="error-message" id="fotoPerfilClubeError"></span>
                         </div>
                     </div>
 
@@ -298,11 +314,8 @@
             </div>
         </div>
 
-        <div class="marketing-section">
-            VENHA CONHECER UM MUNDO DE <span class="highlight-blue">OPORTUNIDADES</span>
-        </div>
+        
     </div>
-dasdasdsadas
     <!-- Notificações -->
     <div class="notification-container" id="notificationContainer"></div>
 
@@ -343,6 +356,42 @@ dasdasdsadas
         this.updateProgress();
         this.setupPasswordStrength();
         this.setupCharCounter();
+        this.setupFotoUpload();
+        this.setupFotoUpload();
+        this.loadEsportes();
+    }
+
+    async loadEsportes() {
+        try {
+            const response = await fetch('/api/esporte');
+            if (response.ok) {
+                const esportes = await response.json();
+                const selectEsporte = document.getElementById('esporteClube');
+                
+                if (selectEsporte && esportes && Array.isArray(esportes)) {
+                    // Limpar opções existentes (exceto a primeira)
+                    selectEsporte.innerHTML = '<option value="" disabled selected hidden>Selecione um esporte</option>';
+                    
+                    // Adicionar esportes da API
+                    esportes.forEach(esporte => {
+                        const option = document.createElement('option');
+                        option.value = esporte.id;
+                        option.textContent = esporte.nomeEsporte;
+                        selectEsporte.appendChild(option);
+                    });
+                    
+                    console.log(`${esportes.length} esportes carregados com sucesso`);
+                } else {
+                    console.warn('Formato de resposta inesperado da API de esportes');
+                }
+            } else {
+                console.error('Erro ao carregar esportes:', response.status);
+                this.showNotification('Não foi possível carregar a lista de esportes', 'warning');
+            }
+        } catch (error) {
+            console.error('Erro ao buscar esportes:', error);
+            this.showNotification('Erro ao conectar com o servidor', 'error');
+        }
     }
 
     setupEventListeners() {
@@ -366,7 +415,7 @@ dasdasdsadas
 
     setupRealTimeValidation() {
         const fields = [
-            'nomeClube', 'anoCriacaoClube', 'interesseClube', 'esporteClube', 
+            'nomeClube', 'anoCriacaoClube', 'esporteClube', 
             'estadoClube', 'cidadeClube', 'categoriaClube', 'cnpjClube', 
             'enderecoClube', 'emailAdmin', 'senhaAdmin', 'confirmarSenha'
         ];
@@ -454,7 +503,92 @@ dasdasdsadas
                 const length = bioField.value.length;
                 const maxLength = 1000;
                 
-                counter.textContent = `${length}/${maxLength}`;
+                counter.textContent = ${length}
+            })}}
+    setupFotoUpload() {
+        const fotoUploadArea = document.getElementById('fotoUploadArea');
+        const fotoInput = document.getElementById('fotoPerfilClube');
+        const fotoPreview = document.getElementById('fotoPreview');
+        const fotoPreviewImg = document.getElementById('fotoPreviewImg');
+        const removeFotoBtn = document.getElementById('removeFotoBtn');
+
+        if (!fotoUploadArea || !fotoInput) return;
+
+        fotoUploadArea.addEventListener('click', () => fotoInput.click());
+
+        fotoUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fotoUploadArea.classList.add('dragover');
+        });
+
+        fotoUploadArea.addEventListener('dragleave', () => {
+            fotoUploadArea.classList.remove('dragover');
+        });
+
+        fotoUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fotoUploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fotoInput.files = files;
+                this.handleFotoUpload(files[0]);
+            }
+        });
+
+        fotoInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                this.handleFotoUpload(e.target.files[0]);
+            }
+        });
+
+        if (removeFotoBtn) {
+            removeFotoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.removeFoto();
+            });
+        }
+    }
+
+    handleFotoUpload(file) {
+        const fotoUploadArea = document.getElementById('fotoUploadArea');
+        const fotoPreview = document.getElementById('fotoPreview');
+        const fotoPreviewImg = document.getElementById('fotoPreviewImg');
+
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'image/gif', 'image/svg+xml'];
+        if (!allowedTypes.includes(file.type)) {
+            this.showFieldError('fotoPerfilClube', 'Formato de arquivo não permitido.');
+            return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) {
+            this.showFieldError('fotoPerfilClube', 'O arquivo deve ter no máximo 2MB.');
+            return;
+        }
+
+        this.clearFieldError('fotoPerfilClube');
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            fotoPreviewImg.src = e.target.result;
+            fotoUploadArea.style.display = 'none';
+            fotoPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    removeFoto() {
+        const fotoInput = document.getElementById('fotoPerfilClube');
+        const fotoUploadArea = document.getElementById('fotoUploadArea');
+        const fotoPreview = document.getElementById('fotoPreview');
+        const fotoPreviewImg = document.getElementById('fotoPreviewImg');
+
+        fotoInput.value = '';
+        fotoPreviewImg.src = '';
+        fotoUploadArea.style.display = 'flex';
+        fotoPreview.style.display = 'none';
+        this.clearFieldError('fotoPerfilClube');
+    }
+/${maxLength};
                 
                 counter.className = 'char-counter';
                 if (length > maxLength * 0.8) {
@@ -463,7 +597,103 @@ dasdasdsadas
                 if (length > maxLength * 0.95) {
                     counter.classList.add('danger');
                 }
+            }
+
+    setupFotoUpload() {
+        const fotoUploadArea = document.getElementById('fotoUploadArea');
+        const fotoInput = document.getElementById('fotoPerfilClube');
+        const fotoPreview = document.getElementById('fotoPreview');
+        const fotoPreviewImg = document.getElementById('fotoPreviewImg');
+        const removeFotoBtn = document.getElementById('removeFotoBtn');
+
+        if (!fotoUploadArea || !fotoInput) return;
+
+        // Click na área de upload
+        fotoUploadArea.addEventListener('click', () => {
+            fotoInput.click();
+        });
+
+        // Drag and drop
+        fotoUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fotoUploadArea.classList.add('dragover');
+        });
+
+        fotoUploadArea.addEventListener('dragleave', () => {
+            fotoUploadArea.classList.remove('dragover');
+        });
+
+        fotoUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fotoUploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fotoInput.files = files;
+                this.handleFotoUpload(files[0]);
+            }
+        });
+
+        // Seleção de arquivo
+        fotoInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                this.handleFotoUpload(e.target.files[0]);
+            }
+        });
+
+        // Remover foto
+        if (removeFotoBtn) {
+            removeFotoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.removeFoto();
             });
+        }
+    }
+
+    handleFotoUpload(file) {
+        const fotoUploadArea = document.getElementById('fotoUploadArea');
+        const fotoPreview = document.getElementById('fotoPreview');
+        const fotoPreviewImg = document.getElementById('fotoPreviewImg');
+
+        // Validar tipo de arquivo
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'image/gif', 'image/svg+xml'];
+        if (!allowedTypes.includes(file.type)) {
+            this.showFieldError('fotoPerfilClube', 'Formato de arquivo não permitido.');
+            return;
+        }
+
+        // Validar tamanho (2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            this.showFieldError('fotoPerfilClube', 'O arquivo deve ter no máximo 2MB.');
+            return;
+        }
+
+        // Limpar erros
+        this.clearFieldError('fotoPerfilClube');
+
+        // Mostrar preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            fotoPreviewImg.src = e.target.result;
+            fotoUploadArea.style.display = 'none';
+            fotoPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    removeFoto() {
+        const fotoInput = document.getElementById('fotoPerfilClube');
+        const fotoUploadArea = document.getElementById('fotoUploadArea');
+        const fotoPreview = document.getElementById('fotoPreview');
+        const fotoPreviewImg = document.getElementById('fotoPreviewImg');
+
+        fotoInput.value = '';
+        fotoPreviewImg.src = '';
+        fotoUploadArea.style.display = 'flex';
+        fotoPreview.style.display = 'none';
+        this.clearFieldError('fotoPerfilClube');
+    }
+);
         }
     }
 
@@ -541,7 +771,7 @@ dasdasdsadas
 
     getStepFields(step) {
         const stepFields = {
-            1: ['nomeClube', 'anoCriacaoClube', 'interesseClube', 'esporteClube', 'estadoClube', 'cidadeClube'],
+            1: ['nomeClube', 'anoCriacaoClube', 'esporteClube', 'estadoClube', 'cidadeClube'],
             2: ['categoriaClube', 'cnpjClube', 'enderecoClube'],
             3: ['emailAdmin', 'senhaAdmin', 'confirmarSenha']
         };
@@ -828,12 +1058,15 @@ dasdasdsadas
         this.showLoading(true);
         
         try {
-            // Coletar todos os dados do formulário
+            // Coletar todos os dados do formulário usando FormData
             const formData = new FormData(this.elements.form);
-            const data = Object.fromEntries(formData.entries());
             
-            // Adicionar dados salvos
-            Object.assign(data, this.formData);
+            // Adicionar dados salvos (exceto arquivos)
+            Object.keys(this.formData).forEach(key => {
+                if (!formData.has(key)) {
+                    formData.append(key, this.formData[key]);
+                }
+            });
             
             // Tentar enviar para a API
             const response = await fetch('/register', {

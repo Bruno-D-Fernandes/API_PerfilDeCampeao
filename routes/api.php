@@ -76,6 +76,10 @@ Route::prefix('usuario')->group(function () {
     });
 });
 
+
+//Esportes publico 
+Route::get('/esporte', [AdmController::class, 'ListarEsportes']);
+
 // Postagem pública (index, show)
 Route::get('/postagem', [PostagemController::class, 'index']);
 Route::get('/postagem/{id}', [PostagemController::class, 'show']);
@@ -84,7 +88,7 @@ Route::get('/postagem/{id}', [PostagemController::class, 'show']);
 //Clube
 Route::prefix('clube')->group(function () {
     Route::post('/register', [ClubeController::class, 'store']);
-    Route::post('/login', [AuthClubeController::class, 'loginClube']);
+    Route::post('/login', [AuthClubeController::class, 'login']);
     Route::put('/update/{id}', [ClubeController::class, 'update']);
     Route::delete('/delete/{id}', [ClubeController::class, 'destroy']);
 

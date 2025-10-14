@@ -3,17 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/login.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Login</title>
 
+    <style>
+        body, html {
+    width: 100%;
+    height: 100vh;
+    font-family: 'Inter', 'Poppins', sans-serif;
+    background-image: url("{{ asset('img/fundo.png') }}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+    </style>
 </head>
 <body>
-    <h1>Login</h1>
 
-    <form id="loginForm">
-        <input type="text" name="cnpjClube" placeholder="Cnpj" required>
-        <input type="password" name="senhaClube" placeholder="Senha" required>
-        <button type="submit">Entrar</button>
+
+    <div class="main-container">
+        <!-- Seção do Texto -->
+        <div class="text-section">
+            <h1>
+                Se você acredita,<br> 
+                <span class="highlight">o mundo</span> também<br>
+                vai acreditar.
+            </h1>
+        </div>
+
+        <!-- Seção do Formulário -->
+         <div class="form-section">
+         <form id="loginForm">
+            <div class="login-form">
+                <form id="loginForm">
+                    <!-- Campo de E-mail -->
+                    <div class="input-group">
+                        <label for="email">E-mail</label>
+                        
+                        <input 
+                            type="text" 
+                            id="email" 
+                            name="cnpjClube"
+                            placeholder="Cnpj"
+                            required
+                        >
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+
+                    <!-- Campo de Senha -->
+                    <div class="input-group">
+                        <label for="password">Senha</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="senhaClube"
+                            required
+                        >
+                        <div class="error-message" id="passwordError"></div>
+                    </div>
+
+                    <!-- Link "Esqueceu a senha?" -->
+                    <a href="#" class="forgot-password">Esqueceu sua senha?</a>
+
+                    <!-- Botão de Envio -->
+                    <button type="submit" id="submitButton" class="submit-button">
+                        Entrar
+                    </button>
+                    
+                    <!-- Link "Ainda não tem cadastro?" -->
+                    <a href="/cadastro" class="signup-link">
+                        Ainda não tem cadastro?
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     </form>
 
                                     <!-- javascript ta explicado ai, caso queiram que eu explique mais me manda msg
