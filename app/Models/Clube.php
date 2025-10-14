@@ -24,6 +24,8 @@ class Clube extends Authenticatable
         'estadoClube',
         'anoCriacaoClube',
         'enderecoClube',
+        'categoria_id',
+        'esporte_id',
         'bioClube',
         'senhaClube',
         'fotoPerfilClube',

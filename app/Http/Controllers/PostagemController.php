@@ -16,8 +16,9 @@ class PostagemController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $postagens = Postagem::with(['tags', 'imagens', 'usuario'])->get();
+    {   
+        $perPage = $request->query('per_page', 15);
+        $postagens = Postagem::with(['tags', 'imagens', 'usuario'])->paginate($perPage);
         return response()->json($postagens, 200);
     }
 
@@ -83,7 +84,7 @@ class PostagemController extends Controller
 
         return response()->json($postagens, 200);
     }
-    
+
     public function show(string $id)
     {
         $postagem = Postagem::with(['tags', 'imagens', 'usuario'])->find($id);
