@@ -10,31 +10,32 @@
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- BARRA LATERAL (Sem alterações) -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                 <img id="Logo" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil">
-            </div>
-            <nav class="sidebar-nav">
-                <span class="menu-title">Menu</span>
-                <ul>
-                    <li><a href="dashAdm"><ion-icon name="grid-outline"></ion-icon> Dashboard</a></li>
-                    <li><a href="usuarios"><ion-icon name="people-outline"></ion-icon> Usuários</a></li>
-                    <li class="active"><a href="#"><ion-icon name="football-outline"></ion-icon> Esportes</a></li>
-                    <li><a href=""><ion-icon name="rocket-outline"></ion-icon> Oportunidades</a></li>
-                    <li><a href=""><ion-icon name="list-outline"></ion-icon> Listas</a></li>
-                    <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon> Denúncias</a></li>
-                    <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> Conteúdo</a></li>
-                    <li><a href="#"><ion-icon name="stats-chart-outline"></ion-icon> Estatísticas</a></li>
-                </ul>
-            </nav>
-            <div class="sidebar-footer">
-                <ul>
-                    <li><a href="#"><ion-icon name="settings-outline"></ion-icon> Configurações</a></li>
-                    <li><a href="#" class="logout"><ion-icon name="log-out-outline"></ion-icon> Sair</a></li>
-                </ul>
-            </div>
-        </aside>
+       <aside class="sidebar">
+    <div class="sidebar-header">
+        <img id="logo-expanded" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo Completa">
+        <ion-icon id="logo-collapsed" name="football-outline"></ion-icon>
+    </div>
+
+    <nav class="sidebar-nav">
+        <ul>
+            <li><a href="dashAdm"><ion-icon name="grid-outline"></ion-icon> <span class="nav-text">Dashboard</span></a></li>
+            <li><a href="usuarios"><ion-icon name="people-outline"></ion-icon> <span class="nav-text">Usuários</span></a></li>
+            <li class="active"><a href="#"><ion-icon name="football-outline"></ion-icon> <span class="nav-text">Esportes</span></a></li>
+            <li><a href="#"><ion-icon name="rocket-outline"></ion-icon> <span class="nav-text">Oportunidades</span></a></li>
+            <li><a href="#"><ion-icon name="list-outline"></ion-icon> <span class="nav-text">Listas</span></a></li>
+            <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon> <span class="nav-text">Denúncias</span></a></li>
+            <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> <span class="nav-text">Conteúdo</span></a></li>
+            <li><a href="#"><ion-icon name="stats-chart-outline"></ion-icon> <span class="nav-text">Estatísticas</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+        <ul>
+            <li><a href="#"><ion-icon name="settings-outline"></ion-icon> <span class="nav-text">Configurações</span></a></li>
+            <li><a href="#" class="logout"><ion-icon name="log-out-outline"></ion-icon> <span class="nav-text">Sair</span></a></li>
+        </ul>
+    </div>
+</aside>
 
         <!-- CONTEÚDO PRINCIPAL -->
         <main class="main-content">
