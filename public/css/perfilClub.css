@@ -28,20 +28,54 @@ body {
 }
 /* Sidebar */
 .sidebar {
-    width: 250px;
+    width: var(--sidebar-width-collapsed);
     background-color: #ffffff;
     border-right: 1px solid #e9ecef;
     padding: 20px 0;
     position: fixed;
     height: 100vh;
+    overflow-x: hidden;
     overflow-y: auto;
+    transition: width 0.3s ease;
+    z-index: 1000;
+}
+.sidebar #LogoCollapsed {
+    display: block;
+    width: 80px;
+    height: 70px;
+    border-radius: 10px;
 }
 
+.sidebar:hover {
+    width: var(--sidebar-width-expanded);
+}
+.sidebar:hover #LogoExpanded {
+    display: block;
+    width: 180px;
+    border-radius: 20px;
+    margin-top: 15%;
+}
+.sidebar:hover #LogoCollapsed {
+    display: none;
+}
 .logo-section {
     padding: 0 20px 30px;
     border-bottom: 1px solid #e9ecef;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
 }
+
+.logo-section img {
+    display: none;
+}
+
+.sidebar:hover .logo-section img {
+    display: block;
+}
+
 
 .logo-placeholder {
     font-size: 16px;
@@ -50,7 +84,6 @@ body {
     text-align: center;
     padding: 20px;
     border: 2px dashed #ddd;
-    border-radius: 8px;
     background-color: #f8f9fa;
 }
 
@@ -65,12 +98,17 @@ body {
 .nav-link {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 12px 20px;
     text-decoration: none;
     color: #666;
     transition: all 0.2s ease;
     border-radius: 0 25px 25px 0;
     margin-right: 20px;
+}
+
+.sidebar:hover .nav-link {
+    justify-content: flex-start;
 }
 
 .nav-link:hover {
@@ -84,16 +122,34 @@ body {
 }
 
 .nav-icon {
-    margin-right: 12px;
+    margin-right: 0;
     font-size: 18px;
     width: 22px;
     height: 22px;
     text-align: center;
+    filter: brightness(0) saturate(100%) invert(50%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(102%) contrast(102%);
+    transition: all 0.3s ease;
+}
+
+.sidebar:hover .nav-icon {
+    margin-right: 12px;
 }
 
 .nav-text {
     font-size: 14px;
     font-weight: 500;
+    opacity: 0;
+    visibility: hidden;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+    display: none;
+}
+
+.sidebar:hover .nav-text {
+    opacity: 1;
+    visibility: visible;
+    display: inline;
+    transition-delay: 0.1s;
 }
 
 /* Conteúdo principal */
@@ -2245,17 +2301,6 @@ body.dark-theme .btn-secondary:hover {
 
 .sidebar:hover .logo-section img {
     display: block;
-}
-
-/* Ícone quando sidebar está colapsada */
-.logo-section::before {
-    content: 'mini logo ';
-    font-size: 32px;
-    display: block;
-}
-
-.sidebar:hover .logo-section::before {
-    display: none;
 }
 
 .nav-menu ul {

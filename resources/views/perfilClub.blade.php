@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Perfil</title>
     <link rel="stylesheet" href="./css/perfilClub.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <style>
     #Logo{
         width: 150px;
@@ -36,8 +37,10 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo-section">
-                <img id="Logo" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil">
-            </div>
+                <img id="LogoExpanded" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil Completa">
+        
+                <img id="LogoCollapsed" src="{{ asset('img/mini_logo.png') }}" alt="MIni logo">
+             </div>
             
             <nav class="nav-menu">
                 <ul>
@@ -48,29 +51,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="opotunidades" class="nav-link">
+                        <a href="oportunidades" class="nav-link">
                             <img class="nav-icon" src="./img/oportunidades.png" alt="Perfil">
                             <span class="nav-text">Oportunidades</span>
                         </a>
                     </li>
-                  <!--   <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <img class="nav-icon" src="./img/vector.png" alt="Lista">
-                            <span class="nav-text">Listas</span>
-                        </a>
-                    </li> -->
-                    <!-- <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <img class="nav-icon" src="./img/mensagem.png" alt="Dashboard">
-                            <span class="nav-text">Mensagens</span>
-                        </a>
-                    </li> -->
-                    <!-- <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <img class="nav-icon" src="./img/notificaçao.png" alt="Perfil">
-                            <span class="nav-text">Notificações</span>
-                        </a>
-                    </li> -->
+                  
                     <li class="nav-item active">
                         <a href="#" class="nav-link">
                             <img class="nav-icon" src="./img/perfil.png" alt="">

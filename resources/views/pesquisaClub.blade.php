@@ -413,71 +413,57 @@
 <body>
     <div class="container">
         <!-- Sidebar -->
-         <aside class="sidebar">
+           <aside class="sidebar">
             <div class="logo-section">
-                <img id="Logo" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil">
-            </div>
+                <img id="LogoExpanded" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil Completa">
+        
+                <img id="LogoCollapsed" src="{{ asset('img/mini_logo.png') }}" alt="MIni logo">
+             </div>
             
             <nav class="nav-menu">
                 <ul>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <ion-icon name="grid-outline"></ion-icon>
+                        <a href="dashClub" class="nav-link">
+                            <img class="nav-icon" src="./img/dashboard.png" alt="Dashboard">
                             <span class="nav-text">Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <ion-icon name="trophy-outline"></ion-icon>
+                        <a href="oportunidades" class="nav-link">
+                            <img class="nav-icon" src="./img/oportunidades.png" alt="Perfil">
                             <span class="nav-text">Oportunidades</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <ion-icon name="list-outline"></ion-icon>
-                            <span class="nav-text">Listas</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <ion-icon name="chatbubbles-outline"></ion-icon>
-                            <span class="nav-text">Mensagens</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <ion-icon name="notifications-outline"></ion-icon>
-                            <span class="nav-text">Notificações</span>
-                        </a>
-                    </li>
+                   
                     <li class="nav-item">
                         <a href="perfil2" class="nav-link">
-                            <ion-icon name="person-circle-outline"></ion-icon>
+                            <img class="nav-icon" src="./img/perfil.png" alt="Perfil">
                             <span class="nav-text">Perfil</span>
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a href="#" class="nav-link">
-                            <ion-icon name="search-outline"></ion-icon>
+                        <a href="pesquisa" class="nav-link">
+                            <img class="nav-icon" src="./img/pesquisa.png" alt="Pesquisa">
                             <span class="nav-text">Pesquisa</span>
                         </a>
                     </li>
+                    <!-- ITEM ATIVO -->
                     <li class="nav-item">
-                       <a href="configuracoes" class="nav-link">
-                            <ion-icon name="settings-outline"></ion-icon>
+                        <a href="configuracoes" class="nav-link">
+                            <img class="nav-icon" src="./img/configuracoes.png" alt="Configurações">
                             <span class="nav-text">Configurações</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <ion-icon name="log-out-outline"></ion-icon>
+                            <img class="nav-icon" src="./img/sair.png" alt="Sair">
                             <span class="nav-text">Sair</span>
                         </a>
+
                     </li>
                 </ul>
             </nav>
         </aside>
-
         <!-- Main Content -->
         <main class="main-content search-page">
             <!-- Header -->

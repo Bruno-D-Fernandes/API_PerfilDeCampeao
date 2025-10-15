@@ -48,24 +48,7 @@
                             <span class="nav-text">Oportunidades</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <img class="nav-icon" src="./img/vector.png" alt="Lista">
-                            <span class="nav-text">Listas</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <img class="nav-icon" src="./img/mensagem.png" alt="Mensagens">
-                            <span class="nav-text">Mensagens</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                             <img class="nav-icon" src="./img/notificaçao.png" alt="Notificação">
-                            <span class="nav-text">Notificações</span>
-                        </a>
-                    </li>
+                   
                     <li class="nav-item">
                         <a href="perfil2" class="nav-link">
                             <img class="nav-icon" src="./img/perfil.png" alt="Perfil">
@@ -80,7 +63,7 @@
                     </li>
                     <!-- ITEM ATIVO -->
                     <li class="nav-item active">
-                        <a href="#" class="nav-link">
+                        <a href="configuraçoesClub" class="nav-link">
                             <img class="nav-icon" src="./img/configuracoes.png" alt="Configurações">
                             <span class="nav-text">Configurações</span>
                         </a>
