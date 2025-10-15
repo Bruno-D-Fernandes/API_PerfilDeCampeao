@@ -500,7 +500,7 @@ body {
              <nav class="nav-menu">
                 <ul>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="dashClub" class="nav-link">
                             <span class="nav-icon"><img class="nav-icon" src="./img/dashboard.png" alt=""></span>
                             <span class="nav-text">Dashboard</span>
                         </a>
@@ -542,7 +542,7 @@ body {
                         </a>
                     </li>
                     <li class="nav-item">
-                       <a href="configuracao" class="nav-link">
+                       <a href="configuracoesClub" class="nav-link">
                             <img class="nav-icon" src="./img/configuracoes.png" alt="Configurações">
                             <span class="nav-text">Configurações</span>
                         </a>

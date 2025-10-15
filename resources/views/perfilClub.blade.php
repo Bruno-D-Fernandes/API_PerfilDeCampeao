@@ -6,13 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Perfil</title>
     <link rel="stylesheet" href="./css/perfilClub.css">
-<style>
-    #Logo{
-        width: 150px;
-        border-radius: 20px;
-    }
-    
-</style>
+
 </head>
 <body>
     {{-- Mensagens de feedback --}}
@@ -34,6 +28,7 @@
 
     <div class="container">
         <!-- Sidebar -->
+           <aside class="sidebar">
             <div class="logo-section">
                 <img id="LogoExpanded" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil Completa">
         

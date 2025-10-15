@@ -67,7 +67,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                       <a href="configuracao" class="nav-link">
+                       <a href="configuracoesClub" class="nav-link">
                             <img class="nav-icon" src="./img/configuracoes.png" alt="Configurações">
                             <span class="nav-text">Configurações</span>
                         </a>
