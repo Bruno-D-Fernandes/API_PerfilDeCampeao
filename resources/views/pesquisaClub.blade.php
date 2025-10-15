@@ -368,10 +368,123 @@
             margin-bottom: 10px;
             color: #495057;
         }
-        #Logo{
-        width: 150px;
-        border-radius: 20px;
-    }
+.sidebar {
+width: var(--sidebar-width-collapsed);
+background-color: #ffffff;
+border-right: 1px solid #e9ecef;
+padding: 20px 0;
+position: fixed;
+height: 100vh;
+overflow-x: hidden;
+overflow-y: auto;
+transition: width 0.3s ease;
+z-index: 1000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* ======================================= */
+/* ========== VARIÁVEIS CSS ============== */
+/* ======================================= */
+:root {
+    --sidebar-width-expanded: 250px;
+    --sidebar-width-collapsed: 90px;
+}
+
+.nav-item.active .nav-link img.nav-icon {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+}
+
+.nav-link:hover img.nav-icon {
+    filter: brightness(0) saturate(100%) invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(80%) contrast(102%);
+}
+
+.nav-item.active .nav-link:hover img.nav-icon {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+}
+
+/* Container principal */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+.nav-menu ul {
+    list-style: none;
+}
+
+.nav-item {
+    margin-bottom: 4px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #666;
+    transition: all 0.2s ease;
+    border-radius: 0 25px 25px 0;
+    margin-right: 20px;
+}
+
+.sidebar:hover .nav-link {
+    justify-content: flex-start;
+}
+
+.nav-link:hover {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.nav-item.active .nav-link {
+    background-color: #74d477;
+    color: white;
+}
+
+.nav-icon {
+    margin-right: 0;
+    font-size: 18px;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    filter: brightness(0) saturate(100%) invert(50%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(102%) contrast(102%);
+    transition: all 0.3s ease;
+}
+
+.sidebar:hover .nav-icon {
+    margin-right: 12px;
+}
+
+.nav-text {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    visibility: hidden;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+    display: none;
+}
+
+.sidebar:hover .nav-text {
+    opacity: 1;
+    visibility: visible;
+    display: inline;
+    transition-delay: 0.1s;
+}
+
+
     </style>
 </head>
 <body>
@@ -379,62 +492,64 @@
         <!-- Sidebar -->
          <aside class="sidebar">
             <div class="logo-section">
-                <img id="Logo" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil">
-            </div>
+                <img id="LogoExpanded" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil Completa">
+        
+                <img id="LogoCollapsed" src="{{ asset('img/mini_logo.png') }}" alt="MIni logo">
+             </div>
             
-            <nav class="nav-menu">
+             <nav class="nav-menu">
                 <ul>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <ion-icon name="grid-outline"></ion-icon>
+                            <span class="nav-icon"><img class="nav-icon" src="./img/dashboard.png" alt=""></span>
                             <span class="nav-text">Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <ion-icon name="trophy-outline"></ion-icon>
+                        <a href="oportunidades" class="nav-link">
+                            <img class="nav-icon" src="./img/oportunidades.png" alt="Perfil">
                             <span class="nav-text">Oportunidades</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <ion-icon name="list-outline"></ion-icon>
+                    <!--<li class="nav-item">
+                        <a href="lista" class="nav-link">
+                            <img class="nav-icon" src="./img/vector.png" alt="Lista">
                             <span class="nav-text">Listas</span>
                         </a>
-                    </li>
+                    </li>-->
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                        <a href="mensagens" class="nav-link">
+                            <img class="nav-icon" src="./img/mensagem.png" alt="Mensagens">
                             <span class="nav-text">Mensagens</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <ion-icon name="notifications-outline"></ion-icon>
+                    <!--<li class="nav-item">
+                        <a href="notificacao" class="nav-link">
+                             <img class="nav-icon" src="./img/notificaçao.png" alt="Notificação">
                             <span class="nav-text">Notificações</span>
                         </a>
-                    </li>
+                    </li>-->
                     <li class="nav-item">
                         <a href="perfil" class="nav-link">
-                            <ion-icon name="person-circle-outline"></ion-icon>
+                            <img class="nav-icon" src="./img/perfil.png" alt="Perfil">
                             <span class="nav-text">Perfil</span>
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a href="#" class="nav-link">
-                            <ion-icon name="search-outline"></ion-icon>
+                        <a href="pesquisa" class="nav-link">
+                            <img class="nav-icon" src="./img/pesquisa.png" alt="Pesquisa">
                             <span class="nav-text">Pesquisa</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                       <a href="configuracoes" class="nav-link">
-                            <ion-icon name="settings-outline"></ion-icon>
+                       <a href="configuracao" class="nav-link">
+                            <img class="nav-icon" src="./img/configuracoes.png" alt="Configurações">
                             <span class="nav-text">Configurações</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <ion-icon name="log-out-outline"></ion-icon>
+                            <img class="nav-icon" src="./img/sair.png" alt="Sair">
                             <span class="nav-text">Sair</span>
                         </a>
                     </li>

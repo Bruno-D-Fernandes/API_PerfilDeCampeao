@@ -17,8 +17,10 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo-section">
-                <img id="Logo" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil">
-            </div>
+                <img id="LogoExpanded" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil Completa">
+        
+                <img id="LogoCollapsed" src="{{ asset('img/mini_logo.png') }}" alt="MIni logo">
+             </div>
             
             <nav class="nav-menu">
                 <ul>
@@ -34,24 +36,24 @@
                             <span class="nav-text">Oportunidades</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!--<li class="nav-item">
                         <a href="lista" class="nav-link">
                             <img class="nav-icon" src="./img/vector.png" alt="Lista">
                             <span class="nav-text">Listas</span>
                         </a>
-                    </li>
+                    </li>-->
                     <li class="nav-item">
                         <a href="mensagens" class="nav-link">
                             <img class="nav-icon" src="./img/mensagem.png" alt="Mensagens">
                             <span class="nav-text">Mensagens</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!--<li class="nav-item">
                         <a href="notificacao" class="nav-link">
-                            <img class="nav-icon" src="./img/notificaçao.png" alt="Notificação">
+                             <img class="nav-icon" src="./img/notificaçao.png" alt="Notificação">
                             <span class="nav-text">Notificações</span>
                         </a>
-                    </li>
+                    </li>-->
                     <li class="nav-item">
                         <a href="perfil" class="nav-link">
                             <img class="nav-icon" src="./img/perfil.png" alt="Perfil">

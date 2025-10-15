@@ -53,11 +53,25 @@ body {
     transition: width 0.3s ease;
     z-index: 1000;
 }
+.sidebar #LogoCollapsed {
+    display: block;
+    width: 80px;
+    height: 70px;
+    border-radius: 10px;
+}
 
 .sidebar:hover {
     width: var(--sidebar-width-expanded);
 }
-
+.sidebar:hover #LogoExpanded {
+    display: block;
+    width: 180px;
+    border-radius: 20px;
+    margin-top: 15%;
+}
+.sidebar:hover #LogoCollapsed {
+    display: none;
+}
 .logo-section {
     padding: 0 20px 30px;
     border-bottom: 1px solid #e9ecef;
@@ -70,24 +84,12 @@ body {
 
 .logo-section img {
     display: none;
-    width: 180px;
-    border-radius: 20px;
 }
 
 .sidebar:hover .logo-section img {
     display: block;
 }
 
-/* Ícone quando sidebar está colapsada */
-.logo-section::before {
-    content: 'mini logo ';
-    font-size: 32px;
-    display: block;
-}
-
-.sidebar:hover .logo-section::before {
-    display: none;
-}
 
 .logo-placeholder {
     font-size: 16px;
@@ -96,7 +98,6 @@ body {
     text-align: center;
     padding: 20px;
     border: 2px dashed #ddd;
-    border-radius: 8px;
     background-color: #f8f9fa;
 }
 

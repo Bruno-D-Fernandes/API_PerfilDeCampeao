@@ -37,11 +37,43 @@ body {
     overflow-y: auto;
 }
 
+.sidebar #LogoCollapsed {
+    display: block;
+    width: 80px;
+    height: 70px;
+    border-radius: 10px;
+}
+
+.sidebar:hover {
+    width: var(--sidebar-width-expanded);
+}
+.sidebar:hover #LogoExpanded {
+    display: block;
+    width: 180px;
+    border-radius: 20px;
+    margin-top: 15%;
+}
+.sidebar:hover #LogoCollapsed {
+    display: none;
+}
 .logo-section {
     padding: 0 20px 30px;
     border-bottom: 1px solid #e9ecef;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
 }
+
+.logo-section img {
+    display: none;
+}
+
+.sidebar:hover .logo-section img {
+    display: block;
+}
+
 
 .logo-placeholder {
     font-size: 16px;
@@ -50,10 +82,8 @@ body {
     text-align: center;
     padding: 20px;
     border: 2px dashed #ddd;
-    border-radius: 8px;
     background-color: #f8f9fa;
 }
-
 .nav-menu ul {
     list-style: none;
 }

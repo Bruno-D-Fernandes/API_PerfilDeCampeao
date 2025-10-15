@@ -19,12 +19,11 @@
         <!--      BARRA LATERAL      -->
         <!-- ======================= -->
         <aside class="sidebar">
-            <div class="sidebar-header">
-                <!-- Logo completa, visível apenas quando expandido -->
-                <img id="logo-expanded" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo Completa">
-                <!-- Logo ícone, visível apenas quando encolhido -->
-                <ion-icon id="logo-collapsed" name="football-outline"></ion-icon>
-            </div>
+            <div class="logo-section">
+                <img id="LogoExpanded" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil Completa">
+        
+                <img id="LogoCollapsed" src="{{ asset('img/mini_logo.png') }}" alt="MIni logo">
+             </div>
             <nav class="sidebar-nav">
                 <ul>
                     <li><a href="dashAdm"><ion-icon name="grid-outline"></ion-icon> <span class="nav-text">Dashboard</span></a></li>

@@ -115,24 +115,53 @@ body.dark-theme {
     transition: all var(--transition-normal);
 }
 
+.sidebar #LogoCollapsed {
+    display: block;
+    width: 80px;
+    height: 70px;
+    border-radius: 10px;
+}
+
+.sidebar:hover {
+    width: var(--sidebar-width-expanded);
+}
+.sidebar:hover #LogoExpanded {
+    display: block;
+    width: 180px;
+    border-radius: 20px;
+    margin-top: 15%;
+}
+.sidebar:hover #LogoCollapsed {
+    display: none;
+}
 .logo-section {
     padding: 0 20px 30px;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid #e9ecef;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
 }
+
+.logo-section img {
+    display: none;
+}
+
+.sidebar:hover .logo-section img {
+    display: block;
+}
+
 
 .logo-placeholder {
     font-size: 16px;
     font-weight: 600;
-    color: var(--color-text-secondary);
+    color: #666;
     text-align: center;
     padding: 20px;
-    border: 2px dashed var(--color-border);
-    border-radius: 8px;
-    background-color: var(--color-bg-tertiary);
-    transition: all var(--transition-fast);
+    border: 2px dashed #ddd;
+    background-color: #f8f9fa;
 }
-
 .nav-menu ul {
     list-style: none;
 }

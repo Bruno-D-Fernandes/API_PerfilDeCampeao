@@ -44,12 +44,12 @@
                             <span class="nav-text">Mensagens</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!--<li class="nav-item">
                         <a href="notificacao" class="nav-link">
                              <img class="nav-icon" src="./img/notificaçao.png" alt="Notificação">
                             <span class="nav-text">Notificações</span>
                         </a>
-                    </li>
+                    </li>-->
                     <li class="nav-item">
                         <a href="perfil" class="nav-link">
                             <img class="nav-icon" src="./img/perfil.png" alt="Perfil">
