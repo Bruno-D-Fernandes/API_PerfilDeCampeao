@@ -123,7 +123,7 @@
                         // Salva o token no localStorage
                         localStorage.setItem('token', result.access_token);
                         // Redireciona para o perfil
-                        window.location.href = '/perfil';
+                        window.location.href = '/dashClub';
                     } else {
                         alert('Erro no login: ' + result.message);
                     }

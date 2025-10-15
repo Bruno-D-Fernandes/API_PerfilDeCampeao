@@ -22,16 +22,11 @@
                     <li><a href="usuarios"><ion-icon name="people-outline"></ion-icon> <span class="nav-text">Usuários</span></a></li>
                     <li class="active"><a href="#"><ion-icon name="football-outline"></ion-icon> <span class="nav-text">Esportes</span></a></li>
                     <li><a href="oportunidadesAdm"><ion-icon name="rocket-outline"></ion-icon> <span class="nav-text">Oportunidades</span></a></li>
-                    <li><a href="#"><ion-icon name="list-outline"></ion-icon> <span class="nav-text">Listas</span></a></li>
-                    <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon> <span class="nav-text">Denúncias</span></a></li>
-                    <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> <span class="nav-text">Conteúdo</span></a></li>
-                    <li><a href="#"><ion-icon name="stats-chart-outline"></ion-icon> <span class="nav-text">Estatísticas</span></a></li>
                 </ul>
             </nav>
 
             <div class="sidebar-footer">
                 <ul>
-                    <li><a href="#"><ion-icon name="settings-outline"></ion-icon> <span class="nav-text">Configurações</span></a></li>
                     <li><a href="#" class="logout"><ion-icon name="log-out-outline"></ion-icon> <span class="nav-text">Sair</span></a></li>
                 </ul>
             </div>
@@ -40,13 +35,6 @@
         <main class="main-content">
             <header class="main-header">
                 <h2 class="page-title">Gestão de Esportes</h2>
-                <div class="user-menu">
-                    <button class="icon-button"><ion-icon name="notifications-outline"></ion-icon></button>
-                    <div class="user-profile">
-                        <div class="avatar"><ion-icon name="person-outline"></ion-icon></div>
-                        <span>Admin</span>
-                    </div>
-                </div>
             </header>
 
             <div class="content-body">
