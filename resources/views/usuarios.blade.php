@@ -30,7 +30,7 @@
                     <li><a href="dashAdm"><ion-icon name="grid-outline"></ion-icon> <span class="nav-text">Dashboard</span></a></li>
                     <li class="active"><a href="#"><ion-icon name="people-outline"></ion-icon> <span class="nav-text">Usuários</span></a></li>
                     <li><a href="esporte"><ion-icon name="football-outline"></ion-icon> <span class="nav-text">Esportes</span></a></li>
-                    <li><a href="#"><ion-icon name="rocket-outline"></ion-icon> <span class="nav-text">Oportunidades</span></a></li>
+                    <li><a href="oportunidadesAdm"><ion-icon name="rocket-outline"></ion-icon> <span class="nav-text">Oportunidades</span></a></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
