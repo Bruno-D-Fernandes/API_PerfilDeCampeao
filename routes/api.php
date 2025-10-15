@@ -18,6 +18,7 @@ use App\Http\Controllers\ListaClubeController;
 use App\Http\Controllers\MembroClubeController;
 use App\Http\Controllers\SeguidorController;
 use App\Http\Controllers\perfilController;
+use App\Http\Controllers\EsporteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,7 +78,8 @@ Route::prefix('usuario')->group(function () {
 });
 
 
-//Esportes publico 
+//Esportes publico
+Route::get("/esportes", [EsporteController::class, "index"]);
 Route::get('/esporte', [AdmController::class, 'ListarEsportes']);
 
 // Postagem pública (index, show)
