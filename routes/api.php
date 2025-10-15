@@ -18,7 +18,6 @@ use App\Http\Controllers\ListaClubeController;
 use App\Http\Controllers\MembroClubeController;
 use App\Http\Controllers\SeguidorController;
 use App\Http\Controllers\perfilController;
-use App\Http\Controllers\EsporteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +29,7 @@ use App\Http\Controllers\EsporteController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
+Route::post('/clubes', [ClubeController::class, 'store']);
 // Usuario
 Route::prefix('usuario')->group(function () {
     Route::post('/register', [UserController::class, 'store']);
@@ -78,8 +77,7 @@ Route::prefix('usuario')->group(function () {
 });
 
 
-//Esportes publico
-Route::get("/esportes", [EsporteController::class, "index"]);
+//Esportes publico 
 Route::get('/esporte', [AdmController::class, 'ListarEsportes']);
 
 // Postagem pública (index, show)

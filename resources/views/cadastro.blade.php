@@ -3,538 +3,1224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - Clube Esportivo</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,0,0,0.3)), 
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23667788" width="1200" height="800"/></svg>');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 480px;
-            position: relative;
-        }
-
-        /* Barra de progresso */
-        .progress-container {
-            position: relative;
-            margin-bottom: 30px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 12px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #00D66B, #00FF7F);
-            border-radius: 20px;
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 20px rgba(0, 214, 107, 0.5);
-        }
-
-        /* Bonequinho corredor */
-        .runner {
-            position: absolute;
-            top: -25px;
-            left: 0;
-            transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(-50%);
-        }
-
-        .runner svg {
-            width: 40px;
-            height: 40px;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-        }
-
-        /* Percentual */
-        .progress-text {
-            text-align: center;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 15px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Card do formulário */
-        .form-card {
-            background: white;
-            border-radius: 24px;
-            padding: 40px 35px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        label {
-            display: block;
-            color: #00D66B;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #00D66B;
-            border-radius: 12px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background: white;
-            color: #333;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #00FF7F;
-            box-shadow: 0 0 0 4px rgba(0, 214, 107, 0.1);
-        }
-
-        input::placeholder {
-            color: #999;
-        }
-
-        select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300D66B' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-            padding-right: 40px;
-        }
-
-        /* Ícones nos inputs */
-        .input-with-icon {
-            position: relative;
-        }
-
-        .input-with-icon input,
-        .input-with-icon select {
-            padding-left: 44px;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #00D66B;
-            font-size: 18px;
-        }
-
-        /* Botões de navegação */
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 30px;
-        }
-
-        .btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 24px;
-        }
-
-        .btn-back {
-            background: #E0E0E0;
-            color: #666;
-        }
-
-        .btn-back:hover {
-            background: #D0D0D0;
-            transform: scale(1.05);
-        }
-
-        .btn-next {
-            background: linear-gradient(135deg, #00D66B, #00FF7F);
-            color: white;
-            flex: 1;
-            margin-left: 16px;
-            border-radius: 30px;
-            width: auto;
-            font-size: 18px;
-            font-weight: 600;
-            padding: 18px 40px;
-        }
-
-        .btn-next:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 214, 107, 0.4);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Esconder steps */
-        .step {
-            display: none;
-        }
-
-        .step.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Mensagem de sucesso */
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 40px;
-        }
-
-        .success-message.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .success-icon {
-            font-size: 80px;
-            color: #00D66B;
-            margin-bottom: 20px;
-        }
-
-        .success-message h2 {
-            color: #00D66B;
-            margin-bottom: 10px;
-        }
-
-        .success-message p {
-            color: #666;
-        }
-
-        /* Responsivo */
-        @media (max-width: 600px) {
-            .form-card {
-                padding: 30px 25px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Cadastro de Clube - Formulário Unificado</title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/cadastro.css') }}">
 </head>
 <body>
-    <div class="container">
-        <!-- Barra de Progresso -->
-        <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+    <div class="site-container">
+        <div class="main-content-wrapper">
+            
+            <!-- Barra de Progresso Melhorada -->
+            <div class="progress-section">
+                <div class="progress-steps">
+                    <div class="step-indicator active" data-step="1">
+                        <div class="step-circle">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <span class="step-label">Informações Básicas</span>
+                    </div>
+                    <div class="step-indicator" data-step="2">
+                        <div class="step-circle">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <span class="step-label">Dados Institucionais</span>
+                    </div>
+                    <div class="step-indicator" data-step="3">
+                        <div class="step-circle">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <span class="step-label">Administrador</span>
+                    </div>
+                </div>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progressBar">
+                        <div class="runner-icon">
+                            <i class="fas fa-person-running"></i>
+                        </div>
+                    </div>
+                    <span class="progress-percentage" id="progressPercentage">33%</span>
+                </div>
             </div>
-            <div class="runner" id="runner">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="5" r="3" fill="#00D66B"/>
-                    <path d="M12 8 L12 14 M12 14 L9 18 M12 14 L15 18 M12 10 L8 12 M12 10 L16 12" 
-                          stroke="#00D66B" stroke-width="2" stroke-linecap="round"/>
-                </svg>
+
+            <!-- Formulário Unificado -->
+            <div class="form-section">
+                <div class="header-button">
+                    <button class="clube-btn">
+                        <i class="fas fa-trophy"></i>
+                        Cadastro de Clube
+                    </button>
+                </div>
+
+                <form id="cadastroUnificado">
+                    
+                                        <!-- PASSO 1: Informações Básicas -->
+                    <div class="form-step active" id="step1">
+                        <div class="step-header">
+                            <h2><i class="fas fa-users"></i> Informações Básicas do Clube</h2>
+                            <p>Conte-nos sobre seu clube esportivo</p>
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label for="nomeClube">Nome do Clube *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-users icon"></i>
+                                <input type="text" id="nomeClube" name="nomeClube" required>
+                            </div>
+                            <span class="error-message" id="nomeClubeError"></span>
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label for="anoCriacaoClube">Ano de criação *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-calendar-alt icon"></i>
+                                <input type="date" id="anoCriacaoClube" name="anoCriacaoClube" required>
+                            </div>
+                            <span class="error-message" id="anoCriacaoClubeError"></span>
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label for="esporteClube">Esporte *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-trophy icon"></i>
+                                <select id="esporteClube" name="esporteClube" required>
+                                    <option value="" disabled selected hidden>Selecione um esporte</option>
+                                    <!-- Opções serão carregadas dinamicamente da API -->
+                                </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
+                            </div>
+                            <span class="error-message" id="esporteClubeError"></span>
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label for="estadoClube">Estado *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-map-marker-alt icon"></i>
+                                <select id="estadoClube" name="estadoClube" required>
+                                    <option value="" disabled selected hidden>Selecione o estado</option>
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+                                </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
+                            </div>
+                            <span class="error-message" id="estadoClubeError"></span>
+                        </div>
+
+                        <div class="form-group-inline">
+                            <label for="cidadeClube">Cidade *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-building icon"></i>
+                                <input type="text" id="cidadeClube" name="cidadeClube" required>
+                            </div>
+                            <span class="error-message" id="cidadeClubeError"></span>
+                        </div>
+                    </div>
+
+                    <!-- PASSO 2: Dados Institucionais -->
+                    <div class="form-step" id="step2">
+                        <div class="step-header">
+                            <h2><i class="fas fa-building"></i> Dados Institucionais</h2>
+                            <p>Informações legais e detalhes do clube</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="categoriaClube">Categoria do Clube *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-layer-group icon"></i>
+                                <select id="categoriaClube" name="categoriaClube" required>
+                                    <option value="" disabled selected hidden>Selecione a categoria</option>
+                                    <option value="Profissional">Profissional</option>
+                                    <option value="Semi-profissional">Semi-profissional</option>
+                                    <option value="Amador">Amador</option>
+                                    <option value="Juvenil">Juvenil</option>
+                                    <option value="Infantil">Infantil</option>
+                                </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
+                            </div>
+                            <span class="error-message" id="categoriaClubeError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cnpjClube">CNPJ *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-file-alt icon"></i>
+                                <input type="text" id="cnpjClube" name="cnpjClube" placeholder="00.000.000/0000-00" required maxlength="18">
+                                <div class="availability-check" id="cnpjCheck">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="cnpj-format">Formato: XX.XXX.XXX/XXXX-XX</div>
+                            <span class="error-message" id="cnpjClubeError"></span>
+                            <span class="success-message" id="cnpjClubeSuccess"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="enderecoClube">Endereço Completo *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-map-marker-alt icon"></i>
+                                <input type="text" id="enderecoClube" name="enderecoClube" placeholder="Rua, número, bairro, CEP" required maxlength="500">
+                            </div>
+                            <span class="error-message" id="enderecoClubeError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bioClube">Biografia do Clube</label>
+                            <div class="textarea-wrapper">
+                                <i class="fas fa-align-left icon"></i>
+                                <textarea id="bioClube" name="bioClube" placeholder="Conte um pouco sobre a história e objetivos do seu clube..." maxlength="1000"></textarea>
+                                <div class="char-counter" id="bioCounter">0/1000</div>
+                            </div>
+                            <span class="error-message" id="bioClubeError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fotoPerfilClube">Foto de Perfil</label>
+                            <div class="file-upload-wrapper">
+                                <div class="file-upload-area" id="fotoUploadArea">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Arraste uma imagem ou clique para selecionar</p>
+                                    <span class="file-info">JPG, PNG, JPEG, WEBP, GIF, SVG (máx. 2MB)</span>
+                                </div>
+                                <input type="file" id="fotoPerfilClube" name="fotoPerfilClube" accept="image/jpeg,image/png,image/jpg,image/webp,image/gif,image/svg+xml" style="display: none;">
+                                <div class="file-preview" id="fotoPreview" style="display: none;">
+                                    <img id="fotoPreviewImg" src="" alt="Preview">
+                                    <button type="button" class="remove-file-btn" id="removeFotoBtn">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <span class="error-message" id="fotoPerfilClubeError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fotoPerfilClube">Foto de Perfil</label>
+                            <div class="file-upload-wrapper">
+                                <div class="file-upload-area" id="fotoUploadArea">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Arraste uma imagem ou clique para selecionar</p>
+                                    <span class="file-info">Formatos aceitos: JPG, PNG, JPEG, WEBP, GIF, SVG (máx. 2MB)</span>
+                                </div>
+                                <input type="file" id="fotoPerfilClube" name="fotoPerfilClube" accept="image/jpeg,image/png,image/jpg,image/webp,image/gif,image/svg+xml" style="display: none;">
+                                <div class="file-preview" id="fotoPreview" style="display: none;">
+                                    <img id="fotoPreviewImg" src="" alt="Preview">
+                                    <button type="button" class="remove-file-btn" id="removeFotoBtn">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <span class="error-message" id="fotoPerfilClubeError"></span>
+                        </div>
+                    </div>
+
+                    <!-- PASSO 3: Administrador -->
+                    <div class="form-step" id="step3">
+                        <div class="step-header">
+                            <h2><i class="fas fa-user-shield"></i> Dados do Administrador</h2>
+                            <p>Crie sua conta de acesso ao sistema</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="emailAdmin">Email do Administrador *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-envelope icon"></i>
+                                <input type="email" id="emailAdmin" name="emailAdmin" required>
+                                <div class="availability-check" id="emailCheck">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </div>
+                            </div>
+                            <span class="error-message" id="emailAdminError"></span>
+                            <span class="success-message" id="emailAdminSuccess"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="senhaAdmin">Senha *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-lock icon"></i>
+                                <input type="password" id="senhaAdmin" name="senhaAdmin" required minlength="8">
+                                <button type="button" class="password-toggle" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength">
+                                <div class="strength-bar">
+                                    <div class="strength-fill" id="strengthFill"></div>
+                                </div>
+                                <span class="strength-text" id="strengthText">Digite uma senha</span>
+                            </div>
+                            <span class="error-message" id="senhaAdminError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmarSenha">Confirmar Senha *</label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-lock icon"></i>
+                                <input type="password" id="confirmarSenha" name="confirmarSenha" required>
+                            </div>
+                            <span class="error-message" id="confirmarSenhaError"></span>
+                        </div>
+                    </div>
+
+                    <!-- Botões de Navegação -->
+                    <div class="navigation-buttons">
+                        <button type="button" class="prev-btn" id="prevBtn" style="display: none;">
+                            <i class="fas fa-chevron-left"></i>
+                            Anterior
+                        </button>
+                        <button type="button" class="next-btn" id="nextBtn">
+                            <span class="btn-text">
+                                Próximo
+                                <i class="fas fa-chevron-right"></i>
+                            </span>
+                            <div class="btn-spinner"></div>
+                        </button>
+                        <button type="submit" class="finish-btn" id="finishBtn" style="display: none;">
+                            <span class="btn-text">
+                                <i class="fas fa-check"></i>
+                                Finalizar Cadastro
+                            </span>
+                            <div class="btn-spinner"></div>
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="progress-text" id="progressText">0%</div>
         </div>
 
-        <!-- Card do Formulário -->
-        <div class="form-card">
-            <form id="cadastroForm">
-                <!-- Step 1: Dados Pessoais -->
-                <div class="step active" data-step="1">
-                    <div class="form-group">
-                        <label for="nome">Nome</label>
-                        <div class="input-with-icon">
-                            <span class="input-icon">👤</span>
-                            <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required>
-                        </div>
-                    </div>
+        
+    </div>
+    <!-- Notificações -->
+    <div class="notification-container" id="notificationContainer"></div>
 
-                    <div class="form-group">
-                        <label for="ano_nascimento">Ano de nascimento</label>
-                        <div class="input-with-icon">
-                            <span class="input-icon">📅</span>
-                            <input type="text" id="ano_nascimento" name="ano_nascimento" placeholder="dd/MM/AAAA" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="esporte">Esporte</label>
-                        <div class="input-with-icon">
-                            <span class="input-icon">🏐</span>
-                            <select id="esporte" name="esporte" required>
-                                <option value="">Selecione um esporte</option>
-                                <option value="volei">Vôlei</option>
-                                <option value="futebol">Futebol</option>
-                                <option value="basquete">Basquete</option>
-                                <option value="tenis">Tênis</option>
-                                <option value="natacao">Natação</option>
-                                <option value="atletismo">Atletismo</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 2: Localização -->
-                <div class="step" data-step="2">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="estado">Estado</label>
-                            <div class="input-with-icon">
-                                <span class="input-icon">📍</span>
-                                <input type="text" id="estado" name="estado" placeholder="UF" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="cidade">Cidade</label>
-                            <div class="input-with-icon">
-                                <span class="input-icon">🏙️</span>
-                                <input type="text" id="cidade" name="cidade" placeholder="Sua cidade" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 3: Contato -->
-                <div class="step" data-step="3">
-                    <div class="form-group">
-                        <label for="email">E-mail</label>
-                        <div class="input-with-icon">
-                            <span class="input-icon">📧</span>
-                            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="telefone">Telefone</label>
-                        <div class="input-with-icon">
-                            <span class="input-icon">📱</span>
-                            <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 4: Senha -->
-                <div class="step" data-step="4">
-                    <div class="form-group">
-                        <label for="senha">Senha</label>
-                        <div class="input-with-icon">
-                            <span class="input-icon">🔒</span>
-                            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="confirmar_senha">Confirmar Senha</label>
-                        <div class="input-with-icon">
-                            <span class="input-icon">🔒</span>
-                            <input type="password" id="confirmar_senha" name="confirmar_senha" placeholder="Confirme sua senha" required>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mensagem de Sucesso -->
-                <div class="success-message" id="successMessage">
-                    <div class="success-icon">✓</div>
-                    <h2>Cadastro Concluído!</h2>
-                    <p>Bem-vindo ao clube esportivo.</p>
-                </div>
-
-                <!-- Navegação -->
-                <div class="navigation">
-                    <button type="button" class="btn btn-back" id="btnBack">←</button>
-                    <button type="button" class="btn btn-next" id="btnNext">Próximo →</button>
-                </div>
-            </form>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Processando seu cadastro...</p>
         </div>
     </div>
 
     <script>
-        const form = document.getElementById('cadastroForm');
-        const steps = document.querySelectorAll('.step');
-        const btnBack = document.getElementById('btnBack');
-        const btnNext = document.getElementById('btnNext');
-        const progressFill = document.getElementById('progressFill');
-        const progressText = document.getElementById('progressText');
-        const runner = document.getElementById('runner');
-        const successMessage = document.getElementById('successMessage');
+        class CadastroUnificado {
+    constructor() {
+        this.currentStep = 1;
+        this.totalSteps = 3;
+        this.formData = {};
+        this.debounceTimers = {};
+        this.isSubmitting = false;
         
-        let currentStep = 1;
-        const totalSteps = 4;
+        this.elements = {
+            form: document.getElementById('cadastroUnificado'),
+            prevBtn: document.getElementById('prevBtn'),
+            nextBtn: document.getElementById('nextBtn'),
+            finishBtn: document.getElementById('finishBtn'),
+            progressBar: document.getElementById('progressBar'),
+            progressPercentage: document.getElementById('progressPercentage'),
+            loadingOverlay: document.getElementById('loadingOverlay'),
+            notificationContainer: document.getElementById('notificationContainer')
+        };
+        
+        this.init();
+    }
 
-        // Atualizar progresso
-        function updateProgress() {
-            const progress = (currentStep / totalSteps) * 100;
-            progressFill.style.width = progress + '%';
-            progressText.textContent = Math.round(progress) + '%';
-            runner.style.left = progress + '%';
-        }
+    init() {
+        this.setupEventListeners();
+        this.loadSavedData();
+        this.updateProgress();
+        this.setupPasswordStrength();
+        this.setupCharCounter();
+        this.setupFotoUpload();
+        this.setupFotoUpload();
+        this.loadEsportes();
+    }
 
-        // Mostrar step atual
-        function showStep(step) {
-            steps.forEach(s => s.classList.remove('active'));
-            const currentStepElement = document.querySelector(`[data-step="${step}"]`);
-            if (currentStepElement) {
-                currentStepElement.classList.add('active');
-            }
-
-            // Atualizar botões
-            btnBack.disabled = step === 1;
-            btnBack.style.opacity = step === 1 ? '0.3' : '1';
-
-            if (step === totalSteps) {
-                btnNext.textContent = 'Finalizar ✓';
-            } else {
-                btnNext.textContent = 'Próximo →';
-            }
-
-            updateProgress();
-        }
-
-        // Validar step atual
-        function validateCurrentStep() {
-            const currentStepElement = document.querySelector(`[data-step="${currentStep}"]`);
-            const inputs = currentStepElement.querySelectorAll('input[required], select[required]');
-            
-            for (let input of inputs) {
-                if (!input.value.trim()) {
-                    input.focus();
-                    return false;
-                }
-            }
-
-            // Validação especial para senhas
-            if (currentStep === totalSteps) {
-                const senha = document.getElementById('senha').value;
-                const confirmarSenha = document.getElementById('confirmar_senha').value;
+    async loadEsportes() {
+        try {
+            const response = await fetch('/api/esporte');
+            if (response.ok) {
+                const esportes = await response.json();
+                const selectEsporte = document.getElementById('esporteClube');
                 
-                if (senha !== confirmarSenha) {
-                    alert('As senhas não coincidem!');
-                    return false;
+                if (selectEsporte && esportes && Array.isArray(esportes)) {
+                    // Limpar opções existentes (exceto a primeira)
+                    selectEsporte.innerHTML = '<option value="" disabled selected hidden>Selecione um esporte</option>';
+                    
+                    // Adicionar esportes da API
+                    esportes.forEach(esporte => {
+                        const option = document.createElement('option');
+                        option.value = esporte.id;
+                        option.textContent = esporte.nomeEsporte;
+                        selectEsporte.appendChild(option);
+                    });
+                    
+                    console.log(`${esportes.length} esportes carregados com sucesso`);
+                } else {
+                    console.warn('Formato de resposta inesperado da API de esportes');
+                }
+            } else {
+                console.error('Erro ao carregar esportes:', response.status);
+                this.showNotification('Não foi possível carregar a lista de esportes', 'warning');
+            }
+        } catch (error) {
+            console.error('Erro ao buscar esportes:', error);
+            this.showNotification('Erro ao conectar com o servidor', 'error');
+        }
+    }
+
+    setupEventListeners() {
+        // Navegação
+        this.elements.nextBtn.addEventListener('click', () => this.nextStep());
+        this.elements.prevBtn.addEventListener('click', () => this.prevStep());
+        this.elements.finishBtn.addEventListener('click', () => this.submitForm());
+
+        // Validação em tempo real
+        this.setupRealTimeValidation();
+        
+        // Formatação de campos
+        this.setupFieldFormatting();
+        
+        // Toggle de senha
+        this.setupPasswordToggle();
+        
+        // Prevenção de submit padrão
+        this.elements.form.addEventListener('submit', (e) => e.preventDefault());
+    }
+
+    setupRealTimeValidation() {
+        const fields = [
+            'nomeClube', 'anoCriacaoClube', 'esporteClube', 
+            'estadoClube', 'cidadeClube', 'categoriaClube', 'cnpjClube', 
+            'enderecoClube', 'emailAdmin', 'senhaAdmin', 'confirmarSenha'
+        ];
+
+        fields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.addEventListener('input', () => {
+                    this.clearFieldError(fieldId);
+                    this.saveFieldData(fieldId, field.value);
+                });
+                
+                field.addEventListener('blur', () => {
+                    this.validateField(fieldId);
+                });
+            }
+        });
+
+        // Validações específicas com debounce
+        const cnpjField = document.getElementById('cnpjClube');
+        if (cnpjField) {
+            cnpjField.addEventListener('input', (e) => {
+                this.formatCNPJ(e.target);
+                this.debounceValidation('cnpj', () => {
+                    this.checkCnpjAvailability();
+                }, 800);
+            });
+        }
+
+        const emailField = document.getElementById('emailAdmin');
+        if (emailField) {
+            emailField.addEventListener('input', () => {
+                this.debounceValidation('email', () => {
+                    this.checkEmailAvailability();
+                }, 600);
+            });
+        }
+
+        const senhaField = document.getElementById('senhaAdmin');
+        if (senhaField) {
+            senhaField.addEventListener('input', () => {
+                this.updatePasswordStrength();
+                this.validatePasswordMatch();
+            });
+        }
+
+        const confirmarSenhaField = document.getElementById('confirmarSenha');
+        if (confirmarSenhaField) {
+            confirmarSenhaField.addEventListener('input', () => {
+                this.validatePasswordMatch();
+            });
+        }
+    }
+
+    setupFieldFormatting() {
+        // Formatação de CNPJ já implementada no setupRealTimeValidation
+    }
+
+    setupPasswordToggle() {
+        const toggleBtn = document.getElementById('togglePassword');
+        const senhaField = document.getElementById('senhaAdmin');
+        
+        if (toggleBtn && senhaField) {
+            toggleBtn.addEventListener('click', () => {
+                const type = senhaField.getAttribute('type') === 'password' ? 'text' : 'password';
+                senhaField.setAttribute('type', type);
+                
+                const icon = toggleBtn.querySelector('i');
+                icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+            });
+        }
+    }
+
+    setupPasswordStrength() {
+        this.strengthFill = document.getElementById('strengthFill');
+        this.strengthText = document.getElementById('strengthText');
+    }
+
+    setupCharCounter() {
+        const bioField = document.getElementById('bioClube');
+        const counter = document.getElementById('bioCounter');
+        
+        if (bioField && counter) {
+            bioField.addEventListener('input', () => {
+                const length = bioField.value.length;
+                const maxLength = 1000;
+                
+                counter.textContent = ${length}
+            })}}
+    setupFotoUpload() {
+        const fotoUploadArea = document.getElementById('fotoUploadArea');
+        const fotoInput = document.getElementById('fotoPerfilClube');
+        const fotoPreview = document.getElementById('fotoPreview');
+        const fotoPreviewImg = document.getElementById('fotoPreviewImg');
+        const removeFotoBtn = document.getElementById('removeFotoBtn');
+
+        if (!fotoUploadArea || !fotoInput) return;
+
+        fotoUploadArea.addEventListener('click', () => fotoInput.click());
+
+        fotoUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fotoUploadArea.classList.add('dragover');
+        });
+
+        fotoUploadArea.addEventListener('dragleave', () => {
+            fotoUploadArea.classList.remove('dragover');
+        });
+
+        fotoUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fotoUploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fotoInput.files = files;
+                this.handleFotoUpload(files[0]);
+            }
+        });
+
+        fotoInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                this.handleFotoUpload(e.target.files[0]);
+            }
+        });
+
+        if (removeFotoBtn) {
+            removeFotoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.removeFoto();
+            });
+        }
+    }
+
+    handleFotoUpload(file) {
+        const fotoUploadArea = document.getElementById('fotoUploadArea');
+        const fotoPreview = document.getElementById('fotoPreview');
+        const fotoPreviewImg = document.getElementById('fotoPreviewImg');
+
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'image/gif', 'image/svg+xml'];
+        if (!allowedTypes.includes(file.type)) {
+            this.showFieldError('fotoPerfilClube', 'Formato de arquivo não permitido.');
+            return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) {
+            this.showFieldError('fotoPerfilClube', 'O arquivo deve ter no máximo 2MB.');
+            return;
+        }
+
+        this.clearFieldError('fotoPerfilClube');
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            fotoPreviewImg.src = e.target.result;
+            fotoUploadArea.style.display = 'none';
+            fotoPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    removeFoto() {
+        const fotoInput = document.getElementById('fotoPerfilClube');
+        const fotoUploadArea = document.getElementById('fotoUploadArea');
+        const fotoPreview = document.getElementById('fotoPreview');
+        const fotoPreviewImg = document.getElementById('fotoPreviewImg');
+
+        fotoInput.value = '';
+        fotoPreviewImg.src = '';
+        fotoUploadArea.style.display = 'flex';
+        fotoPreview.style.display = 'none';
+        this.clearFieldError('fotoPerfilClube');
+    }
+/${maxLength};
+                
+                counter.className = 'char-counter';
+                if (length > maxLength * 0.8) {
+                    counter.classList.add('warning');
+                }
+                if (length > maxLength * 0.95) {
+                    counter.classList.add('danger');
                 }
             }
 
-            return true;
+    setupFotoUpload() {
+        const fotoUploadArea = document.getElementById('fotoUploadArea');
+        const fotoInput = document.getElementById('fotoPerfilClube');
+        const fotoPreview = document.getElementById('fotoPreview');
+        const fotoPreviewImg = document.getElementById('fotoPreviewImg');
+        const removeFotoBtn = document.getElementById('removeFotoBtn');
+
+        if (!fotoUploadArea || !fotoInput) return;
+
+        // Click na área de upload
+        fotoUploadArea.addEventListener('click', () => {
+            fotoInput.click();
+        });
+
+        // Drag and drop
+        fotoUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fotoUploadArea.classList.add('dragover');
+        });
+
+        fotoUploadArea.addEventListener('dragleave', () => {
+            fotoUploadArea.classList.remove('dragover');
+        });
+
+        fotoUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fotoUploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fotoInput.files = files;
+                this.handleFotoUpload(files[0]);
+            }
+        });
+
+        // Seleção de arquivo
+        fotoInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                this.handleFotoUpload(e.target.files[0]);
+            }
+        });
+
+        // Remover foto
+        if (removeFotoBtn) {
+            removeFotoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.removeFoto();
+            });
+        }
+    }
+
+    handleFotoUpload(file) {
+        const fotoUploadArea = document.getElementById('fotoUploadArea');
+        const fotoPreview = document.getElementById('fotoPreview');
+        const fotoPreviewImg = document.getElementById('fotoPreviewImg');
+
+        // Validar tipo de arquivo
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'image/gif', 'image/svg+xml'];
+        if (!allowedTypes.includes(file.type)) {
+            this.showFieldError('fotoPerfilClube', 'Formato de arquivo não permitido.');
+            return;
         }
 
-        // Próximo
-        btnNext.addEventListener('click', () => {
-            if (!validateCurrentStep()) {
-                return;
-            }
+        // Validar tamanho (2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            this.showFieldError('fotoPerfilClube', 'O arquivo deve ter no máximo 2MB.');
+            return;
+        }
 
-            if (currentStep < totalSteps) {
-                currentStep++;
-                showStep(currentStep);
+        // Limpar erros
+        this.clearFieldError('fotoPerfilClube');
+
+        // Mostrar preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            fotoPreviewImg.src = e.target.result;
+            fotoUploadArea.style.display = 'none';
+            fotoPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    removeFoto() {
+        const fotoInput = document.getElementById('fotoPerfilClube');
+        const fotoUploadArea = document.getElementById('fotoUploadArea');
+        const fotoPreview = document.getElementById('fotoPreview');
+        const fotoPreviewImg = document.getElementById('fotoPreviewImg');
+
+        fotoInput.value = '';
+        fotoPreviewImg.src = '';
+        fotoUploadArea.style.display = 'flex';
+        fotoPreview.style.display = 'none';
+        this.clearFieldError('fotoPerfilClube');
+    }
+);
+        }
+    }
+
+    // Navegação entre passos
+    nextStep() {
+        if (this.validateCurrentStep()) {
+            if (this.currentStep < this.totalSteps) {
+                this.currentStep++;
+                this.updateStepDisplay();
+                this.updateProgress();
+            }
+        }
+    }
+
+    prevStep() {
+        if (this.currentStep > 1) {
+            this.currentStep--;
+            this.updateStepDisplay();
+            this.updateProgress();
+        }
+    }
+
+    updateStepDisplay() {
+        // Esconder todos os passos
+        document.querySelectorAll('.form-step').forEach(step => {
+            step.classList.remove('active');
+        });
+        
+        // Mostrar passo atual
+        document.getElementById(`step${this.currentStep}`).classList.add('active');
+        
+        // Atualizar indicadores de passo
+        document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
+            indicator.classList.remove('active', 'completed');
+            
+            if (index + 1 === this.currentStep) {
+                indicator.classList.add('active');
+            } else if (index + 1 < this.currentStep) {
+                indicator.classList.add('completed');
+            }
+        });
+        
+        // Atualizar botões
+        this.elements.prevBtn.style.display = this.currentStep > 1 ? 'flex' : 'none';
+        this.elements.nextBtn.style.display = this.currentStep < this.totalSteps ? 'flex' : 'none';
+        this.elements.finishBtn.style.display = this.currentStep === this.totalSteps ? 'flex' : 'none';
+        
+        // Scroll para o topo
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    updateProgress() {
+        const percentage = Math.round((this.currentStep / this.totalSteps) * 100);
+        this.elements.progressBar.style.width = `${percentage}%`;
+        this.elements.progressPercentage.textContent = `${percentage}%`;
+    }
+
+    // Validação
+    validateCurrentStep() {
+        const stepFields = this.getStepFields(this.currentStep);
+        let isValid = true;
+
+        stepFields.forEach(fieldId => {
+            if (!this.validateField(fieldId)) {
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            this.showNotification('Por favor, preencha todos os campos obrigatórios corretamente.', 'error');
+        }
+
+        return isValid;
+    }
+
+    getStepFields(step) {
+        const stepFields = {
+            1: ['nomeClube', 'anoCriacaoClube', 'esporteClube', 'estadoClube', 'cidadeClube'],
+            2: ['categoriaClube', 'cnpjClube', 'enderecoClube'],
+            3: ['emailAdmin', 'senhaAdmin', 'confirmarSenha']
+        };
+        
+        return stepFields[step] || [];
+    }
+
+    validateField(fieldId) {
+        const field = document.getElementById(fieldId);
+        if (!field) return true;
+        
+        const value = field.value.trim();
+        const isRequired = field.hasAttribute('required');
+        
+        // Limpar erros anteriores
+        this.clearFieldError(fieldId);
+        
+        // Verificar se é obrigatório e está vazio
+        if (isRequired && !value) {
+            const label = field.closest('.form-group').querySelector('label').textContent.replace('*', '').trim();
+            this.showFieldError(fieldId, `${label} é obrigatório.`);
+            return false;
+        }
+        
+        // Validações específicas
+        if (value) {
+            switch (fieldId) {
+                case 'anoCriacaoClube':
+                    const selectedDate = new Date(value);
+                    const currentDate = new Date();
+                    if (selectedDate > currentDate) {
+                        this.showFieldError(fieldId, 'A data não pode ser no futuro.');
+                        return false;
+                    }
+                    break;
+                    
+                case 'cnpjClube':
+                    if (!this.validateCNPJ(value)) {
+                        this.showFieldError(fieldId, 'CNPJ inválido.');
+                        return false;
+                    }
+                    break;
+                    
+                case 'emailAdmin':
+                    if (!this.validateEmail(value)) {
+                        this.showFieldError(fieldId, 'Email inválido.');
+                        return false;
+                    }
+                    break;
+                    
+                case 'senhaAdmin':
+                    if (value.length < 8) {
+                        this.showFieldError(fieldId, 'A senha deve ter pelo menos 8 caracteres.');
+                        return false;
+                    }
+                    break;
+                    
+                case 'confirmarSenha':
+                    const senha = document.getElementById('senhaAdmin').value;
+                    if (value !== senha) {
+                        this.showFieldError(fieldId, 'As senhas não coincidem.');
+                        return false;
+                    }
+                    break;
+            }
+        }
+        
+        return true;
+    }
+
+    // Utilitários de validação
+    validateCNPJ(cnpj) {
+        cnpj = cnpj.replace(/[^\d]+/g, '');
+        
+        if (cnpj.length !== 14) return false;
+        
+        // Elimina CNPJs inválidos conhecidos
+        if (/^(\d)\1+$/.test(cnpj)) return false;
+        
+        // Valida DVs
+        let tamanho = cnpj.length - 2;
+        let numeros = cnpj.substring(0, tamanho);
+        let digitos = cnpj.substring(tamanho);
+        let soma = 0;
+        let pos = tamanho - 7;
+        
+        for (let i = tamanho; i >= 1; i--) {
+            soma += numeros.charAt(tamanho - i) * pos--;
+            if (pos < 2) pos = 9;
+        }
+        
+        let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+        if (resultado != digitos.charAt(0)) return false;
+        
+        tamanho = tamanho + 1;
+        numeros = cnpj.substring(0, tamanho);
+        soma = 0;
+        pos = tamanho - 7;
+        
+        for (let i = tamanho; i >= 1; i--) {
+            soma += numeros.charAt(tamanho - i) * pos--;
+            if (pos < 2) pos = 9;
+        }
+        
+        resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+        return resultado == digitos.charAt(1);
+    }
+
+    validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Formatação
+    formatCNPJ(input) {
+        let value = input.value.replace(/\D/g, '');
+        
+        if (value.length <= 14) {
+            value = value.replace(/^(\d{2})(\d)/, '$1.$2');
+            value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+            value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
+            value = value.replace(/(\d{4})(\d)/, '$1-$2');
+        }
+        
+        input.value = value;
+    }
+
+    // Verificações de disponibilidade
+    debounceValidation(key, callback, delay = 500) {
+        clearTimeout(this.debounceTimers[key]);
+        this.debounceTimers[key] = setTimeout(callback, delay);
+    }
+
+    async checkCnpjAvailability() {
+        const cnpjField = document.getElementById('cnpjClube');
+        const cnpjCheck = document.getElementById('cnpjCheck');
+        const cnpj = cnpjField.value.trim();
+
+        if (cnpj.length !== 18) {
+            cnpjCheck.className = 'availability-check';
+            return;
+        }
+
+        if (!this.validateCNPJ(cnpj)) {
+            cnpjCheck.className = 'availability-check unavailable';
+            cnpjCheck.innerHTML = '<i class="fas fa-times"></i>';
+            this.showFieldError('cnpjClube', 'CNPJ inválido');
+            return;
+        }
+
+        cnpjCheck.className = 'availability-check checking';
+        cnpjCheck.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+        try {
+            // Simular verificação de disponibilidade
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Por enquanto, sempre retorna disponível
+            cnpjCheck.className = 'availability-check available';
+            cnpjCheck.innerHTML = '<i class="fas fa-check"></i>';
+            this.showFieldSuccess('cnpjClube', 'CNPJ disponível');
+            this.clearFieldError('cnpjClube');
+            
+        } catch (error) {
+            cnpjCheck.className = 'availability-check unavailable';
+            cnpjCheck.innerHTML = '<i class="fas fa-times"></i>';
+            this.showFieldError('cnpjClube', 'Erro ao verificar CNPJ');
+        }
+    }
+
+    async checkEmailAvailability() {
+        const emailField = document.getElementById('emailAdmin');
+        const emailCheck = document.getElementById('emailCheck');
+        const email = emailField.value.trim();
+
+        if (!email || !this.validateEmail(email)) {
+            emailCheck.className = 'availability-check';
+            return;
+        }
+
+        emailCheck.className = 'availability-check checking';
+        emailCheck.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+        try {
+            // Simular verificação de disponibilidade
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            // Por enquanto, sempre retorna disponível
+            emailCheck.className = 'availability-check available';
+            emailCheck.innerHTML = '<i class="fas fa-check"></i>';
+            this.showFieldSuccess('emailAdmin', 'Email disponível');
+            this.clearFieldError('emailAdmin');
+            
+        } catch (error) {
+            emailCheck.className = 'availability-check unavailable';
+            emailCheck.innerHTML = '<i class="fas fa-times"></i>';
+            this.showFieldError('emailAdmin', 'Erro ao verificar email');
+        }
+    }
+
+    // Força da senha
+    updatePasswordStrength() {
+        const senha = document.getElementById('senhaAdmin').value;
+        const strength = this.calculatePasswordStrength(senha);
+        
+        this.strengthFill.style.width = `${strength.percentage}%`;
+        this.strengthFill.style.backgroundColor = strength.color;
+        this.strengthText.textContent = strength.text;
+        this.strengthText.style.color = strength.color;
+    }
+
+    calculatePasswordStrength(password) {
+        if (!password) {
+            return { percentage: 0, color: '#ddd', text: 'Digite uma senha' };
+        }
+        
+        let score = 0;
+        const checks = {
+            length: password.length >= 8,
+            lowercase: /[a-z]/.test(password),
+            uppercase: /[A-Z]/.test(password),
+            numbers: /\d/.test(password),
+            special: /[^A-Za-z0-9]/.test(password)
+        };
+        
+        score = Object.values(checks).filter(Boolean).length;
+        
+        const levels = [
+            { min: 0, max: 1, percentage: 20, color: '#e3342f', text: 'Muito fraca' },
+            { min: 2, max: 2, percentage: 40, color: '#ffc107', text: 'Fraca' },
+            { min: 3, max: 3, percentage: 60, color: '#fd7e14', text: 'Regular' },
+            { min: 4, max: 4, percentage: 80, color: '#20c997', text: 'Forte' },
+            { min: 5, max: 5, percentage: 100, color: '#28a745', text: 'Muito forte' }
+        ];
+        
+        return levels.find(level => score >= level.min && score <= level.max) || levels[0];
+    }
+
+    validatePasswordMatch() {
+        const senha = document.getElementById('senhaAdmin').value;
+        const confirmar = document.getElementById('confirmarSenha').value;
+        
+        if (confirmar && senha !== confirmar) {
+            this.showFieldError('confirmarSenha', 'As senhas não coincidem.');
+        } else if (confirmar && senha === confirmar) {
+            this.clearFieldError('confirmarSenha');
+            this.showFieldSuccess('confirmarSenha', 'Senhas coincidem');
+        }
+    }
+
+    // Gerenciamento de dados
+    saveFieldData(fieldId, value) {
+        this.formData[fieldId] = value;
+        localStorage.setItem('cadastro_unificado', JSON.stringify(this.formData));
+    }
+
+    loadSavedData() {
+        try {
+            const savedData = localStorage.getItem('cadastro_unificado');
+            if (savedData) {
+                this.formData = JSON.parse(savedData);
+                
+                Object.keys(this.formData).forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (field && this.formData[fieldId]) {
+                        field.value = this.formData[fieldId];
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Erro ao carregar dados salvos:', error);
+        }
+    }
+
+    // Submissão do formulário
+    async submitForm() {
+        if (this.isSubmitting) return;
+        
+        if (!this.validateCurrentStep()) {
+            return;
+        }
+        
+        this.isSubmitting = true;
+        this.showLoading(true);
+        
+        try {
+            // Coletar todos os dados do formulário usando FormData
+            const formData = new FormData(this.elements.form);
+            
+            // Adicionar dados salvos (exceto arquivos)
+            Object.keys(this.formData).forEach(key => {
+                if (!formData.has(key)) {
+                    formData.append(key, this.formData[key]);
+                }
+            });
+            
+            // Tentar enviar para a API
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name=\"csrf-token\"]')?.getAttribute('content') || '',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            if (response.ok) {
+                const result = await response.json();
+                
+                if (result.success) {
+                    this.showNotification('Cadastro realizado com sucesso!', 'success');
+                    
+                    // Limpar dados salvos
+                    localStorage.removeItem('cadastro_unificado');
+                    
+                    // Redirecionar após sucesso
+                    setTimeout(() => {
+                        window.location.href = result.redirect || '/dashboard';
+                    }, 2000);
+                    
+                    return;
+                } else {
+                    throw new Error(result.message || 'Erro no cadastro');
+                }
             } else {
-                // Finalizar cadastro
-                finalizarCadastro();
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || 'Erro na comunicação com o servidor');
             }
-        });
-
-        // Voltar
-        btnBack.addEventListener('click', () => {
-            if (currentStep > 1) {
-                currentStep--;
-                showStep(currentStep);
-            }
-        });
-
-        // Finalizar cadastro
-        function finalizarCadastro() {
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData);
             
-            console.log('Dados do cadastro:', data);
-            
-            // Esconder formulário e mostrar mensagem de sucesso
-            steps.forEach(s => s.classList.remove('active'));
-            document.querySelector('.navigation').style.display = 'none';
-            successMessage.classList.add('active');
-            
-            // Progresso 100%
-            progressFill.style.width = '100%';
-            progressText.textContent = '100%';
-            runner.style.left = '100%';
-
-            // Aqui você pode fazer a requisição para o backend Laravel
-            // fetch('/api/cadastro', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(data)
-            // });
+        } catch (error) {
+            console.error('Erro no cadastro:', error);
+            this.showNotification(
+                error.message || 'Erro ao processar cadastro. Tente novamente.',
+                'error'
+            );
+        } finally {
+            this.isSubmitting = false;
+            this.showLoading(false);
         }
+    }
 
-        // Máscara para telefone
-        document.getElementById('telefone').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length <= 11) {
-                value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
-                value = value.replace(/(\d)(\d{4})$/, '$1-$2');
-            }
-            e.target.value = value;
-        });
+    // Interface de usuário
+    showFieldError(fieldId, message) {
+        const errorElement = document.getElementById(fieldId + 'Error');
+        const inputWrapper = document.getElementById(fieldId)?.closest('.input-icon-wrapper');
+        
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+        }
+        
+        if (inputWrapper) {
+            inputWrapper.classList.add('error');
+            inputWrapper.classList.remove('success');
+        }
+    }
 
-        // Máscara para data
-        document.getElementById('ano_nascimento').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length <= 8) {
-                value = value.replace(/^(\d{2})(\d)/g, '$1/$2');
-                value = value.replace(/(\d{2})(\d)/, '$1/$2');
-            }
-            e.target.value = value;
-        });
+    showFieldSuccess(fieldId, message) {
+        const successElement = document.getElementById(fieldId + 'Success');
+        const inputWrapper = document.getElementById(fieldId)?.closest('.input-icon-wrapper');
+        
+        if (successElement) {
+            successElement.textContent = message;
+            successElement.classList.add('show');
+        }
+        
+        if (inputWrapper) {
+            inputWrapper.classList.add('success');
+            inputWrapper.classList.remove('error');
+        }
+    }
 
-        // Inicializar
-        showStep(currentStep);
+    clearFieldError(fieldId) {
+        const errorElement = document.getElementById(fieldId + 'Error');
+        const successElement = document.getElementById(fieldId + 'Success');
+        const inputWrapper = document.getElementById(fieldId)?.closest('.input-icon-wrapper');
+        
+        if (errorElement) {
+            errorElement.classList.remove('show');
+        }
+        
+        if (successElement) {
+            successElement.classList.remove('show');
+        }
+        
+        if (inputWrapper) {
+            inputWrapper.classList.remove('error', 'success');
+        }
+    }
+
+    showNotification(message, type = 'info', duration = 4000) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        
+        const icon = this.getNotificationIcon(type);
+        notification.innerHTML = `
+            <i class="${icon}"></i>
+            <span>${message}</span>
+        `;
+
+        this.elements.notificationContainer.appendChild(notification);
+
+        // Animar entrada
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 100);
+
+        // Remover após duração especificada
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                if (this.elements.notificationContainer.contains(notification)) {
+                    this.elements.notificationContainer.removeChild(notification);
+                }
+            }, 300);
+        }, duration);
+    }
+
+    getNotificationIcon(type) {
+        const icons = {
+            success: 'fas fa-check-circle',
+            error: 'fas fa-exclamation-circle',
+            warning: 'fas fa-exclamation-triangle',
+            info: 'fas fa-info-circle'
+        };
+        return icons[type] || icons.info;
+    }
+
+    showLoading(show) {
+        this.elements.loadingOverlay.style.display = show ? 'flex' : 'none';
+    }
+}
+
+// Inicializar quando o DOM estiver carregado
+document.addEventListener('DOMContentLoaded', () => {
+    new CadastroUnificado();
+});
+
+// Prevenir perda de dados ao sair da página
+window.addEventListener('beforeunload', (e) => {
+    const hasUnsavedData = localStorage.getItem('cadastro_unificado');
+    if (hasUnsavedData) {
+        e.preventDefault();
+        e.returnValue = 'Você tem dados não salvos. Tem certeza que deseja sair?';
+    }
+});
+
     </script>
 </body>
 </html>
-

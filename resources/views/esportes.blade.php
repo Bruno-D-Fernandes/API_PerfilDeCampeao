@@ -11,11 +11,7 @@
 <body>
     <div class="dashboard-container">
         <aside class="sidebar">
-            <div class="logo-section">
-                <img id="LogoExpanded" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo do Perfil Completa">
-        
-                <img id="LogoCollapsed" src="{{ asset('img/mini_logo.png') }}" alt="MIni logo">
-             </div>
+           
             
             <nav class="sidebar-nav">
                 <ul>

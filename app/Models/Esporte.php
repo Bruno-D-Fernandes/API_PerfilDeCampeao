@@ -20,10 +20,6 @@ class Esporte extends Model
         'descricaoEsporte',
     ];
 
-    public function clubes() // tirar isso depois | só estou mexendo no usuario -- bruno
-    {
-        return $this->belongsToMany(Clube::class);
-    }
 
     public function posicoes()
     {
