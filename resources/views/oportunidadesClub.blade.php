@@ -313,7 +313,7 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="dashAdm"><ion-icon name="grid-outline"></ion-icon> <span class="nav-text">Dashboard</span></a></li>
+                    <li><a href="dashClub"><ion-icon name="grid-outline"></ion-icon> <span class="nav-text">Dashboard</span></a></li>
                     <li><a href="usuarios"><ion-icon name="people-outline"></ion-icon> <span class="nav-text">Usuários</span></a></li>
                     <li><a href="esporte"><ion-icon name="football-outline"></ion-icon> <span class="nav-text">Esportes</span></a></li>
                     <li class="active"><a href="#"><ion-icon name="briefcase-outline"></ion-icon> <span class="nav-text">Oportunidades</span></a></li>
@@ -474,7 +474,7 @@
         const esporteSelect = document.getElementById('esporte_id');
         const posicaoSelect = document.getElementById('posicoes_id');
         const successMessage = document.getElementById('successMessage');
-
+        const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         // Usar o token do clube (prefixo clube)
         const API_TOKEN = localStorage.getItem('token');
 
@@ -486,7 +486,8 @@
         const authHeaders = {
             'Authorization': `Bearer ${API_TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': CSRF_TOKEN
         };
 
         // --- FUNÇÕES AUXILIARES ---
@@ -608,6 +609,7 @@
                 enderecoOportunidade: document.getElementById('enderecoOportunidade').value || null,
                 cepOportunidade: document.getElementById('cepOportunidade').value || null,
             };
+            
 
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
@@ -657,7 +659,7 @@
         async function fetchOpportunities() {
             tableBody.innerHTML = '<tr><td colspan="7">Carregando...</td></tr>';
             try {
-                const response = await fetch('/api/clube/oportunidades', { headers: authHeaders });
+                const response = await fetch('/api/clube/minhasOportunidades', { headers: authHeaders });
                 if (!response.ok) throw new Error('Falha ao buscar oportunidades.');
                 
                 const result = await response.json();

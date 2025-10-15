@@ -98,10 +98,13 @@ Route::prefix('clube')->group(function () {
 
         Route::get('/jogadores', [SearchUsuarioController::class, 'index']); // Rota para buscar jogadores
 
+Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
+
         Route::get('/minhasOportunidades', [InscricaoOportunidadeController::class, 'myOportunidadesClube']);
         Route::post('/oportunidade', [OportunidadeController::class, 'store']);
         Route::put('/oportunidade/{id}', [OportunidadeController::class, 'update']);
         Route::delete('/oportunidade/{id}', [OportunidadeController::class, 'destroy']);
+
 
         Route::get('/oportunidades', [OportunidadeController::class, 'index']);//Tem que retirar essa rota esta mostrando todos 
 

@@ -28,12 +28,12 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li><a href="dashAdm"><ion-icon name="grid-outline"></ion-icon> <span class="nav-text">Dashboard</span></a></li>
-                    <li class="active"><a href="#"><ion-icon name="people-outline"></ion-icon> <span class="nav-text">Usuários</span> <ion-icon class="chevron" name="chevron-down-outline"></ion-icon></a></li>
+                    <li class="active"><a href="#"><ion-icon name="people-outline"></ion-icon> <span class="nav-text">Usuários</span></a></li>
                     <li><a href="esporte"><ion-icon name="football-outline"></ion-icon> <span class="nav-text">Esportes</span></a></li>
                     <li><a href="#"><ion-icon name="rocket-outline"></ion-icon> <span class="nav-text">Oportunidades</span></a></li>
                     <li><a href="#"><ion-icon name="list-outline"></ion-icon> <span class="nav-text">Listas</span></a></li>
-                    <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon> <span class="nav-text">Denúncias</span> <ion-icon class="chevron" name="chevron-down-outline"></ion-icon></a></li>
-                    <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> <span class="nav-text">Conteúdo</span> <ion-icon class="chevron" name="chevron-down-outline"></ion-icon></a></li>
+                    <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon> <span class="nav-text">Denúncias</span></a></li>
+                    <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> <span class="nav-text">Conteúdo</span></a></li>
                     <li><a href="#"><ion-icon name="stats-chart-outline"></ion-icon> <span class="nav-text">Estatísticas</span></a></li>
                 </ul>
             </nav>
@@ -57,7 +57,7 @@
                         <div class="avatar">
                             <ion-icon name="person-outline"></ion-icon>
                         </div>
-                        <span>João Pedro</span>
+                        <span>Admin</span>
                     </div>
                 </div>
             </header>
@@ -387,6 +387,7 @@
             }
         });
     });
-    </script>       
+    </script>   
+        
 </body>
 </html>

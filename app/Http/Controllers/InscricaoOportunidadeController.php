@@ -144,6 +144,7 @@ class InscricaoOportunidadeController extends Controller
 
         $q = Oportunidade::where('clube_id', $clube->id)
             ->with(['esporte','posicao'])
+            ->withCount('inscricoes')
             ->orderByDesc('id');
 
         if($s = $request->query('status')){

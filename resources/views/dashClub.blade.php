@@ -253,126 +253,119 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Função para buscar as estatísticas do clube
-            async function carregarEstatisticas() {
-                try {
-                    // Faz a requisição para a API que criamos
-                    const response = await fetch('/api/oportunidades/estatisticas', {
-                        headers: {
-                            'Accept': 'application/json',
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    });
-
-                    if (!response.ok) {
-                        // Se a resposta não for OK (ex: erro 401, 500), exibe um erro
-                        console.error('Erro ao buscar estatísticas:', response.statusText);
-                        document.getElementById('total-oportunidades').textContent = 'Erro';
-                        return;
-                    }
-
-                    // Converte a resposta para JSON
-                    const stats = await response.json();
-
-                    // Atualiza o elemento HTML com o total de oportunidades
-                    const totalOportunidadesEl = document.getElementById('total-oportunidades');
-                    if (totalOportunidadesEl) {
-                        totalOportunidadesEl.textContent = stats.total_oportunidades;
-                    }
-
-                } catch (error) {
-                    console.error('Falha na requisição de estatísticas:', error);
-                    document.getElementById('total-oportunidades').textContent = 'N/A';
-                }
-            }
-
-            // Chama a função assim que a página terminar de carregar
-            carregarEstatisticas();
-        });
-    </script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        
-        // Função para carregar as estatísticas (já existente)
-        async function carregarEstatisticas() {
-            // ... seu código existente ...
-        }
-
-
-
-async function fetchAllOpportunities() {
-            try {
-                // Usando a rota de admin que você criou.
-                const response = await fetch('/api/admin/oportunidades', { headers: authHeaders });
-                if (!response.ok) throw new Error('Falha ao buscar oportunidades');
-                
-                const result = await response.json();
-                const opportunities = result.data || result;
-
-                document.getElementById('total-opportunities').textContent = result.total || opportunities.length;
-                renderLatestOpportunities(opportunities.slice(0, 3));
-
-            } catch (error) {
-                console.error("Erro ao buscar oportunidades:", error);
-                document.getElementById('total-opportunities').textContent = 'Erro';
-                document.getElementById('latest-opportunities').innerHTML = `<li>${error.message}</li>`;
-            }
-        }
-
-
-        // --- NOVA FUNÇÃO PARA CARREGAR SUGESTÕES ---
-        async function carregarSugestoes() {
-            const container = document.getElementById('suggestions-list-container');
+    
+    /**
+     * Função para buscar as estatísticas do clube
+     */
+    async function carregarEstatisticas() {
+        try {
+            // Pega o token de autenticação
+            // AJUSTE conforme seu sistema salva o token
+            const token =  localStorage.getItem('token')
             
-            try {
-                // Chama a nova rota da API
-                const response = await fetch('/api/usuarios/sugestoes', {
-                    headers: {
-                        'Accept': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                });
-
-                if (!response.ok) {
-                    container.innerHTML = '<p>Erro ao carregar sugestões.</p>';
-                    return;
-                }
-
-                const sugestoes = await response.json();
-
-                // Limpa a mensagem "Carregando..."
-                container.innerHTML = '';
-
-                if (sugestoes.length === 0) {
-                    container.innerHTML = '<p>Nenhuma sugestão encontrada.</p>';
-                    return;
-                }
-
-                // Cria um item na lista para cada sugestão recebida
-                sugestoes.forEach(usuario => {
-                    const itemHtml = `
-                        <div class="suggestion-item">
-                            <div class="suggestion-avatar"></div>
-                            <div class="suggestion-info">
-                                <div class="suggestion-name">${usuario.nomeCompletoUsuario}</div>
-                                <div class="suggestion-handle">${usuario.username}</div>
-                            </div>
-                            <button class="suggestion-action">→</button>
-                        </div>
-                    `;
-                    // Adiciona o novo elemento HTML ao container
-                    container.insertAdjacentHTML('beforeend', itemHtml);
-                });
-
-            } catch (error) {
-                console.error('Falha ao carregar sugestões:', error);
-                container.innerHTML = '<p>Não foi possível buscar as sugestões.</p>';
+            if (!token) {
+                console.error('Token de autenticação não encontrado');
+                document.getElementById('total-oportunidades').textContent = 'N/A';
+                return;
             }
-        }
 
-        // Chama as duas funções ao carregar a página
-        carregarEstatisticas();
-        carregarSugestoes(); 
+            console.log('Buscando estatísticas...');
+
+            // Faz a requisição para a API
+            const response = await fetch('/api/clube/minhasOportunidades', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            console.log('Status da resposta:', response.status);
+
+            if (!response.ok) {
+                console.error('Erro ao buscar estatísticas:', response.statusText);
+                document.getElementById('total-oportunidades').textContent = 'Erro';
+                
+                // Se for erro 401, redireciona para login
+                if (response.status === 401) {
+                    console.log('Sessão expirada');
+                    // Descomente a linha abaixo se quiser redirecionar
+                    window.location.href = '/login';
+                }
+                return;
+            }
+
+            // Converte a resposta para JSON
+            const data = await response.json();
+            console.log('Dados recebidos:', data);
+
+            // ATUALIZA O TOTAL DE OPORTUNIDADES
+            const totalOportunidadesEl = document.getElementById('total-oportunidades');
+            if (totalOportunidadesEl) {
+                // Tenta diferentes estruturas de resposta
+                const total = data.total_oportunidades  // Versão com estatísticas
+                           || data.total                // Versão paginada
+                           || (data.data ? data.data.length : 0); // Fallback
+                
+                totalOportunidadesEl.textContent = total;
+                console.log('Total de oportunidades:', total);
+            }
+
+            // OPCIONAL: Atualiza total de inscrições (se você tiver esse elemento)
+            const totalInscricoesEl = document.getElementById('total-inscricoes');
+            if (totalInscricoesEl && data.total_inscricoes !== undefined) {
+                totalInscricoesEl.textContent = data.total_inscricoes;
+            }
+
+            // OPCIONAL: Atualiza oportunidades ativas
+            const oportunidadesAtivasEl = document.getElementById('oportunidades-ativas');
+            if (oportunidadesAtivasEl && data.oportunidades_ativas !== undefined) {
+                oportunidadesAtivasEl.textContent = data.oportunidades_ativas;
+            }
+
+            // OPCIONAL: Renderiza lista de oportunidades
+            if (data.data && data.data.length > 0) {
+                renderizarOportunidades(data.data);
+            }
+
+        } catch (error) {
+            console.error('Falha na requisição de estatísticas:', error);
+            document.getElementById('total-oportunidades').textContent = 'N/A';
+        }
+    }
+
+    /**
+     * Função para renderizar lista de oportunidades (OPCIONAL)
+     */
+    function renderizarOportunidades(oportunidades) {
+        const container = document.getElementById('lista-oportunidades');
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        oportunidades.forEach(oportunidade => {
+            const inscricoesCount = oportunidade.inscricoes_count || 0;
+            const esporte = oportunidade.esporte?.nomeEsporte || 'N/A';
+            const posicao = oportunidade.posicao?.nomePosicao || 'N/A';
+            
+            const itemHtml = `
+                <div class="oportunidade-item" style="border: 1px solid #ddd; padding: 10px; margin: 5px 0; border-radius: 5px;">
+                    <h4 style="margin: 0 0 5px 0;">${oportunidade.descricaoOportunidades}</h4>
+                    <p style="margin: 3px 0;"><strong>Esporte:</strong> ${esporte}</p>
+                    <p style="margin: 3px 0;"><strong>Posição:</strong> ${posicao}</p>
+                    <p style="margin: 3px 0;"><strong>Inscrições:</strong> ${inscricoesCount}</p>
+                    <p style="margin: 3px 0;"><strong>Data:</strong> ${new Date(oportunidade.datapostagemOportunidades).toLocaleDateString('pt-BR')}</p>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', itemHtml);
+        });
+    }
+
+    // Chama a função assim que a página terminar de carregar
+    console.log('Página carregada, iniciando busca de estatísticas...');
+    carregarEstatisticas();
     });
 </script>
 

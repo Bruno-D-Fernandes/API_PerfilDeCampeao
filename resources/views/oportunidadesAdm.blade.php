@@ -5,190 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Lista de Oportunidades</title>
+    <link rel="stylesheet" href="{{ url('css/oportunidadesAdm.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-    <style>
-        /* CSS COMPLETO E UNIFICADO */
-        :root {
-            --primary-blue: #3B82F6;
-            --text-dark: #1F2937;
-            --text-light: #6B7280;
-            --bg-light: #F9FAFB;
-            --bg-white: #FFFFFF;
-            --border-color: #E5E7EB;
-            --logout-red: #EF4444;
-            --action-view: #3B82F6;
-            --action-edit: #8B5CF6;
-            --action-delete: #EF4444;
-            --green-text: #16A34A;
-            --green-bg: #DCFCE7;
-            --sidebar-width-expanded: 250px;
-            --sidebar-width-collapsed: 80px;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light );
-            color: var(--text-dark);
-        }
-
-        .dashboard-container { display: flex; min-height: 100vh; }
-
-        .main-content {
-            margin-left: var(--sidebar-width-collapsed);
-            flex-grow: 1;
-            padding: 24px 32px;
-            transition: margin-left 0.3s ease;
-        }
-
-        body.sidebar-expanded .main-content {
-            margin-left: var(--sidebar-width-expanded);
-        }
-
-        .sidebar {
-            width: var(--sidebar-width-collapsed);
-            background-color: var(--bg-white);
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            padding: 24px 12px;
-            position: fixed;
-            height: 100%;
-            left: 0;
-            top: 0;
-            transition: width 0.3s ease;
-            overflow-x: hidden;
-        }
-
-        .sidebar:hover {
-            width: var(--sidebar-width-expanded);
-        }
-
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 50px;
-            margin-bottom: 24px;
-            padding: 0 12px;
-        }
-
-        .sidebar:hover .sidebar-header {
-            justify-content: flex-start;
-        }
-
-        #logo-expanded {
-            display: none;
-            width: 150px;
-            border-radius: 20px;
-        }
-        #logo-collapsed {
-            display: block;
-            font-size: 28px;
-            color: var(--primary-blue);
-        }
-
-        .sidebar:hover #logo-expanded { display: block; }
-        .sidebar:hover #logo-collapsed { display: none; }
-
-        .sidebar-nav { flex-grow: 1; }
-
-        .menu-title, .nav-text, .chevron {
-            opacity: 0;
-            visibility: hidden;
-            white-space: nowrap;
-            transition: opacity 0.2s ease;
-            display: none;
-        }
-
-        .sidebar:hover .menu-title,
-        .sidebar:hover .nav-text,
-        .sidebar:hover .chevron {
-            opacity: 1;
-            visibility: visible;
-            display: inline;
-            transition-delay: 0.1s;
-        }
-
-        .sidebar-nav ul, .sidebar-footer ul { list-style: none; padding: 0; }
-
-        .sidebar-nav li a, .sidebar-footer li a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 12px;
-            margin-bottom: 4px;
-            border-radius: 6px;
-            text-decoration: none;
-            color: var(--text-light);
-            transition: background-color 0.2s;
-        }
-
-        .sidebar:hover .sidebar-nav li a,
-        .sidebar:hover .sidebar-footer li a {
-            justify-content: flex-start;
-        }
-
-        .sidebar-nav li a:hover { background-color: var(--bg-light); color: var(--text-dark); }
-        .sidebar-nav li.active a { background-color: var(--primary-blue); color: var(--bg-white); }
-
-        .sidebar-nav li a ion-icon, .sidebar-footer li a ion-icon {
-            font-size: 22px;
-            min-width: 32px;
-            text-align: center;
-            transition: margin-right 0.3s ease;
-        }
-
-        .sidebar:hover .sidebar-nav li a ion-icon,
-        .sidebar:hover .sidebar-footer li a ion-icon {
-            margin-right: 12px;
-        }
-
-        .sidebar-footer { padding-top: 16px; border-top: 1px solid var(--border-color); }
-        .sidebar-footer li a.logout { color: var(--logout-red); }
-
-        .main-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .page-title { font-size: 28px; font-weight: 700; }
-        .user-menu { display: flex; align-items: center; gap: 16px; }
-        .icon-button { background: none; border: none; cursor: pointer; color: var(--text-light); padding: 4px; font-size: 24px; }
-        .user-profile { display: flex; align-items: center; gap: 12px; background-color: var(--bg-white); padding: 6px 12px 6px 6px; border-radius: 999px; border: 1px solid var(--border-color); font-weight: 500; }
-        .user-profile .avatar { width: 32px; height: 32px; border-radius: 50%; background-color: var(--primary-blue-light); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .content-body { background-color: var(--bg-white); border-radius: 12px; padding: 24px; border: 1px solid var(--border-color); }
-        .toolbar { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-        .search-bar { flex-grow: 1; position: relative; }
-        .search-bar ion-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: var(--text-light); }
-        .search-bar input { width: 100%; padding: 10px 16px 10px 44px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-light); font-size: 14px; }
-        .filter-button, .add-button { padding: 10px 16px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-white); font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        .add-button { background-color: var(--text-dark); color: var(--bg-white); }
-        .table-container { width: 100%; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 12px 16px; vertical-align: middle; white-space: nowrap; }
-        thead { border-bottom: 1px solid var(--border-color); }
-        th { font-size: 12px; font-weight: 600; color: var(--text-light); text-transform: uppercase; }
-        tbody tr { border-bottom: 1px solid var(--border-color); }
-        tbody tr:last-child { border-bottom: none; }
-        td { font-size: 14px; color: var(--text-dark); }
-        .action-buttons { display: flex; gap: 8px; }
-        .action-btn { width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--border-color); background-color: var(--bg-white); color: var(--text-light); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-        .action-btn:hover { color: white; }
-        .action-btn.view:hover { background-color: var(--action-view); }
-        .action-btn.edit:hover { background-color: var(--action-edit); }
-        .action-btn.delete:hover { background-color: var(--action-delete); }
-        .tag { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 500; }
-        .tag-status-ativo { background-color: var(--green-bg); color: var(--green-text); }
-        .club-cell { display: flex; align-items: center; gap: 12px; }
-        .club-avatar { width: 32px; height: 32px; border-radius: 50%; background-color: var(--primary-blue-light); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; font-size: 20px; }
-    </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Sidebar (reutilizada) -->
+        <!-- ======================= -->
+        <!--      BARRA LATERAL      -->
+        <!-- ======================= -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <img id="logo-expanded" src="{{ asset('img/logoPerfil.jpeg') }}" alt="Logo Completa">
@@ -197,12 +26,12 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li><a href="dashAdm"><ion-icon name="grid-outline"></ion-icon> <span class="nav-text">Dashboard</span></a></li>
-                    <li><a href="usuarios"><ion-icon name="people-outline"></ion-icon> <span class="nav-text">Usuários</span></a></li>
+                    <li><a href="usuarios"><ion-icon name="people-outline"></ion-icon> <span class="nav-text">Usuários</span> <ion-icon class="chevron" name="chevron-down-outline"></ion-icon></a></li>
                     <li><a href="esporte"><ion-icon name="football-outline"></ion-icon> <span class="nav-text">Esportes</span></a></li>
                     <li class="active"><a href="#"><ion-icon name="briefcase-outline"></ion-icon> <span class="nav-text">Oportunidades</span></a></li>
                     <li><a href="#"><ion-icon name="list-outline"></ion-icon> <span class="nav-text">Listas</span></a></li>
-                    <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon> <span class="nav-text">Denúncias</span></a></li>
-                    <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> <span class="nav-text">Conteúdo</span></a></li>
+                    <li><a href="#"><ion-icon name="alert-circle-outline"></ion-icon> <span class="nav-text">Denúncias</span> <ion-icon class="chevron" name="chevron-down-outline"></ion-icon></a></li>
+                    <li><a href="#"><ion-icon name="document-text-outline"></ion-icon> <span class="nav-text">Conteúdo</span> <ion-icon class="chevron" name="chevron-down-outline"></ion-icon></a></li>
                     <li><a href="#"><ion-icon name="stats-chart-outline"></ion-icon> <span class="nav-text">Estatísticas</span></a></li>
                 </ul>
             </nav>
@@ -214,7 +43,9 @@
             </div>
         </aside>
 
-        <!-- Conteúdo Principal -->
+        <!-- ======================= -->
+        <!--    CONTEÚDO PRINCIPAL   -->
+        <!-- ======================= -->
         <main class="main-content">
             <header class="main-header">
                 <h2 class="page-title">Lista de oportunidades</h2>
@@ -261,6 +92,53 @@
         </main>
     </div>
 
+    <!-- MODAL PARA EDITAR OPORTUNIDADE -->
+    <div id="editOpportunityModal" class="modal-overlay">
+        <div class="modal-container">
+            <form id="editOpportunityForm">
+                <div class="modal-header">
+                    <h3>Editar Oportunidade</h3>
+                    <button type="button" class="modal-close-btn" data-modal-id="editOpportunityModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editOpportunityId">
+                    <div class="form-group">
+                        <label for="editDescricao">Descrição</label>
+                        <textarea id="editDescricao" class="form-control" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editClube">Clube</label>
+                        <input type="text" id="editClube" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-modal-id="editOpportunityModal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL PARA CONFIRMAR EXCLUSÃO -->
+    <div id="deleteOpportunityModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Confirmar Exclusão</h3>
+                <button type="button" class="modal-close-btn" data-modal-id="deleteOpportunityModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir esta oportunidade?</p>
+                <p><strong id="deleteOpportunityName"></strong></p>
+                <p>Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="deleteOpportunityId">
+                <button type="button" class="btn btn-secondary" data-modal-id="deleteOpportunityModal">Cancelar</button>
+                <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Excluir</button>
+            </div>
+        </div>
+    </div>
+
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // --- LÓGICA DA SIDEBAR EXPANSÍVEL ---
@@ -278,10 +156,17 @@
             return;
         }
 
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
         const authHeaders = {
             'Authorization': `Bearer ${API_TOKEN}`,
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
         };
+
+        if (csrfToken) {
+            authHeaders['X-CSRF-TOKEN'] = csrfToken;
+        }
 
         // Função para formatar a data
         const formatDate = (dateString) => {
@@ -289,6 +174,16 @@
             return new Date(dateString).toLocaleDateString('pt-BR', {
                 day: '2-digit', month: 'long', year: 'numeric'
             });
+        };
+
+        // Função para abrir modal
+        const openModal = (modalId) => {
+            document.getElementById(modalId).classList.add('show');
+        };
+
+        // Função para fechar modal
+        const closeModal = (modalId) => {
+            document.getElementById(modalId).classList.remove('show');
         };
 
         // Função principal para buscar e renderizar os dados
@@ -313,7 +208,6 @@
                         try {
                             const participantsResponse = await fetch(`/api/admin/oportunidade/${op.id}/inscritos`, { headers: authHeaders });
                             if (!participantsResponse.ok) {
-                                // Se falhar (ex: 404), assume 0 participantes
                                 op.participants_count = 0;
                                 return op;
                             }
@@ -321,7 +215,6 @@
                             op.participants_count = participantsResult.total || 0;
                             return op;
                         } catch (e) {
-                            // Em caso de erro de rede para uma chamada, assume 0
                             op.participants_count = 0;
                             return op;
                         }
@@ -338,7 +231,7 @@
 
         // Função para renderizar a tabela com os dados combinados
         function renderTable(data) {
-            tableBody.innerHTML = ''; // Limpa a tabela
+            tableBody.innerHTML = '';
             data.forEach(op => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -356,9 +249,9 @@
                     <td>${formatDate(op.datapostagemOportunidades)}</td>
                     <td>
                         <div class="action-buttons">
-                            <button class="action-btn view" title="Visualizar"><ion-icon name="eye-outline"></ion-icon></button>
-                            <button class="action-btn edit" title="Editar"><ion-icon name="pencil-outline"></ion-icon></button>
-                            <button class="action-btn delete" title="Excluir"><ion-icon name="trash-outline"></ion-icon></button>
+                            <button class="action-btn view" title="Visualizar" onclick="viewOpportunity(${op.id})"><ion-icon name="eye-outline"></ion-icon></button>
+                            <button class="action-btn edit" title="Editar" onclick="editOpportunity(${op.id})"><ion-icon name="pencil-outline"></ion-icon></button>
+                            <button class="action-btn delete" title="Excluir" onclick="deleteOpportunity(${op.id}, '${op.descricaoOportunidades.substring(0, 50)}...')"><ion-icon name="trash-outline"></ion-icon></button>
                         </div>
                     </td>
                 `;
@@ -366,9 +259,104 @@
             });
         }
 
+        // Função para visualizar oportunidade
+        window.viewOpportunity = function(id) {
+            alert('Funcionalidade de visualização em desenvolvimento. ID: ' + id);
+        };
+
+        // Função para editar oportunidade
+        window.editOpportunity = async function(id) {
+            try {
+                const response = await fetch(`/api/admin/oportunidades`, { headers: authHeaders });
+                if (!response.ok) throw new Error('Falha ao buscar oportunidade.');
+                
+                const result = await response.json();
+                const opportunities = result.data || result;
+                const opportunity = opportunities.find(op => op.id === id);
+
+                if (!opportunity) throw new Error('Oportunidade não encontrada.');
+
+                document.getElementById('editOpportunityId').value = opportunity.id;
+                document.getElementById('editDescricao').value = opportunity.descricaoOportunidades;
+                document.getElementById('editClube').value = opportunity.clube ? opportunity.clube.nomeClube : 'Clube não informado';
+                
+                openModal('editOpportunityModal');
+            } catch (error) {
+                console.error('Erro ao buscar oportunidade:', error);
+                alert('Erro ao carregar dados da oportunidade.');
+            }
+        };
+
+        // Função para deletar oportunidade
+        window.deleteOpportunity = function(id, description) {
+            document.getElementById('deleteOpportunityId').value = id;
+            document.getElementById('deleteOpportunityName').textContent = description;
+            openModal('deleteOpportunityModal');
+        };
+
+        // Submissão do formulário de edição
+        document.getElementById('editOpportunityForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editOpportunityId').value;
+            const data = {
+                descricaoOportunidades: document.getElementById('editDescricao').value
+            };
+
+            try {
+                const response = await fetch(`/api/admin/oportunidade/${id}`, {
+                    method: 'PUT',
+                    headers: authHeaders,
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    closeModal('editOpportunityModal');
+                    fetchOpportunities();
+                    alert('Oportunidade atualizada com sucesso!');
+                } else {
+                    throw new Error('Falha ao atualizar oportunidade.');
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar oportunidade:', error);
+                alert('Erro ao atualizar oportunidade.');
+            }
+        });
+
+        // Confirmação de exclusão
+        document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+            const id = document.getElementById('deleteOpportunityId').value;
+
+            try {
+                const response = await fetch(`/api/admin/oportunidade/${id}`, {
+                    method: 'DELETE',
+                    headers: authHeaders
+                });
+
+                if (response.ok) {
+                    closeModal('deleteOpportunityModal');
+                    fetchOpportunities();
+                    alert('Oportunidade excluída com sucesso!');
+                } else {
+                    throw new Error('Falha ao excluir oportunidade.');
+                }
+            } catch (error) {
+                console.error('Erro ao excluir oportunidade:', error);
+                alert('Erro ao excluir oportunidade.');
+            }
+        });
+
+        // Fechar modais
+        document.querySelectorAll('[data-modal-id]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const modalId = btn.getAttribute('data-modal-id');
+                closeModal(modalId);
+            });
+        });
+
         // Inicia o carregamento dos dados
         fetchOpportunities();
     });
     </script>
 </body>
 </html>
+

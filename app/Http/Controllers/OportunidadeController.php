@@ -46,7 +46,7 @@ class OportunidadeController extends Controller
                 'esporte_id'                => $validatedData['esporte_id'],
                 'posicoes_id'               => $validatedData['posicoes_id'],
                 'clube_id'                  => $clube->id,
-                'status'                    => Oportunidade::STATUS_PENDING,
+               /*  'status'                    => Oportunidade::STATUS_PENDING, */
                 'idadeMinima'               => $validatedData['idadeMinima']        ?? null,
                 'idadeMaxima'               => $validatedData['idadeMaxima']        ?? null,
                 'estadoOportunidade'        => $validatedData['estadoOportunidade'] ?? null,
@@ -67,14 +67,23 @@ class OportunidadeController extends Controller
         }
     }
 
+
     public function index(Request $request)
+    {
+        $perPage = $request->query('per_page', 15);
+
+        $oportunidades = Oportunidade::with(['esporte', 'posicao', 'clube'])->paginate($perPage);
+        
+        return response()->json($oportunidades, 200);
+    }
+    /* public function index(Request $request)
     {
         $perPage = $request->query('per_page', 15);
 
         $oportunidades = Oportunidade::approved()->with(['esporte', 'posicao', 'clube'])->paginate($perPage);
         
         return response()->json($oportunidades, 200);
-    }
+    } */
 
     public function show($id)
     {
