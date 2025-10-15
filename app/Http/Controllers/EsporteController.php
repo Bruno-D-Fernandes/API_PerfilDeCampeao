@@ -11,7 +11,8 @@ class EsporteController extends Controller
      */
     public function index()
     {
-        //
+        $esportes = Esporte::all();
+        return response()->json($esportes);
     }
 
     /**

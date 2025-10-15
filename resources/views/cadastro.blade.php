@@ -84,17 +84,13 @@
                         </div>
 
                         <div class="form-group-inline">
-                            <label for="esporteClube">Esporte *</label>
-                            <div class="input-icon-wrapper">
-                                <i class="fas fa-trophy icon"></i>
-                                <select id="esporteClube" name="esporteClube" required>
-                                    <option value="" disabled selected hidden>Selecione um esporte</option>
-                                    <!-- Opções serão carregadas dinamicamente da API -->
-                                </select>
-                                <i class="fas fa-chevron-down select-arrow"></i>
-                            </div>
-                            <span class="error-message" id="esporteClubeError"></span>
-                        </div>
+    <label for="esporteClube">Esporte *</label>
+    <div class="input-icon-wrapper">
+        <i class="fas fa-trophy icon"></i>
+        <input type="text" id="esporteClube" name="esporteClube" required placeholder="Digite o esporte">
+    </div>
+    <span class="error-message" id="esporteClubeError"></span>
+</div>
 
                         <div class="form-group-inline">
                             <label for="estadoClube">Estado *</label>
