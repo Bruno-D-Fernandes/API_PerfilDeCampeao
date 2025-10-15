@@ -252,7 +252,7 @@
                 tableBody.innerHTML = '';
                 if (users.length === 0) {
                     tableBody.innerHTML = '<tr><td colspan="7">Nenhum usuário encontrado.</td></tr>';
-                    return;
+                    return; 
                 }
 
                 users.forEach(user => {
@@ -366,7 +366,10 @@
         document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
             const userId = document.getElementById('deleteUserId').value;
             try {
-                const response = await fetch(`${API_BASE_URL}/api/usuario/delete/${userId}`, { method: 'DELETE', headers });
+                const response = await fetch(`${API_BASE_URL}/api/admin/usuario/${userId}`, { 
+    method: 'DELETE', 
+    headers 
+});
                 if (!response.ok) {
                     const err = await response.json();
                     throw new Error(err.message || 'Falha ao excluir usuário.');

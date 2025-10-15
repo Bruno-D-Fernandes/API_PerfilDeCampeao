@@ -5,10 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuração</title>
     <link rel="stylesheet" href="./css/configuracaoClub.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <style>#Logo{
         width: 150px;
         border-radius: 20px;
-    }</style>
+    }
+    .item-icon {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #555;
+    vertical-align: middle;
+}
+
+.item-icon-danger {
+    color: #e63946;
+}
+    </style>
 </head>
 <body>
     <div class="container">
@@ -33,25 +49,25 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="lista" class="nav-link">
+                        <a href="#" class="nav-link">
                             <img class="nav-icon" src="./img/vector.png" alt="Lista">
                             <span class="nav-text">Listas</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="mensagens" class="nav-link">
+                        <a href="#" class="nav-link">
                             <img class="nav-icon" src="./img/mensagem.png" alt="Mensagens">
                             <span class="nav-text">Mensagens</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="notificacao" class="nav-link">
+                        <a href="#" class="nav-link">
                              <img class="nav-icon" src="./img/notificaçao.png" alt="Notificação">
                             <span class="nav-text">Notificações</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="perfil" class="nav-link">
+                        <a href="perfil2" class="nav-link">
                             <img class="nav-icon" src="./img/perfil.png" alt="Perfil">
                             <span class="nav-text">Perfil</span>
                         </a>
@@ -85,95 +101,94 @@
             <h1 class="page-title">Configuração</h1>
 
             <!-- Seção de Preferências -->
-            <section class="settings-section">
-                <h2 class="section-title">Preferências</h2>
-                <div class="settings-card">
-                    <div class="setting-item">
-                        <div class="item-label">
-                            <span class="item-icon">🔔</span>
-                            <span>Notificações</span>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <div class="item-label">
-                            <span class="item-icon">🎨</span>
-                            <span>Tema</span>
-                        </div>
-                        <div class="item-control">
-                            <span id="theme-name">Claro</span>
-                            <label class="switch">
-                                <!-- ID ADICIONADO AQUI -->
-                                <input type="checkbox" id="theme-toggle">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </section>
+           <section class="settings-section">
+    <h2 class="section-title">Preferências</h2>
+    <div class="settings-card">
+        <div class="setting-item">
+            <div class="item-label">
+                <ion-icon name="notifications-outline" class="item-icon"></ion-icon>
+                <span>Notificações</span>
+            </div>
+        </div>
+        <div class="setting-item">
+            <div class="item-label">
+                <ion-icon name="color-palette-outline" class="item-icon"></ion-icon>
+                <span>Tema</span>
+            </div>
+            <div class="item-control">
+                <span id="theme-name">Claro</span>
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</section>
 
-            <!-- Seção da Conta -->
-            <section class="settings-section">
-                <h2 class="section-title">Conta</h2>
-                <div class="settings-card">
-                    <div class="setting-item">
-                        <div class="item-label">
-                            <span class="item-icon">✉️</span>
-                            <span>Email</span>
-                        </div>
-                        <a href="#" id="btn-alterar-email" class="item-action">Alterar ></a>
-                    </div>
-                    <div class="setting-item">
-                        <div class="item-label">
-                            <span class="item-icon">🔒</span>
-                            <span>Senha</span>
-                        </div>
-                        <a href="#" id="btn-alterar-senha" class="item-action">Alterar ></a>
-                    </div>
-                    <div class="setting-item">
-                        <div class="item-label">
-                            <span class="item-icon">🔑</span>
-                            <span>Autenticação de 2 fatores</span>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <div class="item-label">
-                            <span class="item-icon item-icon-danger">🚪</span>
-                            <span>Sair</span>
-                        </div>
-                    </div>
-                    <div class="setting-item" id="btn-excluir-conta">
-                        <div class="item-label">
-                            <span class="item-icon item-icon-danger">🗑️</span>
-                            <span class="text-danger">Excluir conta</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<!-- Seção da Conta -->
+<section class="settings-section">
+    <h2 class="section-title">Conta</h2>
+    <div class="settings-card">
+        <div class="setting-item">
+            <div class="item-label">
+                <ion-icon name="mail-outline" class="item-icon"></ion-icon>
+                <span>Email</span>
+            </div>
+            <a href="#" id="btn-alterar-email" class="item-action">Alterar ></a>
+        </div>
+        <div class="setting-item">
+            <div class="item-label">
+                <ion-icon name="lock-closed-outline" class="item-icon"></ion-icon>
+                <span>Senha</span>
+            </div>
+            <a href="#" id="btn-alterar-senha" class="item-action">Alterar ></a>
+        </div>
+        <div class="setting-item">
+            <div class="item-label">
+                <ion-icon name="key-outline" class="item-icon"></ion-icon>
+                <span>Autenticação de 2 fatores</span>
+            </div>
+        </div>
+        <div class="setting-item">
+            <div class="item-label">
+                <ion-icon name="log-out-outline" class="item-icon item-icon-danger"></ion-icon>
+                <span>Sair</span>
+            </div>
+        </div>
+        <div class="setting-item" id="btn-excluir-conta">
+            <div class="item-label">
+                <ion-icon name="trash-outline" class="item-icon item-icon-danger"></ion-icon>
+                <span class="text-danger">Excluir conta</span>
+            </div>
+        </div>
+    </div>
+</section>
 
-            <!-- Seção Sobre -->
-            <section class="settings-section">
-                <h2 class="section-title">Sobre</h2>
-                <div class="settings-card">
-                    <div class="setting-item">
-                        <div class="item-label">
-                            <span class="item-icon">🛡️</span>
-                            <span>Políticas de privacidade</span>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <div class="item-label">
-                            <span class="item-icon">📄</span>
-                            <span>Termos e condições</span>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <div class="item-label">
-                            <span class="item-icon">ℹ️</span>
-                            <span>Saiba mais</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<!-- Seção Sobre -->
+<section class="settings-section">
+    <h2 class="section-title">Sobre</h2>
+    <div class="settings-card">
+        <div class="setting-item">
+            <div class="item-label">
+                <ion-icon name="shield-checkmark-outline" class="item-icon"></ion-icon>
+                <span>Políticas de privacidade</span>
+            </div>
+        </div>
+        <div class="setting-item">
+            <div class="item-label">
+                <ion-icon name="document-text-outline" class="item-icon"></ion-icon>
+                <span>Termos e condições</span>
+            </div>
+        </div>
+        <div class="setting-item">
+            <div class="item-label">
+                <ion-icon name="information-circle-outline" class="item-icon"></ion-icon>
+                <span>Saiba mais</span>
+            </div>
+        </div>
+    </div>
+</section>
         </main>
     </div>
 

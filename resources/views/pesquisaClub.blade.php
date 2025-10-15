@@ -372,6 +372,42 @@
         width: 150px;
         border-radius: 20px;
     }
+    .modal {
+    display: none; /* Oculto por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 100px auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-modal {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: black;
+}
     </style>
 </head>
 <body>
@@ -415,7 +451,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="perfil" class="nav-link">
+                        <a href="perfil2" class="nav-link">
                             <ion-icon name="person-circle-outline"></ion-icon>
                             <span class="nav-text">Perfil</span>
                         </a>
@@ -593,512 +629,451 @@
                 </div>
             </section>
         </main>
+<div id="perfilModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="modal-body">
+            <!-- Conteúdo do usuário será inserido aqui -->
+        </div>
+    </div>
+</div>
+
     </div>
 
     <script>
-        // Configuração global
-        const API_BASE_URL = '{{ url("/") }}';
-        const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+const API_BASE_URL = '{{ url("/") }}';
+const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        class UsuarioSearch {
-            constructor() {
+class UsuarioSearch {
+    constructor() {
+        this.currentPage = 1;
+        this.perPage = 15;
+        this.totalPages = 1;
+        this.currentFilters = {};
+        this.isLoading = false;
+
+        this.initializeElements();
+        this.bindEvents();
+        this.loadInitialData();
+    }
+
+    initializeElements() {
+        // Elementos de busca
+        this.searchInput = document.getElementById('search-input');
+        this.toggleFiltersBtn = document.getElementById('toggle-filters');
+        this.advancedFilters = document.getElementById('advanced-filters');
+        this.applyFiltersBtn = document.getElementById('apply-filters');
+        this.clearFiltersBtn = document.getElementById('clear-filters');
+
+        // Elementos de filtros
+        this.posicaoSelect = document.getElementById('posicao-select');
+        this.alturaMin = document.getElementById('altura-min');
+        this.alturaMax = document.getElementById('altura-max');
+        this.pesoMin = document.getElementById('peso-min');
+        this.pesoMax = document.getElementById('peso-max');
+        this.idadeMin = document.getElementById('idade-min');
+        this.idadeMax = document.getElementById('idade-max');
+        this.estadoInput = document.getElementById('estado-input');
+        this.cidadeInput = document.getElementById('cidade-input');
+        this.peDominanteSelect = document.getElementById('pe-dominante-select');
+        this.maoDominanteSelect = document.getElementById('mao-dominante-select');
+
+        // Elementos de resultados
+        this.profileResults = document.getElementById('profile-results');
+        this.activeFilters = document.getElementById('active-filters');
+        this.resultsInfo = document.getElementById('results-info');
+        this.resultsCount = document.getElementById('results-count');
+        this.sortSelect = document.getElementById('sort-select');
+        this.perPageSelect = document.getElementById('per-page-select');
+        this.pagination = document.getElementById('pagination');
+    }
+
+    bindEvents() {
+        // Toggle filtros avançados
+        this.toggleFiltersBtn.addEventListener('click', () => {
+            this.advancedFilters.classList.toggle('show');
+            const icon = this.toggleFiltersBtn.querySelector('.filter-icon');
+            icon.textContent = this.advancedFilters.classList.contains('show') ? '🔼' : '🔽';
+        });
+
+        // Busca em tempo real
+        let searchTimeout;
+        this.searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
                 this.currentPage = 1;
-                this.perPage = 15;
-                this.totalPages = 1;
-                this.currentFilters = {};
-                this.isLoading = false;
-                
-                this.initializeElements();
-                this.bindEvents();
-                this.loadInitialData();
-            }
+                this.performSearch();
+            }, 500);
+        });
 
-            initializeElements() {
-                // Elementos de busca
-                this.searchInput = document.getElementById('search-input');
-                this.toggleFiltersBtn = document.getElementById('toggle-filters');
-                this.advancedFilters = document.getElementById('advanced-filters');
-                this.applyFiltersBtn = document.getElementById('apply-filters');
-                this.clearFiltersBtn = document.getElementById('clear-filters');
-                
-                // Elementos de filtros
-                this.posicaoSelect = document.getElementById('posicao-select');
-                this.alturaMin = document.getElementById('altura-min');
-                this.alturaMax = document.getElementById('altura-max');
-                this.pesoMin = document.getElementById('peso-min');
-                this.pesoMax = document.getElementById('peso-max');
-                this.idadeMin = document.getElementById('idade-min');
-                this.idadeMax = document.getElementById('idade-max');
-                this.estadoInput = document.getElementById('estado-input');
-                this.cidadeInput = document.getElementById('cidade-input');
-                this.peDominanteSelect = document.getElementById('pe-dominante-select');
-                this.maoDominanteSelect = document.getElementById('mao-dominante-select');
-                
-                // Elementos de resultados
-                this.profileResults = document.getElementById('profile-results');
-                this.activeFilters = document.getElementById('active-filters');
-                this.resultsInfo = document.getElementById('results-info');
-                this.resultsCount = document.getElementById('results-count');
-                this.sortSelect = document.getElementById('sort-select');
-                this.perPageSelect = document.getElementById('per-page-select');
-                this.pagination = document.getElementById('pagination');
-            }
+        // Aplicar filtros
+        this.applyFiltersBtn.addEventListener('click', () => {
+            this.currentPage = 1;
+            this.performSearch();
+        });
 
-            bindEvents() {
-                // Toggle filtros avançados
-                this.toggleFiltersBtn.addEventListener('click', () => {
-                    this.advancedFilters.classList.toggle('show');
-                    const icon = this.toggleFiltersBtn.querySelector('.filter-icon');
-                    icon.textContent = this.advancedFilters.classList.contains('show') ? '🔼' : '🔽';
-                });
+        // Limpar filtros
+        this.clearFiltersBtn.addEventListener('click', () => {
+            this.clearAllFilters();
+        });
 
-                // Busca em tempo real
-                let searchTimeout;
-                this.searchInput.addEventListener('input', () => {
-                    clearTimeout(searchTimeout);
-                    searchTimeout = setTimeout(() => {
-                        this.currentPage = 1;
-                        this.performSearch();
-                    }, 500);
-                });
+        // Ordenação e paginação
+        this.sortSelect.addEventListener('change', () => {
+            this.currentPage = 1;
+            this.performSearch();
+        });
 
-                // Aplicar filtros
-                this.applyFiltersBtn.addEventListener('click', () => {
-                    this.currentPage = 1;
-                    this.performSearch();
-                });
+        this.perPageSelect.addEventListener('change', () => {
+            this.perPage = parseInt(this.perPageSelect.value);
+            this.currentPage = 1;
+            this.performSearch();
+        });
+    }
 
-                // Limpar filtros
-                this.clearFiltersBtn.addEventListener('click', () => {
-                    this.clearAllFilters();
-                });
+    async loadInitialData() {
+        await this.loadPosicoes();
+        await this.performSearch();
+    }
 
-                // Ordenação e paginação
-                this.sortSelect.addEventListener('change', () => {
-                    this.currentPage = 1;
-                    this.performSearch();
-                });
-
-                this.perPageSelect.addEventListener('change', () => {
-                    this.perPage = parseInt(this.perPageSelect.value);
-                    this.currentPage = 1;
-                    this.performSearch();
-                });
-            }
-
-            async loadInitialData() {
-                await this.loadPosicoes();
-                await this.performSearch();
-            }
-
-            async loadPosicoes() {
-                try {
-                    const response = await fetch(`${API_BASE_URL}/api/posicoes`, {
-                        headers: {
-                            'X-CSRF-TOKEN': CSRF_TOKEN,
-                            'Accept': 'application/json',
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        const posicoes = await response.json();
-                        
-                        posicoes.forEach(posicao => {
-                            const option = document.createElement('option');
-                            option.value = posicao.id;
-                            option.textContent = posicao.nomePosicao;
-                            this.posicaoSelect.appendChild(option);
-                        });
-                    } else {
-                        console.warn('Endpoint de posições não encontrado, usando dados padrão');
-                        this.loadPosicoesPadrao();
-                    }
-                } catch (error) {
-                    console.warn('Erro ao carregar posições, usando dados padrão:', error);
-                    this.loadPosicoesPadrao();
+    async loadPosicoes() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/posicoes`, {
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN,
+                    'Accept': 'application/json',
                 }
-            }
+            });
 
-            loadPosicoesPadrao() {
-                const posicoes = [
-                    { id: 1, nomePosicao: 'Goleiro' },
-                    { id: 2, nomePosicao: 'Zagueiro' },
-                    { id: 3, nomePosicao: 'Lateral' },
-                    { id: 4, nomePosicao: 'Meio-campo' },
-                    { id: 5, nomePosicao: 'Atacante' }
-                ];
-
+            if (response.ok) {
+                const posicoes = await response.json();
                 posicoes.forEach(posicao => {
                     const option = document.createElement('option');
                     option.value = posicao.id;
                     option.textContent = posicao.nomePosicao;
                     this.posicaoSelect.appendChild(option);
                 });
+            } else {
+                console.warn('Endpoint de posições não encontrado, usando dados padrão');
+                this.loadPosicoesPadrao();
             }
-
-            buildFilters() {
-                const filters = {};
-
-                // Busca textual
-                if (this.searchInput.value.trim()) {
-                    filters.pesquisa = this.searchInput.value.trim();
-                }
-
-                // Posição
-                if (this.posicaoSelect.value) {
-                    filters.posicao_id = this.posicaoSelect.value;
-                }
-
-                // Altura
-                if (this.alturaMin.value) filters.altura_min = this.alturaMin.value;
-                if (this.alturaMax.value) filters.altura_max = this.alturaMax.value;
-
-                // Peso
-                if (this.pesoMin.value) filters.peso_min = this.pesoMin.value;
-                if (this.pesoMax.value) filters.peso_max = this.pesoMax.value;
-
-                // Idade
-                if (this.idadeMin.value) filters.idade_min = this.idadeMin.value;
-                if (this.idadeMax.value) filters.idade_max = this.idadeMax.value;
-
-                // Localização
-                if (this.estadoInput.value.trim()) filters.estadoUsuario = this.estadoInput.value.trim();
-                if (this.cidadeInput.value.trim()) filters.cidadeUsuario = this.cidadeInput.value.trim();
-
-                // Dominância
-                if (this.peDominanteSelect.value) filters.peDominante = this.peDominanteSelect.value;
-                if (this.maoDominanteSelect.value) filters.maoDominante = this.maoDominanteSelect.value;
-
-                // Paginação e ordenação
-                filters.page = this.currentPage;
-                filters.per_page = this.perPage;
-                filters.ordenarpor = this.sortSelect.value;
-
-                return filters;
-            }
-
-            async performSearch() {
-                if (this.isLoading) return;
-
-                this.isLoading = true;
-                this.showLoading();
-
-                try {
-                    const filters = this.buildFilters();
-                    this.currentFilters = filters;
-
-                    // Construir URL com parâmetros
-                    const url = new URL(`${API_BASE_URL}/api/clube/search-usuarios`);
-                    Object.keys(filters).forEach(key => {
-                        if (filters[key] !== null && filters[key] !== undefined && filters[key] !== '') {
-                            url.searchParams.append(key, filters[key]);
-                        }
-                    });
-
-
-
-                    const authToken = localStorage.getItem('token');
-
-                    const headers = {
-                        'X-CSRF-TOKEN': CSRF_TOKEN,
-                         'Accept': 'application/json',
-                    };
-
-                    if (authToken) {
-            headers['Authorization'] = authToken; // O token já deve ter o "Bearer " do login
-        } else {
-            console.error('Token de autenticação não encontrado. Faça o login primeiro.');
-            this.showError('Você não está autenticado. Por favor, faça o login e tente novamente.');
-            return; // Interrompe a busca se não houver token
+        } catch (error) {
+            console.warn('Erro ao carregar posições, usando dados padrão:', error);
+            this.loadPosicoesPadrao();
         }
+    }
 
-         const response = await fetch(url, {
-            headers: headers // Use o objeto de headers que acabamos de criar
+    loadPosicoesPadrao() {
+        const posicoes = [
+            { id: 1, nomePosicao: 'Goleiro' },
+            { id: 2, nomePosicao: 'Zagueiro' },
+            { id: 3, nomePosicao: 'Lateral' },
+            { id: 4, nomePosicao: 'Meio-campo' },
+            { id: 5, nomePosicao: 'Atacante' }
+        ];
+
+        posicoes.forEach(posicao => {
+            const option = document.createElement('option');
+            option.value = posicao.id;
+            option.textContent = posicao.nomePosicao;
+            this.posicaoSelect.appendChild(option);
         });
-                    
-                    if (!response.ok) {
-                        throw new Error(`Erro HTTP: ${response.status}`);
-                    }
+    }
 
-                    const data = await response.json();
-                    
-                    this.renderResults(data);
-                    this.updateActiveFilters();
-                    this.updateResultsInfo(data);
-                    this.renderPagination(data);
+    buildFilters() {
+        const filters = {};
 
-                } catch (error) {
-                    console.error('Erro na busca:', error);
-                    this.showError('Erro ao buscar usuários. Verifique sua conexão e tente novamente.');
-                } finally {
-                    this.isLoading = false;
+        // Busca textual
+        if (this.searchInput.value.trim()) filters.pesquisa = this.searchInput.value.trim();
+
+        // Filtros
+        if (this.posicaoSelect.value) filters.posicao_id = this.posicaoSelect.value;
+        if (this.alturaMin.value) filters.altura_min = this.alturaMin.value;
+        if (this.alturaMax.value) filters.altura_max = this.alturaMax.value;
+        if (this.pesoMin.value) filters.peso_min = this.pesoMin.value;
+        if (this.pesoMax.value) filters.peso_max = this.pesoMax.value;
+        if (this.idadeMin.value) filters.idade_min = this.idadeMin.value;
+        if (this.idadeMax.value) filters.idade_max = this.idadeMax.value;
+        if (this.estadoInput.value.trim()) filters.estadoUsuario = this.estadoInput.value.trim();
+        if (this.cidadeInput.value.trim()) filters.cidadeUsuario = this.cidadeInput.value.trim();
+        if (this.peDominanteSelect.value) filters.peDominante = this.peDominanteSelect.value;
+        if (this.maoDominanteSelect.value) filters.maoDominante = this.maoDominanteSelect.value;
+
+        // Paginação e ordenação
+        filters.page = this.currentPage;
+        filters.per_page = this.perPage;
+        filters.ordenarpor = this.sortSelect.value;
+
+        return filters;
+    }
+
+    async performSearch() {
+        if (this.isLoading) return;
+
+        this.isLoading = true;
+        this.showLoading();
+
+        try {
+            const filters = this.buildFilters();
+            this.currentFilters = filters;
+
+            const url = new URL(`${API_BASE_URL}/api/clube/search-usuarios`);
+            Object.keys(filters).forEach(key => {
+                if (filters[key] !== null && filters[key] !== undefined && filters[key] !== '') {
+                    url.searchParams.append(key, filters[key]);
                 }
+            });
+
+            const authToken = localStorage.getItem('token');
+            const headers = {
+                'X-CSRF-TOKEN': CSRF_TOKEN,
+                'Accept': 'application/json',
+            };
+
+            if (authToken) {
+                headers['Authorization'] = authToken;
+            } else {
+                console.error('Token de autenticação não encontrado.');
+                this.showError('Você não está autenticado. Faça login e tente novamente.');
+                return;
             }
 
-            showLoading() {
-                this.profileResults.innerHTML = '<div class="loading">Carregando usuários...</div>';
-            }
+            const response = await fetch(url, { headers });
 
-            showError(message) {
-                this.profileResults.innerHTML = `<div class="error-message">${message}</div>`;
-            }
+            if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
 
-            renderResults(data) {
-                const usuarios = data.data || [];
+            const data = await response.json();
+            this.renderResults(data);
+            this.updateActiveFilters();
+            this.updateResultsInfo(data);
+            this.renderPagination(data);
 
-                if (usuarios.length === 0) {
-                    this.profileResults.innerHTML = `
-                        <div class="empty-state">
-                            <h3>Nenhum atleta encontrado</h3>
-                            <p>Tente ajustar os filtros de busca para encontrar mais resultados.</p>
-                        </div>
-                    `;
-                    return;
-                }
+        } catch (error) {
+            console.error('Erro na busca:', error);
+            this.showError('Erro ao buscar usuários. Verifique sua conexão e tente novamente.');
+        } finally {
+            this.isLoading = false;
+        }
+    }
 
-                this.profileResults.innerHTML = '';
+    showLoading() {
+        this.profileResults.innerHTML = '<div class="loading">Carregando usuários...</div>';
+    }
 
-                usuarios.forEach(usuario => {
-                    const idade = this.calcularIdade(usuario.dataNascimentoUsuario);
-                    const posicoes = usuario.posicoes?.map(p => p.nomePosicao).join(', ') || 'Sem posição';
-                    const localizacao = [usuario.cidadeUsuario, usuario.estadoUsuario].filter(Boolean).join(' - ') || 'Localização não informada';
+    showError(message) {
+        this.profileResults.innerHTML = `<div class="error-message">${message}</div>`;
+    }
 
-                    const card = document.createElement('div');
-                    card.classList.add('profile-card');
-                    card.innerHTML = `
-                        <div class="profile-header">
-                            <h3 class="profile-name">${usuario.nomeCompletoUsuario}</h3>
-                            <div class="profile-badges">
-                               <span class="badge athlete">
-  <ion-icon name="star"></ion-icon> Atleta
-</span>
+    renderResults(data) {
+        const usuarios = data.data || [];
 
-<span class="badge position">
-  <ion-icon name="football-outline"></ion-icon> ${posicoes}
-</span>
-
-<span class="badge location">
-  <ion-icon name="location-outline"></ion-icon> ${localizacao}
-</span>
-
-<span class="badge age">
-  <ion-icon name="person-outline"></ion-icon> ${idade} anos
-</span>
-                            </div>
-                        </div>
-                        <div class="profile-stats">
-                        ${usuario.alturaCm ? `
-  <div class="profile-stat">
-    <ion-icon name="resize-outline"></ion-icon> ${usuario.alturaCm}cm
-  </div>` : ''}
-
-${usuario.pesoKg ? `
-  <div class="profile-stat">
-    <ion-icon name="barbell-outline"></ion-icon> ${usuario.pesoKg}kg
-  </div>` : ''}
-
-${usuario.peDominante ? `
-  <div class="profile-stat">
-    <ion-icon name="walk-outline"></ion-icon> ${usuario.peDominante}
-  </div>` : ''}
-
-${usuario.maoDominante ? `
-  <div class="profile-stat">
-    <ion-icon name="hand-left-outline"></ion-icon> ${usuario.maoDominante}
-  </div>` : ''}
-                        </div>
-                        <div class="profile-actions">
-                            <button class="profile-btn view-btn" onclick="verPerfil(${usuario.id})">Ver perfil</button>
-                            <button class="profile-btn contact-btn" onclick="contatar(${usuario.id})">Contato</button>
-                        </div>
-                    `;
-                    this.profileResults.appendChild(card);
-                });
-            }
-
-            calcularIdade(dataNascimento) {
-                if (!dataNascimento) return 'N/A';
-                
-                const hoje = new Date();
-                const nascimento = new Date(dataNascimento);
-                let idade = hoje.getFullYear() - nascimento.getFullYear();
-                const mes = hoje.getMonth() - nascimento.getMonth();
-                
-                if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
-                    idade--;
-                }
-                
-                return idade;
-            }
-
-            updateActiveFilters() {
-                this.activeFilters.innerHTML = '';
-                
-                const filterLabels = {
-                    pesquisa: 'Busca',
-                    posicao_id: 'Posição',
-                    altura_min: 'Altura mín',
-                    altura_max: 'Altura máx',
-                    peso_min: 'Peso mín',
-                    peso_max: 'Peso máx',
-                    idade_min: 'Idade mín',
-                    idade_max: 'Idade máx',
-                    estadoUsuario: 'Estado',
-                    cidadeUsuario: 'Cidade',
-                    peDominante: 'Pé dominante',
-                    maoDominante: 'Mão dominante'
-                };
-
-                Object.keys(this.currentFilters).forEach(key => {
-                    if (filterLabels[key] && this.currentFilters[key]) {
-                        const tag = document.createElement('div');
-                        tag.className = 'filter-tag';
-                        tag.innerHTML = `
-                            <span>${filterLabels[key]}: ${this.currentFilters[key]}</span>
-                            <button class="remove-filter" onclick="usuarioSearch.removeFilter('${key}')">×</button>
-                        `;
-                        this.activeFilters.appendChild(tag);
-                    }
-                });
-            }
-
-            updateResultsInfo(data) {
-                this.resultsCount.textContent = `${data.total || 0} perfis encontrados`;
-                this.resultsInfo.style.display = 'flex';
-                this.totalPages = data.last_page || 1;
-                this.currentPage = data.current_page || 1;
-            }
-
-            renderPagination(data) {
-                if (this.totalPages <= 1) {
-                    this.pagination.style.display = 'none';
-                    return;
-                }
-
-                this.pagination.style.display = 'flex';
-                this.pagination.innerHTML = '';
-
-                // Botão anterior
-                const prevBtn = document.createElement('button');
-                prevBtn.textContent = '← Anterior';
-                prevBtn.disabled = this.currentPage === 1;
-                prevBtn.onclick = () => this.goToPage(this.currentPage - 1);
-                this.pagination.appendChild(prevBtn);
-
-                // Números das páginas
-                const startPage = Math.max(1, this.currentPage - 2);
-                const endPage = Math.min(this.totalPages, this.currentPage + 2);
-
-                for (let i = startPage; i <= endPage; i++) {
-                    const pageBtn = document.createElement('button');
-                    pageBtn.textContent = i;
-                    pageBtn.className = i === this.currentPage ? 'current-page' : '';
-                    pageBtn.onclick = () => this.goToPage(i);
-                    this.pagination.appendChild(pageBtn);
-                }
-
-                // Botão próximo
-                const nextBtn = document.createElement('button');
-                nextBtn.textContent = 'Próximo →';
-                nextBtn.disabled = this.currentPage === this.totalPages;
-                nextBtn.onclick = () => this.goToPage(this.currentPage + 1);
-                this.pagination.appendChild(nextBtn);
-            }
-
-            goToPage(page) {
-                if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
-                    this.currentPage = page;
-                    this.performSearch();
-                }
-            }
-
-            removeFilter(filterKey) {
-                // Limpar o campo correspondente
-                switch (filterKey) {
-                    case 'pesquisa':
-                        this.searchInput.value = '';
-                        break;
-                    case 'posicao_id':
-                        this.posicaoSelect.value = '';
-                        break;
-                    case 'altura_min':
-                        this.alturaMin.value = '';
-                        break;
-                    case 'altura_max':
-                        this.alturaMax.value = '';
-                        break;
-                    case 'peso_min':
-                        this.pesoMin.value = '';
-                        break;
-                    case 'peso_max':
-                        this.pesoMax.value = '';
-                        break;
-                    case 'idade_min':
-                        this.idadeMin.value = '';
-                        break;
-                    case 'idade_max':
-                        this.idadeMax.value = '';
-                        break;
-                    case 'estadoUsuario':
-                        this.estadoInput.value = '';
-                        break;
-                    case 'cidadeUsuario':
-                        this.cidadeInput.value = '';
-                        break;
-                    case 'peDominante':
-                        this.peDominanteSelect.value = '';
-                        break;
-                    case 'maoDominante':
-                        this.maoDominanteSelect.value = '';
-                        break;
-                }
-
-                // Refazer a busca
-                this.currentPage = 1;
-                this.performSearch();
-            }
-
-            clearAllFilters() {
-                // Limpar todos os campos
-                this.searchInput.value = '';
-                this.posicaoSelect.value = '';
-                this.alturaMin.value = '';
-                this.alturaMax.value = '';
-                this.pesoMin.value = '';
-                this.pesoMax.value = '';
-                this.idadeMin.value = '';
-                this.idadeMax.value = '';
-                this.estadoInput.value = '';
-                this.cidadeInput.value = '';
-                this.peDominanteSelect.value = '';
-                this.maoDominanteSelect.value = '';
-
-                // Refazer a busca
-                this.currentPage = 1;
-                this.performSearch();
-            }
+        if (usuarios.length === 0) {
+            this.profileResults.innerHTML = `
+                <div class="empty-state">
+                    <h3>Nenhum atleta encontrado</h3>
+                    <p>Tente ajustar os filtros de busca para encontrar mais resultados.</p>
+                </div>`;
+            return;
         }
 
-        // Funções globais para ações dos botões
-        function verPerfil(usuarioId) {
-            // Implementar navegação para o perfil do usuário
-            console.log('Ver perfil do usuário:', usuarioId);
-            // window.location.href = `/usuario/${usuarioId}`;
-            alert(`Funcionalidade "Ver perfil" será implementada para o usuário ${usuarioId}`);
-        }
+        this.profileResults.innerHTML = '';
 
-        function contatar(usuarioId) {
-            // Implementar funcionalidade de contato
-            console.log('Contatar usuário:', usuarioId);
-            // window.location.href = `/mensagens/novo/${usuarioId}`;
-            alert(`Funcionalidade "Contatar" será implementada para o usuário ${usuarioId}`);
-        }
+        usuarios.forEach(usuario => {
+            const idade = this.calcularIdade(usuario.dataNascimentoUsuario);
+            const posicoes = usuario.posicoes?.map(p => p.nomePosicao).join(', ') || 'Sem posição';
+            const localizacao = [usuario.cidadeUsuario, usuario.estadoUsuario].filter(Boolean).join(' - ') || 'Localização não informada';
 
-        // Inicializar quando a página carregar
-        let usuarioSearch;
-        document.addEventListener('DOMContentLoaded', function() {
-            usuarioSearch = new UsuarioSearch();
+            const card = document.createElement('div');
+            card.classList.add('profile-card');
+            card.innerHTML = `
+                <div class="profile-header">
+                    <h3 class="profile-name">${usuario.nomeCompletoUsuario}</h3>
+                    <div class="profile-badges">
+                        <span class="badge athlete"><ion-icon name="star"></ion-icon> Atleta</span>
+                        <span class="badge position"><ion-icon name="football-outline"></ion-icon> ${posicoes}</span>
+                        <span class="badge location"><ion-icon name="location-outline"></ion-icon> ${localizacao}</span>
+                        <span class="badge age"><ion-icon name="person-outline"></ion-icon> ${idade} anos</span>
+                    </div>
+                </div>
+                <div class="profile-stats">
+                    ${usuario.alturaCm ? `<div class="profile-stat"><ion-icon name="resize-outline"></ion-icon> ${usuario.alturaCm}cm</div>` : ''}
+                    ${usuario.pesoKg ? `<div class="profile-stat"><ion-icon name="barbell-outline"></ion-icon> ${usuario.pesoKg}kg</div>` : ''}
+                    ${usuario.peDominante ? `<div class="profile-stat"><ion-icon name="walk-outline"></ion-icon> ${usuario.peDominante}</div>` : ''}
+                    ${usuario.maoDominante ? `<div class="profile-stat"><ion-icon name="hand-left-outline"></ion-icon> ${usuario.maoDominante}</div>` : ''}
+                </div>
+                <div class="profile-actions">
+                    <button class="profile-btn view-btn" onclick="verPerfil(${usuario.id})">Ver perfil</button>
+                </div>`;
+            this.profileResults.appendChild(card);
         });
+    }
+
+    calcularIdade(dataNascimento) {
+        if (!dataNascimento) return 'N/A';
+        const hoje = new Date();
+        const nascimento = new Date(dataNascimento);
+        let idade = hoje.getFullYear() - nascimento.getFullYear();
+        const mes = hoje.getMonth() - nascimento.getMonth();
+        if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) idade--;
+        return idade;
+    }
+
+    updateActiveFilters() {
+        this.activeFilters.innerHTML = '';
+        const filterLabels = {
+            pesquisa: 'Busca',
+            posicao_id: 'Posição',
+            altura_min: 'Altura mín',
+            altura_max: 'Altura máx',
+            peso_min: 'Peso mín',
+            peso_max: 'Peso máx',
+            idade_min: 'Idade mín',
+            idade_max: 'Idade máx',
+            estadoUsuario: 'Estado',
+            cidadeUsuario: 'Cidade',
+            peDominante: 'Pé dominante',
+            maoDominante: 'Mão dominante'
+        };
+
+        Object.keys(this.currentFilters).forEach(key => {
+            if (filterLabels[key] && this.currentFilters[key]) {
+                const tag = document.createElement('div');
+                tag.className = 'filter-tag';
+                tag.innerHTML = `
+                    <span>${filterLabels[key]}: ${this.currentFilters[key]}</span>
+                    <button class="remove-filter" onclick="usuarioSearch.removeFilter('${key}')">×</button>
+                `;
+                this.activeFilters.appendChild(tag);
+            }
+        });
+    }
+
+    updateResultsInfo(data) {
+        this.resultsCount.textContent = `${data.total || 0} perfis encontrados`;
+        this.resultsInfo.style.display = 'flex';
+        this.totalPages = data.last_page || 1;
+        this.currentPage = data.current_page || 1;
+    }
+
+    renderPagination(data) {
+        if (this.totalPages <= 1) {
+            this.pagination.style.display = 'none';
+            return;
+        }
+
+        this.pagination.style.display = 'flex';
+        this.pagination.innerHTML = '';
+
+        const prevBtn = document.createElement('button');
+        prevBtn.textContent = '← Anterior';
+        prevBtn.disabled = this.currentPage === 1;
+        prevBtn.onclick = () => this.goToPage(this.currentPage - 1);
+        this.pagination.appendChild(prevBtn);
+
+        const startPage = Math.max(1, this.currentPage - 2);
+        const endPage = Math.min(this.totalPages, this.currentPage + 2);
+        for (let i = startPage; i <= endPage; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.textContent = i;
+            pageBtn.className = i === this.currentPage ? 'current-page' : '';
+            pageBtn.onclick = () => this.goToPage(i);
+            this.pagination.appendChild(pageBtn);
+        }
+
+        const nextBtn = document.createElement('button');
+        nextBtn.textContent = 'Próximo →';
+        nextBtn.disabled = this.currentPage === this.totalPages;
+        nextBtn.onclick = () => this.goToPage(this.currentPage + 1);
+        this.pagination.appendChild(nextBtn);
+    }
+
+    goToPage(page) {
+        if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
+            this.currentPage = page;
+            this.performSearch();
+        }
+    }
+
+    removeFilter(filterKey) {
+        const map = {
+            pesquisa: this.searchInput,
+            posicao_id: this.posicaoSelect,
+            altura_min: this.alturaMin,
+            altura_max: this.alturaMax,
+            peso_min: this.pesoMin,
+            peso_max: this.pesoMax,
+            idade_min: this.idadeMin,
+            idade_max: this.idadeMax,
+            estadoUsuario: this.estadoInput,
+            cidadeUsuario: this.cidadeInput,
+            peDominante: this.peDominanteSelect,
+            maoDominante: this.maoDominanteSelect
+        };
+
+        if (map[filterKey]) map[filterKey].value = '';
+        this.currentPage = 1;
+        this.performSearch();
+    }
+
+    clearAllFilters() {
+        const inputs = [
+            this.searchInput, this.posicaoSelect, this.alturaMin, this.alturaMax,
+            this.pesoMin, this.pesoMax, this.idadeMin, this.idadeMax,
+            this.estadoInput, this.cidadeInput, this.peDominanteSelect, this.maoDominanteSelect
+        ];
+        inputs.forEach(i => i.value = '');
+        this.currentPage = 1;
+        this.performSearch();
+    }
+}
+
+// Funções globais
+function verPerfil(usuarioId) {
+    const usuario = usuarioSearch.profileResults.querySelectorAll('.profile-card');
+    let usuarioData = null;
+
+    usuario.forEach(card => {
+        const btn = card.querySelector('.view-btn');
+        if (btn && btn.getAttribute('onclick')?.includes(`verPerfil(${usuarioId})`)) {
+            usuarioData = card;
+        }
+    });
+
+    if (!usuarioData) return;
+
+    const nome = usuarioData.querySelector('.profile-name').textContent;
+    const badges = usuarioData.querySelector('.profile-badges').innerHTML;
+    const stats = usuarioData.querySelector('.profile-stats').innerHTML;
+
+    const modalBody = document.getElementById('modal-body');
+    modalBody.innerHTML = `
+        <h2>${nome}</h2>
+        <div class="profile-badges">${badges}</div>
+        <div class="profile-stats">${stats}</div>
+    `;
+
+    document.getElementById('perfilModal').style.display = 'block';
+}
+
+function contatar(usuarioId) {
+    alert(`Funcionalidade "Contatar" será implementada para o usuário ${usuarioId}`);
+}
+
+// Fechar modal
+document.querySelector('.close-modal').addEventListener('click', () => {
+    document.getElementById('perfilModal').style.display = 'none';
+});
+
+// Fechar ao clicar fora
+window.addEventListener('click', (e) => {
+    const modal = document.getElementById('perfilModal');
+    if (e.target === modal) modal.style.display = 'none';
+});
+
+// Inicialização
+let usuarioSearch;
+document.addEventListener('DOMContentLoaded', function() {
+    usuarioSearch = new UsuarioSearch();
+});
     </script>
 
     <script>
@@ -1144,5 +1119,6 @@ ${usuario.maoDominante ? `
             localStorage.setItem('theme', newTheme);
         });
     </script>
+    
 </body>
 </html>

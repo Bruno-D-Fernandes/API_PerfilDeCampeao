@@ -8,6 +8,7 @@ use App\Models\Clube;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Mail;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,7 +59,7 @@ Route::get('/pesquisa', function () {
     return view('pesquisaClub');
 })->name('Pesquisa');
 
-Route::get('/perfil', function () {
+Route::get('/perfil2', function () {
     return view('perfilClub');
 })->name('Perfil');
 
@@ -111,6 +112,8 @@ Route::get('/test-notif', function () {
     $clubeFollowed = Clube::find(1);
     event(new ClubFollowedEvent($follower, $clubeFollowed));
 });
+
+Route::post('/clube/logout', [AuthClubeController::class, 'logout'])->name('clube.logout');
 
 Route::get('/test-email', function () {
     /* Colocar caso o usuário seja aprovado ou seja criado (no lugar da norven seria o email dele) */
