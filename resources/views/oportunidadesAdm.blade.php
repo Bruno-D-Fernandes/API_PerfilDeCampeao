@@ -54,11 +54,6 @@
                         <ion-icon name="search-outline"></ion-icon>
                         <input type="text" id="searchInput" placeholder="Pesquisar por clube ou descrição...">
                     </div>
-                    <button class="filter-button">
-                        <ion-icon name="filter-outline"></ion-icon>
-                        Ordenar por
-                    </button>
-                    <button class="add-button">Adicionar</button>
                 </div>
 
                 <div class="table-container">

@@ -1,0 +1,160 @@
+/* --- Configurações Globais e Fundo --- */
+:root {
+    --primary-color: #3a5a78;
+    --background-color: #f0f4f8;
+    --card-background: #ffffff;
+    --text-color: #5a6a7b;
+    --border-color: #dbe2ea;
+    --placeholder-color: #9aa8b8;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--background-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative; /* Necessário para posicionar os elementos filhos */
+}
+
+/* --- NOVO: Imagens Decorativas Laterais --- */
+.decorative-image-container {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 35%; /* Largura da imagem em relação à tela */
+    max-width: 500px; /* Tamanho máximo para não ficar gigante em telas grandes */
+    opacity: 0.15; /* Deixa a imagem bem sutil */
+    z-index: 1; /* Fica atrás do formulário de login */
+}
+
+.decorative-image-container.left {
+    left: -0%; /* Posiciona a imagem um pouco para fora da tela à esquerda */
+}
+
+.decorative-image-container.right {
+    right: -5%; /* Posiciona a imagem um pouco para fora da tela à direita */
+}
+
+.decorative-image-container img {
+    width: 100%;
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+
+/* --- Card de Login --- */
+.login-container {
+    position: relative;
+    z-index: 10; /* Garante que o formulário fique na frente das imagens */
+}
+
+.login-card {
+    background-color: var(--card-background);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* --- Logo Principal (no centro do card) --- */
+.logo-placeholder {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 25px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.logo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* --- Restante do CSS (sem alterações) --- */
+.login-card h2 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--placeholder-color);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.options {
+    text-align: right;
+    margin-bottom: 25px;
+}
+
+.forgot-password {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.login-button {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.login-footer {
+    margin-top: 30px;
+}
+
+.login-footer p {
+    color: var(--placeholder-color);
+    font-size: 0.8rem;
+}
+
+/* --- Responsividade --- */
+@media (max-width: 1200px) {
+    .decorative-image-container {
+        /* Esconde as imagens de fundo em telas menores para não poluir */
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .login-card {
+        margin: 20px;
+        padding: 30px;
+        box-shadow: none; /* Remove a sombra em telas muito pequenas */
+        border: 1px solid var(--border-color);
+    }
+}

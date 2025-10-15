@@ -433,12 +433,12 @@
                             <span class="nav-text">Listas</span>
                         </a>
                     </li>-->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="mensagens" class="nav-link">
                             <img class="nav-icon" src="./img/mensagem.png" alt="Mensagens">
                             <span class="nav-text">Mensagens</span>
                         </a>
-                    </li>
+                    </li> -->
                     <!--<li class="nav-item">
                         <a href="notificacao" class="nav-link">
                              <img class="nav-icon" src="./img/notificaçao.png" alt="Notificação">
@@ -446,7 +446,7 @@
                         </a>
                     </li>-->
                     <li class="nav-item">
-                        <a href="perfil" class="nav-link">
+                        <a href="perfil2" class="nav-link">
                             <img class="nav-icon" src="./img/perfil.png" alt="Perfil">
                             <span class="nav-text">Perfil</span>
                         </a>
@@ -458,7 +458,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                       <a href="configuracao" class="nav-link">
+                       <a href="configuracoes" class="nav-link">
                             <img class="nav-icon" src="./img/configuracoes.png" alt="Configurações">
                             <span class="nav-text">Configurações</span>
                         </a>
@@ -471,12 +471,6 @@
                     </li>
                 </ul>
             </nav>
-            <div class="sidebar-footer">
-                <ul>
-                    <li><a href="#"><ion-icon name="settings-outline"></ion-icon> <span class="nav-text">Configurações</span></a></li>
-                    <li><a href="#" class="logout"><ion-icon name="log-out-outline"></ion-icon> <span class="nav-text">Sair</span></a></li>
-                </ul>
-            </div>
         </aside>
 
         <!-- Conteúdo Principal -->

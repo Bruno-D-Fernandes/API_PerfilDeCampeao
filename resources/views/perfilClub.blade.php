@@ -53,24 +53,24 @@
                             <span class="nav-text">Oportunidades</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                  <!--   <li class="nav-item">
                         <a href="#" class="nav-link">
                             <img class="nav-icon" src="./img/vector.png" alt="Lista">
                             <span class="nav-text">Listas</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
+                    </li> -->
+                    <!-- <li class="nav-item">
                         <a href="#" class="nav-link">
                             <img class="nav-icon" src="./img/mensagem.png" alt="Dashboard">
                             <span class="nav-text">Mensagens</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
+                    </li> -->
+                    <!-- <li class="nav-item">
                         <a href="#" class="nav-link">
                             <img class="nav-icon" src="./img/notificaçao.png" alt="Perfil">
                             <span class="nav-text">Notificações</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item active">
                         <a href="#" class="nav-link">
                             <img class="nav-icon" src="./img/perfil.png" alt="">
@@ -174,7 +174,7 @@
 
                 <div class="content-area hidden" id="equipe">
                     <div class="team-grid">
-                        <div class="team-member">
+<!--                         <div class="team-member">
                             <div class="member-avatar"></div>
                             <h4 class="member-name">João Silva</h4>
                             <p class="member-position">Técnico</p>
@@ -193,13 +193,13 @@
                             <div class="member-avatar"></div>
                             <h4 class="member-name">Ana Lima</h4>
                             <p class="member-position">Zagueira</p>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
                 <div class="content-area hidden" id="conquistas">
                     <div class="achievements-list">
-                        <div class="achievement-item">
+                        <!-- <div class="achievement-item">
                             <div class="achievement-icon">🏆</div>
                             <div class="achievement-info">
                                 <h4 class="achievement-title">Campeonato Regional 2025</h4>
@@ -213,10 +213,10 @@
                                 <h4 class="achievement-title">Copa da Cidade 2024</h4>
                                 <p class="achievement-description">2º lugar na copa municipal</p>
                                 <span class="achievement-date">Dezembro 2024</span>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
-                </div>
+                
 
                 <div class="content-area hidden" id="sobre">
                     <div class="about-content">
@@ -238,6 +238,7 @@
                             <p><strong>Email:</strong> <span id="clubEmail">Não informado</span></p>
                             <p><strong>Endereço:</strong> <span id="clubAddress">Não informado</span></p>
                         </div>
+                    </div>
                     </div>
                 </div>
             </section>
