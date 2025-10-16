@@ -21,4 +21,12 @@ use Illuminate\Support\Facades\Mail;
 
 // routes/web.php
 
+Route::get('/clube/cadastro', function () {
+    return view('clube.cadastro');
+})->name('clube-cadastro');
+
+Route::get('/admin/esportes', function () {
+    return view('admin.esportes');
+})->name('admin-esportes');
+
 

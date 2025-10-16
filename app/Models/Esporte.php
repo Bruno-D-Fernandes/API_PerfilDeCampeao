@@ -27,7 +27,7 @@ class Esporte extends Model
 
     public function posicoes()
     {
-        return $this->hasMany(Posicao::class);
+        return $this->hasMany(Posicao::class, 'idEsporte');
     }
 
     public function caracteristicas()

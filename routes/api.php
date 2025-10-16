@@ -181,6 +181,8 @@ Route::prefix('admin')->group(function () {
         Route::put('/esporte/{id}', [AdmController::class, 'Esporteupdate']);
         Route::delete('/esporte/{id}', [AdmController::class, 'Esportedestroy']);
         Route::get('/esporte', [AdmController::class, 'ListarEsportes']);
+        Route::get('/esporte/{id}/posicoes/', [AdmController::class, 'showPosicoesByEsporte']);
+
                                                         // o nome delas estava ao contrario
 /*         Route::post('/posicao', [AdmController::class, 'Posicaostore']);
         Route::put('/posicao/{id}', [AdmController::class, 'Posicaoupdate']);

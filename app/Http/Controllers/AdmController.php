@@ -29,7 +29,7 @@ class AdmController extends Controller
             $token = $user->createToken('auth_token', ['adm'], null, 'adm_sanctum')->plainTextToken;
 
             return response()->json([
-            'access_token' => "Bearer $token"
+                'access_token' => "Bearer $token"
             ], 200);
 
         } catch (\Exception $e) {
@@ -76,7 +76,7 @@ class AdmController extends Controller
     {
         try {
             $esportes = Esporte::all();
-            return response()->json($esportes, 200);
+            return response()->json($esportes->load('posicoes'), 200);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Erro ao listar esportes',
@@ -194,6 +194,13 @@ class AdmController extends Controller
         ]);
         $posicao = Posicao::create($data);
         return response()->json($posicao, 201);
+    }
+
+    public function showPosicoesByEsporte(Request $request, $id)
+    {
+        $esporte = Esporte::findOrFail($id);
+
+        return $esporte->posicoes;
     }
 
     public function updatePosicao(Request $request, $id)

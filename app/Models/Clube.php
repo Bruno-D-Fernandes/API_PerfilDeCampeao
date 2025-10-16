@@ -28,8 +28,9 @@ class Clube extends Authenticatable
         'senhaClube',
         'fotoPerfilClube',
         'fotoBannerClube',
+        'categoria_id',
+        'esporte_id'
     ];
-
 
     function esportes()
     {

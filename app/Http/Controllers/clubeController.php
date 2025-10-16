@@ -31,7 +31,9 @@ class ClubeController extends Controller
                 'anoCriacaoClube' => 'required|date',
                 'enderecoClube' => 'required|string|max:255',
                 'bioClube' => 'nullable|string',
-                'senhaClube' => 'required|string|min:6|confirmed',
+                'senhaClube' => 'required|string|min:6',
+                'categoria_id' => 'required|exists:categorias,id',
+                'esporte_id' => 'required|exists:esportes,id',
                 'fotoPerfilClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048',
                 'fotoBannerClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048'
             ]);
@@ -59,6 +61,8 @@ class ClubeController extends Controller
                 'senhaClube' => Hash::make($validatedData['senhaClube']),
                 'fotoPerfilClube' => $caminhoFotoPerfil,
                 'fotoBannerClube' => $caminhoFotoBanner,
+                'categoria_id' => $validatedData['categoria_id'],
+                'esporte_id' => $validatedData['esporte_id'],
             ]);
 
             $authController = new AuthClubeController();
