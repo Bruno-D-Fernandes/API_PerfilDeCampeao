@@ -21,4 +21,15 @@ use Illuminate\Support\Facades\Mail;
 
 // routes/web.php
 
+Route::get('/clube/login', function () {
+    return view('clube.login');
+})->name('clube.login');
 
+
+Route::get('/admin/login', function () {
+    return view('admin.login');
+}) ->name('admin.login');
+
+Route::get('/clube/oportunidades',function(){
+    return view('clube.oportunidades');
+})->name('clube.oportunidades');
