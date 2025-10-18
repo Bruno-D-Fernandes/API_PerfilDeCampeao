@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\ClubFollowedEvent;
+use App\Http\Controllers\AdmController;
 use Illuminate\Support\Facades\Route;
 use App\Mail\ClubWelcomeEmail;
 use App\Mail\UserWelcomeEmail;
@@ -25,8 +26,6 @@ Route::get('/clube/cadastro', function () {
     return view('clube.cadastro');
 })->name('clube-cadastro');
 
-Route::get('/admin/esportes', function () {
-    return view('admin.esportes');
-})->name('admin-esportes');
+Route::get('/admin/esportes', [AdmController::class, 'ListarEsportesWeb'])->name('admin-esportes');
 
 

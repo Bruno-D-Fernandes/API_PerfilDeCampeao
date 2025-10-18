@@ -76,7 +76,22 @@ class AdmController extends Controller
     {
         try {
             $esportes = Esporte::all();
-            return response()->json($esportes->load('posicoes'), 200);
+            return response()->json($esportes->load('posicoes', 'caracteristicas'), 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao listar esportes',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function ListarEsportesWeb()
+    {
+        try {
+            $esportes = Esporte::all();
+            return view('admin.esportes')->with([
+                'esportes' => $esportes->load('posicoes', 'caracteristicas')
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Erro ao listar esportes',
