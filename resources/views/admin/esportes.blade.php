@@ -18,7 +18,14 @@
             gap: 16px;/
         }
 
-        .esporte, .header {
+        .esportes-header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .esporte, .list-header {
             width: 100%;
             display: grid;
             gap: 16px;
@@ -89,8 +96,13 @@
         }
 
         .tab-content.active {
+            display: block;
             max-height: 450px;
             overflow-y: auto;
+        }
+
+        .tab-content {
+            display: none;
         }
 
         .tab-header {
@@ -138,7 +150,17 @@
 </head>
 <body>
     <div class="esportes">
-        <div class="header">
+        <div class="esportes-header">
+            <h1>Esportes</h1>
+
+            <button id="esporte-add-btn">
+                <span>
+                    Adicionar esporte
+                </span>
+            </button>
+        </div>
+
+        <div class="list-header">
             <div class="header-col">
                 <span>Nome</span>
             </div>
@@ -192,15 +214,15 @@
                 </div>
 
                 <div class="esporte-acoes">
-                    <button>
+                    <button class="esporte-ver-btn">
                         <span>Ver</span>
                     </button>
 
-                    <button>
+                    <button class="esporte-atualizar-btn">
                         <span>Atualizar</span>
                     </button>
 
-                    <button>
+                    <button class="esporte-excluir-btn">
                         <span>Excluir</span>
                     </button>
                 </div>
@@ -208,7 +230,7 @@
         @endforeach
     </div>
 
-    <div id="modal-backdrop"></div>
+    <div id="modal-backdrop" class="hidden"></div>
 
     <div id="esporte-modal" class="app-modal hidden">
         <div class="modal-header">
@@ -232,24 +254,24 @@
             </div>
 
             <div class="modal-tabs">
-                <button class="tab-button active" data-tab-target="posicoes-tab">
+                <button class="tab-button active" data-target-tab="posicoes-tab">
                     <span>
                         Posições
                     </span>
                 </button>
 
-                <button class="tab-button" data-tab-target="caracteristicas-tab">
+                <button class="tab-button" data-target-tab="caracteristicas-tab">
                     <span>
                         Características
                     </span>
                 </button>
             </div>
 
-            <div id="posicoes-tab-content" class="tab-content active">
+            <div id="posicoes-tab" class="tab-content active">
                 <div class="tab-header">
                     <h3>Posições</h3>
 
-                    <button class="add-posicao-btn">
+                    <button id="posicao-add-btn">
                         <span>
                             Adicionar posições
                         </span>
@@ -288,9 +310,15 @@
                 </div>
             </div>
 
-            <div id="caracteristicas-tab-content" class="tab-content hidden">
+            <div id="caracteristicas-tab" class="tab-content">
                 <div class="tab-header">
+                    <h3>Características</h3>
 
+                    <button id="caracteristica-add-btn">
+                        <span>
+                            Adicionar características
+                        </span>
+                    </button>
                 </div>
 
                 <div class="caracteristicas-list-container">
@@ -370,7 +398,7 @@
         </div>
     </div>
 
-    <div id="caracteristica-modal" class="app-modal">
+    <div id="caracteristica-modal" class="app-modal hidden">
         <div class="modal-header">
             <h2 class="modal-title">Adicionar característica</h2>
             <button class="close-modal-btn" data-modal-target="caracteristica-modal">&times;</button>
@@ -404,13 +432,207 @@
     </div>
 
     <script>
-        const BEARER = '1|veMWAqZAhSUNcKNJztoW6oxsOYC8McYW427W9Wh87542b9fc';
+        const BEARER = '2|cePsgspuAroUD23dl2OGyAtz9CLBA8cjxM4WAq3x1403cff6';
 
         const esportes = document.querySelector('.esportes');
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        async function fetchEsportes() {
+        const modalBackdrop = document.querySelector('#modal-backdrop');
 
+        const modais = {
+            'esporte-modal': {
+                content: document.querySelector('#esporte-modal'),
+                inputs: [
+                    document.querySelector('#esporte-form-nome'),
+                    document.querySelector('#esporte-form-descricao'),
+                ],
+            },
+
+            'posicao-modal': {
+                content: document.querySelector('#posicao-modal'),
+                inputs: [
+                    document.querySelector('#posicao-form-nome'),
+                    document.querySelector('#posicao-form-descricao'),
+                ],
+            },
+            
+            'caracteristica-modal': {
+                content: document.querySelector('#caracteristica-modal'),
+                inputs: [
+                    document.querySelector('#caracteristica-form-nome'),
+                    document.querySelector('#caracteristica-form-unidade'),
+                ],
+            },
+        }
+
+        const modalEsporte = modais['esporte-modal'];
+        const esporteModalTitle = modalEsporte.content.querySelector('.modal-title');
+        const posicoesListContainer = modalEsporte.content.querySelector('.posicoes-list-container');
+        const caracteristicasListContainer = modalEsporte.content.querySelector('.caracteristicas-list-container');
+
+        const abrirModal = (modal) => {
+            modal.content.classList.remove('hidden');
+            modalBackdrop.classList.remove('hidden');
+        }
+
+        const fecharModal = (modal) => {
+            modal.content.classList.add('hidden');
+
+            limparModal(modal);
+
+            modalBackdrop.classList.add('hidden');
+        }
+
+        const closeModalBtns = document.querySelectorAll('.close-modal-btn');
+
+        closeModalBtns.forEach(closeBtn => {
+            closeBtn.addEventListener('click', () => {
+                const tgt = closeBtn.dataset.modalTarget;
+                fecharModal(modais[tgt]);
+            });
+        });
+
+        const modalTabs = document.querySelector('.modal-tabs');
+        const tabBtns = modalTabs.querySelectorAll('.tab-button');
+
+        const changeTabs = (targetTabId) => {
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(tabBtn => {
+                tabBtn.classList.remove('active');
+            });
+
+            tabContents.forEach(tabContent => {
+                tabContent.classList.remove('active');
+            });
+
+            const newTabContent = document.querySelector(`#${targetTabId}`);
+            if (newTabContent) {
+                newTabContent.classList.add('active');
+            }
+        }
+
+        tabBtns.forEach(tabBtn => {
+            tabBtn.addEventListener('click', () => {
+                tabBtn.classList.add('active');
+                changeTabs(tabBtn.dataset.targetTab);
+            });
+        });
+
+        const addEsporteBtn = document.querySelector('#esporte-add-btn');
+        const addPosicaoBtn = document.querySelector('#posicao-add-btn');
+        const addCaracteristicaBtn = document.querySelector('#caracteristica-add-btn');
+
+        addEsporteBtn.addEventListener('click', () => abrirModal(modais['esporte-modal']));
+
+        addPosicaoBtn.addEventListener('click', () => abrirModal(modais['posicao-modal']));
+
+        addCaracteristicaBtn.addEventListener('click', () => abrirModal(modais['posicao-modal']));
+
+        const verEsportesBtns = document.querySelectorAll('.esporte-ver-btn');
+
+        verEsportesBtns.forEach(verEsporteBtn => {
+            verEsporteBtn.addEventListener('click', (e) => {
+                const esporteId = e.target.closest('.esporte').dataset.esporteId;
+
+                fetchEsporteDetails(Number(esporteId));
+
+                abrirModal(modais['esporte-modal']);
+            });
+        });
+
+        async function fetchEsporteDetails(esporteId, readOnly = true) {
+            try {
+                const response = await fetch(`../api/admin/esporte/${esporteId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${BEARER}`,
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                console.log(data);
+                
+                esporteModalTitle.textContent = `Detalhes do Esporte: ${data.nomeEsporte}`;
+
+                modalEsporte.inputs[0].value = data.nomeEsporte;
+                modalEsporte.inputs[1].value = data.descricaoEsporte;
+
+                if (readOnly) {
+                    modalEsporte.inputs[0].disabled = true;
+                    modalEsporte.inputs[1].disabled = true;
+                    addPosicaoBtn.disabled = true;
+                    addCaracteristicaBtn.disabled = true;
+                }
+
+                posicoesListContainer.innerHTML = `
+                    <div class="posicoes-list-header">
+                        <div class="posicoes-header-col"><span>Nome</span></div>
+                        <div class="posicoes-header-col"><span>Descrição</span></div>
+                        <div class="posicoes-header-col"><span>Ações</span></div>
+                    </div>
+                `;
+
+                if (data.posicoes && data.posicoes.length > 0) {
+                    data.posicoes.forEach(posicao => {
+                        posicoesListContainer.innerHTML += `
+                            <div class="posicoes-list-row" data-posicao-id="${posicao.id}">
+                                <div class="posicao-col nome"><span>${posicao.nomePosicao}</span></div>
+                                <div class="posicao-col descricao"><span>${posicao.descricaoPosicao || 'N/A'}</span></div>
+                                <div class="posicao-col acoes">
+                                    <button class="posicao-editar-btn" data-posicao-id="${posicao.id}" ${readOnly ? 'disabled="true"' : ''}><span>Editar</span></button>
+                                    <button class="posicao-excluir-btn" data-posicao-id="${posicao.id}" ${readOnly ? 'disabled="true"' : ''}><span>Excluir</span></button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    posicoesListContainer.innerHTML += '<p>Nenhuma posição cadastrada para este esporte.</p>';
+                }
+
+                caracteristicasListContainer.innerHTML = `
+                    <div class="caracteristicas-list-header">
+                        <div class="caracteristicas-header-col"><span>Nome</span></div>
+                        <div class="caracteristicas-header-col"><span>Unidade</span></div>
+                        <div class="caracteristicas-header-col"><span>Ações</span></div>
+                    </div>
+                `;
+                
+                if (data.caracteristicas && data.caracteristicas.length > 0) {
+                    data.caracteristicas.forEach(caracteristica => {
+                        caracteristicasListContainer.innerHTML += `
+                            <div class="caracteristicas-list-row" data-caracteristica-id="${caracteristica.id}">
+                                <div class="caracteristica-col"><span>${caracteristica.nome}</span></div>
+                                <div class="caracteristica-col"><span>${caracteristica.unidade || 'N/A'}</span></div>
+                                <div class="caracteristica-col">
+                                    <button class="caracteristica-editar-btn" data-caracteristica-id="${caracteristica.id}" ${readOnly ? 'disabled="true"' : ''}><span>Editar</span></button>
+                                    <button class="caracteristica-excluir-btn" data-caracteristica-id="${caracteristica.id}" ${readOnly ? 'disabled="true"' : ''}><span>Excluir</span></button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    caracteristicasListContainer.innerHTML += '<p>Nenhuma característica cadastrada para este esporte.</p>';
+                }
+            } catch (error) {
+                console.error('Erro ao buscar detalhes do esporte:', error);
+                esporteModalTitle.textContent = "Erro ao carregar esporte";
+                posicoesListContainer.innerHTML = '<p style="color: red;">Não foi possível carregar as posições.</p>';
+                caracteristicasListContainer.innerHTML = '<p style="color: red;">Não foi possível carregar as características.</p>';
+            }
+        }
+
+        function limparModal(modal) {
+            modal.inputs.forEach(inp => {
+                inp.value = ""; 
+            });
         }
    </script>
 </body>

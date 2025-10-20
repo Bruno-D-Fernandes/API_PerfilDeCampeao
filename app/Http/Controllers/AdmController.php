@@ -85,6 +85,19 @@ class AdmController extends Controller
         }
     }
 
+    public function ListarEsportesId($id)
+    {
+        try {
+            $esporte = Esporte::findOrFail($id);
+            return response()->json($esporte->load('posicoes', 'caracteristicas'), 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao listar esportes',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function ListarEsportesWeb()
     {
         try {
