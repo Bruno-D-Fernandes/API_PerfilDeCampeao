@@ -191,9 +191,15 @@ Route::prefix('admin')->group(function () {
 
 
         Route::get('/posicao', [AdmController::class, 'listarPosicoes']);
+        Route::get('/posicao/{id}', [AdmController::class, 'listarPosicoesId']);
         Route::post('/posicao', [AdmController::class, 'storePosicao']);      // Antes era Posicaostore
         Route::put('/posicao/{id}', [AdmController::class, 'updatePosicao']);    // Antes era Posicaoupdate
         Route::delete('/posicao/{id}', [AdmController::class, 'destroyPosicao']); // Antes era Posicaodestroy
+
+        Route::get('/caracteristica/{id}', [AdmController::class, 'listarCaracteristicasId']);
+        Route::post('/caracteristica', [AdmController::class, 'storeCaracteristica']);
+        Route::put('/caracteristica/{id}', [AdmController::class, 'updateCaracteristica']);
+        Route::delete('/caracteristica/{id}', [AdmController::class, 'destroyCaracteristica']);
         
         Route::post('/funcao', [AdmController::class, 'storeFuncao']);
         Route::put('/funcao/{id}', [AdmController::class, 'updateFuncao']);

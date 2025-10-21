@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\Caracteristica;
 use App\Models\Oportunidade;
 use App\Models\Usuario;
 use App\Models\Clube;
@@ -126,7 +127,7 @@ class AdmController extends Controller
             'nomeEsporte' => $ValidatedData['nomeEsporte'],
             'descricaoEsporte' => $ValidatedData['descricaoEsporte'] ?? null,
         ]);
-        return response()->json($esporte, 201);
+        return response()->json($esporte->load('posicoes', 'caracteristicas'), 201);
     }
     public function CategoriaStore(Request $request)
     {
@@ -189,7 +190,7 @@ class AdmController extends Controller
             'descricaoEsporte' => 'sometimes|nullable|string',
         ]);
         $esporte->update($ValidatedData);
-        return response()->json($esporte, 200);
+        return response()->json($esporte->load('posicoes', 'caracteristicas'), 200);
     }
 
     /**
@@ -212,6 +213,19 @@ class AdmController extends Controller
             ->orderByDesc('id');
 
         return response()->json($q->get());
+    }
+
+    public function listarPosicoesId($id)
+    {
+        try {
+            $posicao = Posicao::findOrFail($id);
+            return response()->json($posicao, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao listar posições',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function storePosicao(Request $request)
@@ -246,6 +260,52 @@ class AdmController extends Controller
     {
         $posicao = Posicao::findOrFail($id);
         $posicao->delete();
+        return response()->json(['ok' => true]);
+    }
+
+
+    public function listarCaracteristicasId($id)
+    {
+        try {
+            $caracteristica = Caracteristica::findOrFail($id);
+            return response()->json($caracteristica, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao listar caracteristicas',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function storeCaracteristica(Request $request)
+    {
+        $data = $request->validate([
+            'caracteristica' => 'required|string|max:255',
+            'esporte_id'   => 'required|exists:esportes,id',
+            'unidade_medida' => 'required|string|max:255',
+        ]);
+        $caracteristica = Caracteristica::create($data);
+        return response()->json($caracteristica, 201);
+    }
+
+    public function updateCaracteristica(Request $request, $id)
+    {
+        $caracteristica = Caracteristica::findOrFail($id);
+
+        $data = $request->validate([
+            'caracteristica' => 'sometimes|string|max:255',
+            'esporte_id'   => 'sometimes|exists:esportes,id',
+            'unidade_medida' => 'sometimes|string|max:255',
+        ]);
+
+        $caracteristica->update($data);
+        return response()->json($caracteristica);
+    }
+
+    public function destroyCaracteristica($id)
+    {
+        $caracteristica = Caracteristica::findOrFail($id);
+        $caracteristica->delete();
         return response()->json(['ok' => true]);
     }
 
