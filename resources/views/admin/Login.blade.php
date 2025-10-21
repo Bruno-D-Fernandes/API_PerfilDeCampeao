@@ -5,11 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login Admin</title>
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="stylesheet" href="public\css\admin\loginAdm.css">
     </head>
     <body>
             <form action="" id="formLogin">
                 @csrf
-                
+
                 <input type="text" name="email" required>
                 <br>
                 <input type="password" name="password" required>
