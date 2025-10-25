@@ -365,6 +365,6 @@ async function deleteEsporte(esporteId) {
         }                
     } catch (error) {
         console.error('Erro ao excluir esporte:', error);
-        alert('Erro ao salvar esporte!');
+        alert('Erro ao excluir esporte!');
     }
 }

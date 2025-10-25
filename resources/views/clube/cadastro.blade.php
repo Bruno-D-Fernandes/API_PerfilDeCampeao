@@ -10,32 +10,43 @@
     <form action="" id="cadastro">
         @csrf
 
-        <label for="nomeClube">Nome:</label>
-        <input type="text" name="nomeClube">
+        <label for="clube-nome">Nome:</label>
+        <input type="text" name="nomeClube" id="clube-nome">
 
-        <label for="cnpjClube">cnpjClube:</label>
-        <input type="text" name="cnpjClube">
+        <label for="clube-email">Email:</label>
+        <input type="text" name="emailClube" id="clube-email">
 
-        <label for="emailClube">Email:</label>
-        <input type="text" name="emailClube">
+        <label for="clube-ano-criacao">Ano de Criação:</label>
+        <input type="text" name="anoCriacaoClube" id="clube-ano-criacao">
 
-        <label for="cidadeClube">Cidade:</label>
-        <input type="text" name="cidadeClube">
+        <label for="clube-categoria">Categoria:</label>
+        <select name="categoria_id" id="clube-categoria">
+            @foreach($categorias as $categoria)
+                <option value="{{ $categoria->id }}">{{ $categoria->nomeCategoria }}</option>
+            @endforeach
+        </select>
 
-        <label for="estadoClube">Estado:</label>
-        <input type="text" name="estadoClube">
+        <label for="clube-esporte">Esporte:</label>
+        <select name="esporte_id" id="clube-esporte">
+            @foreach($esportes as $esporte)
+                <option value="{{ $esporte->id }}">{{ $esporte->nomeEsporte }}</option>
+            @endforeach
+        </select>
 
-        <label for="anoCriacaoClube">Ano de Criação:</label>
-        <input type="text" name="anoCriacaoClube">
+        <label for="clube-cnpj">Cnpj:</label>
+        <input type="text" name="cnpjClube" id="clube-cnpj">
 
-        <label for="enderecoClube">Endereco:</label>
-        <input type="text" name="enderecoClube">
+        <label for="clube-cidade">Cidade:</label>
+        <input type="text" name="cidadeClube" id="clube-cidade">
 
-        <label for="bioClube">Biografia:</label>
-        <textarea name="bioClube"></textarea>
+        <label for="clube-estado">Estado:</label>
+        <input type="text" name="estadoClube" id="clube-estado">
 
-        <label for="senhaClube">Senha:</label>
-        <input type="text" name="senhaClube">
+        <label for="clube-endereco">Endereco:</label>
+        <input type="text" name="enderecoClube" id="clube-endereco">
+
+        <label for="clube-senha">Senha:</label>
+        <input type="text" name="senhaClube" id="clube-senha">
 
         <button type="submit">Enviar</button>
     </form>

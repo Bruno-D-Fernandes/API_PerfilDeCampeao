@@ -11,5 +11,5 @@ class Funcao extends Model
 
     protected $table = 'funcoes';
 
-    protected $fillable = ['nomeFuncao', 'descricaoFuncao'];
+    protected $fillable = ['nome', 'descricao'];
 }

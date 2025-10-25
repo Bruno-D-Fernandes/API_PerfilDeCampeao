@@ -9,6 +9,7 @@ use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\PostagemController;
 
 use App\Http\Controllers\AdmController;
+use App\Http\Controllers\FuncaoController;
 use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\SearchUsuarioController;
@@ -201,10 +202,11 @@ Route::prefix('admin')->group(function () {
         Route::put('/caracteristica/{id}', [AdmController::class, 'updateCaracteristica']);
         Route::delete('/caracteristica/{id}', [AdmController::class, 'destroyCaracteristica']);
         
-        Route::post('/funcao', [AdmController::class, 'storeFuncao']);
-        Route::put('/funcao/{id}', [AdmController::class, 'updateFuncao']);
-        Route::delete('/funcao/{id}', [AdmController::class, 'destroyFuncao']);
-        Route::get('/funcao', [AdmController::class, 'listarFuncoes']);
+        Route::post('/funcao', [FuncaoController::class, 'store']);
+        Route::put('/funcao/{id}', [FuncaoController::class, 'update']);
+        Route::delete('/funcao/{id}', [FuncaoController::class, 'destroy']);
+        Route::get('/funcao', [FuncaoController::class, 'index']);
+        Route::get('/funcao/{id}', [FuncaoController::class, 'show']);
     });
 });
 

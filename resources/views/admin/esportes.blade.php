@@ -221,7 +221,7 @@
                     <span>{{ $esporte->caracteristicas->count() }}</span>
                 </div>
 
-                <div class="esporte-cadastro">
+                <div class="esporte-data">
                     <span>
                         {{ \Carbon\Carbon::parse($esporte->created_at)
                             ->locale('pt_BR')

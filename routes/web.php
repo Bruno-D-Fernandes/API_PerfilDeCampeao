@@ -2,10 +2,11 @@
 
 use App\Events\ClubFollowedEvent;
 use App\Http\Controllers\AdmController;
+use App\Http\Controllers\FuncaoController;
 use Illuminate\Support\Facades\Route;
-use App\Mail\ClubWelcomeEmail;
-use App\Mail\UserWelcomeEmail;
+use App\Models\Categoria;
 use App\Models\Clube;
+use App\Models\Esporte;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Mail;
 
@@ -23,9 +24,9 @@ use Illuminate\Support\Facades\Mail;
 // routes/web.php
 
 Route::get('/clube/cadastro', function () {
-    return view('clube.cadastro');
+    return view('clube.cadastro')->with(['categorias' => Categoria::all(), 'esportes' => Esporte::all()]);
 })->name('clube-cadastro');
 
 Route::get('/admin/esportes', [AdmController::class, 'ListarEsportesWeb'])->name('admin-esportes');
 
-
+Route::get('/admin/funcoes', [FuncaoController::class, 'showWebPage'])->name('admin-funcoes');

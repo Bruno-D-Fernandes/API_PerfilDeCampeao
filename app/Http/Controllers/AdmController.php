@@ -153,6 +153,7 @@ class AdmController extends Controller
             ], 500);
         }
     }
+
     public function CategoriaUpdate(string $id)
     {
         $categoria = Categoria::find($id);
@@ -166,6 +167,7 @@ class AdmController extends Controller
         $categoria->update($ValidatedData);
         return response()->json($categoria, 200);
     }
+    
     public function CategoriaDestroy(string $id)
     {
         $categoria = Categoria::find($id);

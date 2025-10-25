@@ -1,4 +1,4 @@
-const BEARER = '2|cePsgspuAroUD23dl2OGyAtz9CLBA8cjxM4WAq3x1403cff6';
+const BEARER = '1|pSOxCW5ysiVstdZSmVDcGpNA1gvJTRiT9CDGPODV6a280c75';
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 const esportes = document.querySelector('.esportes');
