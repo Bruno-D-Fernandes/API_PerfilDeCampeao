@@ -30,7 +30,8 @@ body{
     width: 100%;
     margin: 0 auto 5px;
     display: block;
-    padding: 8px 8px;
+    text-align: left; 
+    padding: 8px 8px 8px 40px;
     font-weight: 400;
     color: #9aa9bb8e;
     border: #9aa9bb83 2px solid;

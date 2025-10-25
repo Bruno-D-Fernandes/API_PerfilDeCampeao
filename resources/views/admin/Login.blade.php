@@ -20,13 +20,13 @@
                 </div>
                 <div class="mb-3 input-container">
                     <img src="{{asset('/img/iconEmailAdm.png')}}" class="iconEmail" alt="">
-                    <input type="email" class="form-control" placeholder="       Email do usuário">
+                    <input type="email" class="form-control" placeholder="Email do usuário">
                 </div>
                 <div class="mb-3 input-container">
-                    <img src="{{asset('/img/iconSenhaAdm.png')}}" class="iconSenha" alt=""><input type="password" class="form-control" id="exampleInputPassword1" placeholder="       Senha">
+                    <img src="{{asset('/img/iconSenhaAdm.png')}}" class="iconSenha" alt=""><input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha">
                 </div>
                 <div class="mb-3 input-container">
-                    <img src="{{asset('/img/iconSenhaAdm.png')}}" class="iconConfirma" alt=""><input type="password" class="form-control" id="exampleInputPassword1" placeholder="       Confirmar senha">
+                    <img src="{{asset('/img/iconSenhaAdm.png')}}" class="iconConfirma" alt=""><input type="password" class="form-control" id="exampleInputPassword1" placeholder="Confirmar senha">
                 </div>
                 <button type="submit" class="btn btn-primary">Fazer login</button>
             <script src="{{ asset('js/admin/login.js')}}"></script>
