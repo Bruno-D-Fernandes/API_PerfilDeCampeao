@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById('cadastro');
+    const form = document.getElementById('cadastro-clube');
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     form.addEventListener('submit', async (e) => {
@@ -8,8 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const url = '/api/clube/register';
 
         const formData = new FormData(form);
-        formData.append('categoria_id', 1);
-        formData.append('esporte_id', 1);
 
         fetch(url, {
             method: 'POST',
@@ -20,10 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
-            
-            if (!data.error) {
+            if (!data.error && !data.errors) {
                 alert('deu certo');
+                localStorage.setItem('club_token', data.access_token);
             }
         })
         .catch(e => {

@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
-    <form action="" id="cadastro">
+    <form action="" id="cadastro-clube">
         @csrf
 
         <label for="clube-nome">Nome:</label>
@@ -46,7 +46,7 @@
         <input type="text" name="enderecoClube" id="clube-endereco">
 
         <label for="clube-senha">Senha:</label>
-        <input type="text" name="senhaClube" id="clube-senha">
+        <input type="password" name="senhaClube" id="clube-senha">
 
         <button type="submit">Enviar</button>
     </form>
