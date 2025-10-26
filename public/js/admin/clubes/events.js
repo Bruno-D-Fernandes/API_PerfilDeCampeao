@@ -34,6 +34,7 @@ clubes.addEventListener('click', (e) => {
         readOnly = true;
         clubeId = btnVer.closest('.clube').dataset.clubeId;
         disableInputs();
+        unhideFormImgs();
         fetchClubeDetails(clubeId);
         abrirModal(modalClube);
     } else if (btnExcluir) {

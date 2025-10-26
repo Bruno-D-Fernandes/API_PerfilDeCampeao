@@ -6,7 +6,6 @@ function abrirModal(modal) {
 function fecharModal(modal) {
     modal.content.classList.add('hidden');
     limparModal(modal);
-
     const algumAberto = Object.values(modais).some(m => !m.content.classList.contains('hidden'));
     if (!algumAberto) modalBackdrop.classList.add('hidden');
 }
@@ -14,6 +13,9 @@ function fecharModal(modal) {
 function limparModal(modal) {
     if (modal.inputs) modal.inputs.forEach(inp => inp.value = "");
     clubeModalTitle.textContent = 'Adicionar clube';
+    previewImagem.src = "";
+    previewImagemBanner.src = "";
+    hideFormImgs();
 }
 
 function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
@@ -58,6 +60,8 @@ function hideFormImgs() {
     document.querySelectorAll('.form-group.img').forEach(formImg => {
         formImg.classList.add('hidden');
     });
+    previewImagem.style.display = 'none';
+    previewImagemBanner.style.display = 'none';
 }
 
 function unhideFormImgs() {
