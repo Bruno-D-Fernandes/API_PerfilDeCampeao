@@ -87,7 +87,7 @@
             height: 32px;
         }
 
-        .modal-body, .form-group {
+        .modal-body, .form-group, #funcao-view {
             width: 100%;
             display: flex;
             flex-direction: column;

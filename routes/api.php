@@ -36,7 +36,7 @@ Route::prefix('usuario')->group(function () {
     Route::post('/register', [UserController::class, 'store']);
     Route::post('/login', [AuthUserController::class, 'login']);
 
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('auth:sanctum,auth:adm_sanctum')->group(function () {
         Route::get('/perfil', [AuthUserController::class, 'perfil']);
         Route::post('/logout', [AuthUserController::class, 'logout']);
         Route::delete('/delete', [AuthUserController::class, 'deleteAccount']);
@@ -87,10 +87,13 @@ Route::get('/postagem/{id}', [PostagemController::class, 'show']);
 Route::prefix('clube')->group(function () {
     Route::post('/register', [ClubeController::class, 'store']);
     Route::post('/login', [AuthClubeController::class, 'loginClube']);
-    Route::put('/update/{id}', [ClubeController::class, 'update']);
-    Route::delete('/delete/{id}', [ClubeController::class, 'destroy']);
 
-    Route::middleware('auth:club_sanctum')->group(function () {
+    Route::middleware('auth:club_sanctum,adm_sanctum')->group(function () {
+        // Rotas de clubes protegidas
+        Route::put('/{id}', [ClubeController::class, 'update']);
+        Route::get('/{id}', [ClubeController::class, 'show']);
+        Route::delete('/{id}', [ClubeController::class, 'destroy']);
+
         Route::get('/perfil', [AuthClubeController::class, 'perfil']);
         Route::post('/logout', [AuthClubeController::class, 'logout']);
 
@@ -161,10 +164,13 @@ Route::prefix('admin')->group(function () {
         Route::get('/perfil', [AdmController::class, 'perfilAdm']);
         Route::post('/logout', [AdmController::class, 'logoutAdm']);
 
+        // Adição de clube via adm
+        Route::post('/clube', [ClubeController::class, 'storeByAdmin']);
 
         // Estas rotas permitem que o admin acesse os métodos 'index'
         Route::get('/usuarios', [UserController::class, 'index']);
         Route::get('/clubes', [ClubeController::class, 'index']);
+
         Route::get('/oportunidades', [OportunidadeController::class, 'index']);
         Route::get('/oportunidades/pendentes', [AdmController::class, 'listPending']);
         Route::post('/oportunidades/{id}/aprovar', [AdmController::class, 'aproved']);
