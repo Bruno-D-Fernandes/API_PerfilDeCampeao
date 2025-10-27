@@ -3,20 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Oportunidades</title>
 </head>
 <body>
-    <form action="" id="formOportunidades">
+    <form id="formOportunidades">
         @csrf
-        <input type="text" name="nomeOportunidade" required>
+        <label>Descrição</label>
+        <input type="text" name="descricaoOportunidades" id="descricaoOportunidades" required>
         <br>
-        <input type="text" name="descricaoOportunidade" required>
+        <select name="esporte_id" id="esporte_id" required>
+             <option value="">Selecione o esporte...</option>
+           
+        </select>
+        <br>
+        <select name="posicoes_id" id="posicoes_id" required>
+            <option value="">Selecione a Posição...</option>
+           
+        </select>
         <br>
         <input type="number" name="idadeMinima" required>
         <br>
         <input type="number" name="idadeMaxima" required>
         <br>
-        <input type="text" name="cepOportunidade" id="cep" maxlength="8" onblur="buscaCep()" required>
+        <input type="text" name="cepOportunidade" id="cep" maxlength="9" onblur="buscaCep()" required>
         <br>
         <select name="estadoOportunidade" id="estadoOportunidade" required>
             <option value="AC">Acre</option>
@@ -54,55 +64,12 @@
         <br>
         <button type="submit">Enviar</button>
     </form>
-    <script>
-//src="{{ asset('js/clube/oportunidades.js')}}"
 
-    function buscaCep() {
-        let cep = document.getElementById('cep').value;
-        cep = cep.replace(/\D/g, '');
-        
-        if (cep.length !== 8) { 
-
-            document.getElementById('cidadeOportunidade').value = '';
-            document.getElementById('enderecoOportunidade').value = '';
-            document.getElementById('estadoOportunidade').value = '';
-            return alert('CEP inválido. Deve conter 8 dígitos.');
-
-            if(cep.length > 0){
-                alert('CEP inválido. Deve conter 8 dígitos.');
-            }
-            return
-        }
-
-    document.getElementById('cidadeOportunidade').value = '...';
-
-    const url = `https://viacep.com.br/ws/${cep}/json/`;
-
-    fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro de rede ou na API do ViaCEP.');
-                }
-                return response.json(); 
-            })
-        .then(data => {
-            if (!data.erro) {
-                document.getElementById('cidadeOportunidade').value = data.localidade;
-                document.getElementById('enderecoOportunidade').value = data.logradouro;
-                document.getElementById('estadoOportunidade').value = data.uf;
-            } else {
-                document.getElementById('cidadeOportunidade').value = '';
-                document.getElementById('enderecoOportunidade').value = '';
-                document.getElementById('estadoOportunidade').value = '';
-                alert('CEP não encontrado.');
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao buscar o CEP:', error);
-        });
-
-    }
-
-    </script>
+    
+    <script src="{{ asset('js/clube/oportunidade/utils.js') }}"></script>
+    <script src="{{ asset('js/clube/oportunidade/modals.js') }}"></script>
+    <script src="{{ asset('js/clube/oportunidade/dom-elements.js') }}"></script>
+    <script src="{{ asset('js/clube/oportunidade/api.js') }}"></script>
+    <script src="{{ asset('js/clube/oportunidade/events.js') }}"></script>
 </body>
 </html>

@@ -72,7 +72,7 @@ class Oportunidade extends Model
 
     public function clube()
     {
-        // Certifique-se de que o caminho para o Model 'Clube' está correto
+        
         return $this->belongsTo(Clube::class, 'clube_id');
     }
 
@@ -89,7 +89,7 @@ class Oportunidade extends Model
      */
     public function posicao()
     {
-        // Usando 'posicoes' para corresponder ao nome do campo 'posicoes_id'
+        
         return $this->belongsTo(Posicao::class, 'posicoes_id');
     }
     
