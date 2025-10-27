@@ -18,6 +18,8 @@ class Perfil extends Model
         'esporte_id',
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'usuario_id');
@@ -30,9 +32,10 @@ class Perfil extends Model
 
     public function posicoes()
     {
-        return $this->belongsToMany(Posicao::class, 'perfil_posicao')
-            ->withTimestamps();
+        return $this->belongsToMany(Posicao::class)
+            ->withPivot('perfil_id', 'posicao_id');
     }
+
 
     public function esporte()
     {
@@ -41,8 +44,7 @@ class Perfil extends Model
 
     public function caracteristicas()
     {
-        return $this->belongsToMany(Caracteristica::class, 'perfil_caracteristicas') // revisar isso | ta certo
-            ->withPivot('valor') // valor preenchido (peso, altura etc)
-            ->withTimestamps();
+        return $this->belongsToMany(Caracteristica::class, 'perfil_caracteristicas')
+            ->withPivot('valor');
     }
 }

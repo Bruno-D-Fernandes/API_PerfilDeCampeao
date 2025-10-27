@@ -18,7 +18,7 @@ class Usuario extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'usuarios';  
+    protected $table = 'usuarios';
 
     /**
      * The attributes that are mass assignable.
@@ -49,6 +49,8 @@ class Usuario extends Authenticatable
      */
     protected $hidden = [
         'senhaUsuario',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -65,7 +67,7 @@ class Usuario extends Authenticatable
      *
      * @return string
      */
-    
+
     public function getAuthPassword()
     {
         return $this->senhaUsuario;
@@ -109,7 +111,7 @@ class Usuario extends Authenticatable
     public function oportunidadesInscritas()
     {
         return $this->belongsToMany(Oportunidade::class, 'inscricoes', 'usuario_id', 'oportunidade_id')
-            ->withPivot('status','mensagem')->withTimestamps();
+            ->withPivot('status', 'mensagem')->withTimestamps();
     }
 
     public function listas()
@@ -136,7 +138,7 @@ class Usuario extends Authenticatable
         $sugestoesUsuariosIds = DB::table('seguidores')
             ->whereIn('usuario_id', $seguindoIds)->where('seguivel_type', Usuario::class)
             ->distinct()->pluck('seguivel_id');
-        
+
         $usuariosQuery = Usuario::whereIn('id', $sugestoesUsuariosIds)
             ->whereNotIn('id', $excluirUsuariosIds)
             ->select('id', 'nomeCompletoUsuario as nome', DB::raw("'usuario' as tipo"));

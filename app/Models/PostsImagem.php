@@ -12,6 +12,8 @@ class PostsImagem extends Model
 
     protected $table = 'postagem_images';
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     protected $fillable = [
         'idPostagem',
         'caminhoImagem'

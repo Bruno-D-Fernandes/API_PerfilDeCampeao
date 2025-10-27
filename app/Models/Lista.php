@@ -19,6 +19,9 @@ class Lista extends Model
         'clube_id',
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
+
     public function clube()
     {
         return $this->belongsTo(\App\Models\Clube::class, 'clube_id');

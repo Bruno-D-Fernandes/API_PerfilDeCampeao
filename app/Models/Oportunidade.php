@@ -22,6 +22,7 @@ class Oportunidade extends Model
 
 
     protected $table = 'oportunidades';
+    protected $hidden = ['created_at', 'updated_at'];
 
     public const STATUS_PENDING = 'pending';
     public const STATUS_APPROVED = 'approved';
@@ -55,7 +56,7 @@ class Oportunidade extends Model
     {
         return $query->where('status', self::STATUS_APPROVED);
     }
-    
+
     public function scopePending($query)
     {
         return $query->where('status', self::STATUS_PENDING);
@@ -92,13 +93,15 @@ class Oportunidade extends Model
         // Usando 'posicoes' para corresponder ao nome do campo 'posicoes_id'
         return $this->belongsTo(Posicao::class, 'posicoes_id');
     }
-    
-    public function inscricoes(){
+
+    public function inscricoes()
+    {
         return $this->hasMany(Inscricao::class, 'oportunidade_id');
     }
 
-    public function candidatos(){
+    public function candidatos()
+    {
         return $this->belongsToMany(Usuario::class, 'inscricoes', 'oportunidade_id', 'usuario_id')
-            ->withPivot('status','mensagem')->withTimestamps();
+            ->withPivot('status', 'mensagem')->withTimestamps();
     }
 }

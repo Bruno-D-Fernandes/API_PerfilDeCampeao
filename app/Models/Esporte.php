@@ -20,6 +20,8 @@ class Esporte extends Model
         'descricaoEsporte',
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function clubes() // tirar isso depois | só estou mexendo no usuario -- bruno
     {
         return $this->belongsToMany(Clube::class);

@@ -18,9 +18,10 @@ class Categoria extends Model
         'descricaoCategoria',
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function clubes()
     {
         return $this->belongsToMany(Clube::class);
     }
-
 }

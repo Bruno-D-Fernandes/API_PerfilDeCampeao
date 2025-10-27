@@ -16,6 +16,8 @@ class Caracteristica extends Model
         'unidade_medida',
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function perfis()
     {
         return $this->belongsToMany(Perfil::class, 'perfil_caracteristicas')

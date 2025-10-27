@@ -12,6 +12,9 @@ class Tag extends Model
 
     protected $table = 'tags';
 
+    protected $hidden = ['created_at', 'updated_at'];
+
+
     protected $fillable = [
         'nomeTag'
     ];
@@ -21,5 +24,4 @@ class Tag extends Model
     {
         return $this->belongsToMany(Postagem::class, 'postagens_tags', 'idTag', 'idPostagem');
     }
-
 }

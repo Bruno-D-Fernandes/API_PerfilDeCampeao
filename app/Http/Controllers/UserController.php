@@ -89,7 +89,6 @@ class UserController extends Controller
                 return response()->json(['message' => 'Usuário não encontrado'], 404);
             }
 
-            // 1. Validação dos dados
             $validatedData = $request->validate([
                 'nomeCompletoUsuario' => 'nullable|string|max:255',
                 'emailUsuario' => 'nullable|email|unique:usuarios,emailUsuario,' . $id,

@@ -17,7 +17,9 @@ class Posicao extends Model
         'nomePosicao',
         'idEsporte',
     ];
-    //não estava conseguindo interligar as posições com os esportes então adicionei esse Relacionamento
+
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function esporte()
     {
         return $this->belongsTo(Esporte::class, 'idEsporte');

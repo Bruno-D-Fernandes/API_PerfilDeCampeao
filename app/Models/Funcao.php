@@ -12,4 +12,6 @@ class Funcao extends Model
     protected $table = 'funcoes';
 
     protected $fillable = ['nomeFuncao', 'descricaoFuncao'];
+
+    protected $hidden = ['created_at', 'updated_at'];
 }

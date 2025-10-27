@@ -14,8 +14,10 @@ class Postagem extends Model
 
     protected $table = 'postagens';
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     protected $fillable = [
-        'idUsuario',    
+        'idUsuario',
         'textoPostagem',
         'localizacaoPostagem'
     ];
@@ -31,7 +33,7 @@ class Postagem extends Model
     }
 
     public function usuario()
-{
-    return $this->belongsTo(Usuario::class, 'idUsuario');
-}
+    {
+        return $this->belongsTo(Usuario::class, 'idUsuario');
+    }
 }

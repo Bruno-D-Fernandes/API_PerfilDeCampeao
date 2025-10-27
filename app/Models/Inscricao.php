@@ -12,12 +12,17 @@ class Inscricao extends Model
         'oportunidade_id',
         'usuario_id',
         'status',
-    
+
     ];
 
-    public function oportunidade(){
-         return $this->belongsTo(Oportunidade::class);
-         }
-    public function usuario(){ return $this->belongsTo(Usuario::class); }
-}
+    protected $hidden = ['created_at', 'updated_at'];
 
+    public function oportunidade()
+    {
+        return $this->belongsTo(Oportunidade::class);
+    }
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class);
+    }
+}

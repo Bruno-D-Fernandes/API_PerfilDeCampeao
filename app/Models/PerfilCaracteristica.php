@@ -8,6 +8,8 @@ class PerfilCaracteristica extends Pivot
 {
     protected $table = 'perfil_caracteristicas';
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     protected $fillable = [
         'perfil_id',
         'caracteristica_id',
