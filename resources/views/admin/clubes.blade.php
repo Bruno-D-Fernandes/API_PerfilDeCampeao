@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/Admin/clubes/clubes.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         .hidden {
@@ -11,7 +15,7 @@
         }
 
         .clubes {
-            width: 100%;
+            width: 95%;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -19,8 +23,8 @@
         }
 
         .clubes-header {
-            width: 100%;
-            display: flex;
+            width: 99%;
+            display: block;
             align-items: center;
             justify-content: space-between;
         }
@@ -112,14 +116,14 @@
         }
 
         .img-preview.foto {
-            height: 96px;
+
             aspect-ratio: 1 / 1;
-            border-radius: 50%;
+            border-radius: 100%;
             overflow: hidden;
         }
 
         .img-preview.banner {
-            height: 48px;
+            height: 60px;
             aspect-ratio: 3 / 1;
             overflow: hidden;
         }
@@ -135,32 +139,102 @@
             overflow-y: auto;
         }
 
-        .modal-footer {
-            width: 100%;
-            height: 48px;
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-        }
-
-        .modal-footer button {
-            width: 50%;
-            height: 100%;
-        }
+      
     </style>
 </head>
 <body>
-    <div class="clubes" data-storage-url="{{ asset('storage') }}">
-        <div class="clubes-header">
-            <h1>Clubes</h1>
+<main class="conteudo-principal">
+          <h1 class="titulo"></h1>
+          <section class="cards-topo">
+    <!--NAVBAR LT1-->
+    <nav class="barra-lateral" id="barra-lateral">
 
-            <button id="clube-add-btn">
-                <span>
-                    Adicionar clube
-                </span>
-            </button>
+        <!--ESPAÇO PRA LOGO LT1-->
+        <div class="logo-container">
+            <!-- LOGO PEQUENA-->
+            <img src="../img/logo-admin-reduzida.jpeg" alt="Logo" class="logo-pequena">
+            <!--LOGO GRANDE-->
+            <img src="../img/logo-admin-completa.jpeg" alt="Logo" class="logo-grande">
+            <!--ESPAÇO PRA LOGO LT1-->
         </div>
 
+        <ul class="menu-navegacao">
+            <li class="ativo">
+                <a href="./index.html">
+                    <i class='bx bx-home-alt'></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class='bx bx-briefcase'></i>
+                    <span>Oportunidades</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-list-ul'></i>
+                    <span>Listas</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-message-dots'></i>
+                    <span>Mensagens</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-bell'></i>
+                    <span>Notificações</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-user'></i>
+                    <span>Perfil</span>
+                </a>
+            </li>
+            <li>
+                <a href="./tela-pesquisa/pesquisa.html">
+                    <i class='bx bx-search'></i>
+                    <span>Pesquisa</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-cog'></i>
+                    <span>Configurações</span>
+                </a>
+            </li>
+            <li>
+            <hr class="barra-vermelha">  
+            <li class="sair-link"> 
+                <a href="#">
+                    <i class='bx bx-log-out'></i>
+                    <span>Sair</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!--NAVBAR LT1-->
+    </main>
+    <h1 class='titulo'>CLUBE</h1>
+<div class="total">
+    <div class="clubes" data-storage-url="{{ asset('storage') }}">
+        <div class="clubes-header">
+            <br><br>
+
+            <div class='header' >
+            <input type="text" class="pesquisa" placeholder='Pesquisar'>
+
+            
+            <button id="clube-add-btn">
+        <span>Adicionar clube</span>
+    </button>
+            </div>
+        </div>
+        
         <div class="list-header">
             <div class="header-col">
                 <span>Nome</span>
@@ -217,15 +291,15 @@
 
                 <div class="clube-acoes">
                     <button class="clube-ver-btn">
-                        <span>Ver</span>
+                        <span><i class="fa-solid fa-eye"></i></span>
                     </button>
 
                     <button class="clube-editar-btn">
-                        <span>Editar</span>
+                        <span><i class="fa-solid fa-pen"></i></span>
                     </button>
 
                     <button class="clube-excluir-btn">
-                        <span>Excluir</span>
+                        <span><i class="fa-solid fa-trash"></i></span>
                     </button>
                 </div>
             </div>
@@ -330,7 +404,10 @@
                     </select>
                 </div>
             </div>
+            
         </form>
+
+
 
         <div class="modal-footer">
             <button id="clube-cancelar-btn">

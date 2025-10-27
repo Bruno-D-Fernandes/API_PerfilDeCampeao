@@ -1,0 +1,210 @@
+body{
+    background-color: rgb(232, 240, 247);
+}
+.clubes{
+    margin-left: 80px;
+}
+.titulo{
+    margin-left: 9%;
+    font-size: 30pt;
+    color:#003dadea;
+    font-family: serif;
+}
+
+.header{
+    margin-left: 3%;
+}
+
+.pesquisa{
+    width: 40%;
+    height: 40px;
+}
+
+#clube-add-btn{
+    background-color: #003dadea;
+    color: aliceblue;
+    padding: 10px;
+    border-radius: 14px;
+    right: 20px;
+}
+
+.header-col{
+    color: #003dadea;
+}
+
+
+.total .clubes
+{
+background-color: rgb(255, 255, 255);
+height: 100%;
+width: 93%;
+position: fixed;
+}
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 10;
+}
+
+/* Esconde elementos */
+.hidden {
+    display: none;
+}
+
+/* === Estrutura base do modal === */
+.app-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    width: 600px;
+    max-width: 90%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    z-index: 20;
+    overflow: hidden;
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+/* Animação de entrada */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* === Cabeçalho === */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #003dadea;
+    color: #fff;
+    padding: 16px 20px;
+}
+
+.modal-title {
+    font-size: 18pt;
+    font-weight: 600;
+    margin: 0;
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 22pt;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-modal-btn:hover {
+    color: #ffcccc;
+}
+
+/* === Corpo do modal === */
+.modal-body {
+    padding: 20px 25px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* === Rodapé do modal === */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding: 15px 20px;
+    background-color: #f7f9fb;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* === Botões === */
+.modal-footer button {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-weight: 600;
+}
+
+#clube-cancelar-btn,
+#cancel-confirm-btn {
+    background-color: #ccc;
+    color: #333;
+}
+
+#clube-salvar-btn,
+#save-confirm-btn {
+    background-color: #003dadea;
+    color: white;
+}
+
+#clube-cancelar-btn:hover,
+#cancel-confirm-btn:hover {
+    background-color: #bbb;
+}
+
+#clube-salvar-btn:hover,
+#save-confirm-btn:hover {
+    background-color: #002a7d;
+}
+
+/* === Formulário interno === */
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #003dadea;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #003dadea;
+}
+
+/* === Preview de imagem === */
+.img-preview {
+    width: 38%;
+    height: 120px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #f5f9ff;
+}
+
+.img-preview img {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
