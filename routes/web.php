@@ -4,6 +4,7 @@ use App\Events\ClubFollowedEvent;
 use App\Http\Controllers\AdmController;
 use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\FuncaoController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Categoria;
 use App\Models\Clube;
@@ -33,3 +34,5 @@ Route::get('/admin/esportes', [AdmController::class, 'ListarEsportesWeb'])->name
 Route::get('/admin/funcoes', [FuncaoController::class, 'showWebPage'])->name('admin-funcoes');
 
 Route::get('/admin/clubes', [ClubeController::class, 'showWebPage'])->name('admin-clubes');
+
+Route::get('/admin/usuarios', [UserController::class, 'showWebPage'])->name('admin-usuarios');

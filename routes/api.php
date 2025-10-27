@@ -36,11 +36,15 @@ Route::prefix('usuario')->group(function () {
     Route::post('/register', [UserController::class, 'store']);
     Route::post('/login', [AuthUserController::class, 'login']);
 
-    Route::middleware('auth:sanctum,auth:adm_sanctum')->group(function () {
+    Route::middleware('auth:sanctum,adm_sanctum')->group(function () {
         Route::get('/perfil', [AuthUserController::class, 'perfil']);
         Route::post('/logout', [AuthUserController::class, 'logout']);
         Route::delete('/delete', [AuthUserController::class, 'deleteAccount']);
         Route::put('/update', [AuthUserController::class, 'updateAccount']);
+
+        Route::put('/{id}', [UserController::class, 'update']);
+        Route::get('/{id}', [UserController::class, 'show']);
+        Route::delete('/{id}', [UserController::class, 'destroy']);
 
         // Multiplos perfis
         Route::post('/perfis', [perfilController::class, 'store']);
@@ -166,6 +170,7 @@ Route::prefix('admin')->group(function () {
 
         // Adição de clube via adm
         Route::post('/clube', [ClubeController::class, 'storeByAdmin']);
+        Route::post('/usuario', [UserController::class, 'storeByAdmin']);
 
         // Estas rotas permitem que o admin acesse os métodos 'index'
         Route::get('/usuarios', [UserController::class, 'index']);

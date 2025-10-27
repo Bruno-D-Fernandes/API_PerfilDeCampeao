@@ -40,7 +40,7 @@ class ClubeController extends Controller
             $validatedData = $request->validate([
                 'nomeClube' => 'required|string|max:255|unique:clubes,nomeClube',
                 'cnpjClube' => 'required|string|max:20|unique:clubes,cnpjClube',
-                'emailClube' => 'required|string|max:255|unique:clubes,emailClube',
+                'emailClube' => 'required|email|string|max:255|unique:clubes,emailClube',
                 'cidadeClube' => 'required|string|max:255',
                 'estadoClube' => 'required|string|max:255',
                 'anoCriacaoClube' => 'required|date',
@@ -96,7 +96,7 @@ class ClubeController extends Controller
             $validatedData = $request->validate([
                 'nomeClube' => 'required|string|max:255|unique:clubes,nomeClube',
                 'cnpjClube' => 'required|string|max:20|unique:clubes,cnpjClube',
-                'emailClube' => 'required|string|max:255|unique:clubes,emailClube',
+                'emailClube' => 'required|email|string|max:255|unique:clubes,emailClube',
                 'cidadeClube' => 'required|string|max:255',
                 'estadoClube' => 'required|string|max:255',
                 'anoCriacaoClube' => 'required|date',
@@ -107,17 +107,6 @@ class ClubeController extends Controller
                 'fotoPerfilClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048',
                 'fotoBannerClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048'
             ]);
-
-            $caminhoFotoPerfil = null;
-            $caminhoFotoBanner = null;
-
-            if ($request->hasFile('fotoPerfilClube')) {
-                $caminhoFotoPerfil = $request->file('fotoPerfilClube')->store('clubes/perfis', 'public');
-            }
-
-            if ($request->hasFile('fotoBannerClube')) {
-                $caminhoFotoBanner = $request->file('fotoBannerClube')->store('clubes/banners', 'public');
-            }
 
             $senhaTemporariaAleatoria = Str::random(16);
 
@@ -131,8 +120,6 @@ class ClubeController extends Controller
                 'enderecoClube' => $validatedData['enderecoClube'],
                 'bioClube' => $validatedData['bioClube'] ?? null,
                 'senhaClube' => Hash::make($senhaTemporariaAleatoria),
-                'fotoPerfilClube' => $caminhoFotoPerfil,
-                'fotoBannerClube' => $caminhoFotoBanner,
                 'categoria_id' => $validatedData['categoria_id'],
                 'esporte_id' => $validatedData['esporte_id'],
             ]);

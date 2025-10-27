@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AuthUserController;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    public function showWebPage()
+    {
+        $usuarios = Usuario::all();
+
+        return view('admin.usuarios')->with(['usuarios' => $usuarios]);
+    }
+
     // Listar todos os usuários
     public function index()
     {
@@ -79,10 +87,51 @@ class UserController extends Controller
         }
     }
 
+    public function storeByAdmin(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'nomeCompletoUsuario' => 'required|string|max:255',
+                'emailUsuario' => 'required|email|unique:usuarios,emailUsuario',
+                'dataNascimentoUsuario' => 'required|date',
+                'generoUsuario' => 'nullable|string|max:100',
+                'estadoUsuario' => 'nullable|string|max:100',
+                'cidadeUsuario' => 'nullable|string|max:100',
+                'alturaCm' => 'nullable|numeric|min:50|max:300',
+                'pesoKg' => 'nullable|numeric|min:20|max:500',
+                'peDominante' => 'nullable|in:Direito,Esquerdo',
+                'maoDominante' => 'nullable|in:Destro,Canhoto',
+                'fotoPerfilUsuario' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048',
+                'fotoBannerUsuario' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048'
+            ]);
+
+            $senhaTemporariaAleatoria = Str::random(16);
+
+            $usuario = Usuario::create([
+                'nomeCompletoUsuario' => $validatedData['nomeCompletoUsuario'],
+                'emailUsuario' => $validatedData['emailUsuario'],
+                'senhaUsuario' => Hash::make($senhaTemporariaAleatoria),
+                'dataNascimentoUsuario' => $validatedData['dataNascimentoUsuario'],
+                'generoUsuario' => $validatedData['generoUsuario'] ?? null,
+                'estadoUsuario' => $validatedData['estadoUsuario'] ?? null,
+                'cidadeUsuario' => $validatedData['cidadeUsuario'] ?? null,
+                'alturaCm' => $validatedData['alturaCm'] ?? null,
+                'pesoKg' => $validatedData['pesoKg'] ?? null,
+                'peDominante' => $validatedData['peDominante'] ?? null,
+                'maoDominante' => $validatedData['maoDominante'] ?? null,
+            ]);
+
+            return response()->json($usuario, 201);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
    public function update(Request $request, string $id)
     {
-
-        
         try {
             $usuario = Usuario::find($id);
             if (!$usuario) {
@@ -156,13 +205,13 @@ class UserController extends Controller
             $usuarioArray = $usuario->toArray();
 
             if (!empty($usuarioArray['fotoPerfilUsuario'])) {
-                $usuarioArray['fotoPerfilUsuario'] = Storage::disk('public')->url($usuarioArray['fotoPerfilUsuario']);
+                $usuarioArray['fotoPerfilUsuario'] = asset('storage/' . $usuarioArray['fotoPerfilUsuario']);
             } else {
                 $usuarioArray['fotoPerfilUsuario'] = null;
             }
 
             if (!empty($usuarioArray['fotoBannerUsuario'])) {
-                $usuarioArray['fotoBannerUsuario'] = Storage::disk('public')->url($usuarioArray['fotoBannerUsuario']);
+                $usuarioArray['fotoBannerUsuario'] = asset('storage/' . $usuarioArray['fotoBannerUsuario']);
             } else {
                 $usuarioArray['fotoBannerUsuario'] = null;
             }
