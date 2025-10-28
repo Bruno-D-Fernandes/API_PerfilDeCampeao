@@ -15,14 +15,14 @@ class OportunidadeController extends Controller
      * Cria uma nova oportunidade (somente clube autenticado)
      */
 
-    
+
 
     //ALGUEM ME AJUDA PELO AMOR DE DEUS --ASS: Luan
 
 
     public function store(Request $request)
     {
-       
+
         $validatedData = $request->validate([
             'descricaoOportunidades'    => 'required|string|max:255',
             'datapostagemOportunidades' => 'required|date',
@@ -35,11 +35,11 @@ class OportunidadeController extends Controller
             'enderecoOportunidade'      => 'nullable|string|max:255',
             'cepOportunidade'           => 'nullable|string|max:9',
         ]);
-        
+
         $clube = $request->user();
 
         try {
-            
+
             $oportunidade = Oportunidade::create([
                 'descricaoOportunidades'    => $validatedData['descricaoOportunidades'],
                 'datapostagemOportunidades' => $validatedData['datapostagemOportunidades'],
@@ -56,10 +56,9 @@ class OportunidadeController extends Controller
             ]);
 
             // 4. Sucesso!
-            return response()->json($oportunidade, 201); 
-
+            return response()->json($oportunidade, 201);
         } catch (\Exception $e) {
-            
+
             return response()->json([
                 'error' => 'Erro interno ao criar oportunidade',
                 'message' => $e->getMessage()
@@ -69,10 +68,10 @@ class OportunidadeController extends Controller
 
     public function index(Request $request)
     {
-        $perPage = $request->query('per_page', 15);
+        $perPage = $request->query('per_page', 10);
 
         $oportunidades = Oportunidade::approved()->with(['esporte', 'posicao', 'clube'])->paginate($perPage);
-        
+
         return response()->json($oportunidades, 200);
     }
 
@@ -113,7 +112,7 @@ class OportunidadeController extends Controller
             'cepOportunidade'           => 'sometimes|string|max:9',
         ]);
 
-         if ($oportunidade->status === Oportunidade::STATUS_REJECTED || $oportunidade->status === Oportunidade::STATUS_APPROVED) {
+        if ($oportunidade->status === Oportunidade::STATUS_REJECTED || $oportunidade->status === Oportunidade::STATUS_APPROVED) {
             $oportunidade->status = \App\Models\Oportunidade::STATUS_PENDING;
             $oportunidade->reviewed_by = null;
             $oportunidade->reviewed_at = null;
@@ -124,8 +123,8 @@ class OportunidadeController extends Controller
         try {
             $oportunidade->update($validatedData);
             return response()->json([
-            'message' => 'Oportunidade atualizada',
-            'data'    => $oportunidade->load(['esporte','posicoes','clube']),
+                'message' => 'Oportunidade atualizada',
+                'data'    => $oportunidade->load(['esporte', 'posicoes', 'clube']),
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -157,9 +156,5 @@ class OportunidadeController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
-        
     }
-    
-
-    
 }
