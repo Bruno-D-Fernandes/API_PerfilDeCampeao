@@ -9,41 +9,51 @@
 </head>
 <body>
     <div class="container">
+        <h2>Oportunidades</h2>
+        <div class="box">
+        <h5>Minhas oportunidades</h5>
         <div class="container text-center mt-5">
-             <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOportunidades">
-                novo
+        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+        <img src="{{asset('/img/novoBotao.png')}}" class="iconNovo" alt=""><button type="submit" class="botaoNovo" data-bs-toggle="modal" data-bs-target="#modalOportunidades">
+                Novo
              </button>
+             <!--quando tiver opção colocar ativos aqui-->
         </div>
+        </div>
+        </div>
+<!--modal adicionar oportunidade-->
          <div class="modal fade" id="modalOportunidades" tabindex="-1" aria-labelledby="modalOportunidadesLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
         
             <div class="modal-header">
-                <h5 class="modal-title" id="modalOportunidadesLabel">Cadastrar Oportunidade</h5>
+                <h4 class="modal-title" id="modalOportunidadesLabel">Cadastrar Oportunidade</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
 
             <div class="modal-body">
                 <form class="row g-3" action="" id="formOportunidades">
                     @csrf
-                    <div class="mb-3">
-                        <input type="text" name="nomeOportunidade" required>
+                    <div class="col">
+                    <div class="mb-3 input-conteiner">
+                        <input class="form-control" type="text" name="nomeOportunidade" placeholder="Nome" required>
                     </div>
 
-                    <div class="mb-3">
-                        <input type="text" name="descricaoOportunidade" required>
+                    <div class="mb-3 input-conteiner">
+                        <input class="form-control" type="text" name="descricaoOportunidade" placeholder="Descrição" required>
                     </div>
 
-                    <div class="mb-3">
-                        <input type="number" name="idadeMinima" required>
+                    <div class="mb-3 input-conteiner">
+                        <input class="form-control" type="number" name="idadeMinima" placeholder="Idade Minima" required>
                     </div>  
 
-                    <div class="mb-3">
-                        <input type="number" name="idadeMaxima" required>
+                    <div class="mb-3 input-conteiner">
+                        <input class="form-control" type="number" name="idadeMaxima" placeholder="Idade máxima" required>
                     </div>
-                    
-                    <div class="mb-3">
-                        <input type="text" name="cepOportunidade" id="cep" maxlength="8" onblur="buscaCep()" required>
+                    </div>
+                    <div class="col">
+                    <div class="mb-3 input-conteiner">
+                        <input class="form-control" type="text" name="cepOportunidade" id="cep" maxlength="8" onblur="buscaCep()" placeholder="Cep" required>
                     </div>
                     
                     <select class="form-select"  name="estadoOportunidade" id="estadoOportunidade" required>
@@ -76,13 +86,14 @@
                         <option value="SE">Sergipe</option>
                         <option value="TO">Tocantins</option>
                     </select>
-                    <div class="mb-3">
-                        <input type="text" name="cidadeOportunidade" id="cidadeOportunidade" required>
+                    <div class="mb-3 input-conteiner">
+                        <input class="form-control" type="text" name="cidadeOportunidade" id="cidadeOportunidade" placeholder="Cidade" required>
                     </div>
-                    <div class="mb-3">
-                        <input type="text" name="enderecoOportunidade" id="enderecoOportunidade" required>
+                    <div class="mb-3 input-conteiner">
+                        <input class="form-control" type="text" name="enderecoOportunidade" id="enderecoOportunidade" placeholder="Endereço" required>
                     </div>
-                    <button class="btn btn-primary" type="submit">Enviar</button>
+                    </div>
+                    <button class="botaoEnviar" type="submit">Enviar</button>
             </form>
         </div>
         </div>

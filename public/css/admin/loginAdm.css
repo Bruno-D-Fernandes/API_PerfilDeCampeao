@@ -53,6 +53,12 @@ body{
     background-color: #3A6BA3;
     font-weight: 400;
 }
+.footer{
+    display: block;
+    font-weight: 400;
+    font-size: 15px;
+    color: #9aa9bb8e;
+}
 .iconEmail{
     position: absolute;
     left: 15px;
