@@ -83,15 +83,11 @@ class SearchUsuarioController extends Controller
               ->orWhere('emailUsuario', 'like', "%{$s}%");
         });
     }
-
-    
-
    
     if (!empty($validatedData['posicao_id'])) {
         $q->whereHas('posicoes', fn ($w) => $w->where('posicoes.id', $validatedData['posicao_id']));
     
     }
-
    
     if (!empty($validatedData['alturaCm']))   $q->where('alturaCm', $validatedData['alturaCm']);
     if (!empty($validatedData['altura_min'])) $q->where('alturaCm', '>=', $validatedData['altura_min']);

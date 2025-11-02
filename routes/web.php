@@ -29,6 +29,8 @@ Route::get('/clube/cadastro', function () {
     return view('clube.cadastro')->with(['categorias' => Categoria::all(), 'esportes' => Esporte::all()]);
 })->name('clube-cadastro');
 
+Route::get('/clubes/{id}', [ClubeController::class, 'showProfilePage'])->name('clube-perfil');
+
 Route::get('/admin/esportes', [AdmController::class, 'ListarEsportesWeb'])->name('admin-esportes');
 
 Route::get('/admin/funcoes', [FuncaoController::class, 'showWebPage'])->name('admin-funcoes');

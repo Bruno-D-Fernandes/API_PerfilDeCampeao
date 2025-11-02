@@ -14,29 +14,13 @@ class MembroClubeController extends Controller
     public function listarMembros(Request $request, string $clubeId)
     {
         try {
-            if (auth('club_sanctum')->user()->id != $clubeId) {
+            $clube = Clube::findOrFail($clubeId);
+
+            if (auth('club_sanctum')->user()->id != $clube->id) {
                 return response()->json(['message' => 'Somente o próprio clube pode listar seus membros'], 401);
             }
 
-            $clube = Clube::findOrFail($clubeId);
-
-            $membros = $clube->membros()->get();
-
-            $esportesIds = $membros->pluck('pivot.esporte_id')->unique()->filter();
-            $funcoesIds = $membros->pluck('pivot.funcao_id')->unique()->filter();
-            
-            $esportesMap = Esporte::whereIn('id', $esportesIds)->pluck('nomeEsporte', 'id');
-            $funcoesMap = Funcao::whereIn('id', $funcoesIds)->pluck('nomeFuncao', 'id');
-
-            $membrosAgrupados = [];
-
-            foreach ($membros as $membro) {
-                $nomeEsporte = $esportesMap->get($membro->pivot->esporte_id, 'Sem esporte');
-
-                $nomeFuncao = $funcoesMap->get($membro->pivot->funcao_id, 'Sem função');
-
-                $membrosAgrupados[$nomeEsporte][$nomeFuncao][] = $membro;
-            }
+            $membrosAgrupados = $this->getMembrosAgrupados($clube->id, $request->query('search'));
 
             return response()->json($membrosAgrupados, 200);
 
@@ -46,6 +30,37 @@ class MembroClubeController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function getMembrosAgrupados(string $clubeId, string $search = null)
+    {
+        $clube = Clube::findOrFail($clubeId);
+
+        $membrosQuery = $clube->membros();
+
+        if ($search) {
+            $membrosQuery->where('nomeCompletoUsuario', 'like', "%{$search}%");
+        }
+
+        $membros = $membrosQuery->get();
+
+        $esportesIds = $membros->pluck('pivot.esporte_id')->unique()->filter();
+        $funcoesIds = $membros->pluck('pivot.funcao_id')->unique()->filter();
+        
+        $esportesMap = Esporte::whereIn('id', $esportesIds)->pluck('nomeEsporte', 'id');
+        $funcoesMap = Funcao::whereIn('id', $funcoesIds)->pluck('nome', 'id');
+
+        $membrosAgrupados = [];
+
+        foreach ($membros as $membro) {
+            $nomeEsporte = $esportesMap->get($membro->pivot->esporte_id, 'Sem esporte');
+
+            $nomeFuncao = $funcoesMap->get($membro->pivot->funcao_id, 'Sem função');
+
+            $membrosAgrupados[$nomeEsporte][$nomeFuncao][] = $membro;
+        }
+
+        return $membrosAgrupados;
     }
 
     public function adicionarMembro(Request $request, string $clubeId, string $usuarioId,) {

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('oportunidade_id')->constrained('oportunidades')->cascadeOnDelete();
             $table->foreignId('usuario_id')->constrained('usuarios')->cascadeOnDelete();
             $table->string('status', 20)->default('pendente');
+            $table->text('mensagem')->nullable();
             
             $table->timestamps();
 

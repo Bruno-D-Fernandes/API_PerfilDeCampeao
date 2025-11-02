@@ -12,7 +12,7 @@ class Inscricao extends Model
         'oportunidade_id',
         'usuario_id',
         'status',
-
+        'mensagem',
     ];
 
     protected $hidden = ['created_at', 'updated_at'];

@@ -28,7 +28,6 @@ class Oportunidade extends Model
     public const STATUS_APPROVED = 'approved';
     public const STATUS_REJECTED = 'rejected';
 
-
     protected $fillable = [
         'descricaoOportunidades',
         'datapostagemOportunidades',
@@ -68,7 +67,7 @@ class Oportunidade extends Model
 
     public function reviewer()
     {
-        return $this->belongsTo(Adm::class, 'reviewed_by');
+        return $this->belongsTo(Admin::class, 'reviewed_by');
     }
 
     public function clube()
