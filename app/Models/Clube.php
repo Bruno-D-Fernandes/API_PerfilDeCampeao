@@ -28,12 +28,18 @@ class Clube extends Authenticatable
         'senhaClube',
         'fotoPerfilClube',
         'fotoBannerClube',
+        'categoria_id',
+        'esporte_id'
     ];
 
-
-    function esportes()
+    public function esporte()
     {
-        return $this->belongsToMany(Esporte::class);
+        return $this->belongsTo(Esporte::class);
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
     }
     
     public function membros()

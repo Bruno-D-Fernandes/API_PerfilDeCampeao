@@ -2,15 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 use App\Models\Clube;
+use App\Models\Esporte;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ClubeController extends Controller
 {
+    public function showWebPage()
+    {
+        $clubes = Clube::all()->load('esporte', 'categoria');
+        $esportes = Esporte::all();
+        $categorias = Categoria::all();
+
+        return view('admin.clubes')->with(['clubes' => $clubes, 'esportes' => $esportes, 'categorias' => $categorias]);
+    }
+
     // Listar todos os clubes
     public function index()
     {
@@ -25,13 +40,15 @@ class ClubeController extends Controller
             $validatedData = $request->validate([
                 'nomeClube' => 'required|string|max:255|unique:clubes,nomeClube',
                 'cnpjClube' => 'required|string|max:20|unique:clubes,cnpjClube',
-                'emailClube' => 'required|string|max:255|unique:clubes,emailClube',
+                'emailClube' => 'required|email|string|max:255|unique:clubes,emailClube',
                 'cidadeClube' => 'required|string|max:255',
                 'estadoClube' => 'required|string|max:255',
                 'anoCriacaoClube' => 'required|date',
                 'enderecoClube' => 'required|string|max:255',
                 'bioClube' => 'nullable|string',
-                'senhaClube' => 'required|string|min:6|confirmed',
+                'senhaClube' => 'required|string|min:6',
+                'categoria_id' => 'required|exists:categorias,id',
+                'esporte_id' => 'required|exists:esportes,id',
                 'fotoPerfilClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048',
                 'fotoBannerClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048'
             ]);
@@ -59,6 +76,8 @@ class ClubeController extends Controller
                 'senhaClube' => Hash::make($validatedData['senhaClube']),
                 'fotoPerfilClube' => $caminhoFotoPerfil,
                 'fotoBannerClube' => $caminhoFotoBanner,
+                'categoria_id' => $validatedData['categoria_id'],
+                'esporte_id' => $validatedData['esporte_id'],
             ]);
 
             $authController = new AuthClubeController();
@@ -71,17 +90,74 @@ class ClubeController extends Controller
         }
     }
 
+    public function storeByAdmin(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'nomeClube' => 'required|string|max:255|unique:clubes,nomeClube',
+                'cnpjClube' => 'required|string|max:20|unique:clubes,cnpjClube',
+                'emailClube' => 'required|email|string|max:255|unique:clubes,emailClube',
+                'cidadeClube' => 'required|string|max:255',
+                'estadoClube' => 'required|string|max:255',
+                'anoCriacaoClube' => 'required|date',
+                'enderecoClube' => 'required|string|max:255',
+                'bioClube' => 'nullable|string',
+                'categoria_id' => 'required|exists:categorias,id',
+                'esporte_id' => 'required|exists:esportes,id',
+                'fotoPerfilClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048',
+                'fotoBannerClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048'
+            ]);
+
+            $senhaTemporariaAleatoria = Str::random(16);
+
+            $clube = Clube::create([
+                'nomeClube' => $validatedData['nomeClube'],
+                'cnpjClube' => $validatedData['cnpjClube'],
+                'emailClube' => $validatedData['emailClube'],
+                'cidadeClube' => $validatedData['cidadeClube'],
+                'estadoClube' => $validatedData['estadoClube'],
+                'anoCriacaoClube' => $validatedData['anoCriacaoClube'],
+                'enderecoClube' => $validatedData['enderecoClube'],
+                'bioClube' => $validatedData['bioClube'] ?? null,
+                'senhaClube' => Hash::make($senhaTemporariaAleatoria),
+                'categoria_id' => $validatedData['categoria_id'],
+                'esporte_id' => $validatedData['esporte_id'],
+            ]);
+
+            return response()->json($clube->load('categoria', 'esporte'), 201);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     // Mostrar um clube específico
     public function show($id)
     {
         try {
-            $clube = Clube::find($id);
+            $clube = Clube::findOrFail($id);
 
-            if(!$clube){
-                return response()->json(['message' => 'Clube não encontrado'], 404);
+            $utilizadorAutenticado = Auth::user();
+            $podeVer = false;
+
+            if ($utilizadorAutenticado instanceof Admin) {
+                $podeVer = true;
+            } elseif ($utilizadorAutenticado instanceof Clube && $utilizadorAutenticado->id == $clube->id) {
+                $podeVer = true;
             }
 
-            return response()->json($clube, 200);
+            if (!$podeVer) {
+                Log::warning('Acesso negado ao clube show', [
+                    'autenticado_id' => $utilizadorAutenticado ? $utilizadorAutenticado->id : null,
+                    'autenticado_tipo' => $utilizadorAutenticado ? get_class($utilizadorAutenticado) : 'Nenhum utilizador autenticado',
+                    'clube_solicitado_id' => $clube->id
+                ]);
+                return response()->json(['message' => 'Acesso não autorizado'], 403);
+            }
+
+            return response()->json($clube->load('categoria', 'esporte'), 200);
 
         } catch(\Exception $e) {
             return response()->json([
@@ -94,11 +170,7 @@ class ClubeController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $clube = Clube::find($id);
-
-            if (!$clube) {
-                return response()->json(['message' => 'Clube não encontrado'], 404);
-            }
+            $clube = Clube::findOrFail($id);
 
             $validatedData = $request->validate([
                 'nomeClube' => 'sometimes|string|max:255',
@@ -110,35 +182,37 @@ class ClubeController extends Controller
                 'enderecoClube' => 'sometimes|string|max:255',
                 'bioClube' => 'nullable|string',
                 'senhaClube' => 'sometimes|string|min:6|confirmed',
+                'categoria_id' => 'sometimes|exists:categorias,id',
+                'esporte_id' => 'sometimes|exists:esportes,id',
                 'fotoPerfilClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048',
-                'fotoBannerClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048'
+                'fotoBannerClube' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048',
             ]);
 
             $clube->fill($validatedData);
-
+            
             if ($request->filled('senhaClube')) {
                 $clube->senhaClube = Hash::make($validatedData['senhaClube']);
             }
 
             if ($request->hasFile('fotoPerfilClube')) {
-                if ($clube->fotoPerfilClube) {
-                    Storage::disk('public')->delete($clube->getRawOriginal('fotoPerfilClube'));
+                $caminhoAntigo = $clube->getRawOriginal('fotoPerfilClube');
+                if ($caminhoAntigo) {
+                    Storage::disk('public')->delete($caminhoAntigo);
                 }
-
                 $clube->fotoPerfilClube = $request->file('fotoPerfilClube')->store('clubes/perfis', 'public');
             }
 
             if ($request->hasFile('fotoBannerClube')) {
-                if ($clube->fotoBannerClube) {
-                    Storage::disk('public')->delete($clube->getRawOriginal('fotoBannerClube'));
+                $caminhoAntigo = $clube->getRawOriginal('fotoBannerClube');
+                if ($caminhoAntigo) {
+                    Storage::disk('public')->delete($caminhoAntigo);
                 }
-
                 $clube->fotoBannerClube = $request->file('fotoBannerClube')->store('clubes/banners', 'public');
             }
 
             $clube->save();
 
-            return response()->json($clube->fresh(), 200);
+            return response()->json($clube->fresh()->load('categoria', 'esporte'), 200);
 
         } catch(\Exception $e) {
             return response()->json([
@@ -152,23 +226,21 @@ class ClubeController extends Controller
     public function destroy($id)
     {
         try {
-            $clube = Clube::find($id);
+            $clube = Clube::findOrFail($id);
 
-            if (!$clube) {
-                return response()->json(['message' => 'Clube não encontrado'], 404);
+            $caminhoFotoPerfil = $clube->getRawOriginal('fotoPerfilClube');
+            if ($caminhoFotoPerfil) {
+                Storage::disk('public')->delete($caminhoFotoPerfil);
             }
 
-            if ($clube->fotoPerfilClube) {
-                Storage::disk('public')->delete($clube->getRawOriginal('fotoPerfilClube'));
-            }
-
-            if ($clube->fotoBannerClube) {
-                Storage::disk('public')->delete($clube->getRawOriginal('fotoBannerClube'));
+            $caminhoFotoBanner = $clube->getRawOriginal('fotoBannerClube');
+            if ($caminhoFotoBanner) {
+                Storage::disk('public')->delete($caminhoFotoBanner);
             }
 
             $clube->delete();
 
-            return response()->json(['message' => 'Clube deletado com sucesso'], 200);
+            return response()->json(null, 204);
 
         } catch(\Exception $e) {
             return response()->json([

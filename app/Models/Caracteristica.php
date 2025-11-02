@@ -12,8 +12,9 @@ class Caracteristica extends Model
     protected $table = 'caracteristicas';
 
     protected $fillable = [
-        'nome',
+        'caracteristica',
         'unidade_medida',
+        'esporte_id',
     ];
 
     protected $hidden = ['created_at', 'updated_at'];

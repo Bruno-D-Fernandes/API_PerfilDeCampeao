@@ -9,6 +9,7 @@ use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\PostagemController;
 
 use App\Http\Controllers\AdmController;
+use App\Http\Controllers\FuncaoController;
 use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\SearchUsuarioController;
@@ -36,20 +37,15 @@ Route::prefix('usuario')->group(function () {
     Route::post('/register', [UserController::class, 'store']);
     Route::post('/login', [AuthUserController::class, 'login']);
 
-    Route::get('/esporte', [EsporteController::class, 'index']);
-
-
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/show/{id}', [UserController::class, 'show']);
-        Route::put('/update/{id}', [UserController::class, 'update']);
-        Route::delete('/delete/{id}', [UserController::class, 'destroy']);
-        Route::post('/logout', [AuthUserController::class, 'logout']);
-
-
+    Route::middleware('auth:sanctum,adm_sanctum')->group(function () {
         Route::get('/perfil', [AuthUserController::class, 'perfil']);
         Route::post('/logout', [AuthUserController::class, 'logout']);
         Route::delete('/delete', [AuthUserController::class, 'deleteAccount']);
         Route::put('/update', [AuthUserController::class, 'updateAccount']);
+
+        Route::put('/{id}', [UserController::class, 'update']);
+        Route::get('/{id}', [UserController::class, 'show']);
+        Route::delete('/{id}', [UserController::class, 'destroy']);
 
         // Multiplos perfis
         Route::post('/perfilStore', [perfilController::class, 'store']);
@@ -101,10 +97,13 @@ Route::get('/postagem/{id}', [PostagemController::class, 'show']);
 Route::prefix('clube')->group(function () {
     Route::post('/register', [ClubeController::class, 'store']);
     Route::post('/login', [AuthClubeController::class, 'loginClube']);
-    Route::put('/update/{id}', [ClubeController::class, 'update']);
-    Route::delete('/delete/{id}', [ClubeController::class, 'destroy']);
 
-    Route::middleware('auth:club_sanctum')->group(function () {
+    Route::middleware('auth:club_sanctum,adm_sanctum')->group(function () {
+        // Rotas de clubes protegidas
+        Route::put('/{id}', [ClubeController::class, 'update']);
+        Route::get('/{id}', [ClubeController::class, 'show']);
+        Route::delete('/{id}', [ClubeController::class, 'destroy']);
+
         Route::get('/perfil', [AuthClubeController::class, 'perfil']);
         Route::post('/logout', [AuthClubeController::class, 'logout']);
 
@@ -175,10 +174,14 @@ Route::prefix('admin')->group(function () {
         Route::get('/perfil', [AdmController::class, 'perfilAdm']);
         Route::post('/logout', [AdmController::class, 'logoutAdm']);
 
+        // Adição de clube via adm
+        Route::post('/clube', [ClubeController::class, 'storeByAdmin']);
+        Route::post('/usuario', [UserController::class, 'storeByAdmin']);
 
         // Estas rotas permitem que o admin acesse os métodos 'index'
         Route::get('/usuarios', [UserController::class, 'index']);
         Route::get('/clubes', [ClubeController::class, 'index']);
+
         Route::get('/oportunidades', [OportunidadeController::class, 'index']);
         Route::get('/oportunidades/pendentes', [AdmController::class, 'listPending']);
         Route::post('/oportunidades/{id}/aprovar', [AdmController::class, 'aproved']);
@@ -196,21 +199,43 @@ Route::prefix('admin')->group(function () {
         Route::put('/esporte/{id}', [AdmController::class, 'Esporteupdate']);
         Route::delete('/esporte/{id}', [AdmController::class, 'Esportedestroy']);
         Route::get('/esporte', [AdmController::class, 'ListarEsportes']);
+<<<<<<< HEAD
         // o nome delas estava ao contrario
         /*         Route::post('/posicao', [AdmController::class, 'Posicaostore']);
+=======
+        Route::get('/esporte/{id}', [AdmController::class, 'ListarEsportesId']);
+        Route::get('/esporte/{id}/posicoes/', [AdmController::class, 'showPosicoesByEsporte']);
+
+                                                        // o nome delas estava ao contrario
+/*         Route::post('/posicao', [AdmController::class, 'Posicaostore']);
+>>>>>>> 0f5df67393b76d4e8cf4cc9b10f241abf4fd489d
         Route::put('/posicao/{id}', [AdmController::class, 'Posicaoupdate']);
         Route::delete('/posicao/{id}', [AdmController::class, 'Posicaodestroy']); */
 
 
         Route::get('/posicao', [AdmController::class, 'listarPosicoes']);
+        Route::get('/posicao/{id}', [AdmController::class, 'listarPosicoesId']);
         Route::post('/posicao', [AdmController::class, 'storePosicao']);      // Antes era Posicaostore
         Route::put('/posicao/{id}', [AdmController::class, 'updatePosicao']);    // Antes era Posicaoupdate
         Route::delete('/posicao/{id}', [AdmController::class, 'destroyPosicao']); // Antes era Posicaodestroy
 
+<<<<<<< HEAD
         Route::post('/funcao', [AdmController::class, 'storeFuncao']);
         Route::put('/funcao/{id}', [AdmController::class, 'updateFuncao']);
         Route::delete('/funcao/{id}', [AdmController::class, 'destroyFuncao']);
         Route::get('/funcao', [AdmController::class, 'listarFuncoes']);
+=======
+        Route::get('/caracteristica/{id}', [AdmController::class, 'listarCaracteristicasId']);
+        Route::post('/caracteristica', [AdmController::class, 'storeCaracteristica']);
+        Route::put('/caracteristica/{id}', [AdmController::class, 'updateCaracteristica']);
+        Route::delete('/caracteristica/{id}', [AdmController::class, 'destroyCaracteristica']);
+        
+        Route::post('/funcao', [FuncaoController::class, 'store']);
+        Route::put('/funcao/{id}', [FuncaoController::class, 'update']);
+        Route::delete('/funcao/{id}', [FuncaoController::class, 'destroy']);
+        Route::get('/funcao', [FuncaoController::class, 'index']);
+        Route::get('/funcao/{id}', [FuncaoController::class, 'show']);
+>>>>>>> 0f5df67393b76d4e8cf4cc9b10f241abf4fd489d
     });
 });
 

@@ -24,12 +24,12 @@ class Esporte extends Model
 
     public function clubes() // tirar isso depois | só estou mexendo no usuario -- bruno
     {
-        return $this->belongsToMany(Clube::class);
+        return $this->hasMany(Clube::class);
     }
 
     public function posicoes()
     {
-        return $this->hasMany(Posicao::class);
+        return $this->hasMany(Posicao::class, 'idEsporte');
     }
 
     public function caracteristicas()
