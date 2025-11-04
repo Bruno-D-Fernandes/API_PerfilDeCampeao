@@ -11,7 +11,7 @@
             display: none !important;
         }
 
-        .container, .profile-info, #profile, .profile-details, .tab-content > div, .modal-body, .form-group, #oportunidade-view, .members-list, .members-list-group, .members-list-group-function, .members-list-rows, #adicionar-membro-view {
+        .container, .profile-info, #profile, .profile-details, .modal-body, .form-group, #oportunidade-view, #opportunities, #members-list, .members-list-group, .members-list-group-function, .members-list-rows, #adicionar-membro-view {
             display: flex;
             flex-direction: column;
             gap: 16px;
@@ -81,7 +81,7 @@
         }
 
         .app-modal {
-            width: 420px;
+            width: 600px;
             position: fixed;
             top: 50%;
             left: 50%;
@@ -97,6 +97,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .modal-body {
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         .close-modal-btn {
@@ -121,7 +126,7 @@
             height: 100%;
         }
 
-        .members-list, .members-list-group, .members-list-group-function, .members-list-rows, .members-list-row {
+        #members-list, .members-list-group, .members-list-group-function, .members-list-rows, .members-list-row {
             width: 100%;
         }
 
@@ -189,6 +194,18 @@
             height: 100%;
             object-fit: cover;
         }
+
+        .tab-content.active {
+            display: block !important;
+        }
+
+        .tab-content {
+            display: none !important;
+        }
+
+        #confirmar-modal {
+            width: 420px;
+        }
     </style>
 </head>
 <body>
@@ -225,7 +242,7 @@
                     </span>
                 </button>
 
-                <button data-target-tab="team">
+                <button data-target-tab="members-list">
                     <span>
                         Membros
                     </span>
@@ -238,10 +255,10 @@
                 </button>
             </div>
 
-            <div class="tab-content">
-                <div class="opportunities hidden">
+            <div class="tab-container">
+                <div id="opportunities" class="tab-content active">
                     @foreach($clube->oportunidades as $oportunidade)
-                        <div class="opportunity">
+                        <div class="opportunity" data-oportunidade-id="{{ $oportunidade->id }}">
                             <div class="opportunity-details">
                                 <span>
                                     {{ $oportunidade->posicao->nomePosicao }}
@@ -265,25 +282,25 @@
                             </button>
 
                             <div class="opportunity-options hidden">
-                                <button>
+                                <button class="oportunidade-ver-btn">
                                     <span>
                                         Ver
                                     </span>
                                 </button>
 
-                                <button>
+                                <button class="oportunidade-editar-btn">
                                     <span>
-                                       Atualizar 
+                                       Editar 
                                     </span>
                                 </button>
 
-                                <button>
+                                <button class="oportunidade-excluir-btn">
                                     <span>
                                         Excluir
                                     </span>
                                 </button>
 
-                                <button>
+                                <button class="oportunidade-inscritos-btn">
                                     <span>
                                         Inscritos
                                     </span>
@@ -293,7 +310,7 @@
                     @endforeach
                 </div>
 
-                <div class="members-list">
+                <div id="members-list" class="tab-content">
                     <div class="members-list-header">
                         <input type="text" id="member-search-input" placeholder="Buscar membro">
 
@@ -362,12 +379,12 @@
         </div>
     </div>
 
-    <div class="modal-backdrop"></div>
+    <div class="modal-backdrop hidden"></div>
 
-    <div id="adicionar-membro-modal" class="app-modal">
+    <div id="adicionar-membro-modal" class="app-modal hidden">
         <div class="modal-header">
             <h2 class="modal-title">Adicionar membro:</h2>
-            <button class="close-modal-btn" data-modal-target="oportunidade-modal">&times;</button>
+            <button class="close-modal-btn" data-modal-target="adicionar-membro-modal">&times;</button>
         </div>
 
         <form class="modal-body" id="adicionar-membro-form">
@@ -477,11 +494,102 @@
         </form>
 
         <div class="modal-footer">
-            <button id="oportunidade-cancelar-btn">
+            <button id="adicionar-membro-cancelar-btn" disabled>
                 <span>Cancelar</span>
             </button>
 
-            <button id="oportunidade-salvar-btn">
+            <button id="adicionar-membro-salvar-btn" disabled type="button">
+                <span>Salvar</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="oportunidade-modal" class="app-modal hidden">
+        <div class="modal-header">
+            <h2 class="modal-title">Detalhes da Oportunidade:</h2>
+            <button class="close-modal-btn" data-modal-target="oportunidade-modal">&times;</button>
+        </div>
+
+        <form class="modal-body" id="oportunidade-form">
+            <div id="oportunidade-view">
+                <div class="form-group"> 
+                    <label for="descricaoOportunidades">Descrição:</label>
+                    
+                    <textarea name="oportunidade-form-descricao" id="oportunidade-form-descricao"></textarea> 
+                </div>
+                
+                <div class="form-group">
+                    <label for="oportunidade-form-data">Data de Postagem:</label>
+                    
+                    <input type="date" id="oportunidade-form-data" name="datapostagemOportunidades"> 
+                </div> 
+
+                <div class="form-group"> 
+                    <label for="oportunidade-form-esporte">Esporte:</label>
+
+                    <select name="esporte_id" id="oportunidade-form-esporte">
+                        @foreach($esportes as $esporte)
+                            <option value="{{ $esporte->id }}">{{ 
+                                $esporte->nomeEsporte }}
+                            </option> 
+                        @endforeach 
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="oportunidade-form-posicao">Posição:</label>
+                    
+                    <select name="posicoes_id" id="oportunidade-form-posicao">
+                        @foreach($posicoes as $posicao)
+                            <option value="{{ $posicao->id }}">{{ $posicao->nomePosicao }}</option>
+                        @endforeach 
+                    </select> 
+                </div> 
+                
+                <div class="form-group"> 
+                    <label for="oportunidade-form-idade-minima">Idade mínima:</label> 
+                    
+                    <input type="number" id="oportunidade-form-idade-minima" name="idadeMinima" min="0"> 
+                </div> 
+                
+                <div class="form-group"> 
+                    <label for="oportunidade-form-idade-maxima">Idade máxima:</label> 
+                    
+                    <input type="number" id="oportunidade-form-idade-maxima" name="idadeMaxima" min="0"> 
+                </div> 
+                
+                <div class="form-group"> 
+                    <label for="oportunidade-form-endereco">Endereço:</label> 
+                    
+                    <input type="text" id="oportunidade-form-endereco" name="enderecoOportunidade"> 
+                </div> 
+
+                <div class="form-group"> 
+                    <label for="oportunidade-form-cidade">Cidade:</label> 
+                    
+                    <input type="text" id="oportunidade-form-cidade" name="cidadeOportunidade"> 
+                </div>
+                
+                <div class="form-group"> 
+                    <label for="oportunidade-form-estado">Estado:</label>
+                    
+                    <input type="text" id="oportunidade-form-estado" name="estadoOportunidade"> 
+                </div> 
+                
+                <div class="form-group"> 
+                    <label for="oportunidade-form-cep">CEP:</label> 
+                    
+                    <input type="text" id="oportunidade-form-cep" name="cepOportunidade"> 
+                </div>
+            </div>
+        </form>
+
+        <div class="modal-footer">
+            <button id="oportunidade-cancelar-btn" disabled>
+                <span>Cancelar</span>
+            </button>
+
+            <button id="oportunidade-salvar-btn" disabled type="button">
                 <span>Salvar</span>
             </button>
         </div>
@@ -519,11 +627,16 @@
 
         const container = document.querySelector('.container');
 
+        let oportunidadeId = -1;
+        let readOnly = true;
+
         const storageUrl = container.dataset.storageUrl;
 
         const seeDetailsBtns = document.querySelectorAll('.see-details-btn');
 
         const opportunityOptions = document.querySelectorAll('.opportunity-options');
+
+        const oportunidades = document.querySelector('#opportunities');
 
         document.addEventListener('click', (e) => {
             const openOptions = [...opportunityOptions].filter(opt => !opt.classList.contains('hidden'));
@@ -536,12 +649,48 @@
                 }
             });
         });
+
+        oportunidades.addEventListener('click', (e) => {
+            const btnEditar = e.target.closest('.oportunidade-editar-btn');
+            const btnVer = e.target.closest('.oportunidade-ver-btn');
+            const btnExcluir = e.target.closest('.oportunidade-excluir-btn');
+
+            if (btnEditar) {
+                readOnly = false;
+                oportunidadeId = btnEditar.closest('.opportunity').dataset.oportunidadeId;
+                enableInputs();
+                fetchOportunidadeDetails(oportunidadeId);
+                abrirModal(modalOportunidade);
+            } else if (btnVer) {
+                readOnly = true;
+                oportunidadeId = btnVer.closest('.opportunity').dataset.oportunidadeId;
+                disableInputs();
+                fetchOportunidadeDetails(oportunidadeId);
+                abrirModal(modalOportunidade);
+            } else if (btnExcluir) {
+                readOnly = false;
+                oportunidadeId = btnExcluir.closest('.opportunity').dataset.oportunidadeId;
+                criarConfirmacao('Deseja excluir esta oportunidade?', 'Essa ação é irreversível.', () => deleteOportunidade(oportunidadeId), () => {});
+            } else {
+                return;
+            }
+        });
+
+        const salvarOportunidadeBtn = document.querySelector('#oportunidade-salvar-btn');
+        const cancelarOportunidadeBtn = document.querySelector('#oportunidade-cancelar-btn');
+
+        salvarOportunidadeBtn.addEventListener('click', () => {
+            if(oportunidadeId !== -1) saveOportunidade(oportunidadeId); 
+            else saveOportunidade();
+        });
+
+        cancelarOportunidadeBtn.addEventListener('click', () => fecharModal(modalOportunidade));
         
         seeDetailsBtns.forEach(seeDetailsBtn => {
             seeDetailsBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
 
-                seeDetailsBtn.parentElement.querySelector('.opportunity-options').classList.remove('hidden');
+                seeDetailsBtn.parentElement.querySelector('.opportunity-options').classList.toggle('hidden');
             });
         });
 
@@ -570,15 +719,18 @@
                 document.querySelector(`#${clearTgt}`).value = '';
 
                 if (clearTgt === 'member-search-input') {
-                    searchMembers();
+                    searchMembers('');
                 } else {
                     searchUsers('');
+                    disableBtns();
                 }
             });
         });
 
         const searchUserInput = document.querySelector('#user-search-input');
         const searchUserContainer = document.querySelector('.search-user-container');
+
+        searchUsers('');
 
         let timer2;
 
@@ -607,6 +759,210 @@
                 item.classList.remove('hidden');
             });
         }
+
+        const addMemberBtn = document.querySelector('#add-member-btn');
+
+        const modalBackdrop = document.querySelector('.modal-backdrop');
+
+        const modais = {
+            'oportunidade-modal': {
+                content: document.querySelector('#oportunidade-modal'),
+                inputs: [
+                    document.querySelector('#oportunidade-form-descricao'),
+                    document.querySelector('#oportunidade-form-data'),
+                    document.querySelector('#oportunidade-form-esporte'),
+                    document.querySelector('#oportunidade-form-posicao'),
+                    document.querySelector('#oportunidade-form-idade-minima'),
+                    document.querySelector('#oportunidade-form-idade-maxima'),
+                    document.querySelector('#oportunidade-form-endereco'),
+                    document.querySelector('#oportunidade-form-cidade'),
+                    document.querySelector('#oportunidade-form-estado'),
+                    document.querySelector('#oportunidade-form-cep'),
+                ],
+                type: 1,
+            }, 'adicionar-membro-modal': {
+                content: document.querySelector('#adicionar-membro-modal'),
+                inputs: [
+                    searchUserInput,
+                    document.querySelector('#adicionar-membro-form-esporte'),
+                    document.querySelector('#adicionar-membro-form-funcao'),
+                ],
+                type: 1,
+            },
+            'confirmar-modal': {
+                content: document.querySelector('#confirmar-modal'),
+                type: 3,
+            },
+        }
+
+        const modalAdicionarMembro = modais['adicionar-membro-modal'];
+        const modalOportunidade = modais['oportunidade-modal'];
+        const modalConfirmar = modais['confirmar-modal'];
+
+        const oportunidadeModalTitle = modalOportunidade.content.querySelector('.modal-title');
+        const confirmarModalTitle = modalConfirmar.content.querySelector('.modal-title');
+
+        const confirmarModalAlert = modalConfirmar.content.querySelector('.modal-alert');
+
+        addMemberBtn.addEventListener('click', () => {
+            abrirModal(modalAdicionarMembro);
+
+            hideUserNeeded();
+        });
+
+        const closeModalBtns = document.querySelectorAll('.close-modal-btn');
+
+        closeModalBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tgt = btn.dataset.modalTarget;
+                fecharModal(modais[tgt]);
+            });
+        });
+
+        const adicionarMembroBtn = document.querySelector('#adicionar-membro-salvar-btn');
+        const cancelarMembroBtn = document.querySelector('#adicionar-membro-cancelar-btn');
+
+        cancelarMembroBtn.addEventListener('click', () => {
+            fecharModal(modalAdicionarMembro);
+        });
+
+        adicionarMembroBtn.addEventListener('click', () => {
+            const usuarioId = modalAdicionarMembro.content.querySelector('.user-selected').dataset.usuarioId;
+            const esporteId = modalAdicionarMembro.content.querySelector('#adicionar-membro-form-esporte').value;
+            const funcaoId = modalAdicionarMembro.content.querySelector('#adicionar-membro-form-funcao').value;
+
+            const dados = {
+                usuario_id: usuarioId,
+                esporte_id: esporteId,
+                funcao_id: funcaoId,
+            };
+
+            fetch('../api/clube/1/membros/' + usuarioId, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${BEARER}`,
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(dados)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error || data.errors) {
+                    console.error('Erro retornado pela API:', data);
+                    alert('Erro ao adicionar membro ao clube.');
+                } else {
+                    console.log('Membro adicionado com sucesso:', data);
+                    alert('Membro adicionado com sucesso!');
+                }
+
+                fecharModal(modalAdicionarMembro);
+                searchMembers('');
+            })
+            .catch((error) => {
+                console.error('Erro ao adicionar membro ao clube:', error);
+            });
+        });
+
+        function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
+            confirmarModalTitle.textContent = titulo;
+            confirmarModalAlert.textContent = texto;
+
+            const saveBtn = modalConfirmar.content.querySelector('#save-confirm-btn');
+            const cancelBtn = modalConfirmar.content.querySelector('#cancel-confirm-btn');
+
+            const newSaveBtn = saveBtn.cloneNode(true);
+            saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
+
+            const newCancelBtn = cancelBtn.cloneNode(true);
+            cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+
+            abrirModal(modalConfirmar);
+
+            newSaveBtn.addEventListener('click', () => {
+                funcaoSim();
+                fecharModal(modalConfirmar);
+            });
+
+            newCancelBtn.addEventListener('click', () => {
+                funcaoNao();
+                fecharModal(modalConfirmar);
+            });
+        }
+
+        function disableBtns() {
+            modalAdicionarMembro.content.querySelectorAll('button').forEach(btn => {
+                if (btn.classList.contains('close-modal-btn')) return;
+
+                const isClearSearchBtn = [...clearSearchBtns].some(
+                    clearBtn => clearBtn === btn && clearBtn.dataset.clearTarget === 'user-search-input'
+                );
+
+                if (isClearSearchBtn) return;
+
+                btn.disabled = true;
+            });
+        }
+
+        function enableBtns() {
+            modalAdicionarMembro.content.querySelectorAll('button').forEach(btn => {
+                btn.disabled = false;
+            });
+        }
+
+        function abrirModal(modal) {
+            if (modal === modalAdicionarMembro) {
+                searchUserContainer.classList.remove('hidden');
+                searchUsers('');
+                disableBtns();
+            }
+
+            modal.content.classList.remove('hidden');
+            modalBackdrop.classList.remove('hidden');
+        }
+
+        function fecharModal(modal) {
+            modal.content.classList.add('hidden');
+            limparModal(modal);
+            const algumAberto = Object.values(modais).some(m => !m.content.classList.contains('hidden'));
+            if (!algumAberto) modalBackdrop.classList.add('hidden');
+        }
+
+        function limparModal(modal) {
+            if (modal.inputs) modal.inputs.forEach(inp => {
+                if (inp.tagName === 'SELECT' && (inp.id === 'adicionar-membro-form-esporte' || inp.id === 'adicionar-membro-form-funcao')) {
+                    const firstOption = inp.querySelector('option');
+                    if (firstOption) inp.value = firstOption.value;
+                } else {
+                    inp.value = '';
+                }
+            });
+        }
+
+        function disableInputs() {
+            if (readOnly) {
+                modalOportunidade.inputs.forEach(inp => inp.disabled = true);
+                salvarOportunidadeBtn.disabled = true;
+                cancelarOportunidadeBtn.disabled = true;
+            }
+        }
+
+        function enableInputs() {
+            modalOportunidade.inputs.forEach(inp => inp.disabled = false);
+            salvarOportunidadeBtn.disabled = false;
+            cancelarOportunidadeBtn.disabled = false;
+        }
+
+        const tabBtns = document.querySelectorAll('.tabs button');
+
+        tabBtns.forEach(tabBtn => {
+            tabBtn.addEventListener('click', () => {
+                tabBtn.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+                document.querySelector(`#${tabBtn.dataset.targetTab}`).classList.add('active');
+            });
+        });
 
         async function searchUsers(query) {
             if (searchUserContainer.classList.contains('hidden')) {
@@ -667,6 +1023,88 @@
             }
         }
 
+        async function fetchOportunidadeDetails(oportunidadeId) {
+            try {
+                const response = await fetch(`../api/clube/oportunidade/${oportunidadeId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${BEARER}`,
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                console.log(data);
+                
+                modalOportunidade.inputs[0].value = data.descricaoOportunidades;
+                modalOportunidade.inputs[1].value = data.datapostagemOportunidades;
+                modalOportunidade.inputs[2].value = data.esporte.id;
+                modalOportunidade.inputs[3].value = data.posicao.id;
+                modalOportunidade.inputs[4].value = data.idadeMinima;
+                modalOportunidade.inputs[5].value = data.idadeMaxima;
+                modalOportunidade.inputs[6].value = data.enderecoOportunidade;
+                modalOportunidade.inputs[7].value = data.cidadeOportunidade;
+                modalOportunidade.inputs[8].value = data.estadoOportunidade;
+                modalOportunidade.inputs[9].value = data.cepOportunidade;
+            } catch (error) {
+                console.error('Erro ao buscar detalhes da oportunidade:', error);
+                oportunidadeModalTitle.textContent = "Erro ao carregar oportunidade";
+            }
+        }
+
+        async function saveOportunidade(oportunidadeId = null) {
+            const editMode = oportunidadeId !== null;
+
+            try {
+                const url = '../api/clube/oportunidade/' + oportunidadeId;
+
+                const formData = new FormData(document.querySelector('#oportunidade-form'));
+
+                if (editMode) {
+                    formData.append('_method', 'PUT');
+                }
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${BEARER}`,
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if(!data.error || !data.errors) {
+                    alert('Oportunidade salva com sucesso!');
+
+                    if (!editMode) {
+                        oportunidades.appendChild(createOportunidadeRow(data.data));
+                    } else {
+                        const oldRow = oportunidades.querySelector(`.opportunity[data-oportunidade-id="${oportunidadeId}"]`);
+                        const newRow = createOportunidadeRow(data.data);
+                        oportunidades.replaceChild(newRow, oldRow);
+                    }
+                    
+                    fecharModal(modalOportunidade);
+                }                
+            } catch (error) {
+                console.error('Erro ao salvar oportunidade:', error);
+                alert('Erro ao salvar oportunidade!');
+            }
+        }
+
         function renderUsersList(usuarios) {
             let htmlContent = '';
 
@@ -694,6 +1132,8 @@
                     searchUserContainer.classList.add('hidden');
 
                     showUserNeeded();
+
+                    enableBtns();
 
                     const userSelected = document.querySelector('.user-selected');
 
@@ -782,6 +1222,98 @@
             }
 
             membersDataContainer.innerHTML = htmlContent;
+        }
+
+        async function deleteOportunidade(oportunidadeId) {
+            try {
+                const url = "../api/clube/oportunidade/" + oportunidadeId;
+
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${BEARER}`,
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                });
+
+                if (response.ok) {
+                    if (response.status === 204) {
+                        alert('Oportunidade excluída com sucesso!');
+                        oportunidades.querySelector(`.opportunity[data-oportunidade-id="${oportunidadeId}"]`)?.remove();
+                    } else {
+                        const data = await response.json();
+
+                        if (data.error || data.errors) {
+                            console.error('Erro retornado pela API:', data);
+                            alert('Erro ao excluir oportunidade');
+                        } else {
+                            alert('Oportunidade excluída com sucesso! (Obteve retorno de dados)');
+                            oportunidades.querySelector(`.opportunity[data-oportunidade-id="${oportunidadeId}"]`)?.remove();
+                        }
+                    }
+                } else {
+                    console.error('Erro HTTP:', response.status, response.statusText);
+
+                    try {
+                        const errorData = await response.json();
+                        alert(`Erro ao excluir clube: ${errorData.message || response.statusText}`);
+                    } catch (jsonError) {
+                        alert(`Erro ao excluir clube: ${response.statusText}`);
+                    }
+                }          
+            } catch (error) {
+                console.error('Erro ao excluir clube:', error);
+                alert('Erro ao excluir clube!');
+            }
+        }
+
+        function createOportunidadeRow(oportunidade) {
+            const div = document.createElement('div');
+            div.className = "opportunity";
+            div.dataset.oportunidade = oportunidade.id;
+            div.innerHTML = `
+                <div class="opportunity-details">
+                    <span>
+                        ${oportunidade.posicao.nomePosicao}
+                    </span>
+                    <span>
+                        ${oportunidade.esporte.nomeEsporte}
+                    </span>
+                    <span>
+                        Sub - ${oportunidade.idadeMaxima}
+                    </span>
+                    <span>
+                        Interessados - ${oportunidade.candidatos.length}
+                    </span>
+                </div>
+                <button class="see-details-btn">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </button>
+                <div class="opportunity-options hidden">
+                    <button class="oportunidade-ver-btn">
+                        <span>
+                            Ver
+                        </span>
+                    </button>
+                    <button class="oportunidade-editar-btn">
+                        <span>
+                            Editar 
+                        </span>
+                    </button>
+                    <button class="oportunidade-excluir-btn">
+                        <span>
+                            Excluir
+                        </span>
+                    </button>
+                    <button class="oportunidade-inscritos-btn">
+                        <span>
+                            Inscritos
+                        </span>
+                    </button>
+                </div>
+            `;
+            return div;
         }
     </script>
 </body>

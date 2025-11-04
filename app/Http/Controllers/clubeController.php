@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Clube;
 use App\Models\Esporte;
 use App\Models\Funcao;
+use App\Models\Posicao;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -37,7 +38,9 @@ class ClubeController extends Controller
 
         $funcoes = Funcao::all();
 
-        return view('clube.perfil')->with(['clube' => $clube, 'esportes' => $esportes, 'funcoes' => $funcoes, 'membrosAgrupados' => $membrosAgrupados]);
+        $posicoes = Posicao::all();
+
+        return view('clube.perfil')->with(['clube' => $clube, 'esportes' => $esportes, 'funcoes' => $funcoes, 'posicoes' => $posicoes, 'membrosAgrupados' => $membrosAgrupados]);
     }
 
     public function showWebPage()

@@ -19,7 +19,6 @@ class OportunidadeController extends Controller
 
     //ALGUEM ME AJUDA PELO AMOR DE DEUS --ASS: Luan
 
-
     public function store(Request $request)
     {
 
@@ -77,7 +76,7 @@ class OportunidadeController extends Controller
 
     public function show($id)
     {
-        $oportunidade = Oportunidade::approved()->with(['esporte', 'posicao', 'clube'])->find($id);
+        $oportunidade = Oportunidade::with(['esporte', 'posicao', 'clube'])->find($id);
 
         if (!$oportunidade) {
             return response()->json(['message' => 'Oportunidade não encontrada'], 404);
@@ -95,6 +94,7 @@ class OportunidadeController extends Controller
         }
 
         $clube = $request->user();
+
         if (!$clube || !($clube instanceof Clube) || $oportunidade->clube_id !== $clube->id) {
             return response()->json(['message' => 'Apenas o clube que criou a oportunidade pode atualizá-la'], 403);
         }
@@ -118,13 +118,14 @@ class OportunidadeController extends Controller
             $oportunidade->reviewed_at = null;
             $oportunidade->rejection_reason = null;
         }
+
         $oportunidade->fill($validatedData)->save();
 
         try {
             $oportunidade->update($validatedData);
             return response()->json([
                 'message' => 'Oportunidade atualizada',
-                'data'    => $oportunidade->load(['esporte', 'posicoes', 'clube']),
+                'data'    => $oportunidade->load(['esporte', 'posicao', 'clube', 'candidatos']),
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

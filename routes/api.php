@@ -75,7 +75,6 @@ Route::prefix('usuario')->group(function () {
 
         // Rotas de inscrições em oportunidades
         Route::get('/oportunidades', [OportunidadeController::class, 'index']);
-        Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 
         Route::post('/oportunidades/{id}/inscrever', [InscricaoOportunidadeController::class, 'store']);
         Route::get('/inscricoes', [InscricaoOportunidadeController::class, 'myOportunidadesUsuario']);
@@ -111,6 +110,7 @@ Route::prefix('clube')->group(function () {
         Route::get('/jogadores', [SearchUsuarioController::class, 'index']); // Rota para buscar jogadores
 
         Route::get('/minhasOportunidades', [InscricaoOportunidadeController::class, 'myOportunidadesClube']);
+        Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
         Route::post('/oportunidade', [OportunidadeController::class, 'store']);
         Route::put('/oportunidade/{id}', [OportunidadeController::class, 'update']);
         Route::delete('/oportunidade/{id}', [OportunidadeController::class, 'destroy']);
