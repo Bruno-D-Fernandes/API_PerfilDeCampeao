@@ -13,7 +13,7 @@
         overflow-x: hidden;
     }
 
-    /* === CONTEÚDO PRINCIPAL (com espaço para sidebar) === */
+    /* === CONTEÚDO PRINCIPAL === */
     .conteudo-principal {
         margin-left: 80px;
         padding: 20px;
@@ -62,7 +62,7 @@
         font-size: 14px;
     }
 
-    #clube-add-btn {
+    #usuario-add-btn {
         background-color: #003dadea;
         color: aliceblue;
         padding: 10px 16px;
@@ -78,14 +78,14 @@
             flex-direction: column;
             align-items: stretch;
         }
-        #clube-add-btn {
+        #usuario-add-btn {
             align-self: flex-end;
             width: fit-content;
         }
     }
 
-    /* === CONTAINER DOS CLUBES === */
-    .clubes-container {
+    /* === CONTAINER DOS USUÁRIOS === */
+    .usuarios-container {
         margin-left: 70px;
         background-color: rgb(255, 255, 255);
         padding: 20px;
@@ -95,7 +95,7 @@
 
     /* === TABELA === */
     .list-header,
-    .clube {
+    .usuario {
         display: grid;
         gap: 12px;
         padding: 12px 0;
@@ -106,27 +106,27 @@
     /* Desktop */
     @media (min-width: 769px) {
         .list-header,
-        .clube {
-            grid-template-columns: 1.5fr 1fr 1.2fr 1fr 1fr 0.8fr;
+        .usuario {
+            grid-template-columns: 1.5fr 1fr 1fr 1.2fr 1fr 0.8fr;
         }
     }
 
-    /* Tablet & Mobile */
+    /* Mobile */
     @media (max-width: 768px) {
         .list-header,
-        .clube {
+        .usuario {
             grid-template-columns: 1fr;
             text-align: left;
             gap: 8px;
         }
         .header-col span,
-        .clube > div {
+        .usuario > div {
             font-weight: bold;
         }
-        .clube > div:not(.clube-acoes) {
+        .usuario > div:not(.usuario-acoes) {
             font-weight: normal;
         }
-        .clube-acoes {
+        .usuario-acoes {
             display: flex;
             justify-content: flex-start;
             gap: 10px;
@@ -141,7 +141,7 @@
         font-weight: bold;
     }
 
-    .clube > div {
+    .usuario > div {
         display: flex;
         justify-content: center;
         text-align: center;
@@ -149,20 +149,20 @@
 
     @media (max-width: 768px) {
         .header-col,
-        .clube > div {
+        .usuario > div {
             justify-content: flex-start;
             padding-left: 8px;
         }
     }
 
     /* === AÇÕES === */
-    .clube-acoes {
+    .usuario-acoes {
         display: flex;
         gap: 12px;
         justify-content: center;
     }
 
-    .clube-acoes button {
+    .usuario-acoes button {
         background: none;
         border: none;
         cursor: pointer;
@@ -172,7 +172,7 @@
         transition: background 0.2s;
     }
 
-    .clube-acoes button:hover {
+    .usuario-acoes button:hover {
         background: #f0f0f0;
     }
 
@@ -204,14 +204,8 @@
     }
 
     @keyframes modalFadeIn {
-        from {
-            opacity: 0;
-            transform: translate(-50%, -60%);
-        }
-        to {
-            opacity: 1;
-            transform: translate(-50%, -50%);
-        }
+        from { opacity: 0; transform: translate(-50%, -60%); }
+        to { opacity: 1; transform: translate(-50%, -50%); }
     }
 
     .modal-header {
@@ -262,28 +256,27 @@
         padding: 10px 20px;
         border-radius: 6px;
         cursor: pointer;
-        transition: 0.2s;
         font-weight: 600;
     }
 
-    #clube-cancelar-btn,
+    #usuario-cancelar-btn,
     #cancel-confirm-btn {
         background-color: #ccc;
         color: #333;
     }
 
-    #clube-salvar-btn,
+    #usuario-salvar-btn,
     #save-confirm-btn {
         background-color: #003dadea;
         color: white;
     }
 
-    #clube-cancelar-btn:hover,
+    #usuario-cancelar-btn:hover,
     #cancel-confirm-btn:hover {
         background-color: #bbb;
     }
 
-    #clube-salvar-btn:hover,
+    #usuario-salvar-btn:hover,
     #save-confirm-btn:hover {
         background-color: #002a7d;
     }
@@ -310,11 +303,6 @@
         border-radius: 6px;
         font-size: 14px;
         box-sizing: border-box;
-    }
-
-    .form-group textarea {
-        min-height: 80px;
-        resize: vertical;
     }
 
     .form-group input:focus,
@@ -354,30 +342,7 @@
         display: block;
     }
 
-    /* === RESPONSIVO MOBILE === */
-    @media (max-width: 480px) {
-        .app-modal {
-            width: 95%;
-            padding: 0;
-        }
-        .modal-body {
-            padding: 15px;
-        }
-        .modal-footer button {
-            padding: 10px;
-            font-size: 14px;
-        }
-    }
-
-    /* === ESCONDER ELEMENTOS === */
+    /* === ESCONDER === */
     .hidden {
         display: none !important;
-    }
-    .header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 20px;
     }

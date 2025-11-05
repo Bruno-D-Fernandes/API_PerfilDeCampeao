@@ -159,7 +159,7 @@
         </div>
 
         <ul class="menu-navegacao">
-            <li class="ativo">
+            <li>
                 <a href="./index.html">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
@@ -172,27 +172,27 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="/admin/usuarios">
                     <i class='bx bx-list-ul'></i>
-                    <span>Listas</span>
+                    <span>Usuarios</span>
                 </a>
             </li>
-            <li>
+            <li class="ativo">
                 <a href="#">
                     <i class='bx bx-message-dots'></i>
-                    <span>Mensagens</span>
+                    <span>Clubes</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="/admin/funcoes">
                     <i class='bx bx-bell'></i>
-                    <span>Notificações</span>
+                    <span>funções</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="/admin/esportes">
                     <i class='bx bx-user'></i>
-                    <span>Perfil</span>
+                    <span>Esportes</span>
                 </a>
             </li>
             <li>
@@ -220,7 +220,7 @@
     <!--NAVBAR LT1-->
     </main>
     <h1 class='titulo'>CLUBE</h1>
-<div class="total">
+<div class="clubes-container">
     <div class="clubes" data-storage-url="{{ asset('storage') }}">
         <div class="clubes-header">
             <br><br>
