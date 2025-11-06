@@ -12,14 +12,10 @@ document.addEventListener('click', (e) => {
 
 tabBtns.forEach(tabBtn => {
     tabBtn.addEventListener('click', async () => {
-        if (tabBtns.dataset.targetTab === 'members-tab' && membersDataContainer.children.length === 0) {
-            searchUsers('');
-        }
-
         tabBtn.classList.add('active');
 
         document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-        
+
         document.querySelector(`#${tabBtn.dataset.targetTab}`).classList.add('active');
     });
 });

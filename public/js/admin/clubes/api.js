@@ -135,3 +135,5 @@ async function deleteClube(clubeId) {
         alert('Erro ao excluir clube!');
     }
 }
+
+searchUsers('');

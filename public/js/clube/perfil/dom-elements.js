@@ -30,7 +30,7 @@ const modais = {
     'adicionar-membro-modal': {
         content: document.querySelector('#adicionar-membro-modal'),
         inputs: [
-            searchUserInput,
+            document.querySelector('#user-search-input'),
             document.querySelector('#adicionar-membro-form-esporte'),
             document.querySelector('#adicionar-membro-form-funcao'),
         ],

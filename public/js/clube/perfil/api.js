@@ -355,7 +355,7 @@ function renderMembersList(membrosAgrupados) {
         `;
     } else {
         for (const esporteNome in membrosAgrupados) {
-            if (membrosAgrupados.esporteNome) {
+            if (membrosAgrupados.hasOwnProperty(esporteNome)) {
 
                 htmlContent += `
                     <span>
@@ -624,7 +624,7 @@ async function loadEsportesData() {
         console.error('Erro ao carregar esportes:', error);
 
         esportesData = [];
-        
+
         return esportesData;
     }
 }
