@@ -55,7 +55,7 @@ class OportunidadeController extends Controller
             ]);
 
             // 4. Sucesso!
-            return response()->json($oportunidade, 201);
+            return response()->json($oportunidade->load('posicao', 'esporte', 'candidatos'), 201);
         } catch (\Exception $e) {
 
             return response()->json([

@@ -40,7 +40,9 @@ class ClubeController extends Controller
 
         $posicoes = Posicao::all();
 
-        return view('clube.perfil')->with(['clube' => $clube, 'esportes' => $esportes, 'funcoes' => $funcoes, 'posicoes' => $posicoes, 'membrosAgrupados' => $membrosAgrupados]);
+        $categorias = Categoria::all();
+
+        return view('clube.perfil')->with(['clube' => $clube, 'esportes' => $esportes, 'funcoes' => $funcoes, 'posicoes' => $posicoes, 'categorias' => $categorias, 'membrosAgrupados' => $membrosAgrupados]);
     }
 
     public function showWebPage()

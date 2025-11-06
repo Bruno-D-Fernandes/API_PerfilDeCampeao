@@ -51,6 +51,6 @@
         <button type="submit">Enviar</button>
     </form>
 
-    <script src="{{ asset('js/clube/cadastro.js') }}"></script>
+    <script src="{{ asset('js/clube/cadastro/cadastro.js') }}"></script>
 </body>
 </html>
