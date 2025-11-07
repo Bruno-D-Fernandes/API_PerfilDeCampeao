@@ -9,9 +9,9 @@
 </head>
 <body>
     <div class="container">
-        <h2>Oportunidades</h2>
+        <h1>Oportunidades</h1>
         <div class="box">
-        <h5>Minhas oportunidades</h5>
+        <h3>Minhas oportunidades</h3>
         <div class="container text-center mt-5">
         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
         <img src="{{asset('/img/novoBotao.png')}}" class="iconNovo" alt=""><button type="submit" class="botaoNovo" data-bs-toggle="modal" data-bs-target="#modalOportunidades">
