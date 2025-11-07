@@ -1,10 +1,57 @@
-async function saveOportunidade(oportunidadeId = null) {
-    const editMode = oportunidadeId !== null;
+async function fetchClubeDetails(clubeId) {
+    try {
+        const response = await fetch(`../api/clube/${clubeId}`, {
+            headers: {
+                'Authorization': `Bearer ${BEARER}`,
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        console.log(data);
+        
+        clubeModalTitle.textContent = `Detalhes do Clube: ${data.nomeClube}`;
+
+        if (data.fotoPerfilClube) {
+            previewImagem.src = storageUrl + "/" + data.fotoPerfilClube;
+            previewImagem.style.display = 'block';
+        } 
+
+        if (data.fotoBannerClube) {
+            previewImagemBanner.src = storageUrl + "/" + data.fotoBannerClube;
+            previewImagemBanner.style.display = 'block';
+        }
+
+        modalClube.inputs[0].value = data.nomeClube;
+        modalClube.inputs[1].value = data.emailClube;
+        modalClube.inputs[2].value = data.cnpjClube;
+        modalClube.inputs[3].value = data.anoCriacaoClube;
+        modalClube.inputs[4].value = data.enderecoClube;
+        modalClube.inputs[5].value = data.cidadeClube;
+        modalClube.inputs[6].value = data.estadoClube;
+        modalClube.inputs[7].value = data.bioClube;
+        modalClube.inputs[8].value = data.categoria.id;
+        modalClube.inputs[9].value = data.esporte.id;
+    } catch (error) {
+        console.error('Erro ao buscar detalhes do clube:', error);
+        clubeModalTitle.textContent = "Erro ao carregar clube";
+    }
+}
+
+async function saveClube(clubeId = null) {
+    const editMode = clubeId !== null;
 
     try {
-        const url = '../api/clube/oportunidade/' + (editMode ? oportunidadeId : '');
+        const url = editMode ? '../api/clube/' + clubeId : "../api/admin/clube/";
 
-        const formData = new FormData(document.querySelector('#oportunidade-form'));
+        const formData = new FormData(document.querySelector('#clube-form'));
 
         if (editMode) {
             formData.append('_method', 'PUT');
@@ -27,451 +74,27 @@ async function saveOportunidade(oportunidadeId = null) {
         const data = await response.json();
 
         if(!data.error || !data.errors) {
-            alert('Oportunidade salva com sucesso!');
+            alert('Clube salvo com sucesso!');
 
             if (!editMode) {
-                oportunidades.appendChild(createOportunidadeRow(data));
+                clubes.appendChild(createClubeRow(data));
             } else {
-                const oldRow = oportunidades.querySelector(`.opportunity[data-oportunidade-id="${oportunidadeId}"]`);
-                const newRow = createOportunidadeRow(data.data);
-                oportunidades.replaceChild(newRow, oldRow);
+                const oldRow = clubes.querySelector(`.clube[data-clube-id="${clubeId}"]`);
+                const newRow = createClubeRow(data);
+                clubes.replaceChild(newRow, oldRow);
             }
             
-            fecharModal(modalOportunidade);
+            fecharModal(modalClube);
         }                
     } catch (error) {
-        console.error('Erro ao salvar oportunidade:', error);
-        alert('Erro ao salvar oportunidade!');
-    }
-}
-
-async function saveMembro() {
-    const usuarioId = modalAdicionarMembro.content.querySelector('.user-selected').dataset.usuarioId;
-
-    const esporteId = modalAdicionarMembro.content.querySelector('#adicionar-membro-form-esporte').value;
-
-    const funcaoId = modalAdicionarMembro.content.querySelector('#adicionar-membro-form-funcao').value;
-
-    const formData = new FormData();
-    formData.append('esporte_id', esporteId);
-    formData.append('funcao_id', funcaoId);
-
-    try {
-        const url = `../api/clube/${clubeId}/membros/${usuarioId}`;
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${BEARER}`,
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            },
-            body: formData
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (!data.error && !data.errors) {
-            alert('Membro adicionado com sucesso!');
-            fecharModal(modalAdicionarMembro);
-            searchMembers('');
-        } else {
-            console.error('Erro retornado pela API:', data);
-            alert('Erro ao adicionar membro');
-        }
-    } catch (error) {
-        console.error('Erro ao salvar membro:', error);
-        alert('Erro ao salvar membro!');
-    }
-}
-
-async function saveClube(clubeId = null) {
-    const editMode = clubeId !== null;
-
-    try {
-        const url = editMode ? `../api/clube/${clubeId}` : '../api/admin/clube/';
-
-        const form = document.querySelector('#clube-form');
-        const formData = new FormData(form);
-
-        if (editMode) formData.append('_method', 'PUT');
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${BEARER}`,
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            },
-            body: formData
-        });
-
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const data = await response.json();
-
-        if (data.error || data.errors) {
-            console.error('Erro ao salvar clube:', data);
-            alert('Erro ao salvar informações do clube');
-            return;
-        }
-
-        updateClube(data.data || data);
-
-        alert('Informações do clube salvas com sucesso!');
-
-        fecharModal(modalClube);
-    } catch (error) {
         console.error('Erro ao salvar clube:', error);
-        alert('Erro ao salvar informações do clube');
+        alert('Erro ao salvar clube!');
     }
 }
 
-async function fetchOportunidadeDetails(oportunidadeId) {
+async function deleteClube(clubeId) {
     try {
-        const response = await fetch(`../api/clube/oportunidade/${oportunidadeId}`, {
-            headers: {
-                'Authorization': `Bearer ${BEARER}`,
-                'X-CSRF-TOKEN': csrfToken,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        console.log(data);
-        
-        modalOportunidade.inputs[0].value = data.descricaoOportunidades;
-        modalOportunidade.inputs[1].value = data.datapostagemOportunidades;
-        modalOportunidade.inputs[2].value = data.esporte.id;
-
-        await loadEsportesData();
-
-        populatePosicoes(data.esporte.id, data.posicao.id);
-        
-        modalOportunidade.inputs[3].value = data.posicao.id;
-
-        modalOportunidade.inputs[4].value = data.idadeMinima;
-        modalOportunidade.inputs[5].value = data.idadeMaxima;
-        modalOportunidade.inputs[6].value = data.enderecoOportunidade;
-        modalOportunidade.inputs[7].value = data.cidadeOportunidade;
-        modalOportunidade.inputs[8].value = data.estadoOportunidade;
-        modalOportunidade.inputs[9].value = data.cepOportunidade;
-    } catch (error) {
-        console.error('Erro ao buscar detalhes da oportunidade:', error);
-        oportunidadeModalTitle.textContent = "Erro ao carregar oportunidade";
-    }
-}
-
-async function fetchInscritos(oportunidadeId) {
-    try {
-        const url = `../api/clube/oportunidade/${oportunidadeId}/inscritos`; // Nem testei a rota nem nada
-
-        const response = await fetch(url, {
-            headers: {
-                'Authorization': `Bearer ${BEARER}`,
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            }
-        });
-
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const data = await response.json();
-
-        renderInscritosList(data.data || data);
-    } catch (error) {
-        console.error('Erro ao buscar inscritos:', error);
-        const body = modalInscritos.content.querySelector('#inscritos-list');
-        body.innerHTML = '<div class="no-data"><span>Erro ao carregar inscritos</span></div>';
-    }
-}
-
-async function fetchClubeDetails(clubeId) {
-    try {
-        const response = await fetch(`../api/clube/${clubeId}`, {
-            headers: {
-                'Authorization': `Bearer ${BEARER}`,
-                'X-CSRF-TOKEN': csrfToken,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
-
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const data = await response.json();
-
-        modalClube.inputs[0].value = data.nomeClube;
-        modalClube.inputs[1].value = data.emailClube;
-        modalClube.inputs[2].value = data.cnpjClube;
-        modalClube.inputs[3].value = data.anoCriacaoClube;
-        modalClube.inputs[4].value = data.enderecoClube;
-        modalClube.inputs[5].value = data.cidadeClube;
-        modalClube.inputs[6].value = data.estadoClube;
-        modalClube.inputs[7].value = data.bioClube;
-        modalClube.inputs[8].value = data.categoria.id;
-        modalClube.inputs[9].value = data.esporte.id;
-
-        if (data.fotoPerfilClube) {
-            previewImagem.src = storageUrl + '/' + data.fotoPerfilClube;
-            previewImagem.style.display = 'block';
-        } else {
-            previewImagem.src = '';
-            previewImagem.style.display = 'none';
-        }
-
-        if (data.fotoBannerClube) {
-            previewImagemBanner.src = storageUrl + '/' + data.fotoBannerClube;
-            previewImagemBanner.style.display = 'block';
-        } else {
-            previewImagemBanner.src = '';
-            previewImagemBanner.style.display = 'none';
-        }
-    } catch (error) {
-        console.error('Erro ao buscar detalhes do clube:', error);
-        alert('Erro ao carregar dados do clube');
-    }
-}
-
-async function searchUsers(query) {
-    if (searchUserContainer.classList.contains('hidden')) {
-        searchUserContainer.classList.remove('hidden');
-        hideUserNeeded();
-    }
-
-    const url = `../api/search-usuarios?pesquisa=${query ? encodeURIComponent(query) : ''}`;
-
-    try {
-        const response = await fetch(url,  {
-            headers: {
-                'Authorization': `Bearer ${BEARER}`,
-                'X-CSRF-TOKEN': csrfToken,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        searchUserContainer.innerHTML = '';
-
-        renderUsersList(data.data);
-    } catch(error) {
-        console.error('Erro ao buscar usuários:', error);
-    }
-}
-
-async function searchMembers(query) {
-    try {
-        const response = await fetch(`../api/clube/${clubeId}/membros?search=${encodeURIComponent(query)}`,  {
-            headers: {
-            'Authorization': `Bearer ${BEARER}`,
-            'X-CSRF-TOKEN': csrfToken,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        console.log(data);
-
-        renderMembersList(data);
-    } catch(error) {
-        console.error('Erro ao buscar membros do clube:', error);
-    }
-}
-
-function renderInscritosList(inscritos) {
-    const listContainer = modalInscritos.content.querySelector('#inscritos-list');
-
-    if (inscritos.length === 0) {
-        listContainer.innerHTML = `<div class="no-data"><span>Sem dados para mostrar</span></div>`;
-        return;
-    }
-
-    let html = '';
-
-    inscritos.forEach(inscrito => {
-        html += `
-            <div class="inscrito-row" data-usuario-id="${inscrito.id}">
-                <span>${inscrito.nomeCompletoUsuario || inscrito.nome || 'Usuário'}</span>
-                <div class="members-btns">
-                    <button class="inscrito-ver-btn" data-usuario-id="${inscrito.id}"><span>Ver perfil</span></button>
-                    <button class="inscrito-remover-btn" data-usuario-id="${inscrito.id}"><span>Remover</span></button>
-                </div>
-            </div>
-        `;
-    });
-
-    listContainer.innerHTML = html;;
-
-    listContainer.querySelectorAll('.inscrito-ver-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const id = btn.dataset.usuarioId;
-            window.location.href = `../usuarios/${id}`;
-        });
-    });
-
-    listContainer.querySelectorAll('.inscrito-remover-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const usuarioId = btn.dataset.usuarioId;
-            
-            criarConfirmacao('Remover inscrito?', 'Deseja remover este inscrito da oportunidade?', () => deleteInscrito(oportunidadeId, usuarioId), () => {});
-        });
-    });
-}
-
-function renderMembersList(membrosAgrupados) {
-    let htmlContent = '';
-
-    const hasData = Object.keys(membrosAgrupados).length > 0;
-
-    if (!hasData) {
-        htmlContent = `
-            <div class="no-data">
-                <span>
-                    Sem dados para mostrar
-                </span>
-            </div>
-        `;
-    } else {
-        for (const esporteNome in membrosAgrupados) {
-            if (membrosAgrupados.hasOwnProperty(esporteNome)) {
-
-                htmlContent += `
-                    <span>
-                        ${esporteNome}:
-                    </span>
-                `;
-
-                const funcoesNoEsporte = membrosAgrupados[esporteNome];
-
-                for (const funcaoNome in funcoesNoEsporte) {
-                    if (funcoesNoEsporte.hasOwnProperty(funcaoNome)) {
-                        
-                        htmlContent += `
-                            <div class="members-list-group-function">
-                                <span>
-                                    ${funcaoNome}:
-                                </span>
-
-                                <div class="members-list-rows">
-                        `;
-
-                        const membros = funcoesNoEsporte[funcaoNome];
-                        
-                        membros.forEach(membro => {         
-                            const esporteId = (membro.pivot && membro.pivot.esporte_id) ? membro.pivot.esporte_id : (membro.esporte ? membro.esporte.id : (membro.esporte_id || ''));
-                            const funcaoId = (membro.pivot && membro.pivot.funcao_id) ? membro.pivot.funcao_id : (membro.funcao ? membro.funcao.id : (membro.funcao_id || ''));
-                            htmlContent += `
-                                    <div class="members-list-row" data-member-id="${membro.id}" data-esporte-id="${esporteId}" data-funcao-id="${funcaoId}">
-                                        <span class="member-name">
-                                            ${membro.nomeCompletoUsuario}
-                                        </span>
-
-                                        <div class="members-btns">
-                                            <button class="membro-ver-btn">
-                                                <span>
-                                                    Ver perfil
-                                                </span>
-                                            </button>
-
-                                            <button class="membro-excluir-btn">
-                                                <span>
-                                                    Remover
-                                                </span>
-                                            </button>
-                                        </div>
-                                    </div>
-                            `;
-                        });
-                        htmlContent += `
-                                </div> 
-                            </div>
-                        `;
-                    }
-                }
-            }
-        }
-    }
-
-    membersDataContainer.innerHTML = htmlContent;
-}
-
-function renderUsersList(usuarios) {
-    let htmlContent = '';
-
-    const hasData = usuarios.length > 0;
-
-    if (hasData) {
-        for (const usuario of usuarios) {
-            htmlContent += `
-                <div class="search-user-row" 
-                    data-id="${usuario.id}" 
-                    data-nome="${usuario.nomeCompletoUsuario}" 
-                    data-img="${usuario.fotoPerfilUsuario}">
-                    <span>${usuario.nomeCompletoUsuario}</span>
-                </div>
-            `;
-        }
-    }
-
-    searchUserContainer.innerHTML = htmlContent;
-
-    const userRows = searchUserContainer.querySelectorAll('.search-user-row');
-
-    userRows.forEach(row => {
-        row.addEventListener('click', () => {
-            searchUserContainer.classList.add('hidden');
-
-            showUserNeeded();
-
-            enableBtns();
-
-            const userSelected = document.querySelector('.user-selected');
-
-            const nome = row.dataset.nome;
-            const img = row.dataset.img;
-
-            userSelected.dataset.usuarioId = row.dataset.id;
-            
-            userSelected.querySelector('span').textContent = nome;
-
-            const profilePicture = userSelected.querySelector('.profile-picture');
-
-            if (img !== 'undefined' && img !== '') {
-                profilePicture.innerHTML = `<img src="${storageUrl}/${img}" alt="" />`;
-            } else {
-                profilePicture.innerHTML = '';
-            }
-
-            userSelected.classList.remove('hidden');
-        });
-    });
-}
-
-async function deleteOportunidade(oportunidadeId) {
-    try {
-        const url = "../api/clube/oportunidade/" + oportunidadeId;
+        const url = "../api/clube/" + clubeId;
 
         const response = await fetch(url, {
             method: 'DELETE',
@@ -484,17 +107,17 @@ async function deleteOportunidade(oportunidadeId) {
 
         if (response.ok) {
             if (response.status === 204) {
-                alert('Oportunidade excluída com sucesso!');
-                oportunidades.querySelector(`.opportunity[data-oportunidade-id="${oportunidadeId}"]`)?.remove();
+                alert('Clube excluído com sucesso!');
+                clubes.querySelector(`.clube[data-clube-id="${clubeId}"]`)?.remove();
             } else {
                 const data = await response.json();
 
                 if (data.error || data.errors) {
                     console.error('Erro retornado pela API:', data);
-                    alert('Erro ao excluir oportunidade');
+                    alert('Erro ao excluir clube');
                 } else {
-                    alert('Oportunidade excluída com sucesso! (Obteve retorno de dados)');
-                    oportunidades.querySelector(`.opportunity[data-oportunidade-id="${oportunidadeId}"]`)?.remove();
+                    alert('Clube excluído com sucesso! (Obteve retorno de dados)');
+                    clubes.querySelector(`.clube[data-clube-id="${clubeId}"]`)?.remove();
                 }
             }
         } else {
@@ -502,129 +125,15 @@ async function deleteOportunidade(oportunidadeId) {
 
             try {
                 const errorData = await response.json();
-                alert(`Erro ao excluir oportunidade: ${errorData.message || response.statusText}`);
+                alert(`Erro ao excluir clube: ${errorData.message || response.statusText}`);
             } catch (jsonError) {
-                alert(`Erro ao excluir oportunidade: ${response.statusText}`);
+                alert(`Erro ao excluir clube: ${response.statusText}`);
             }
         }          
     } catch (error) {
-        console.error('Erro ao excluir oportunidade:', error);
-        alert('Erro ao excluir oportunidade!');
+        console.error('Erro ao excluir clube:', error);
+        alert('Erro ao excluir clube!');
     }
 }
 
-async function deleteInscrito(oportunidadeId, usuarioId) {
-    try {
-        const url = `../api/clube/oportunidade/${oportunidadeId}/inscritos/${usuarioId}`;
-
-        const formData = new FormData();
-
-        formData.append('_method', 'DELETE');
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${BEARER}`,
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            },
-            body: formData
-        });
-
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const data = await response.json();
-
-        if (data.error || data.errors) {
-            console.error('Erro ao remover inscrito:', data);
-            alert('Erro ao remover inscrito');
-        } else {
-            alert('Inscrito removido com sucesso!');
-            fetchInscritos(oportunidadeId);
-        }
-    } catch (error) {
-        console.error('Erro ao remover inscrito:', error);
-        alert('Erro ao remover inscrito');
-    }
-}
-
-async function deleteMembro(membroId) {
-    try {
-        const row = document.querySelector(`.members-list-row[data-member-id="${membroId}"]`);
-
-        const esporteId = row.dataset.esporteId;
-        const funcaoId = row.dataset.funcaoId;
-
-        const url = `../api/clube/${clubeId}/membros/${membroId}`;
-
-        const formData = new FormData();
-
-        formData.append('esporte_id', esporteId);
-        formData.append('funcao_id', funcaoId);
-
-        formData.append('_method', 'DELETE');
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${BEARER}`,
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            },
-            body: formData
-        });
-
-        if (response.ok) {
-            if (response.status === 204) {
-                alert('Membro removido com sucesso!');
-            } else {
-                const data = await response.json();
-                if (data.error || data.errors) {
-                    console.error('Erro retornado pela API:', data);
-                    alert('Erro ao remover membro');
-                } else {
-                    alert('Membro removido com sucesso!');
-                }
-            }
-
-            searchMembers('');
-        } else {
-            console.error('Erro HTTP:', response.status, response.statusText);
-            try {
-                const errorData = await response.json();
-                alert(`Erro ao remover membro: ${errorData.message || response.statusText}`);
-            } catch (jsonError) {
-                alert(`Erro ao remover membro: ${response.statusText}`);
-            }
-        }
-    } catch (error) {
-        console.error('Erro ao remover membro:', error);
-        alert('Erro ao remover membro!');
-    }
-}
-
-async function loadEsportesData() {
-    if (esportesData) return esportesData;
-
-    try {
-        const response = await fetch('../api/esporte', {
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const data = await response.json();
-        
-        esportesData = data;
-
-        return esportesData;
-    } catch (error) {
-        console.error('Erro ao carregar esportes:', error);
-
-        esportesData = [];
-
-        return esportesData;
-    }
-}
+searchUsers('');

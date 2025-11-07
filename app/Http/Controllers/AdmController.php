@@ -18,7 +18,15 @@ use Illuminate\Validation\Rule;
 
 class AdmController extends Controller
 {
-     public function loginAdm(Request $request)
+    public function showProfilePage(Request $request) {
+        $admin = Admin::findOrFail(1);
+
+        return view('admin.perfil')->with(
+            ['admin' => $admin]
+        );
+    }
+
+    public function loginAdm(Request $request)
     {
         try {
             $user = Admin::where('email', $request->email)->first();
@@ -42,16 +50,16 @@ class AdmController extends Controller
     }
 
     public function perfilAdm(Request $request)
-        {
-            try {
-                return response()->json($request->user(), 200);
-            } catch (\Exception $e) {
-                return response()->json([
-                    'error' => 'Ocorreu um erro ao buscar o perfil',
-                    'message' => $e->getMessage()
-                ], 500);
-            }
+    {
+        try {
+            return response()->json($request->user(), 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Ocorreu um erro ao buscar o perfil',
+                'message' => $e->getMessage()
+            ], 500);
         }
+    }
 
         public function logoutAdm(Request $request)
         {

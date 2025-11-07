@@ -1,3 +1,23 @@
+function abrirModal(modal) {
+    modal.content.classList.remove('hidden');
+    modalBackdrop.classList.remove('hidden');
+}
+
+function fecharModal(modal) {
+    modal.content.classList.add('hidden');
+    limparModal(modal);
+    const algumAberto = Object.values(modais).some(m => !m.content.classList.contains('hidden'));
+    if (!algumAberto) modalBackdrop.classList.add('hidden');
+}
+
+function limparModal(modal) {
+    if (modal.inputs) modal.inputs.forEach(inp => inp.value = "");
+    clubeModalTitle.textContent = 'Adicionar clube';
+    previewImagem.src = "";
+    previewImagemBanner.src = "";
+    hideFormImgs();
+}
+
 function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
     confirmarModalTitle.textContent = titulo;
     confirmarModalAlert.textContent = texto;
@@ -24,77 +44,40 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
     });
 }
 
-const hideUserNeeded = () => {
-    userNeededInfo.forEach(item => {
-        item.classList.add('hidden');
-    });
-}
-
-const showUserNeeded = () => {
-    userNeededInfo.forEach(item => {
-        item.classList.remove('hidden');
-    });
-}
-
-function disableBtns() {
-    modalAdicionarMembro.content.querySelectorAll('button').forEach(btn => {
-        if (btn.classList.contains('close-modal-btn')) return;
-
-        const isClearSearchBtn = [...clearSearchBtns].some(
-            clearBtn => clearBtn === btn && clearBtn.dataset.clearTarget === 'user-search-input'
-        );
-
-        if (isClearSearchBtn) return;
-
-        btn.disabled = true;
-    });
-}
-
-function enableBtns() {
-    modalAdicionarMembro.content.querySelectorAll('button').forEach(btn => {
-        btn.disabled = false;
-    });
-}
-
-function abrirModal(modal) {
-    if (modal === modalAdicionarMembro) {
-        searchUserContainer.classList.remove('hidden');
-        searchUsers('');
-        disableBtns();
-    }
-
-    modal.content.classList.remove('hidden');
-    modalBackdrop.classList.remove('hidden');
-}
-
-function fecharModal(modal) {
-    modal.content.classList.add('hidden');
-    limparModal(modal);
-    const algumAberto = Object.values(modais).some(m => !m.content.classList.contains('hidden'));
-    if (!algumAberto) modalBackdrop.classList.add('hidden');
-}
-
-function limparModal(modal) {
-    if (modal.inputs) modal.inputs.forEach(inp => {
-        if (inp.tagName === 'SELECT' && (inp.id === 'adicionar-membro-form-esporte' || inp.id === 'adicionar-membro-form-funcao')) {
-            const firstOption = inp.querySelector('option');
-            if (firstOption) inp.value = firstOption.value;
-        } else {
-            inp.value = '';
-        }
-    });
-}
-
 function disableInputs() {
-    if (readOnly) {
-        modalOportunidade.inputs.forEach(inp => inp.disabled = true);
-        salvarOportunidadeBtn.disabled = true;
-        cancelarOportunidadeBtn.disabled = true;
+    if (clubeId === -1) {
+        hideFormImgs();
     }
+
+    if (readOnly) {
+        modalClube.inputs.forEach(inp => inp.disabled = true);
+        salvarClubeBtn.disabled = true;
+        cancelarClubeBtn.disabled = true;
+    }
+}
+
+function hideFormImgs() {
+    document.querySelectorAll('.form-group.img').forEach(formImg => {
+        formImg.classList.add('hidden');
+    });
+    previewImagem.style.display = 'none';
+    previewImagemBanner.style.display = 'none';
+}
+
+function unhideFormImgs() {
+    document.querySelectorAll('.form-group.img').forEach(formImg => {
+        formImg.classList.remove('hidden');
+    });
 }
 
 function enableInputs() {
-    modalOportunidade.inputs.forEach(inp => inp.disabled = false);
-    salvarOportunidadeBtn.disabled = false;
-    cancelarOportunidadeBtn.disabled = false;
+    if (clubeId === -1) {
+        hideFormImgs();
+    } else {
+        unhideFormImgs();
+    }
+
+    modalClube.inputs.forEach(inp => inp.disabled = false);
+    salvarClubeBtn.disabled = false;
+    cancelarClubeBtn.disabled = false;
 }

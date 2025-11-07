@@ -38,3 +38,5 @@ Route::get('/admin/funcoes', [FuncaoController::class, 'showWebPage'])->name('ad
 Route::get('/admin/clubes', [ClubeController::class, 'showWebPage'])->name('admin-clubes');
 
 Route::get('/admin/usuarios', [UserController::class, 'showWebPage'])->name('admin-usuarios');
+
+Route::get('/admin/perfil', [AdmController::class, 'showProfilePage']);
