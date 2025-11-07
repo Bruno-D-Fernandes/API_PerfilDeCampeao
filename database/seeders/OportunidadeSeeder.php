@@ -76,6 +76,7 @@ class OportunidadeSeeder extends Seeder
 				'cidadeOportunidade' => 'Santos',
 				'enderecoOportunidade' => 'Av. Teste, 45',
 				'cepOportunidade' => '11010-000',
+				'status' => 'approved'
 			],
 			[
 				'descricaoOportunidades' => 'Seleção aberta para meio-campo adulto',
@@ -89,6 +90,7 @@ class OportunidadeSeeder extends Seeder
 				'cidadeOportunidade' => 'Rio de Janeiro',
 				'enderecoOportunidade' => 'Praça Exemplo, 1',
 				'cepOportunidade' => '20010-000',
+				'status' => 'approved'
 			],
 		];
 

@@ -19,8 +19,14 @@ class Postagem extends Model
     protected $fillable = [
         'idUsuario',
         'textoPostagem',
-        'localizacaoPostagem'
+        'localizacaoPostagem',
+        'esporte_id'
     ];
+
+    public function esporte()
+    {
+        return $this->belongsTo(Esporte::class, 'esporte_id');
+    }
 
     public function tags()
     {
