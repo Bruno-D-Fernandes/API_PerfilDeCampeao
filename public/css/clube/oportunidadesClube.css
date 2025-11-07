@@ -94,3 +94,7 @@ h4{
     color: #14cb4b;
     border: 0;
 }
+.modal-body .botaoEnviar:hover{
+  background-color: rgb(80, 248, 131);
+  color: #ffffff;
+}

@@ -24,7 +24,7 @@ body{
 }
 .logo-container{
     position:relative;
-    height:calc(var(--logo-top) + 60px + var(--logo-gap-bottom));
+    height:calc(var(--logo-top) + 70px + var(--logo-gap-bottom));
     border-bottom:1px solid #f0f0f0;
     overflow:hidden;
 }
@@ -90,7 +90,7 @@ body{
     color:#333;
 }
 .menu-navegacao .ativo a{
-    background:#003dadea;;
+    background:#61D483;;
     color:#fff;
     border-radius:0 25px 25px 0;
     margin-right:10px;

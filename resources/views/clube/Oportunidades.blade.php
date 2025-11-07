@@ -14,9 +14,9 @@
         <!--ESPAÇO PRA LOGO LT1-->
         <div class="logo-container">
             <!-- LOGO PEQUENA-->
-            <img src="../img/logo-admin-reduzida.jpeg" alt="Logo" class="logo-pequena">
+            <img src="../img/logo-clube-reduzida.png" alt="Logo" class="logo-pequena">
             <!--LOGO GRANDE-->
-            <img src="../img/logo-admin-completa.jpeg" alt="Logo" class="logo-grande">
+            <img src="../img/logo-clube-completa.jpeg" alt="Logo" class="logo-grande">
             <!--ESPAÇO PRA LOGO LT1-->
         </div>
 
