@@ -6,8 +6,79 @@
     <title>Oportunidades</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('/css/clube/oportunidadesClube.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
 </head>
 <body>
+    <nav class="barra-lateral" id="barra-lateral">
+
+        <!--ESPAÇO PRA LOGO LT1-->
+        <div class="logo-container">
+            <!-- LOGO PEQUENA-->
+            <img src="../img/logo-admin-reduzida.jpeg" alt="Logo" class="logo-pequena">
+            <!--LOGO GRANDE-->
+            <img src="../img/logo-admin-completa.jpeg" alt="Logo" class="logo-grande">
+            <!--ESPAÇO PRA LOGO LT1-->
+        </div>
+
+        <ul class="menu-navegacao">
+            <li>
+                <a href="./index.html">
+                    <i class='bx bx-home-alt'></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="ativo">
+                <a href="">
+                    <i class='bx bx-briefcase'></i>
+                    <span>Oportunidades</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-list-ul'></i>
+                    <span>Listas</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-message-dots'></i>
+                    <span>Mensagens</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-bell'></i>
+                    <span>Notificações</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-user'></i>
+                    <span>Perfil</span>
+                </a>
+            </li>
+            <li>
+                <a href="./tela-pesquisa/pesquisa.html">
+                    <i class='bx bx-search'></i>
+                    <span>Pesquisa</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-cog'></i>
+                    <span>Configurações</span>
+                </a>
+            </li>
+            <li>
+            <hr class="barra-vermelha">  
+            <li class="sair-link"> 
+                <a href="#">
+                    <i class='bx bx-log-out'></i>
+                    <span>Sair</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
     <div class="container">
         <h1>Oportunidades</h1>
         <div class="box">
