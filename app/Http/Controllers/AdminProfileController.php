@@ -45,7 +45,7 @@ class AdminProfileController extends Controller
             'email' => [
                 'required',
                 'email',
-                Rule::unique('admins')->ignore($admin->id),
+                Rule::unique('tbadm')->ignore($admin->id),
             ],
             'telefone' => 'nullable|string|max:20',
             'endereco' => 'nullable|string|max:255',
@@ -63,13 +63,11 @@ class AdminProfileController extends Controller
         }
 
         if ($request->has('data_nascimento')) {
-            $admin->dataNascimento = $request->data_nascimento;
+            $admin->data_nascimento = $request->data_nascimento;
         }
 
         $admin->save();
 
-        return response()->json([
-            'admin' => $admin 
-        ]);
+        return response()->json($admin, 200);
     }
 }

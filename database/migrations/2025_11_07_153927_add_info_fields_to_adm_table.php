@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tbadm', function (Blueprint $table) {
+            $table->string('nome');
             $table->string('endereco')->nullable()->after('email');
             $table->string('telefone')->nullable();
             $table->date('data_nascimento')->nullable();
@@ -25,7 +26,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('tbadm', function (Blueprint $table) {
-            $table->dropColumn(['endereco', 'telefone', 'data_nascimento', 'foto_perfil']);
+            $table->dropColumn(['nome', 'endereco', 'telefone', 'data_nascimento', 'foto_perfil']);
         });
     }
 };

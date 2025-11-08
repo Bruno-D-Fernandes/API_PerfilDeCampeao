@@ -10,47 +10,76 @@
             display: none !important;
         }
 
-        .clubes {
+        .info {
             width: 100%;
-            height: 100%;
             display: flex;
             flex-direction: column;
-            gap: 16px;/
+            gap: 16px;
         }
 
-        .clubes-header {
+        .general {
             width: 100%;
             display: flex;
-            align-items: center;
+            flex-direction: row;
             justify-content: space-between;
+            align-items: center;
         }
 
-        .clube, .list-header {
+        .general-profile {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .admin {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .general .profile-picture {
+            height: 48px;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            background-color: #000;
+        }
+
+        .general .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .personal-info-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            /* gap: 16px; Coloca apenas se não usar h2 */
+        }
+        
+        .personal-info-header {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center; 
+        }
+
+        .personal-info {
             width: 100%;
             display: grid;
-            gap: 16px;
-            grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr 1fr
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto
         }
 
-        .header-col {
+        .personal-info-group {
             display: flex;
+            flex-direction: column;
+            gap: 8px;
             align-items: center;
-            justify-content: center;
-        }
-
-        .header-col > span {
-            font-size: 16px;
-        }
-
-        .clube > div {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        } 
-
-        .clube-acoes {
-            display: flex;
-            gap: 16px
         }
 
         .modal-backdrop {
@@ -87,7 +116,7 @@
             height: 32px;
         }
 
-        .modal-body, .form-group, #clube-view {
+        .modal-body, .form-group, #perfil-view, #informacoes-view {
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -155,18 +184,23 @@
 
         <div class="info">
             <div class="general">
-                <div class="profile-picture">
+                <div class="general-profile">
+                    <div class="profile-picture">
+                        @if($admin->foto_perfil)
+                            <img src="{{ asset('storage/' . $admin->foto_perfil) }}" alt="Foto de Perfil">
+                        @else
+                            @endif
+                    </div>
 
-                </div>
+                    <div class="admin">
+                        <span class="nome">
+                            {{ $admin->nome }}
+                        </span>
 
-                <div class="admin">
-                    <span class="nome">
-                        João Pedro
-                    </span>
-
-                    <span class="cargo">
-                        Administrador
-                    </span>
+                        <span class="cargo">
+                            Administrador
+                        </span>
+                    </div>
                 </div>
 
                 <button id="editar-perfil-btn">
@@ -196,7 +230,7 @@
                         </h3>
 
                         <span>
-                            fjoaopedro1302@gmail.com
+                            {{ $admin->email }}
                         </span>
                     </div>
 
@@ -206,7 +240,11 @@
                         </h3>
 
                         <span>
-                            (11) 91234-5678
+                            @if($admin->telefone)
+                                {{ $admin->telefone }}
+                            @else
+                                (Não informado)
+                            @endif
                         </span>
                     </div>
 
@@ -216,7 +254,11 @@
                         </h3>
 
                         <span>
-                            Rua da Amargura, 123 - Bairro Exemplo, Cidade Exemplo - SP, 12345-678
+                            @if($admin->endereco)
+                                {{ $admin->endereco }}
+                            @else
+                                (Não informado)
+                            @endif
                         </span>
                     </div>
 
@@ -226,10 +268,14 @@
                         </h3>
 
                         <span>
-                            {{ \Carbon\Carbon::parse        ($clube->anoCriacaoClube)
-                                ->locale('pt_BR')
-                                ->translatedFormat('d \d\e F \d\e Y')
-                            }}
+                            @if($admin->data_nascimento)
+                                {{ \Carbon\Carbon::parse($admin->data_nascimento)
+                                    ->locale('pt_BR')
+                                    ->translatedFormat('d \d\e F \d\e Y')
+                                }}
+                            @else
+                                (Não informado)
+                            @endif
                         </span>
                     </div>
                 </div>
@@ -250,8 +296,13 @@
                 <div class="form-group img">
                     <label for="perfil-form-foto">Foto:</label>
 
-                    <div class="img-preview foto">
-                        <img src="" alt="" class="foto-preview" style="display: none;">
+                    <<div class="img-preview foto">
+                        <img 
+                            src="{{ $admin->foto_perfil ? asset('storage/' . $admin->foto_perfil) : '' }}" 
+                            alt="Preview" 
+                            class="foto-preview" 
+                            style="{{ $admin->foto_perfil ? '' : 'display: none;' }}"
+                        >
                     </div>
 
                     <input type="file" name="foto_perfil" id="perfil-form-foto" accept="image/*">
@@ -259,8 +310,13 @@
 
                 <div class="form-group">
                     <label for="perfil-form-nome">Nome:</label>
-
-                    <input type="text" name="nome" id="perfil-form-nome">
+                    
+                    <input 
+                        type="text" 
+                        name="nome" 
+                        id="perfil-form-nome" 
+                        value="{{ trim($admin->nome) }}"
+                    >
                 </div>
             </div>
         </form>
@@ -287,25 +343,45 @@
                 <div class="form-group">
                     <label for="informacoes-form-email">Email:</label>
 
-                    <input type="text" name="email" id="informacoes-form-email">
+                    <input 
+                        type="text" 
+                        name="email" 
+                        id="informacoes-form-email" 
+                        value="{{ $admin->email }}"
+                    >
                 </div>
 
                 <div class="form-group">
                     <label for="informacoes-form-contato">Telefone:</label>
 
-                    <input type="text" name="telefone" id="informacoes-form-telefone">
+                    <input 
+                        type="text" 
+                        name="telefone" 
+                        id="informacoes-form-telefone" 
+                        value="{{ $admin->telefone }}"
+                    >
                 </div>
 
                 <div class="form-group">
                     <label for="informacoes-form-endereco">Endereço:</label>
 
-                    <input type="text" name="endereco" id="informacoes-form-endereco">
+                    <input 
+                        type="text" 
+                        name="endereco" 
+                        id="informacoes-form-endereco" 
+                        value="{{ $admin->endereco }}"
+                    >
                 </div>
 
                 <div class="form-group">
                     <label for="informacoes-form-data">Data de Nascimento:</label>
 
-                    <input type="date" name="data_nascimento" id="informacoes-form-data">
+                    <input 
+                        type="date" 
+                        name="data_nascimento" 
+                        id="informacoes-form-data" 
+                        value="{{ $admin->data_nascimento }}"
+                    >
                 </div>
             </div>
         </form>

@@ -14,10 +14,15 @@ class Admin extends Authenticatable
 {
     use HasFactory, HasApiTokens, Notifiable;
 
-     protected $table = 'tbadm';
+    protected $table = 'tbadm';
 
     protected $fillable = [
+        'nome',
         'email',
+        'endereco',
+        'telefone',
+        'data_nascimento',
+        'foto_perfil',
         'password'
     ];
 
