@@ -1,4 +1,4 @@
- document.getElementById('formLogin').addEventListener('submit', function(event) {
+ document.getElementById('formLogin').addEventListener('submit', async function(event) {
             event.preventDefault();
 
             const url = "/api/admin/login";
@@ -8,7 +8,9 @@
 
             const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            fetch(url, {
+
+            try {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -16,17 +18,28 @@
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                    
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch ((error) => {
-                console.error('error:', error);
-            })
 
-        })
+            const dataToken = await response.json();
+
+            if (!response.ok) {
+                alert(dataToken.message || 'Erro ao fazer login.');
+                return;
+            }
+
+            if(!dataToken.access_token) {
+                alert('Login respondeu se token');
+                return;
+            }
+
+            localStorage.setItem('adm_token', dataToken.access_token);
+
+            alert('Login realizado com sucesso!');
+            console.log('Token salvo:', dataToken.access_token);
+            window.location.href = '/admin/dashboard';
+            
+        } catch (error) {
+            console.error('Erro de rede:', error);
+            alert('Não foi possível conectar ao servidor.');
+        }
+    });
+

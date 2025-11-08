@@ -8,7 +8,7 @@ function handleCepBlur() {
         return;
     }
 
-    // feedback visual enquanto busca
+
     const cidadeInput = document.getElementById('cidadeOportunidade');
     if (cidadeInput) cidadeInput.value = '...';
 
@@ -31,7 +31,7 @@ function handleCepBlur() {
         });
 }
 
-// submit do form de oportunidade
+
 async function handleSubmitOportunidade(event) {
     event.preventDefault();
 
@@ -56,7 +56,7 @@ async function handleSubmitOportunidade(event) {
     }
 }
 
-// quando o esporte muda -> carrega posições
+
 async function handleEsporteChange() {
     const idEsporte = esporteSelectEl.value;
 
@@ -83,7 +83,7 @@ async function handleEsporteChange() {
     }
 }
 
-// carregar esportes na inicialização
+
 async function initEsportes() {
     try {
         const { ok, data } = await apiCarregarEsportes();
@@ -101,7 +101,7 @@ async function initEsportes() {
     }
 }
 
-// registrar eventos quando a página carregar
+
 document.addEventListener('DOMContentLoaded', function () {
     if (cepInputEl) {
         cepInputEl.addEventListener('blur', handleCepBlur);
@@ -115,6 +115,5 @@ document.addEventListener('DOMContentLoaded', function () {
         esporteSelectEl.addEventListener('change', handleEsporteChange);
     }
 
-    // carrega esportes imediatamente
     initEsportes();
 });

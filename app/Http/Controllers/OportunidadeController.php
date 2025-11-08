@@ -83,6 +83,7 @@ class OportunidadeController extends Controller
         return response()->json($oportunidades, 200);
     }
 
+
     public function show($id)
     {
         $oportunidade = Oportunidade::approved()->with(['esporte', 'posicao', 'clube'])->find($id);

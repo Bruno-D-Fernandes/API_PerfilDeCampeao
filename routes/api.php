@@ -9,6 +9,7 @@ use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\PostagemController;
 
 use App\Http\Controllers\AdmController;
+use App\Http\Controllers\AdminSistemaController;
 use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\SearchUsuarioController;
@@ -113,15 +114,15 @@ Route::prefix('clube')->group(function () {
 
         // Listas do Clube
         //adicionado por enquanto porque é o unico jeito de puxar as posiçoes e os esportes
-         Route::post('/esporte', [AdmController::class, 'Esportestore']);
-        Route::put('/esporte/{id}', [AdmController::class, 'Esporteupdate']);
-        Route::delete('/esporte/{id}', [AdmController::class, 'Esportedestroy']);
-        Route::get('/esporte', [AdmController::class, 'ListarEsportes']);
+         Route::post('/esporte', [AdminSistemaController::class, 'Esportestore']);
+        Route::put('/esporte/{id}', [AdminSistemaController::class, 'Esporteupdate']);
+        Route::delete('/esporte/{id}', [AdminSistemaController::class, 'Esportedestroy']);
+        Route::get('/esporte', [AdminSistemaController::class, 'ListarEsportes']);
         //-------------------------------------------------------------------
-         Route::get('/posicao', [AdmController::class, 'listarPosicoes']);
-        Route::post('/posicao', [AdmController::class, 'storePosicao']);      
-        Route::put('/posicao/{id}', [AdmController::class, 'updatePosicao']);
-        Route::delete('/posicao/{id}', [AdmController::class, 'destroyPosicao']);
+         Route::get('/posicao', [AdminSistemaController::class, 'listarPosicoes']);
+        Route::post('/posicao', [AdminSistemaController::class, 'storePosicao']);      
+        Route::put('/posicao/{id}', [AdminSistemaController::class, 'updatePosicao']);
+        Route::delete('/posicao/{id}', [AdminSistemaController::class, 'destroyPosicao']);
        //--------------------------------------------------------------------------
         Route::post('/listas/{listaId}/usuarios', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário | Qual o caralho da diff desse --Bruno
         Route::delete('/listas/{listaId}/usuarios', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
@@ -165,37 +166,38 @@ Route::prefix('admin')->group(function () {
         Route::get('/usuarios', [UserController::class, 'index']);
         Route::get('/clubes', [ClubeController::class, 'index']);
         Route::get('/oportunidades', [OportunidadeController::class, 'index']);
-        Route::get('/oportunidades/pendentes', [AdmController::class, 'listPending']);
-        Route::post('/oportunidades/{id}/aprovar', [AdmController::class, 'aproved']);
-        Route::post('/oportunidades/{id}/recusar', [AdmController::class, 'rejected']);
+        Route::get('/list', [AdminSistemaController::class, 'ListOportunidades']);
+        Route::get('/oportunidades/pendentes', [AdminSistemaController::class, 'listPending']);
+        Route::post('/oportunidades/{id}/aprovar', [AdminSistemaController::class, 'aproved']);
+        Route::post('/oportunidades/{id}/recusar', [AdminSistemaController::class, 'reject']);
 
         // Rotas de gerenciamento
-        Route::put('/clube/{id}', [AdmController::class, 'clubeUpdate']);
-        Route::put('/usuario/{id}', [AdmController::class, 'usuarioUpdate']);
-        Route::put('/oportunidade/{id}', [AdmController::class, 'oportunidadeUpdate']);
-        Route::delete('/usuario/{id}', [AdmController::class, 'UsuarioDestroy']);
-        Route::delete('/clube/{id}', [AdmController::class, 'ClubeDestroy']);
-        Route::delete('/oportunidade/{id}', [AdmController::class, 'OportunidadeDestroy']); 
+        Route::put('/clube/{id}', [AdminSistemaController::class, 'clubeUpdate']);
+        Route::put('/usuario/{id}', [AdminSistemaController::class, 'usuarioUpdate']);
+        Route::put('/oportunidade/{id}', [AdminSistemaController::class, 'oportunidadeUpdate']);
+        Route::delete('/usuario/{id}', [AdminSistemaController::class, 'UsuarioDestroy']);
+        Route::delete('/clube/{id}', [AdminSistemaController::class, 'ClubeDestroy']);
+        Route::delete('/oportunidade/{id}', [AdminSistemaController::class, 'OportunidadeDestroy']); 
 
-        Route::post('/esporte', [AdmController::class, 'Esportestore']);
-        Route::put('/esporte/{id}', [AdmController::class, 'Esporteupdate']);
-        Route::delete('/esporte/{id}', [AdmController::class, 'Esportedestroy']);
-        Route::get('/esporte', [AdmController::class, 'ListarEsportes']);
+        Route::post('/esporte', [AdminSistemaController::class, 'Esportestore']);
+        Route::put('/esporte/{id}', [AdminSistemaController::class, 'Esporteupdate']);
+        Route::delete('/esporte/{id}', [AdminSistemaController::class, 'Esportedestroy']);
+        Route::get('/esporte', [AdminSistemaController::class, 'ListarEsportes']);
                                                         // o nome delas estava ao contrario
-/*         Route::post('/posicao', [AdmController::class, 'Posicaostore']);
-        Route::put('/posicao/{id}', [AdmController::class, 'Posicaoupdate']);
-        Route::delete('/posicao/{id}', [AdmController::class, 'Posicaodestroy']); */
+/*         Route::post('/posicao', [AdminSistemaController::class, 'Posicaostore']);
+        Route::put('/posicao/{id}', [AdminSistemaController::class, 'Posicaoupdate']);
+        Route::delete('/posicao/{id}', [AdminSistemaController::class, 'Posicaodestroy']); */
 
 
-        Route::get('/posicao', [AdmController::class, 'listarPosicoes']);
-        Route::post('/posicao', [AdmController::class, 'storePosicao']);      // Antes era Posicaostore
-        Route::put('/posicao/{id}', [AdmController::class, 'updatePosicao']);    // Antes era Posicaoupdate
-        Route::delete('/posicao/{id}', [AdmController::class, 'destroyPosicao']); // Antes era Posicaodestroy
+        Route::get('/posicao', [AdminSistemaController::class, 'listarPosicoes']);
+        Route::post('/posicao', [AdminSistemaController::class, 'storePosicao']);      // Antes era Posicaostore
+        Route::put('/posicao/{id}', [AdminSistemaController::class, 'updatePosicao']);    // Antes era Posicaoupdate
+        Route::delete('/posicao/{id}', [AdminSistemaController::class, 'destroyPosicao']); // Antes era Posicaodestroy
         
-        Route::post('/funcao', [AdmController::class, 'storeFuncao']);
-        Route::put('/funcao/{id}', [AdmController::class, 'updateFuncao']);
-        Route::delete('/funcao/{id}', [AdmController::class, 'destroyFuncao']);
-        Route::get('/funcao', [AdmController::class, 'listarFuncoes']);
+        Route::post('/funcao', [AdminSistemaController::class, 'storeFuncao']);
+        Route::put('/funcao/{id}', [AdminSistemaController::class, 'updateFuncao']);
+        Route::delete('/funcao/{id}', [AdminSistemaController::class, 'destroyFuncao']);
+        Route::get('/funcao', [AdminSistemaController::class, 'listarFuncoes']);
     });
 });
 
