@@ -8,7 +8,7 @@ closeModalBtns.forEach(btn => {
 addClubeBtn.addEventListener('click', () => {
     clubeId = -1;
     readOnly = false;
-    enableInputys();
+    enableInputs();
     abrirModal(modalClube);
 });
 
