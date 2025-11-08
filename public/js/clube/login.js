@@ -33,7 +33,7 @@ document.getElementById('formLogin').addEventListener('submit', async function(e
 
         alert('Login realizado com sucesso!');
         console.log('Token salvo:', dataToken.access_token);
-        window.location.href = '/clube/Dashboard';
+        window.location.href = '/clube/configuracao';
 
     } catch (error) {
         console.error('Erro de rede:', error);
