@@ -11,6 +11,13 @@ use App\Models\Clube;
 
 class OportunidadeController extends Controller
 {
+    public function showWebPage()
+    {
+        $oportunidades = Oportunidade::with('esporte', 'clube', 'posicao', 'inscricoes')->get();
+
+        return view('admin.oportunidades')->with(['oportunidades' => $oportunidades]);
+    }
+
     /**
      * Cria uma nova oportunidade (somente clube autenticado)
      */
@@ -69,14 +76,14 @@ class OportunidadeController extends Controller
     {
         $perPage = $request->query('per_page', 10);
 
-        $oportunidades = Oportunidade::approved()->with(['esporte', 'posicao', 'clube'])->paginate($perPage);
+        $oportunidades = Oportunidade::approved()->with(['esporte', 'posicao', 'clube', 'inscricoes.usuario'])->paginate($perPage);
 
         return response()->json($oportunidades, 200);
     }
 
     public function show($id)
     {
-        $oportunidade = Oportunidade::with(['esporte', 'posicao', 'clube'])->find($id);
+        $oportunidade = Oportunidade::with(['esporte', 'posicao', 'clube', 'inscricoes.usuario'])->find($id);
 
         if (!$oportunidade) {
             return response()->json(['message' => 'Oportunidade não encontrada'], 404);

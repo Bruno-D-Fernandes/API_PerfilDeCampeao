@@ -376,6 +376,35 @@ class AdmController extends Controller
         return response()->json($oportunidade, 200);
     }
 
+    public function oportunidadeUpdateStatus(Request $request, Oportunidade $oportunidade)
+    {
+        $data = $request->validate([
+            'status' => ['required', Rule::in([Oportunidade::STATUS_REJECTED, Oportunidade::STATUS_APPROVED])],
+            'rejection_reason' => [
+                'nullable',
+                Rule::requiredIf($request->status == Oportunidade::STATUS_REJECTED),
+                'string',
+                'max:255'
+            ]
+        ]);
+
+        $admin = $request->user();
+
+        $oportunidade->status = $data['status'];
+        $oportunidade->reviewed_by = $admin->id;
+        $oportunidade->reviewed_at = now();
+
+        if ($data['status'] == Oportunidade::STATUS_REJECTED) {
+            $oportunidade->rejection_reason = $data['rejection_reason'];
+        } else {
+            $oportunidade->rejection_reason = null;
+        }
+
+        $oportunidade->save();
+
+        return response()->json($oportunidade->load('clube', 'esporte', 'posicao', 'inscricoes'));
+    }
+
     public function listPending(Request $request){
         $perPage = $request->query('per_page', 15);
         $oportunidades = Oportunidade::pending()
@@ -384,44 +413,5 @@ class AdmController extends Controller
         ->paginate($perPage);
         
         return response()->json($oportunidades, 200);
-    }
-    public function aproved(Request $request, $id){
-        $admin = $request->user();
-        if (!$admin || !($admin instanceof Admin)) {
-            return response()->json(['message' => 'Somente admin autenticado'], 403);
-        }
-        $opp = Oportunidade::find($id);
-        if (!$opp) return response()->json(['message' => 'Oportunidade não encontrada'], 404);
-
-        $opp->update([
-            'status'         => Oportunidade::STATUS_APPROVED,
-            'reviewed_by'    => $admin->id,
-            'reviewed_at'    => now(),
-            'rejection_reason' => null,
-        ]);
-
-        return response()->json(['message' => 'Oportunidade aprovada'], 200);
-    }
-
-    public function reject(Request $request, $id){
-        $admin = $request->user();
-        if (!$admin || !($admin instanceof Admin)) {
-            return response()->json(['message' => 'Somente admin autenticado'], 403);
-        }
-        $opp = Oportunidade::find($id);
-        if (!$opp) return response()->json(['message' => 'Oportunidade não encontrada'], 404);
-
-        $validatedData = $request->validate([
-            'rejection_reason' => 'required|string|max:1000',
-        ]);
-
-        $opp->update([
-            'status'         => Oportunidade::STATUS_REJECTED,
-            'reviewed_by'    => $admin->id,
-            'reviewed_at'    => now(),
-            'rejection_reason' => $validatedData['rejection_reason'],
-        ]);
-
-        return response()->json(['message' => 'Oportunidade rejeitada'], 200);
     }
 }

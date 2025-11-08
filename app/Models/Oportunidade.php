@@ -103,4 +103,15 @@ class Oportunidade extends Model
         return $this->belongsToMany(Usuario::class, 'inscricoes', 'oportunidade_id', 'usuario_id')
             ->withPivot('status', 'mensagem')->withTimestamps();
     }
+
+    public function showHTMLStatus()
+    {
+        if ($this->status == $this::STATUS_APPROVED) {
+            return 'Aprovada';
+        } else if ($this->status == $this::STATUS_REJECTED) {
+            return 'Rejeitada';
+        } else {
+            return 'Pendente';
+        }
+    }
 }

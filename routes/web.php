@@ -4,6 +4,7 @@ use App\Events\ClubFollowedEvent;
 use App\Http\Controllers\AdmController;
 use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\FuncaoController;
+use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Categoria;
@@ -38,5 +39,7 @@ Route::get('/admin/funcoes', [FuncaoController::class, 'showWebPage'])->name('ad
 Route::get('/admin/clubes', [ClubeController::class, 'showWebPage'])->name('admin-clubes');
 
 Route::get('/admin/usuarios', [UserController::class, 'showWebPage'])->name('admin-usuarios');
+
+Route::get('/admin/oportunidades', [OportunidadeController::class, 'showWebPage'])->name('admin-oportunidades');
 
 Route::get('/admin/perfil', [AdmController::class, 'showProfilePage']);

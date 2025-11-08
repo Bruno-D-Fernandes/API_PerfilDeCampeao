@@ -187,8 +187,8 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/oportunidades', [OportunidadeController::class, 'index']);
         Route::get('/oportunidades/pendentes', [AdmController::class, 'listPending']);
-        Route::post('/oportunidades/{id}/aprovar', [AdmController::class, 'aproved']);
-        Route::post('/oportunidades/{id}/recusar', [AdmController::class, 'rejected']);
+        Route::put('/oportunidade/{oportunidade}/status', [AdmController::class, 'oportunidadeUpdateStatus']);
+        Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 
         // Rotas de gerenciamento
         Route::put('/clube/{id}', [AdmController::class, 'clubeUpdate']);
