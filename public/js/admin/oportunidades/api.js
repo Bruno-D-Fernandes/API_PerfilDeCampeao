@@ -29,7 +29,7 @@ async function fetchOportunidadeDetails(oportunidadeId) {
         inscritosListContainer.innerHTML = '';
         if (data.inscricoes && data.inscricoes.length > 0) {
             data.inscricoes.forEach(inscrito => {
-                const inscritoHTML = document.createElement('p');
+                const inscritoHTML = document.createElement('span');
                 inscritoHTML.textContent = inscrito.usuario.nomeCompletoUsuario;
                 inscritosListContainer.appendChild(inscritoHTML);
             });
@@ -111,7 +111,7 @@ async function rejectOportunidade(oportunidadeId) {
 
         const data = await response.json();
 
-        if(data) {
+        if (data) {
             alert('Oportunidade REJEITADA com sucesso!');
 
             const row = oportunidadesContainer.querySelector(`.oportunidade[data-oportunidade-id="${oportunidadeId}"]`);

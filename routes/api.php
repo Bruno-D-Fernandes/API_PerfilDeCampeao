@@ -227,6 +227,9 @@ Route::prefix('admin')->group(function () {
         Route::delete('/funcao/{id}', [FuncaoController::class, 'destroy']);
         Route::get('/funcao', [FuncaoController::class, 'index']);
         Route::get('/funcao/{id}', [FuncaoController::class, 'show']);
+
+        Route::delete('/listas/{id}', [ListaClubeController::class, 'destroy']);
+        Route::get('/listas/{id}', [ListaClubeController::class, 'show']);
     });
 });
 

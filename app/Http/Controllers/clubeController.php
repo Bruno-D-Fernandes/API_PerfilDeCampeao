@@ -182,6 +182,7 @@ class ClubeController extends Controller
                     'autenticado_tipo' => $utilizadorAutenticado ? get_class($utilizadorAutenticado) : 'Nenhum utilizador autenticado',
                     'clube_solicitado_id' => $clube->id
                 ]);
+                
                 return response()->json(['message' => 'Acesso não autorizado'], 403);
             }
 
