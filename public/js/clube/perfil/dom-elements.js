@@ -1,4 +1,4 @@
-const BEARER = 'Bearer 1|iHMveTWB2oTTA95AGwQEpCYLunr48JDNXRY2k5V9e0068d3d';
+const BEARER = 'Bearer 2|GVu44dtOoByXjcPzmA94RL9dg9RwG7HScU4MSG4y4929a7ee';
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 const container = document.querySelector('.container');
@@ -30,7 +30,7 @@ const modais = {
     'adicionar-membro-modal': {
         content: document.querySelector('#adicionar-membro-modal'),
         inputs: [
-            searchUserInput,
+            document.querySelector('#user-search-input'),
             document.querySelector('#adicionar-membro-form-esporte'),
             document.querySelector('#adicionar-membro-form-funcao'),
         ],
@@ -48,8 +48,6 @@ const modais = {
         content: document.querySelector('#clube-modal'),
         inputs: [
             document.querySelector('#clube-form-nome'),
-            document.querySelector('#clube-form-email'),
-            document.querySelector('#clube-form-cnpj'),
             document.querySelector('#clube-form-data'),
             document.querySelector('#clube-form-endereco'),
             document.querySelector('#clube-form-cidade'),

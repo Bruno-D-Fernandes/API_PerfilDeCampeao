@@ -212,15 +212,13 @@ async function fetchClubeDetails(clubeId) {
         const data = await response.json();
 
         modalClube.inputs[0].value = data.nomeClube;
-        modalClube.inputs[1].value = data.emailClube;
-        modalClube.inputs[2].value = data.cnpjClube;
-        modalClube.inputs[3].value = data.anoCriacaoClube;
-        modalClube.inputs[4].value = data.enderecoClube;
-        modalClube.inputs[5].value = data.cidadeClube;
-        modalClube.inputs[6].value = data.estadoClube;
-        modalClube.inputs[7].value = data.bioClube;
-        modalClube.inputs[8].value = data.categoria.id;
-        modalClube.inputs[9].value = data.esporte.id;
+        modalClube.inputs[1].value = data.anoCriacaoClube;
+        modalClube.inputs[2].value = data.enderecoClube;
+        modalClube.inputs[3].value = data.cidadeClube;
+        modalClube.inputs[4].value = data.estadoClube;
+        modalClube.inputs[5].value = data.bioClube;
+        modalClube.inputs[6].value = data.categoria.id;
+        modalClube.inputs[7].value = data.esporte.id;
 
         if (data.fotoPerfilClube) {
             previewImagem.src = storageUrl + '/' + data.fotoPerfilClube;
@@ -355,7 +353,7 @@ function renderMembersList(membrosAgrupados) {
         `;
     } else {
         for (const esporteNome in membrosAgrupados) {
-            if (membrosAgrupados.esporteNome) {
+            if (membrosAgrupados.hasOwnProperty(esporteNome)) {
 
                 htmlContent += `
                     <span>

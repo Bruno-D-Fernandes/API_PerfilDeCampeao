@@ -12,7 +12,7 @@ document.addEventListener('click', (e) => {
 
 tabBtns.forEach(tabBtn => {
     tabBtn.addEventListener('click', async () => {
-        if (tabBtns.dataset.targetTab === 'members-tab' && membersDataContainer.children.length === 0) {
+        if (tabBtn.dataset.targetTab === 'members-tab' && membersDataContainer.children.length === 0) {
             searchUsers('');
         }
 
@@ -204,16 +204,19 @@ clubeEditarBtn.addEventListener('click', async () => {
 inputImagem.addEventListener('change', function(e) {
     if (e.target.files && e.target.files[0]) {
         const file = e.target.files[0];
+        
         if (!file.type.startsWith('image/')) {
             previewImagem.src = '';
             previewImagem.style.display = 'none';
             return;
         }
         const reader = new FileReader();
+
         reader.onload = function(ev) {
             previewImagem.src = ev.target.result;
             previewImagem.style.display = 'block';
         };
+
         reader.readAsDataURL(file);
     }
 });

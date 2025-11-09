@@ -79,15 +79,15 @@ function createOportunidadeRow(oportunidade) {
     return div;
 }
 
-function createMemberRow(id, nome, esporteId = '', funcaoId = '') {
+function createMemberRow(id, nome, esporteId, funcaoId) {
     const div = document.createElement('div');
 
     div.className = 'members-list-row';
 
     div.dataset.memberId = id;
 
-    if (esporteId) div.dataset.esporteId = esporteId;
-    if (funcaoId) div.dataset.funcaoId = funcaoId;
+    div.dataset.esporteId = esporteId;
+    div.dataset.funcaoId = funcaoId;
 
     div.innerHTML = `
         <span class="member-name">${nome}</span>

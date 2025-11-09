@@ -585,18 +585,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="clube-form-email">Email:</label>
-
-                    <input type="text" name="emailClube" id="clube-form-email" value="{{ $clube->emailClube ?? '' }}">
-                </div>
-
-                <div class="form-group">
-                    <label for="clube-form-cnpj">CNPJ:</label>
-
-                    <input type="text" name="cnpjClube" id="clube-form-cnpj" value="{{ $clube->cnpjClube ?? '' }}">
-                </div>
-
-                <div class="form-group">
                     <label for="clube-form-data">Data de Criação:</label>
 
                     <input type="date" name="anoCriacaoClube" id="clube-form-data" value="{{ $clube->anoCriacaoClube ? \Carbon\Carbon::parse($clube->anoCriacaoClube)->format('Y-m-d') : '' }}">
