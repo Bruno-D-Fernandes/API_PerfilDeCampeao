@@ -1,0 +1,535 @@
+
+
+
+#container {
+    max-width: 100%;
+    margin-left: 70px; /* Alinha com a navbar fechada */
+    padding: 40px 30px;
+    background: #f5f5f5;
+    min-height: 100vh;
+    transition: margin-left .3s ease;
+}
+
+.barra-lateral:hover ~ #container {
+    margin-left: 240px; /* Alinha com a navbar expandida */
+}
+
+/* Título da página */
+#page-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Seções gerais */
+section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0f7ea;
+}
+
+section h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+section h2::before {
+    content: '';
+    width: 6px;
+    height: 20px;
+    background: #36B37E;
+    border-radius: 3px;
+}
+
+/* Artigos dentro das seções */
+article {
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s ease;
+    border: 1px solid #e0f7ea;
+}
+
+article:hover {
+    transform: translateY(-2px);
+    border-color: #c8e6c9;
+}
+
+article h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Ícones nos títulos dos artigos (usando Boxicons) */
+article h3 i {
+    font-size: 18px;
+    color: #36B37E;
+    width: 24px;
+    text-align: center;
+}
+
+/* Botões dentro dos artigos */
+article button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background:  var(--bg-body);
+    color:  var(--accent);
+    font-size: 14px;
+}
+
+article button:hover {
+    background: #36B37E;
+    color: #fff;
+}
+
+/* Botão "Sair" e "Excluir conta" — estilos vermelhos */
+article:nth-child(3) button,
+article:nth-child(4) button {
+    background: #ffebee;
+    color: #e53935;
+}
+
+article:nth-child(3) button:hover,
+article:nth-child(4) button:hover {
+    background: #e53935;
+    color: #fff;
+}
+
+/* Campo de tema (radio buttons) */
+fieldset {
+    display: flex;
+    gap: 12px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #fff;
+    font-size: 14px;
+}
+
+label:hover {
+    background: var(--border-color);
+}
+
+input[type="radio"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #aaa;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+}
+
+input[type="radio"]:checked {
+    background: #36B37E;
+    border-color: #36B37E;
+}
+
+input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+}
+
+/* Botão salvar tema */
+#btnSalvarTema {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: #36B37E;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+#btnSalvarTema:hover {
+    background: #2faa6d;
+}
+
+/* ===== MODAIS — ESTILO LIMPO E SEM BORDAS PRETAS ===== */
+[hidden] {
+    display: none !important;
+}
+
+div[id^="modal"] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
+
+div[id^="modal"] > div {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.3s ease;
+    border: none; /* Remove qualquer borda preta */
+}
+
+div[id^="modal"] h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 10000;
+}
+
+div[id^="modal"] p {
+    margin: 15px 0;
+    color: #555;
+    line-height: 1.5;
+    z-index: 10000;
+}
+
+div[id^="modal"] form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 10000;
+}
+
+div[id^="modal"] label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #333;
+    z-index: 10000;
+}
+
+div[id^="modal"] input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 100%;
+    background: #fafafa;
+}
+
+div[id^="modal"] input:focus {
+    outline: none;
+    border-color: #36B37E;
+    box-shadow: 0 0 0 2px rgba(54, 179, 126, 0.2);
+}
+
+div[id^="modal"] input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #36B37E;
+}
+
+div[id^="modal"] button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    min-width: 80px;
+    text-align: center;
+    font-size: 14px;
+    z-index: 10000;
+}
+
+div[id^="modal"] button[type="submit"] {
+    background: #36B37E;
+    color: white;
+}
+
+div[id^="modal"] button[type="submit"]:hover {
+    background: #2faa6d;
+}
+
+div[id^="modal"] button[data-close] {
+    background: #f5f5f5;
+    color: #555;
+}
+
+div[id^="modal"] button[data-close]:hover {
+    background: #e0e0e0;
+}
+
+div[id^="modal"] button#btnConfirmLogout {
+    background: #e53935;
+    color: white;
+}
+
+div[id^="modal"] button#btnConfirmLogout:hover {
+    background: #d32f2f;
+}
+
+div[id^="modal"] button[type="submit"]#btnExcluirConta {
+    background: #e53935;
+    color: white;
+}
+
+div[id^="modal"] button[type="submit"]#btnExcluirConta:hover {
+    background: #d32f2f;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+.teste{
+    display: flex;
+    gap: 20px;
+}
+fieldset{
+    border: none;
+}
+@media (max-width: 768px) {
+    #container {
+        margin-left: 0;
+        padding: 20px 15px;
+    }
+
+    section {
+        padding: 15px;
+    }
+
+    article {
+        padding: 12px 15px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    article button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    div[id^="modal"] > div {
+        width: 95%;
+        padding: 20px;
+    }
+}
+
+:root {
+  --bg-body: #f5f5f5;
+  --bg-card: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --accent: #36B37E;
+  --accent-hover: #2faa6d;
+  --danger: #e53935;
+  --danger-bg: #ffebee;
+  --input-bg: #ffffff;
+  --salvar-bg:#ffffff;
+  --perigo:rgb(228, 7, 7);
+}
+
+/* Tema escuro */
+[data-theme="dark"] {
+  --bg-body: #121212;
+  --bg-card: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #bbbbbb;
+  --border-color: #333333;
+  --accent: #66bb6a; /* Verde mais claro para contraste */
+  --accent-hover: #4caf50;
+  --danger: #ef9a9a;
+  --danger-bg: #2c1a1a;
+  --input-bg: #a8a8a8;
+  --salvar-bg:#ffffff;
+  --perigo:rgb(212, 69, 69);
+}
+
+/* Aplicar ao body e elementos */
+body {
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#container,
+section,
+article,
+div[id^="modal"] > div {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+article h3,
+section h2,
+#page-title {
+  color: var(--text-primary);
+}
+
+input,
+button,
+label {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+input:focus,
+button:focus {
+  outline: 2px solid var(--accent);
+}
+
+/* Botões de ação */
+button {
+  transition: background 0.2s, color 0.2s;
+}
+
+button[type="submit"],
+#btnSalvarTema {
+  background: var(--accent);
+  color: white;
+}
+
+button[type="submit"]:hover,
+#btnSalvarTema:hover {
+  background: var(--accent-hover);
+}
+
+
+/* Botões perigosos */
+#btnConfirmLogout,
+button[type="submit"],#btnExcluirConta {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+article:nth-child(3) button:hover,
+article:nth-child(4) button:hover,
+#btnConfirmLogout:hover,
+button[type="submit"],#btnExcluirConta:hover {
+  background: var(--danger);
+  color: white;
+}
+
+/* Modais */
+div[id^="modal"] {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Inputs e labels */
+fieldset label {
+  border-color: var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+/* Checkbox accent */
+input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+.conteudo-principal,.titulo,body{
+    background-color: var(--bg-body);
+}
+
+#salvar{
+    background-color: var(--accent);
+}
+#salvar:hover{
+    background-color: var(--accent-hover);
+}
+
+#fechar:hover{
+    background-color: var(--input-bg);
+}
+
+article:nth-child(3) button,
+article:nth-child(4) button,
+#senhalterar button{
+    background-color: var(--bg-body);
+    color: var(--accent);
+}
+#modalDocs > div {
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#modalDocs > div > div {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 20px;
+}
+
+#modalDocs button[data-close] {
+  margin-top: 10px;
+  align-self: center;
+}
+#formEmail label,#formSenha label{
+    color: var(--text-secondary);
+    
+}
+#formEmail input,#formSenha input, #formExcluir input{
+    background-color: var(--input-bg);
+}
+#excluir{
+    background-color: var(--perigo);
+}
+#btnExcluirConta:focus{
+    outline: 2px solid var(--danger);
+}

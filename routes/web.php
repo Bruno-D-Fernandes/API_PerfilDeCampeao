@@ -6,6 +6,8 @@ use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\FuncaoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Mail\ClubWelcomeEmail;
+use App\Mail\UserWelcomeEmail;
 use App\Models\Categoria;
 use App\Models\Clube;
 use App\Models\Esporte;
@@ -33,9 +35,13 @@ Route::get('/clube/oportunidades',function(){
     return view('clube.oportunidades');
 })->name('clube.oportunidades');
 
-// Admin
-
 Route::get('/clubes/{id}', [ClubeController::class, 'showProfilePage'])->name('clube-perfil');
+
+Route::get('/clube/configuracao',function(){
+    return view('clube.configuracao');
+})->name('clube.configuracao');
+
+// Admin
 
 Route::get('/admin/esportes', [AdmController::class, 'ListarEsportesWeb'])->name('admin-esportes');
 
@@ -44,3 +50,5 @@ Route::get('/admin/funcoes', [FuncaoController::class, 'showWebPage'])->name('ad
 Route::get('/admin/clubes', [ClubeController::class, 'showWebPage'])->name('admin-clubes');
 
 Route::get('/admin/usuarios', [UserController::class, 'showWebPage'])->name('admin-usuarios');
+
+Route::get('/admin/perfil', [AdmController::class, 'showProfilePage']);

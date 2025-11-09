@@ -48,6 +48,38 @@ class MembroClubeController extends Controller
         }
     }
 
+    public function getMembrosAgrupados(string $clubeId, string $search = null)
+    {
+        $clube = Clube::findOrFail($clubeId);
+
+        $membrosQuery = $clube->membros();
+
+        if ($search) {
+            $membrosQuery->where('nomeCompletoUsuario', 'like', "%{$search}%");
+        }
+
+        $membros = $membrosQuery->get();
+
+        $esportesIds = $membros->pluck('pivot.esporte_id')->unique()->filter();
+        $funcoesIds = $membros->pluck('pivot.funcao_id')->unique()->filter();
+        
+        $esportesMap = Esporte::whereIn('id', $esportesIds)->pluck('nomeEsporte', 'id');
+        $funcoesMap = Funcao::whereIn('id', $funcoesIds)->pluck('nome', 'id');
+
+        $membrosAgrupados = [];
+
+        foreach ($membros as $membro) {
+            $nomeEsporte = $esportesMap->get($membro->pivot->esporte_id, 'Sem esporte');
+
+            $nomeFuncao = $funcoesMap->get($membro->pivot->funcao_id, 'Sem função');
+
+            $membrosAgrupados[$nomeEsporte][$nomeFuncao][] = $membro;
+        }
+
+        return $membrosAgrupados;
+    }
+
+
     public function adicionarMembro(Request $request, string $clubeId, string $usuarioId,) {
         try {
             if ($clubeId != auth('club_sanctum')->user()->id) {

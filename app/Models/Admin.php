@@ -17,7 +17,12 @@ class Admin extends Authenticatable
      protected $table = 'tbadm';
 
     protected $fillable = [
+        'nome',
         'email',
+        'endereco',
+        'telefone',
+        'data_nascimento',
+        'foto_perfil',
         'password'
     ];
 

@@ -56,4 +56,9 @@ class Clube extends Authenticatable
     {
         return $this->hasMany(Lista::class, 'clube_id');
     }
+
+    public function oportunidades()
+    {
+        return $this->hasMany(Oportunidade::class, 'clube_id');
+    }
 }

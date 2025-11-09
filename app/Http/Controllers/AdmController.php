@@ -18,6 +18,15 @@ use Illuminate\Validation\Rule;
 
 class AdmController extends Controller
 {
+
+    public function showProfilePage(Request $request) {
+        $admin = Admin::findOrFail(1); // Tem que arrumar depois do login isso aqui, deveria pegar da autenticação
+
+        return view('admin.perfil')->with(
+            ['admin' => $admin]
+        );
+    }
+    
      public function loginAdm(Request $request)
     {
         try {

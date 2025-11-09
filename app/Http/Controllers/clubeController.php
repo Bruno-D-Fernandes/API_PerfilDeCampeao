@@ -7,6 +7,8 @@ use App\Models\Categoria;
 use Illuminate\Http\Request;
 use App\Models\Clube;
 use App\Models\Esporte;
+use App\Models\Funcao;
+use App\Models\Posicao;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -17,6 +19,32 @@ use Illuminate\Support\Str;
 
 class ClubeController extends Controller
 {
+    public function showProfilePage(Request $request, $id)
+    {
+        $clube = Clube::with(
+            'esporte',
+            'categoria',
+            'oportunidades.esporte',
+            'oportunidades.posicao',
+            'oportunidades.inscricoes',
+            'oportunidades.candidatos',
+        )->findOrFail($id);
+
+        $membroClubeController = new MembroClubeController();
+        
+        $membrosAgrupados = $membroClubeController->getMembrosAgrupados((string) $clube->id);
+
+        $esportes = Esporte::with('posicoes')->get();
+
+        $funcoes = Funcao::all();
+
+        $posicoes = Posicao::all();
+
+        $categorias = Categoria::all();
+
+        return view('clube.perfil')->with(['clube' => $clube, 'esportes' => $esportes, 'funcoes' => $funcoes, 'posicoes' => $posicoes, 'categorias' => $categorias, 'membrosAgrupados' => $membrosAgrupados]);
+    }
+    
     public function showWebPage()
     {
         $clubes = Clube::all()->load('esporte', 'categoria');
