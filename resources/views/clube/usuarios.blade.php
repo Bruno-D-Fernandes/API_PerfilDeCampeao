@@ -11,7 +11,7 @@
             display: none !important;
         }
 
-        .container, .profile-info, #profile, .profile-details, .modal-body, .form-group, #oportunidade-view, #opportunities, #members-list, .members-list-group, .members-list-group-function, .members-list-rows, #adicionar-membro-view, #about, #clube-view {
+        .profile-container, .profile-info, #profile, .modal-body, .form-group, #listas-view {
             display: flex;
             flex-direction: column;
             gap: 16px;
@@ -30,31 +30,12 @@
             width: 100%;
         }
 
-        .img-preview {
-            background-color: #000;
+        .profile-details {
+            display: flex;
+            justify-content: space-between;
         }
-
-        .img-preview.foto {
-            height: 96px;
-            aspect-ratio: 1 / 1;
-            border-radius: 50%;
-            overflow: hidden;
-        }
-
-        .img-preview.banner {
-            height: 48px;
-            aspect-ratio: 3 / 1;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .img-preview img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        .tabs {
+        
+        .profile-tabs {
             display: flex;
             gap: 16px; 
         }
@@ -71,13 +52,13 @@
             object-fit: cover;
         }
 
-        .banner {
+        .profile-banner {
             width: 100%;
             height: 180px;
             background-color: #000;
         }
 
-        .picture {
+        .profile-picture {
             height: 96px;
             aspect-ratio: 1 / 1;
             border-radius: 50%;
@@ -87,31 +68,6 @@
             left: 48px;
             bottom: 0px;
             overflow: hidden;
-        }
-        
-        .opportunity {
-            width: 100%;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-        }
-
-        .opportunity-details, .members-btns {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .opportunity-options {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            z-index: 100;
         }
 
         .modal-backdrop {
@@ -153,7 +109,7 @@
             height: 32px;
         }
 
-        .modal-body, .form-group, #oportunidade-view {
+        .modal-body, .form-group {
             width: 100%;
         }
 
@@ -170,69 +126,6 @@
             height: 100%;
         }
 
-        #members-list, .members-list-group, .members-list-group-function, .members-list-rows, .members-list-row {
-            width: 100%;
-        }
-
-        .members-list-search {
-            width: 100%;
-            height: 32px;
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .members-list-row, .opportunities-header, .about-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .no-data {
-            width: 100%;
-            min-height: 140px;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .search-user {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .search-user-container {
-            width: 100%;
-            max-height: 100px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .search-user-row {
-            width: 100%;
-            flex-shrink: 0;
-            background-color: #fafafa;
-        }
-
-        .user-selected {
-            width: 100%;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .profile-picture {
-            height: 75%;
-            aspect-ratio: 1 / 1;
-            border-radius: 50%;
-            background-color: #000;
-        }
-
         .profile-picture img {
             width: 100%;
             height: 100%;
@@ -245,39 +138,107 @@
 
         .tab-content {
             display: none !important;
+            flex-direction: column;
+            gap: 16px;
         }
 
-        #confirmar-modal, #adicionar-membro-modal, #inscritos-modal {
-            width: 420px;
+        .sub-tab-content.active {
+            display: flex !important;
         }
 
-        .about-container {
+        .sub-tab-content {
+            display: none !important;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .estatisticas-list {
             width: 100%;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto
         }
 
-        .info {
-            aspect-ratio: 5 / 2;
+        .estatistica-item {
             display: flex;
             flex-direction: column;
+            gap: 8px;
             align-items: center;
+        }
+
+        .postagens {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
             gap: 16px;
+            align-items: center;
+        }
+
+        .postagem-card {
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background-color: #fafafa;
+            padding: 16px;
+        }
+
+        .postagem-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .post-profile-picture {
+            height: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+        }
+
+        .post-profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .postagem-localizacao {
+            font-size: 12px;
+        }
+
+        .carousel-container {
+            height: 128px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .carousel-container img {
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .lista-item {
+            width: 100%;
+            display: flex;
+            gap: 16px;
+        }
+
+        #add-lista-btn {
+            height: 32px;
         }
     </style>
 </head>
 <body>
-    <div class="container" data-storage-url="{{ asset('/storage') }}" data-usuario-id="{{ $usuario->id }}">
-
+    <div class="profile-container" data-storage-url="{{ asset('/storage') }}" data-usuario-id="{{ $usuario->id }}">
         <div id="profile">
             <div class="profile-info">
                 <div class="profile-imgs">
-                    <div class="banner">
+                    <div class="profile-banner">
                         @if($usuario->fotoBannerUsuario)
                             <img src="{{ asset('storage/' . $usuario->fotoBannerUsuario) }}" alt="Banner do usuário">
                         @endif
                     </div>
-                    <div class="picture">
+                    <div class="profile-picture">
                         @if($usuario->fotoPerfilUsuario)
                             <img src="{{ asset('storage/' . $usuario->fotoPerfilUsuario) }}" alt="Foto de perfil do usuário">
                         @endif
@@ -288,12 +249,19 @@
                     <span class="profile-name">
                         {{ $usuario->nomeCompletoUsuario }}
                     </span>
+
+                    <button id="add-to-list-btn">
+                        <span>
+                            Adicionar à lista
+                        </span>
+                    </button>
                 </div>
             </div>
 
-            <div class="tabs">
+            <div class="profile-tabs">
                 @foreach($usuario->perfis as $index => $perfil)
                     <button 
+                        class="tab-btn"
                         data-target-tab="perfil-tab-{{ $perfil->id }}"
                     >
                         <span>
@@ -307,14 +275,15 @@
         <div class="tab-container">
             @foreach($usuario->perfis as $index => $perfil)
                 <div id="perfil-tab-{{ $perfil->id }}" class="tab-content {{ $index == 0 ? 'active' : '' }}">
+                    
                     <div class="sub-tabs">
-                        <button data-target-subtab="postagens-{{ $perfil->id }}" type="button">
+                        <button class="sub-tab-btn" data-target-subtab="postagens-{{ $perfil->id }}" type="button">
                             <span>
                                 Postagens
                             </span>
                         </button>
 
-                        <button data-target-subtab="informacoes-{{ $perfil->id }}" type="button">
+                        <button class="sub-tab-btn" data-target-subtab="informacoes-{{ $perfil->id }}" type="button">
                             <span>
                                 Informações
                             </span>
@@ -322,49 +291,62 @@
                     </div>
 
                     <div class="sub-tab-container">
-                        <div id="postagens-{{ $perfil->id }}" class="sub-tab-content active">
-                            @forelse($perfil->posts as $post)
-                                <div class="post-card">
-                                    <span class="post-text">{{ $post->textoPostagem }}</span>
-                                    
-                                    @if($post->midias->isNotEmpty())
-                                        <div class="carrossel-container">
-                                            @foreach($post->midias as $midia)
-                                                <!-- 
-                                                  Idealmente, verificar o tipo (imagem/video)
-                                                  Para o TCC, só imagem é mais simples.
-                                                -->
-                                                <img 
-                                                  src="{{ asset('storage/' . $midia->caminho_arquivo) }}" 
-                                                  class="carrossel-item"
-                                                  alt="Mídia do post"
-                                                >
-                                            @endforeach
+                        <div id="postagens-{{ $perfil->id }}" class="sub-tab-content active postagens">
+                            @if($perfil->postagens->count() > 0)
+                                @foreach($perfil->postagens as $post)
+                                    <div class="postagem-card">
+                                        <div class="postagem-user">
+                                            @if($usuario->fotoPerfilUsuario)
+                                                <div class="post-profile-picture">
+                                                    <img src="{{ asset('storage/' . $usuario->fotoPerfilUsuario) }}" alt="Foto de perfil">
+                                                </div>
+                                            @endif
+
+                                            <span>
+                                                {{ $usuario->nomeCompletoUsuario }}
+                                            </span>
                                         </div>
-                                    @endif
-                                </div>
-                            @empty
-                                <p>Nenhuma postagem neste perfil ainda.</p>
-                            @endforelse
+
+                                        <span class="postagem-text">{{ $post->textoPostagem }}</span>
+
+                                        <span class="postagem-localizacao">{{ $post->localizacaoPostagem }}</span>
+
+                                        @if($post->imagens->count() > 0)
+                                            <div class="carousel-container">
+                                                @foreach($post->imagens as $midia)
+                                                    <img 
+                                                    src="{{ asset('storage/' . $midia->caminhoImagem) }}" 
+                                                    class="carousel-item"
+                                                    alt=""
+                                                    >
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            @else
+                                <span>Nenhuma postagem neste perfil ainda.</span>
+                            @endif
                         </div>
 
                         <div id="informacoes-{{ $perfil->id }}" class="sub-tab-content">
-                            <div class="lista-de-estatisticas">
-                                <div class="stat-item">
-                                    <span class="stat-label">Posição Principal</span>
-                                    <span class="stat-value">{{ $perfil->posicao_principal ?? 'N/A' }}</span>
+                            <div class="estatisticas-list">
+                                <div class="estatistica-item">
+                                    <span class="estatistica-label">Posição</span>
+                                    <span class="estatistica-value">{{ $perfil->posicao->nomePosicao }}</span>
                                 </div>
                                 
                                 @if($perfil->caracteristicas)
-                                    @foreach($perfil->caracteristicas as $label => $valor)
-                                        <div class="stat-item">
-                                            <span class="stat-label">{{ $label }}</span>
-                                            <span class="stat-value">{{ $valor }}</span>
+                                    @foreach($perfil->caracteristicas as $caracteristica)
+                                        <div class="estatistica-item">
+                                            <span class="estatistica-label">{{ $caracteristica->caracteristica }}</span>
+                                            
+                                            <span class="estatistica-value">{{ $caracteristica->pivot->valor }}</span>
                                         </div>
                                     @endforeach
                                 @else
-                                    <div class="stat-item">
-                                        <span class="stat-label">Nenhuma característica informada.</span>
+                                    <div class="estatistica-item">
+                                        <span class="estatistica-label">Nenhuma característica informada.</span>
                                     </div>
                                 @endif
                             </div>
@@ -372,6 +354,59 @@
                     </div>
                 </div>
             @endforeach
+        </div>
+    </div>
+
+    <div class="modal-backdrop hidden"></div>
+
+    <div id="listas-modal" class="app-modal hidden">
+        <div class="modal-header">
+            <h2 class="modal-title">Adicionar à lista</h2>
+            <button class="close-modal-btn" data-modal-target="listas-modal">&times;</button>
+        </div>
+
+        <div class="modal-body" id="inscritos-modal-body">
+            <div id="listas-view">
+                
+                <button id="add-lista-btn">
+                    <span>
+                        Criar lista
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-backdrop-second hidden"></div>
+
+    <div id="criar-lista-modal" class="app-modal hidden">
+        <div class="modal-header">
+            <h2 class="modal-title">Adicionar à lista</h2>
+            <button class="close-modal-btn" data-modal-target="criar-lista-modal">&times;</button>
+        </div>
+
+        <form class="modal-body" id="criar-lista-form">
+            <div class="form-group">
+                <label for="criar-lista-form-nome">Nome</label>
+
+                <input type="text" name="nome" id="criar-lista-form-nome">
+            </div>
+
+            <div class="form-group">
+                <label for="criar-lista-form-descricao">Descrição</label>
+
+                <textarea type="text" name="descricao" id="criar-lista-form-descricao"></textarea>
+            </div>
+        </form>
+
+        <div class="modal-footer">
+            <button id="criar-lista-cancelar-btn">
+                <span>Cancelar</span>
+            </button>
+
+            <button id="criar-lista-salvar-btn">
+                <span>Salvar</span>
+            </button>
         </div>
     </div>
 

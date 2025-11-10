@@ -100,6 +100,16 @@ Route::prefix('clube')->group(function () {
     Route::post('/login', [AuthClubeController::class, 'login']);
 
     Route::middleware('auth:club_sanctum,adm_sanctum')->group(function () {
+        Route::post('/listas', [ListaClubeController::class, 'store']);       // criar nova lista
+        Route::put('/listas/{id}', [ListaClubeController::class, 'update']);        // editar lista
+        Route::delete('/listas/{id}', [ListaClubeController::class, 'destroy']);     // deletar lista
+        Route::post('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário | e Desse ? --Bruno
+        Route::delete('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
+        Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                   // ver lista (com usuários)
+        Route::post('/listas/{listaId}/usuarios', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário | Qual o caralho da diff desse --Bruno
+        Route::delete('/listas/{listaId}/usuarios', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
+        Route::get('/listas', [ListaClubeController::class, 'index']);               // listar todas as listas
+
         // Rotas de clubes protegidas
         Route::put('/{id}', [ClubeController::class, 'update']);
         Route::get('/{id}', [ClubeController::class, 'show']);
@@ -138,15 +148,6 @@ Route::prefix('clube')->group(function () {
         Route::put('/posicao/{id}', [AdmController::class, 'updatePosicao']);
         Route::delete('/posicao/{id}', [AdmController::class, 'destroyPosicao']);
         //--------------------------------------------------------------------------
-        Route::post('/listas/{listaId}/usuarios', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário | Qual o caralho da diff desse --Bruno
-        Route::delete('/listas/{listaId}/usuarios', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
-        Route::get('/listas', [ListaClubeController::class, 'index']);               // listar todas as listas
-        Route::post('/listas', [ListaClubeController::class, 'store']);          // criar nova lista
-        Route::put('/listas/{id}', [ListaClubeController::class, 'update']);        // editar lista
-        Route::delete('/listas/{id}', [ListaClubeController::class, 'destroy']);     // deletar lista
-        Route::post('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário | e Desse ? --Bruno
-        Route::delete('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
-        Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                   // ver lista (com usuários)
 
         Route::get('/search-usuarios', [SearchUsuarioController::class, 'index']);
 

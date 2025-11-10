@@ -30,12 +30,16 @@ class Perfil extends Model
         return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 
+    public function posicao()
+    {
+        return $this->belongsTo(Posicao::class, 'posicao_id');
+    }
+
     public function posicoes()
     {
         return $this->belongsToMany(Posicao::class)
             ->withPivot('perfil_id', 'posicao_id');
     }
-
 
     public function esporte()
     {
@@ -46,5 +50,11 @@ class Perfil extends Model
     {
         return $this->belongsToMany(Caracteristica::class, 'perfil_caracteristicas')
             ->withPivot('valor');
+    }
+
+    public function postagens()
+    {
+        return $this->hasMany(Postagem::class, 'idUsuario', 'usuario_id')
+            ->where('postagens.esporte_id', $this->esporte_id);
     }
 }

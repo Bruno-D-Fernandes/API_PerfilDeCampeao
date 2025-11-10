@@ -33,6 +33,8 @@ Route::get('/clube/cadastro', function () {
 
 Route::get('/clubes/{id}', [ClubeController::class, 'showProfilePage'])->name('clube-perfil');
 
+Route::get('/usuarios/{id}', [UserController::class, 'showProfilePage'])->name('clube-usuarios');
+
 Route::get('/admin/esportes', [AdmController::class, 'ListarEsportesWeb'])->name('admin-esportes');
 
 Route::get('/admin/funcoes', [FuncaoController::class, 'showWebPage'])->name('admin-funcoes');

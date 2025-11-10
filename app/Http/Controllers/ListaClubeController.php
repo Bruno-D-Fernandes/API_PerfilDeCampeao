@@ -7,6 +7,7 @@ use App\Models\Lista;
 use App\Models\Clube;
 use App\Models\Usuario;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Auth;
 
 class ListaClubeController extends Controller
 {
@@ -15,6 +16,26 @@ class ListaClubeController extends Controller
         $listas = Lista::with('clube', 'usuarios')->get();
 
         return view('admin.listas')->with(['listas' => $listas]);
+    }
+
+    public function index()
+    {
+        try {
+            $clube = Auth::guard('club_sanctum')->user();
+
+            if (!$clube) {
+                return response()->json(['message' => 'Clube não autenticado'], 401);
+            }
+
+            $listas = $clube->listas->load('usuarios'); 
+
+            return response()->json($listas, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao buscar listas',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     // POST /api/clube/listas
