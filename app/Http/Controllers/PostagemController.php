@@ -31,7 +31,7 @@ class PostagemController extends Controller
 
             $validatedData = $request->validate([
                 'textoPostagem' => 'required|string|max:255',
-                'esporte_id' => 'required|integer|exists:esportes,id',
+                'esporte_id' => 'required|exists:esportes,id',
                 'localizacaoPostagem' => 'nullable|string',
                 'imagem' => 'nullable|image|max:2048',
             ]);
