@@ -15,8 +15,8 @@ body{
     position:fixed;
     left: 250px;
     top:12%;
-    height:50vh;
-    width: 30vh;      
+    height:70vh;
+    width: 30vh;             
     border-radius: 10px;
     background:#fff;
     transition:width .3s ease;
@@ -475,26 +475,5 @@ p{
     color: #1e4067c7;
     font-weight: 200;
 }
-.navConfig ul li a {
-  display: flex;
-    margin-left: auto;
-  gap: 10px; /* espaçamento entre o ícone e o texto */
-  padding: 10px 15px;
-  color: #8c8c8c;
-  font-weight: 650;
-  text-decoration: none;
-  border-radius: 10px;
-  transition: background 0.2s, color 0.2s;
-}
 
-.navConfig ul li a:hover {
-  background-color: #79B8FF;
-  color: #fff;
-}
 
-.navConfig ul li i {
-  font-size: 22px;
-  color: #1E4067;
-  min-width: 25px; /* garante que todos os ícones ocupem o mesmo espaço */
-  text-align: center;
-}

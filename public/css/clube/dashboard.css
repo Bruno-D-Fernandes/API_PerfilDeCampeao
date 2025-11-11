@@ -1,0 +1,160 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  background-color: #9aa9bb51;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+.dashContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: absolute;
+  left: 12%;
+  top: 5%;
+}
+
+.cards {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  margin-top: 10%;
+}
+
+.cardOport{
+    background: #fff;
+    width: 350px;
+    height: 100px;
+  border:   1px solid #d3d3d3;
+  border-radius: 6px;
+  padding: 15px;
+  border: 0;
+}
+.cardCamp {
+  background: #fff;
+  border: 1px solid #d3d3d3;
+  border-radius: 6px;
+  padding: 15px;
+  width: 350px;
+    height: 100px;
+  border: 0;
+}
+
+.cardSug {
+  background: #fff;
+  border: 1px solid #d3d3d3;
+  border-radius: 6px;
+  padding: 15px;
+  width: 200px;
+    height: 400px;
+  height: 280px; 
+  display: flex;
+  flex-direction: column;
+  border: 0;
+}
+
+.interessados{
+  width: 75%;
+}
+
+.cardInt {
+  background: #fff;
+  border: 1px solid #d3d3d3;
+  border-radius: 6px;
+  padding: 15px;
+  width: 710px;
+    height: 200px;
+    position: absolute;
+    top: 53%;
+  border: 0;
+}
+.recentes{
+  width: 100%;
+}
+
+.cardAtiv {
+  background: #fff;
+  position: absolute;
+  top: 108%;
+  border-radius: 6px;
+  padding: 15px;
+  width: 100%;
+  border: 0;
+}
+
+.cardAtiv table {
+  width: 100%;
+  border: 0;
+}
+.cardAtiv table th, .cardAtiv table td {
+    border: 0;
+  padding: 6px;
+  font-size: 14px;
+  font-weight: 300;
+}
+#tipoSugestao{
+    border: #2A683D 2px solid;
+    height: 25px;
+    width: 8%;
+    position: absolute;
+    left: 90%;
+    border-radius: 10px;
+}
+#VerMaisSugestoes{
+    border: 2px;
+    background-color: #fff;
+    color: #727272;
+    font-weight: 600;
+    margin-top: 90%;
+    margin-left: 30%;
+}
+.iconOportu{
+  position: fixed;
+  top: 30%;
+  left: 25%;
+  height: 50px;
+}
+.iconAbrirOportu{
+  cursor: pointer;
+  position: fixed;
+  top: 22%;
+  left: 25%;
+  height: 35px;
+}
+.iconCampe{
+   position: fixed;
+  top: 30%;
+  left: 50%;
+  height: 50px;
+}
+.iconAbrirLista{
+  cursor: pointer;
+  position: fixed;
+  top: 22%;
+  left: 51%;
+  height: 35px;
+}
+/*tags*/
+
+h1{
+    color: #2A683D;
+    position: fixed;
+    top: 5%;
+    left: 12%;
+}
+h3{
+    color: #2A683D;
+}
+h4{
+    font-weight: 400;
+}
+h5{
+    font-weight: 500;
+}
