@@ -410,10 +410,10 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/clube/usuarios/dom-elements.js') }}"></script>
-    <script src="{{ asset('js/clube/usuarios/utils.js') }}"></script>
-    <script src="{{ asset('js/clube/usuarios/modals.js') }}"></script>
-    <script src="{{ asset('js/clube/usuarios/api.js') }}"></script>
-    <script src="{{ asset('js/clube/usuarios/events.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/usuarios/dom-elements.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/usuarios/utils.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/usuarios/modals.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/usuarios/api.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/usuarios/events.js') }}"></script>
 </body>
 </html>

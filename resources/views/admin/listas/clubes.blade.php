@@ -10,7 +10,7 @@
             display: none !important;
         }
 
-        .usuarios {
+        .clubes {
             width: 100%;
             height: 100%;
             display: flex;
@@ -18,14 +18,14 @@
             gap: 16px;/
         }
 
-        .usuarios-header {
+        .clubes-header {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .usuario, .list-header {
+        .clube, .list-header {
             width: 100%;
             display: grid;
             gap: 16px;
@@ -42,13 +42,13 @@
             font-size: 16px;
         }
 
-        .usuario > div {
+        .clube > div {
             display: flex;
             align-items: center;
             justify-content: center;
         } 
 
-        .usuario-acoes {
+        .clube-acoes {
             display: flex;
             gap: 16px
         }
@@ -87,7 +87,7 @@
             height: 32px;
         }
 
-        .modal-body, .form-group, #usuario-view {
+        .modal-body, .form-group, #clube-view {
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -150,13 +150,13 @@
     </style>
 </head>
 <body>
-    <div class="usuarios">
-        <div class="usuarios-header">
-            <h1>Usuarios</h1>
+    <div class="clubes" data-storage-url="{{ asset('storage') }}">
+        <div class="clubes-header">
+            <h1>Clubes</h1>
 
-            <button id="usuario-add-btn">
+            <button id="clube-add-btn">
                 <span>
-                    Adicionar usuário
+                    Adicionar clube
                 </span>
             </button>
         </div>
@@ -171,11 +171,11 @@
             </div>
 
             <div class="header-col">
-                <span>Genero</span>
+                <span>CNPJ</span>
             </div>
 
             <div class="header-col">
-                <span>Data de Nascimento</span>
+                <span>Data de Criação</span>
             </div>
             
             <div class="header-col">
@@ -187,44 +187,44 @@
             </div>
         </div>
 
-        @foreach($usuarios as $usuario)
-            <div class="usuario" data-usuario-id="{{ $usuario->id }}">
-                <div class="usuario-nome">
-                    <span>{{ $usuario->nomeCompletoUsuario }}</span>
+        @foreach($clubes as $clube)
+            <div class="clube" data-clube-id="{{ $clube->id }}">
+                <div class="clube-nome">
+                    <span>{{ $clube->nomeClube }}</span>
                 </div>
 
-                <div class="usuario-email">
-                    <span>{{ $usuario->emailUsuario }}</span>
+                <div class="clube-email">
+                    <span>{{ $clube->emailClube }}</span>
                 </div>
 
-                <div class="usuario-genero">
-                    <span>{{ $usuario->generoUsuario ?? 'N/A' }}</span>
+                <div class="clube-cnpj">
+                    <span>{{ $clube->cnpjClube }}</span>
                 </div>
 
-                <div class="usuario-data-nascimento">
-                    <span>{{ \Carbon\Carbon::parse($usuario->dataNascimentoUsuario)
+                <div class="clube-ano">
+                    <span>{{ \Carbon\Carbon::parse($clube->anoCriacaoClube)
                             ->locale('pt_BR')
                             ->translatedFormat('d \d\e F \d\e Y')
                     }}</span>
                 </div>
 
-                <div class="usuario-data">
-                    <span>{{ \Carbon\Carbon::parse($usuario->created_at)
+                <div class="clube-data">
+                    <span>{{ \Carbon\Carbon::parse($clube->created_at)
                             ->locale('pt_BR')
                             ->translatedFormat('d \d\e F')
                     }}</span>
                 </div>
 
-                <div class="usuario-acoes">
-                    <button class="usuario-ver-btn">
+                <div class="clube-acoes">
+                    <button class="clube-ver-btn">
                         <span>Ver</span>
                     </button>
 
-                    <button class="usuario-editar-btn">
+                    <button class="clube-editar-btn">
                         <span>Editar</span>
                     </button>
 
-                    <button class="usuario-excluir-btn">
+                    <button class="clube-excluir-btn">
                         <span>Excluir</span>
                     </button>
                 </div>
@@ -234,108 +234,110 @@
 
     <div class="modal-backdrop hidden"></div>
 
-    <div id="usuario-modal" class="app-modal hidden">
+    <div id="clube-modal" class="app-modal hidden">
         <div class="modal-header">
-            <h2 class="modal-title">Adicionar usuario</h2>
-            <button class="close-modal-btn" data-modal-target="usuario-modal">&times;</button>
+            <h2 class="modal-title">Adicionar clube</h2>
+            <button class="close-modal-btn" data-modal-target="clube-modal">&times;</button>
         </div>
 
-        <form class="modal-body" id="usuario-form">
-            <div id="usuario-view">
+        <form class="modal-body" id="clube-form">
+            <div id="clube-view">
                 <div class="form-group img">
-                    <label for="usuario-form-foto">Foto:</label>
+                    <label for="clube-form-foto">Foto:</label>
 
                     <div class="img-preview foto">
                         <img src="" alt="" class="foto-preview" style="display: none;">
                     </div>
 
-                    <input type="file" name="fotoPerfilUsuario" id="usuario-form-foto" accept="image/*">
+                    <input type="file" name="fotoPerfilClube" id="clube-form-foto" accept="image/*">
                 </div>
 
                 <div class="form-group img">
-                    <label for="usuario-form-banner">Banner:</label>
+                    <label for="clube-form-banner">Banner:</label>
 
                     <div class="img-preview banner">
                         <img src="" alt="" class="banner-preview" style="display: none;">
                     </div>
 
-                    <input type="file" name="fotoBannerUsuario" id="usuario-form-banner" accept="image/*">
+                    <input type="file" name="fotoBannerClube" id="clube-form-banner" accept="image/*">
                 </div>
 
                 <div class="form-group">
-                    <label for="usuario-form-nome">Nome:</label>
+                    <label for="clube-form-nome">Nome:</label>
 
-                    <input type="text" name="nomeCompletoUsuario" id="usuario-form-nome">
+                    <input type="text" name="nomeClube" id="clube-form-nome">
                 </div>
 
                 <div class="form-group">
-                    <label for="usuario-form-email">Email:</label>
+                    <label for="clube-form-email">Email:</label>
 
-                    <input type="text" name="emailUsuario" id="usuario-form-email">
+                    <input type="text" name="emailClube" id="clube-form-email">
                 </div>
 
                 <div class="form-group">
-                    <label for="usuario-form-genero">Gênero:</label>
+                    <label for="clube-form-cnpj">CNPJ:</label>
 
-                    <input type="text" name="generoUsuario" id="usuario-form-genero">
+                    <input type="text" name="cnpjClube" id="clube-form-cnpj">
                 </div>
 
                 <div class="form-group">
-                    <label for="usuario-form-data">Data de Nascimento:</label>
+                    <label for="clube-form-data">Data de Criação:</label>
 
-                    <input type="date" name="dataNascimentoUsuario" id="usuario-form-data">
+                    <input type="date" name="anoCriacaoClube" id="clube-form-data">
                 </div>
 
                 <div class="form-group">
-                    <label for="usuario-form-cidade">Cidade:</label>
+                    <label for="clube-form-endereco">Endereço:</label>
 
-                    <input type="text" name="cidadeUsuario" id="usuario-form-cidade">
+                    <input type="text" name="enderecoClube" id="clube-form-endereco">
                 </div>
 
                 <div class="form-group">
-                    <label for="usuario-form-estado">Estado:</label>
+                    <label for="clube-form-cidade">Cidade:</label>
 
-                    <input type="text" name="estadoUsuario" id="usuario-form-estado">
+                    <input type="text" name="cidadeClube" id="clube-form-cidade">
                 </div>
 
                 <div class="form-group">
-                    <label for="usuario-form-altura">Altura (cm):</label>
+                    <label for="clube-form-estado">Estado:</label>
 
-                    <input type="number" name="alturaCm" id="usuario-form-altura" min="50" max="300">
+                    <input type="text" name="estadoClube" id="clube-form-estado">
                 </div>
 
                 <div class="form-group">
-                    <label for="usuario-form-peso">Peso (kg):</label>
+                    <label for="clube-form-bio">Biografia:</label>
 
-                    <input type="number" name="pesoKg" id="usuario-form-peso" step="0.1" lang="pt-BR" min="20" max="500">
+                    <textarea name="bioClube" id="clube-form-bio"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="usuario-form-pe">Pé dominante:</label>
+                    <label for="clube-form-categoria">Categoria:</label>
 
-                    <select name="peDominante" id="usuario-form-pe">
-                        <option value="Esquerdo">Esquerdo</option>
-                        <option value="Direito">Direito</option>
+                    <select name="categoria_id" id="clube-form-categoria">
+                        @foreach($categorias as $categoria)
+                            <option value="{{ $categoria->id }}">{{ $categoria->nomeCategoria }}</option>
+                        @endforeach
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="usuario-form-mao">Mão dominante:</label>
+                    <label for="clube-form-esporte">Esporte:</label>
 
-                    <select name="maoDominante" id="usuario-form-mao">
-                        <option value="Canhoto">Canhoto</option>
-                        <option value="Destro">Destro</option>
+                    <select name="esporte_id" id="clube-form-esporte">
+                        @foreach($esportes as $esporte)
+                            <option value="{{ $esporte->id }}">{{ $esporte->nomeEsporte }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
         </form>
 
         <div class="modal-footer">
-            <button id="usuario-cancelar-btn">
+            <button id="clube-cancelar-btn">
                 <span>Cancelar</span>
             </button>
 
-            <button id="usuario-salvar-btn">
+            <button id="clube-salvar-btn">
                 <span>Salvar</span>
             </button>
         </div>
@@ -343,7 +345,7 @@
 
     <div id="confirmar-modal" class="app-modal hidden">
         <div class="modal-header">
-            <h2 class="modal-title">Você deseja excluir este usuario?</h3>
+            <h2 class="modal-title">Você deseja excluir este clube?</h3>
         </div>
         
         <div class="modal-body">
@@ -367,10 +369,10 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/admin/usuarios/dom-elements.js') }}"></script>
-    <script src="{{ asset('js/admin/usuarios/utils.js') }}"></script>
-    <script src="{{ asset('js/admin/usuarios/modals.js') }}"></script>
-    <script src="{{ asset('js/admin/usuarios/api.js') }}"></script>
-    <script src="{{ asset('js/admin/usuarios/events.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/clubes/dom-elements.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/clubes/utils.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/clubes/modals.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/clubes/api.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/clubes/events.js') }}"></script>
 </body>
 </html>

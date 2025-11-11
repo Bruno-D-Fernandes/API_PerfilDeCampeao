@@ -416,10 +416,10 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/admin/esportes/dom-elements.js') }}"></script>
-    <script src="{{ asset('js/admin/esportes/utils.js') }}"></script>
-    <script src="{{ asset('js/admin/esportes/modals.js') }}"></script>
-    <script src="{{ asset('js/admin/esportes/api.js') }}"></script>
-    <script src="{{ asset('js/admin/esportes/events.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/esportes/dom-elements.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/esportes/utils.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/esportes/modals.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/esportes/api.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/esportes/events.js') }}"></script>
 </body>
 </html>

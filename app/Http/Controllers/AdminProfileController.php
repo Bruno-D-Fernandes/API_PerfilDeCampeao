@@ -6,9 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Admin;
 
 class AdminProfileController extends Controller
 {
+    public function showProfilePage(Request $request) {
+        $admin = Admin::findOrFail(1);
+
+        return view('admin.perfil')->with(
+            ['admin' => $admin]
+        );
+    }
+
     public function updateIdentidade(Request $request)
     {
         $admin = $request->user();

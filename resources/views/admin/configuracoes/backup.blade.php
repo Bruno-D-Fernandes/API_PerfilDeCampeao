@@ -4,9 +4,11 @@
   <h2>Backups</h2>
 
   <h3>Sistema</h3>
+  
   <button id="btnDumpSql" type="button">Baixar dump (.sql)</button>
 
   <h3>Exportar relatórios (.csv)</h3>
+
   <ul>
     <li><button data-type="usuarios" class="btnCsv" type="button">Usuários</button></li>
     <li><button data-type="clubes" class="btnCsv" type="button">Clubes</button></li>
@@ -18,5 +20,5 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('js/admin/settings/backup.js') }}"></script>
+    <script src="{{ asset('js/admin/configuracoes/backup.js') }}"></script>
 @endsection

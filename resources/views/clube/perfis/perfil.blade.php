@@ -824,10 +824,10 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/clube/perfil/dom-elements.js') }}"></script>
-    <script src="{{ asset('js/clube/perfil/utils.js') }}"></script>
-    <script src="{{ asset('js/clube/perfil/modals.js') }}"></script>
-    <script src="{{ asset('js/clube/perfil/api.js') }}"></script>
-    <script src="{{ asset('js/clube/perfil/events.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/perfil/dom-elements.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/perfil/utils.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/perfil/modals.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/perfil/api.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/perfil/events.js') }}"></script>
 </body>
 </html>

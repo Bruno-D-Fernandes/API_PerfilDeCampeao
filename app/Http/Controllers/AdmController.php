@@ -18,14 +18,6 @@ use Illuminate\Validation\Rule;
 
 class AdmController extends Controller
 {
-    public function showProfilePage(Request $request) {
-        $admin = Admin::findOrFail(1);
-
-        return view('admin.perfil')->with(
-            ['admin' => $admin]
-        );
-    }
-
     public function loginAdm(Request $request)
     {
         try {
@@ -73,13 +65,4 @@ class AdmController extends Controller
             ], 500);
         }
     }
-
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
 }

@@ -10,26 +10,26 @@
             display: none !important;
         }
 
-        .listas {
+        .funcoes {
             width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 16px;/
         }
 
-        .listas-header {
+        .funcoes-header {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .lista, .list-header {
+        .funcao, .list-header {
             width: 100%;
             display: grid;
             gap: 16px;
-            grid-template-columns: 1.5fr 1.5fr 0.5fr 1fr 1fr;
+            grid-template-columns: 2fr 3fr 1fr 1.5fr;
         }
 
         .header-col {
@@ -42,13 +42,13 @@
             font-size: 16px;
         }
 
-        .lista > div {
+        .funcao > div {
             display: flex;
             align-items: center;
             justify-content: center;
         } 
 
-        .lista-acoes {
+        .funcao-acoes {
             display: flex;
             gap: 16px
         }
@@ -64,7 +64,7 @@
         }
 
         .app-modal {
-            width: 600px;
+            width: 420px;
             position: fixed;
             top: 50%;
             left: 50%;
@@ -87,20 +87,11 @@
             height: 32px;
         }
 
-        .modal-body, .form-group, #lista-view {
+        .modal-body, .form-group, #funcao-view {
             width: 100%;
             display: flex;
             flex-direction: column;
             gap: 16px;
-        }
-
-        .form-group label {
-            width: 100%;
-        }
-
-        .modal-body {
-            max-height: 300px;
-            overflow-y: auto;
         }
 
         .modal-footer {
@@ -115,19 +106,18 @@
             width: 50%;
             height: 100%;
         }
-
-        .users-list {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
     </style>
 </head>
 <body>
-    <div class="listas" data-storage-url="{{ asset('storage') }}">
-        <div class="listas-header">
-            <h1>Listas</h1>
+    <div class="funcoes">
+        <div class="funcoes-header">
+            <h1>Funções</h1>
+
+            <button id="funcao-add-btn">
+                <span>
+                    Adicionar função
+                </span>
+            </button>
         </div>
 
         <div class="list-header">
@@ -136,15 +126,11 @@
             </div>
 
             <div class="header-col">
-                <span>Clube</span>
+                <span>Descrição</span>
             </div>
 
             <div class="header-col">
-                <span>Usuários</span>
-            </div>
-
-            <div class="header-col">
-                <span>Data de criação</span>
+                <span>Data de cadastro</span>
             </div>
 
             <div class="header-col">
@@ -152,33 +138,33 @@
             </div>
         </div>
 
-        @foreach($listas as $lista)
-            <div class="lista" data-lista-id="{{ $lista->id }}">
-                <div class="lista-nome">
-                    <span>{{ $lista->nome }}</span>
+        @foreach($funcoes as $funcao)
+            <div class="funcao" data-funcao-id="{{ $funcao->id }}">
+                <div class="funcao-nome">
+                    <span>{{ $funcao->nome }}</span>
                 </div>
 
-                <div class="lista-clube">
-                    <span>{{ $lista->clube->nomeClube }}</span>
+                <div class="funcao-descricao">
+                    <span>{{ $funcao->descricao ?? 'Sem descrição' }}</span>
                 </div>
 
-                <div class="lista-usuarios">
-                    <span>{{ $lista->usuarios->count() }}</span>
+                <div class="funcao-data">
+                    <span>{{ \Carbon\Carbon::parse($funcao->created_at)
+                            ->locale('pt_BR')
+                            ->translatedFormat('d \d\e F')
+                    }}</span>
                 </div>
 
-                <div class="lista-data">
-                    <span>{{ \Carbon\Carbon::parse($lista->created_at)
-                        ->locale('pt_BR')
-                        ->translatedFormat('d \d\e F \d\e Y') }}
-                    </span>
-                </div>
-
-                <div class="lista-acoes">
-                    <button class="lista-ver-btn">
+                <div class="funcao-acoes">
+                    <button class="funcao-ver-btn">
                         <span>Ver</span>
                     </button>
 
-                    <button class="lista-excluir-btn">
+                    <button class="funcao-editar-btn">
+                        <span>Editar</span>
+                    </button>
+
+                    <button class="funcao-excluir-btn">
                         <span>Excluir</span>
                     </button>
                 </div>
@@ -188,42 +174,42 @@
 
     <div class="modal-backdrop hidden"></div>
 
-    <div id="lista-modal" class="app-modal hidden">
+    <div id="funcao-modal" class="app-modal hidden">
         <div class="modal-header">
-            <h2 class="modal-title">Detalhes da lista:</h2>
-            <button class="close-modal-btn" data-modal-target="lista-modal">&times;</button>
+            <h2 class="modal-title">Adicionar função</h2>
+            <button class="close-modal-btn" data-modal-target="funcao-modal">&times;</button>
         </div>
 
-        <div class="modal-body" id="lista-form">
-            <div id="lista-view">
-                <h3>
-                    <!-- Nome da Lista -->
-                </h3>
+        <form class="modal-body" id="funcao-form">
+            <div id="funcao-view">
+                <div class="form-group">
+                    <label for="funcao-form-nome">Nome:</label>
 
-                <span>
-                    Criada por: 
-                </span>
+                    <input type="text" name="nome" id="funcao-form-nome">
+                </div>
 
-                <span>
-                    Descrição: 
-                </span>
+                <div class="form-group">
+                    <label for="funcao-form-descricao">Descrição:</label>
 
-                <div class="users-list">
-                    <span>
-                        Usuários (<!-- Quantidade de usuários  -->)
-                    </span>
-
-                    <div class="users-list-container">
-
-                    </div>
+                    <input type="text" name="descricao" id="funcao-form-descricao">
                 </div>
             </div>
+        </form>
+
+        <div class="modal-footer">
+            <button id="funcao-cancelar-btn">
+                <span>Cancelar</span>
+            </button>
+
+            <button id="funcao-salvar-btn">
+                <span>Salvar</span>
+            </button>
         </div>
     </div>
 
     <div id="confirmar-modal" class="app-modal hidden">
         <div class="modal-header">
-            <h2 class="modal-title">Você deseja excluir esta lista?</h3>
+            <h2 class="modal-title">Você deseja excluir esta função?</h3>
         </div>
         
         <div class="modal-body">
@@ -247,10 +233,10 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/admin/listas/dom-elements.js') }}"></script>
-    <script src="{{ asset('js/admin/listas/utils.js') }}"></script>
-    <script src="{{ asset('js/admin/listas/modals.js') }}"></script>
-    <script src="{{ asset('js/admin/listas/api.js') }}"></script>
-    <script src="{{ asset('js/admin/listas/events.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/funcoes/dom-elements.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/funcoes/utils.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/funcoes/modals.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/funcoes/api.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/funcoes/events.js') }}"></script>
 </body>
 </html>

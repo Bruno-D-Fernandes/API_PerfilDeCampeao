@@ -423,10 +423,10 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/admin/perfil/dom-elements.js') }}"></script>
-    <script src="{{ asset('js/admin/perfil/utils.js') }}"></script>
-    <script src="{{ asset('js/admin/perfil/modals.js') }}"></script>
-    <script src="{{ asset('js/admin/perfil/api.js') }}"></script>
-    <script src="{{ asset('js/admin/perfil/events.js') }}"></script>
+    <script src="{{ asset('js/admin/configuracoes/perfil/dom-elements.js') }}"></script>
+    <script src="{{ asset('js/admin/configuracoes/perfil/utils.js') }}"></script>
+    <script src="{{ asset('js/admin/configuracoes/perfil/modals.js') }}"></script>
+    <script src="{{ asset('js/admin/configuracoes/perfil/api.js') }}"></script>
+    <script src="{{ asset('js/admin/configuracoes/perfil/events.js') }}"></script>
 </body>
 </html>

@@ -9,25 +9,36 @@
 <body>
     <form id="formOportunidades">
         @csrf
+
         <label>Descrição</label>
+        
         <input type="text" name="descricaoOportunidades" id="descricaoOportunidades" required>
+
         <br>
+
         <select name="esporte_id" id="esporte_id" required>
-             <option value="">Selecione o esporte...</option>
-           
+            <option value="">Selecione o esporte...</option>
         </select>
+
         <br>
         <select name="posicoes_id" id="posicoes_id" required>
             <option value="">Selecione a Posição...</option>
-           
         </select>
+
         <br>
+
         <input type="number" name="idadeMinima" required>
+
         <br>
+
         <input type="number" name="idadeMaxima" required>
+
         <br>
+        
         <input type="text" name="cepOportunidade" id="cep" maxlength="9" onblur="buscaCep()" required>
+
         <br>
+
         <select name="estadoOportunidade" id="estadoOportunidade" required>
             <option value="AC">Acre</option>
             <option value="AL">Alagoas</option>
@@ -57,19 +68,24 @@
             <option value="SE">Sergipe</option>
             <option value="TO">Tocantins</option>
         </select>
+
         <br>
+
         <input type="text" name="cidadeOportunidade" id="cidadeOportunidade" required>
+
         <br>
+
         <input type="text" name="enderecoOportunidade" id="enderecoOportunidade" required>
+
         <br>
+
         <button type="submit">Enviar</button>
     </form>
 
-    
-    <script src="{{ asset('js/clube/oportunidade/utils.js') }}"></script>
-    <script src="{{ asset('js/clube/oportunidade/modals.js') }}"></script>
-    <script src="{{ asset('js/clube/oportunidade/dom-elements.js') }}"></script>
-    <script src="{{ asset('js/clube/oportunidade/api.js') }}"></script>
-    <script src="{{ asset('js/clube/oportunidade/events.js') }}"></script>
+    <script src="{{ asset('js/clube/oportunidades/utils.js') }}"></script>
+    <script src="{{ asset('js/clube/oportunidades/modals.js') }}"></script>
+    <script src="{{ asset('js/clube/oportunidades/dom-elements.js') }}"></script>
+    <script src="{{ asset('js/clube/oportunidades/api.js') }}"></script>
+    <script src="{{ asset('js/clube/oportunidades/events.js') }}"></script>
 </body>
 </html>
