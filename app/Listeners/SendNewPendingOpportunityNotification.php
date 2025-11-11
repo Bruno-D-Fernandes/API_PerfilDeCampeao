@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Models\Admin;
 use App\Events\NewPendingOpportunityEvent;
 use App\Notifications\NewPendingOpportunityNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;

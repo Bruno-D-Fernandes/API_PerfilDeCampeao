@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Events\ApplicationStatusChangedEvent;
-use App\Notifications\ApplicationStatusNotification;
+use App\Events\ApplicationStatusChangeEvent;
+use App\Notifications\ApplicationStatusChangeNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -14,11 +14,11 @@ class SendApplicationStatusChangeNotification implements ShouldQueue
         //
     }
 
-    public function handle(ApplicationStatusChangedEvent $event): void
+    public function handle(ApplicationStatusChangeEvent $event): void
     {
         $applicant = $event->applicant;
         
-        $applicant->notify(new ApplicationStatusNotification(
+        $applicant->notify(new ApplicationStatusChangeNotification(
             $event->applicant, 
             $event->opportunity, 
             $event->club, 
