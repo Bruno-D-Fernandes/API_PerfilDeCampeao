@@ -17,7 +17,7 @@
         <input type="text" name="emailClube" id="clube-email">
 
         <label for="clube-ano-criacao">Ano de Criação:</label>
-        <input type="text" name="anoCriacaoClube" id="clube-ano-criacao">
+        <input type="date" name="anoCriacaoClube" id="clube-ano-criacao">
 
         <label for="clube-categoria">Categoria:</label>
         <select name="categoria_id" id="clube-categoria">

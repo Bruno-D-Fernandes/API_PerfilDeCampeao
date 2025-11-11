@@ -1,4 +1,4 @@
-const BEARER = '1|Dn3AS0SXoB6KWLILEAHdjM6rLYm5H4inZGcQzH0cb8b6de69';
+const BEARER = localStorage.getItem('adm_token');
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 const oportunidadesContainer = document.querySelector('.oportunidades');

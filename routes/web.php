@@ -8,6 +8,7 @@ use App\Http\Controllers\ListaClubeController;
 use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminSistemaController;
+use App\Http\Controllers\EsporteController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Categoria;
 use App\Models\Esporte;
@@ -38,7 +39,7 @@ Route::prefix('clube')->group(function () {
         return view('clube.dashboard');
     })->name('clube-dashboard');
 
-    Route::get('/configuracao', function () {
+    Route::get('/configuracoes', function () {
         return view('clube.configuracoes.configuracoes'); 
     })->name('clube-configuracoes');
 
@@ -84,7 +85,7 @@ Route::prefix('admin')->group(function () {
         })->name('admin-config-tema');
     });
 
-    Route::get('/esportes', [AdminSistemaController::class, 'ListarEsportesWeb'])->name('admin-esportes'); 
+    Route::get('/esportes', [EsporteController::class, 'showWebPage'])->name('admin-esportes'); 
 
     Route::get('/funcoes', [FuncaoController::class, 'showWebPage'])->name('admin-funcoes');
 
@@ -99,4 +100,4 @@ Route::prefix('admin')->group(function () {
     Route::get('/perfil', [AdminProfileController::class, 'showProfilePage'])->name('admin-perfil');
 });
 
-Route::get('/usuarios/{id}', [UserController::class, 'showProfilePage'])->name('usuarios');
+Route::get('/usuario/{id}', [UserController::class, 'showProfilePage'])->name('usuarios');

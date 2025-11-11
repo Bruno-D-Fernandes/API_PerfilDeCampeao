@@ -9,7 +9,7 @@ async function savePerfil() {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },

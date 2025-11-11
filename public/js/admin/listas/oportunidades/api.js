@@ -4,7 +4,7 @@ async function fetchOportunidadeDetails(oportunidadeId) {
 
         const response = await fetch(url, {
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -54,7 +54,7 @@ async function approveOportunidade(oportunidadeId) {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },
@@ -98,7 +98,7 @@ async function rejectOportunidade(oportunidadeId) {
         const response = await fetch(url, {
             method: 'POST', 
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },

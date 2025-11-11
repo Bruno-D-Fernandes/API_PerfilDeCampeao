@@ -42,6 +42,7 @@ class ListaClubeController extends Controller
     public function store(Request $request)
     {
         $clube = $request->user();
+
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Apenas clube autenticado'], 403);
         }
@@ -69,6 +70,7 @@ class ListaClubeController extends Controller
     public function addUsuarioToLista(Request $request, $listaId, Usuario $usuario)
     {
         $clube = $request->user();
+
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Apenas clube autenticado'], 403);
         }
@@ -85,6 +87,7 @@ class ListaClubeController extends Controller
     public function removeUsuarioFromLista(Request $request, $listaId, Usuario $usuario)
     {
         $clube = $request->user();
+        
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Apenas clube autenticado'], 403);
         }

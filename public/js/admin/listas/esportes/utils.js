@@ -1,7 +1,15 @@
 function formatarDataPortugues(dataString) {
-    const data = new Date(dataString);
-    const dia = data.getDate().toString().padStart(2, '0');
-    const mes = data.toLocaleString('pt-BR', { month: 'long' });
+    let data;
+
+    if (!dataString) {
+        data = new Date();
+    } else {
+        data = new Date(dataString);
+    }
+
+    const dia = data.getUTCDate().toString().padStart(2, '0');
+    const mes = data.toLocaleString('pt-BR', { month: 'long', timeZone: 'UTC' });
+
     return `${dia} de ${mes}`;
 }
 

@@ -8,6 +8,7 @@ use App\Models\Oportunidade;
 use App\Models\Usuario;
 use App\Models\Clube;
 use App\Models\Categoria;
+use App\Models\Caracteristica;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Models\Esporte;
@@ -17,7 +18,14 @@ use Illuminate\Validation\Rule;
 
 class AdminSistemaController extends Controller
 {
-public function ListarEsportes()
+    public function showEsporte(Request $request, $id)
+    {
+        $esporte = Esporte::with('posicoes', 'caracteristicas')->findOrFail($id);
+
+        return response()->json($esporte, 200);
+    }
+
+    public function ListarEsportes()
     {
         try {
             $esportes = Esporte::all();
@@ -28,6 +36,13 @@ public function ListarEsportes()
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function showPosicoesByEsporte(Request $request, $id)
+    {
+        $esporte = Esporte::findOrFail($id);
+
+        return response()->json(esporte->posicoes(), 200);
     }
 
     /**
@@ -45,6 +60,7 @@ public function ListarEsportes()
         ]);
         return response()->json($esporte, 201);
     }
+
     public function CategoriaStore(Request $request)
     {
         $ValidatedData = $request->validate([
@@ -57,6 +73,7 @@ public function ListarEsportes()
         ]);
         return response()->json($categoria, 201);
     }
+
     public function listarCategorias()
     {
         try {
@@ -69,6 +86,7 @@ public function ListarEsportes()
             ], 500);
         }
     }
+
     public function CategoriaUpdate(string $id)
     {
         $categoria = Categoria::find($id);
@@ -82,6 +100,7 @@ public function ListarEsportes()
         $categoria->update($ValidatedData);
         return response()->json($categoria, 200);
     }
+
     public function CategoriaDestroy(string $id)
     {
         $categoria = Categoria::find($id);
@@ -98,15 +117,19 @@ public function ListarEsportes()
     public function EsporteUpdate(string $id)
     {
         $esporte = Esporte::find($id);
+
         if (!$esporte) {
             return response()->json(['message' => 'Esporte não encontrado'], 404);
         }
+
         $ValidatedData = request()->validate([
             'nomeEsporte' => 'sometimes|required|string|max:255',
             'descricaoEsporte' => 'sometimes|nullable|string',
         ]);
+
         $esporte->update($ValidatedData);
-        return response()->json($esporte, 200);
+        
+        return response()->json($esporte->fresh()->load('caracteristicas', 'posicoes'), 200);
     }
 
     /**
@@ -168,6 +191,7 @@ public function ListarEsportes()
         $usuario->delete();
         return response()->json(['message' => 'Usuário deletado com sucesso'], 200);
     }
+
     public function ClubeDestroy(string $id)
     {
         $clube = Clube::find($id);
@@ -177,6 +201,7 @@ public function ListarEsportes()
         $clube->delete();
         return response()->json(['message' => 'Clube deletado com sucesso'], 200);
     }
+
     public function OportunidadeDestroy(string $id){
         $oportunidade = Oportunidade::find($id);
         if (!$oportunidade instanceof Oportunidade) {
@@ -225,6 +250,7 @@ public function ListarEsportes()
         
         return response()->json($oportunidades, 200);
     }
+
     public function aproved(Request $request, $id){
         $admin = $request->user();
         if (!$admin || !($admin instanceof Admin)) {
@@ -275,5 +301,49 @@ public function ListarEsportes()
 
         return response()->json(['message' => 'Oportunidade rejeitada'], 200);
     }
-}
 
+    public function listarCaracteristicasId($id)
+    {
+        try {
+            $caracteristica = Caracteristica::findOrFail($id);
+            return response()->json($caracteristica, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao listar caracteristicas',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function storeCaracteristica(Request $request)
+    {
+        $data = $request->validate([
+            'caracteristica' => 'required|string|max:255',
+            'esporte_id'   => 'required|exists:esportes,id',
+            'unidade_medida' => 'required|string|max:255',
+        ]);
+        $caracteristica = Caracteristica::create($data);
+        return response()->json($caracteristica, 201);
+    }
+
+    public function updateCaracteristica(Request $request, $id)
+    {
+        $caracteristica = Caracteristica::findOrFail($id);
+
+        $data = $request->validate([
+            'caracteristica' => 'sometimes|string|max:255',
+            'esporte_id'   => 'sometimes|exists:esportes,id',
+            'unidade_medida' => 'sometimes|string|max:255',
+        ]);
+
+        $caracteristica->update($data);
+        return response()->json($caracteristica);
+    }
+
+    public function destroyCaracteristica($id)
+    {
+        $caracteristica = Caracteristica::findOrFail($id);
+        $caracteristica->delete();
+        return response()->json(['ok' => true]);
+    }
+}

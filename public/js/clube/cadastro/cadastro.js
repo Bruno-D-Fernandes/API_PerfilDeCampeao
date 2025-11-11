@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             if (!data.error && !data.errors) {
                 alert('deu certo');
-                localStorage.setItem('club_token', data.access_token);
+                localStorage.setItem('clube_token', data.access_token);
             }
         })
         .catch(e => {

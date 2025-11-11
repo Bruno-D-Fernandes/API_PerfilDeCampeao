@@ -92,74 +92,79 @@ Route::prefix('usuario')->group(function () {
 // Postagem pública (index, show)
 Route::get('/postagem', [PostagemController::class, 'index']);
 Route::get('/postagem/{id}', [PostagemController::class, 'show']);
-Route::get('/esporte', [AdmController::class, 'ListarEsportes']);
-Route::get('/esporte/{id}/posicoes/', [AdmController::class, 'showPosicoesByEsporte']);
 
 //Clube
 Route::prefix('clube')->group(function () {
     Route::post('/register', [ClubeController::class, 'store']);
     Route::post('/login', [AuthClubeController::class, 'login']);
-    Route::get('/perfil', [AuthClubeController::class, 'perfil']);
-    Route::post('/logout', [AuthClubeController::class, 'logout']);
 
-    Route::get('/jogadores', [SearchUsuarioController::class, 'index']); // Rota para buscar jogadores
+    Route::middleware('auth:club_sanctum,adm_sanctum')->group(function () {
+        Route::get('/perfil', [AuthClubeController::class, 'perfil']);
+        Route::post('/logout', [AuthClubeController::class, 'logout']);
 
-    Route::get('/minhasOportunidades', [InscricaoOportunidadeController::class, 'myOportunidadesClube']);
-    Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
-    Route::post('/oportunidade', [OportunidadeController::class, 'store']);
-    Route::put('/oportunidade/{id}', [OportunidadeController::class, 'update']);
-    Route::delete('/oportunidade/{id}', [OportunidadeController::class, 'destroy']);
+        Route::get('/jogadores', [SearchUsuarioController::class, 'index']); // Rota para buscar jogadores
 
-    Route::get('/oportunidades', [OportunidadeController::class, 'index']); //Tem que retirar essa rota esta mostrando todos 
+        Route::get('/listas', [ListaClubeController::class, 'index']);               // listar todas as listas
+        Route::post('/listas', [ListaClubeController::class, 'store']);
+        Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                   // ver lista (com usuários)
+        Route::put('/listas/{id}', [ListaClubeController::class, 'update']);        // editar lista
+        Route::delete('/listas/{id}', [ListaClubeController::class, 'destroy']);     // deletar lista
+        Route::post('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário | e Desse ? --Bruno
+        Route::delete('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
 
-    // Rotas de inscrições em oportunidades
-    Route::get('/oportunidade/{id}/inscritos', [InscricaoOportunidadeController::class, 'inscritosClube']);
-    Route::post('/oportunidade/{id}/inscricoes/{usuarioId}/remover', [InscricaoOportunidadeController::class, 'remover']);
-    Route::post('/oportunidade/{id}/inscricoes/{usuarioId}/aceitar', [InscricaoOportunidadeController::class, 'aceitar']);
+        Route::get('/minhasOportunidades', [InscricaoOportunidadeController::class, 'myOportunidadesClube']);
+        Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
+        Route::post('/oportunidade', [OportunidadeController::class, 'store']);
+        Route::put('/oportunidade/{id}', [OportunidadeController::class, 'update']);
+        Route::delete('/oportunidade/{id}', [OportunidadeController::class, 'destroy']);
 
-    // Rotas de notificações
-    Route::get('/notificacoes', [NotificacoesController::class, 'index']);
-    Route::post('notificacao/{id}/ler', [NotificacoesController::class, 'markAsRead']);
-    Route::post('notificacoes/ler', [NotificacoesController::class, 'markAllAsRead']);
+        Route::get('/oportunidades', [OportunidadeController::class, 'index']); //Tem que retirar essa rota esta mostrando todos 
 
-    // Listas do Clube
-    //adicionado por enquanto porque é o unico jeito de puxar as posiçoes e os esportes
-    Route::post('/esporte', [AdminSistemaController::class, 'Esportestore']);
-    Route::put('/esporte/{id}', [AdminSistemaController::class, 'Esporteupdate']);
-    Route::delete('/esporte/{id}', [AdminSistemaController::class, 'Esportedestroy']);
-    Route::get('/esporte', [AdminSistemaController::class, 'ListarEsportes']);
-    //-------------------------------------------------------------------
-        Route::get('/posicao', [AdminSistemaController::class, 'listarPosicoes']);
-    Route::post('/posicao', [AdminSistemaController::class, 'storePosicao']);      
-    Route::put('/posicao/{id}', [AdminSistemaController::class, 'updatePosicao']);
-    Route::delete('/posicao/{id}', [AdminSistemaController::class, 'destroyPosicao']);
-    //--------------------------------------------------------------------------
-    Route::post('/listas/{listaId}/usuarios', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário | Qual o caralho da diff desse --Bruno
-    Route::delete('/listas/{listaId}/usuarios', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
-    Route::get('/listas', [ListaClubeController::class, 'index']);               // listar todas as listas
-    Route::post('/listas', [ListaClubeController::class, 'store']);          // criar nova lista
-    Route::put('/listas/{id}', [ListaClubeController::class, 'update']);        // editar lista
-    Route::delete('/listas/{id}', [ListaClubeController::class, 'destroy']);     // deletar lista
-    Route::post('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário | e Desse ? --Bruno
-    Route::delete('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
-    Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                   // ver lista (com usuários)
+        // Rotas de inscrições em oportunidades
+        Route::get('/oportunidade/{id}/inscritos', [InscricaoOportunidadeController::class, 'inscritosClube']);
+        Route::post('/oportunidade/{id}/inscricoes/{usuarioId}/remover', [InscricaoOportunidadeController::class, 'remover']);
+        Route::post('/oportunidade/{id}/inscricoes/{usuarioId}/aceitar', [InscricaoOportunidadeController::class, 'aceitar']);
 
-    Route::get('/search-usuarios', [SearchUsuarioController::class, 'index']);
+        // Rotas de notificações
+        Route::get('/notificacoes', [NotificacoesController::class, 'index']);
+        Route::post('notificacao/{id}/ler', [NotificacoesController::class, 'markAsRead']);
+        Route::post('notificacoes/ler', [NotificacoesController::class, 'markAllAsRead']);
 
-    Route::get('/{clubeId}/membros', [MembroClubeController::class, 'listarMembros']);
-    Route::post('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'adicionarMembro']);
-    Route::delete('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'removerMembro']);
-    // Fim Listas do Clube
+        // Listas do Clube
+        //adicionado por enquanto porque é o unico jeito de puxar as posiçoes e os esportes
+        Route::post('/esporte', [AdminSistemaController::class, 'Esportestore']);
+        Route::put('/esporte/{id}', [AdminSistemaController::class, 'Esporteupdate']);
+        Route::delete('/esporte/{id}', [AdminSistemaController::class, 'Esportedestroy']);
+        Route::get('/esporte', [AdminSistemaController::class, 'ListarEsportes']);
+        //-------------------------------------------------------------------
+            Route::get('/posicao', [AdminSistemaController::class, 'listarPosicoes']);
+        Route::post('/posicao', [AdminSistemaController::class, 'storePosicao']);      
+        Route::put('/posicao/{id}', [AdminSistemaController::class, 'updatePosicao']);
+        Route::delete('/posicao/{id}', [AdminSistemaController::class, 'destroyPosicao']);
+        //-------------------------------------------------------------------------
 
-    // Rotas para o clube gerenciar sua conta
-    Route::put('/update', [AuthClubeController::class, 'updateAccount']);
-    Route::delete('/delete', [AuthClubeController::class, 'deleteAccount']);
-});
+        Route::get('/search-usuarios', [SearchUsuarioController::class, 'index']);
 
-Route::middleware('auth:sanctum')->group(function () {
-    // Seguir e deixar de seguir clube protegidos
-    Route::post('/{id}/seguir', [SeguidorController::class, 'seguirClube']);
-    Route::post('/{id}/deixar-de-seguir', [SeguidorController::class, 'deixarDeSeguirClube']);
+        Route::get('/{clubeId}/membros', [MembroClubeController::class, 'listarMembros']);
+        Route::post('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'adicionarMembro']);
+        Route::delete('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'removerMembro']);
+        // Fim Listas do Clube
+
+        // Rotas para o clube gerenciar sua conta
+        Route::put('/update', [AuthClubeController::class, 'updateAccount']);
+        Route::delete('/delete', [AuthClubeController::class, 'deleteAccount']);
+
+        Route::put('/{id}', [ClubeController::class, 'update']);
+        Route::get('/{id}', [ClubeController::class, 'show']);
+        Route::delete('/{id}', [ClubeController::class, 'destroy']);
+    });
+
+    /*  Route::middleware('auth:sanctum')->group(function () {
+            // Seguir e deixar de seguir clube protegidos
+            Route::post('/{id}/seguir', [SeguidorController::class, 'seguirClube']);
+            Route::post('/{id}/deixar-de-seguir', [SeguidorController::class, 'deixarDeSeguirClube']);
+        }); 
+    */
 });
 
 //Admin
@@ -186,6 +191,9 @@ Route::prefix('admin')->group(function () {
         Route::post('/oportunidades/{id}/aprovar', [AdminSistemaController::class, 'aproved']);
         Route::post('/oportunidades/{id}/recusar', [AdminSistemaController::class, 'reject']);
 
+        Route::delete('/listas/{id}', [ListaClubeController::class, 'destroy']);
+        Route::get('/listas/{id}', [ListaClubeController::class, 'show']);
+
         // Rotas de gerenciamento
         Route::put('/clube/{id}', [AdminSistemaController::class, 'clubeUpdate']);
         Route::put('/usuario/{id}', [AdminSistemaController::class, 'usuarioUpdate']);
@@ -207,10 +215,20 @@ Route::prefix('admin')->group(function () {
         Route::put('/posicao/{id}', [AdminSistemaController::class, 'updatePosicao']);    // Antes era Posicaoupdate
         Route::delete('/posicao/{id}', [AdminSistemaController::class, 'destroyPosicao']); // Antes era Posicaodestroy
         
-        Route::post('/funcao', [AdminSistemaController::class, 'storeFuncao']);
-        Route::put('/funcao/{id}', [AdminSistemaController::class, 'updateFuncao']);
-        Route::delete('/funcao/{id}', [AdminSistemaController::class, 'destroyFuncao']);
-        Route::get('/funcao', [AdminSistemaController::class, 'listarFuncoes']);
+        Route::post('/funcao', [FuncaoController::class, 'store']);
+        Route::put('/funcao/{id}', [FuncaoController::class, 'update']);
+        Route::delete('/funcao/{id}', [FuncaoController::class, 'destroy']);
+        Route::get('/funcao', [FuncaoController::class, 'index']);
+        Route::get('/funcao/{id}', [FuncaoController::class, 'show']);
+
+        Route::get('/esporte', [AdminSistemaController::class, 'ListarEsportes']);
+        Route::get('/esporte/{id}', [AdminSistemaController::class, 'showEsporte']);
+        Route::get('/esporte/{id}/posicoes/', [AdminSistemaController::class, 'showPosicoesByEsporte']);
+
+        Route::get('/caracteristica/{id}', [AdminSistemaController::class, 'listarCaracteristicasId']);
+        Route::post('/caracteristica', [AdminSistemaController::class, 'storeCaracteristica']);
+        Route::put('/caracteristica/{id}', [AdminSistemaController::class, 'updateCaracteristica']);
+        Route::delete('/caracteristica/{id}', [AdminSistemaController::class, 'destroyCaracteristica']);
     });
 });
 

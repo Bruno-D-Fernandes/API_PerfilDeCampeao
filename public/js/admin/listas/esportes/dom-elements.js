@@ -1,4 +1,4 @@
-const BEARER = '1|pSOxCW5ysiVstdZSmVDcGpNA1gvJTRiT9CDGPODV6a280c75';
+const BEARER = localStorage.getItem('adm_token');
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 const esportes = document.querySelector('.esportes');

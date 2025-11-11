@@ -7,7 +7,7 @@ async function saveNovaLista() {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },
@@ -47,7 +47,7 @@ async function fetchListasDoClube() {
 
         const response = await fetch(url, {
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -93,7 +93,7 @@ async function toggleUsuarioNaLista(listaId, adicionar = true) {
         const response = await fetch(url, {
             method: adicionar ? 'POST' : 'DELETE', 
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             }

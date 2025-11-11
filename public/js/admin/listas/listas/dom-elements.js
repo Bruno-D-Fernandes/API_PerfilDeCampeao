@@ -1,4 +1,4 @@
-const BEARER = '2|yENKGjYb9spIVUkdjfymV3tYgEmFbKdJeUGIY5Oc4d083d13';
+const BEARER = localStorage.getItem('adm_token');
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 const listasContainer = document.querySelector('.listas');

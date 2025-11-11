@@ -1,4 +1,4 @@
-const BEARER = 'Bearer 2|GVu44dtOoByXjcPzmA94RL9dg9RwG7HScU4MSG4y4929a7ee';
+const BEARER = localStorage.getItem('clube_token');
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 const container = document.querySelector('.container');

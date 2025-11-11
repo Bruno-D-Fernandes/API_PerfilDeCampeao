@@ -4,7 +4,7 @@ async function fetchListaDetails(listaId) {
 
         const response = await fetch(url, {
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -47,7 +47,7 @@ async function deleteLista(listaId) {
         const response = await fetch(url, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },

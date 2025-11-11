@@ -2,7 +2,7 @@ async function fetchUsuarioDetails(usuarioId) {
     try {
         const response = await fetch(`../api/usuario/${usuarioId}`, {
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -69,7 +69,7 @@ async function saveUsuario(usuarioId = null) {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },
@@ -108,7 +108,7 @@ async function deleteUsuario(usuarioId) {
         const response = await fetch(url, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },

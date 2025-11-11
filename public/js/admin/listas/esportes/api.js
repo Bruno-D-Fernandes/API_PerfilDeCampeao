@@ -2,7 +2,7 @@ async function fetchCaracteristicaDetails(caracteristicaId) {
     try {
         const response = await fetch(`../api/admin/caracteristica/${caracteristicaId}`, {
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -31,7 +31,7 @@ async function fetchPosicaoDetails(posicaoId) {
     try {
         const response = await fetch(`../api/admin/posicao/${posicaoId}`, {
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -59,7 +59,7 @@ async function fetchEsporteDetails(esporteId) {
     try {
         const response = await fetch(`../api/admin/esporte/${esporteId}`, {
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -151,7 +151,7 @@ async function saveCaracteristica(caracteristicaId = null) {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },
@@ -200,7 +200,7 @@ async function savePosicao(posicaoId = null) {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },
@@ -247,7 +247,7 @@ async function saveEsporte(esporteId = null) {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },
@@ -286,7 +286,7 @@ async function deleteCaracteristica(caracteristicaId) {
         const response = await fetch(url, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },
@@ -316,7 +316,7 @@ async function deletePosicao(posicaoId) {
         const response = await fetch(url, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },
@@ -346,7 +346,7 @@ async function deleteEsporte(esporteId) {
         const response = await fetch(url, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },
