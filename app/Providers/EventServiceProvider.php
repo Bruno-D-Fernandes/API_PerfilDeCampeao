@@ -2,10 +2,17 @@
 
 namespace App\Providers;
 
+use App\Events\ApplicationStatusChangedEvent;
 use App\Events\ClubFollowedEvent;
+use App\Events\NewPendingOpportunityEvent;
+use App\Events\NewRelevantOpportunityEvent;
 use App\Events\OpportunityApplicationCreatedEvent;
+use App\Events\OpportunityStatusEvent;
 use App\Events\UserFollowedEvent;
+use App\Listeners\SendApplicationStatusChangeNotification;
 use App\Listeners\SendClubFollowedNotification;
+use App\Listeners\SendNewPendingOpportunityNotification;
+use App\Listeners\SendNewRelevantOpportunityNotification;
 use App\Listeners\SendOpportunityApplication;
 use App\Listeners\SendUserFollowedNotification;
 use Illuminate\Auth\Events\Registered;
@@ -33,6 +40,18 @@ class EventServiceProvider extends ServiceProvider
         OpportunityApplicationCreatedEvent::class => [
             SendOpportunityApplication::class,
         ],
+        OpportunityStatusChangeEvent::class => [
+            SendOpportunityStatusChangeNotification::class,
+        ],
+        ApplicationStatusChangeEvent::class => [
+            SendApplicationStatusChangeNotification::class,
+        ],
+        NewPendingOpportunityEvent::class => [
+            SendNewPendingOpportunityNotification::class,
+        ],
+        NewRelevantOpportunityEvent::class => [
+            SendNewRelevantOpportunityNotification::class,
+        ]
     ];
 
     /**

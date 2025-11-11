@@ -7,7 +7,7 @@ use App\Notifications\ClubFollowedNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendClubFollowedNotification
+class SendClubFollowedNotification implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -22,8 +22,8 @@ class SendClubFollowedNotification
      */
     public function handle(ClubFollowedEvent $event): void
     {
-        $clubFollowed = $event->clubFollowed;
+        $club = $event->club;
         $follower = $event->follower;
-        $clubFollowed->notify(new ClubFollowedNotification($follower, $clubFollowed));
+        $club->notify(new ClubFollowedNotification($follower, $club));
     }
 }

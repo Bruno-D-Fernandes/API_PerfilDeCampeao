@@ -42,7 +42,7 @@ class AdminSistemaController extends Controller
     {
         $esporte = Esporte::findOrFail($id);
 
-        return response()->json(esporte->posicoes(), 200);
+        return response()->json($esporte->posicoes(), 200);
     }
 
     /**
@@ -54,10 +54,12 @@ class AdminSistemaController extends Controller
             'nomeEsporte' => 'required|string|max:255',
             'descricaoEsporte' => 'nullable|string',
         ]);
+
         $esporte = Esporte::create([
             'nomeEsporte' => $ValidatedData['nomeEsporte'],
             'descricaoEsporte' => $ValidatedData['descricaoEsporte'] ?? null,
         ]);
+
         return response()->json($esporte, 201);
     }
 
@@ -67,10 +69,12 @@ class AdminSistemaController extends Controller
             'nomeCategoria' => 'required|string|max:255',
             'descricaoCategoria' => 'nullable|string',
         ]);
+
         $categoria = Categoria::create([
             'nomeCategoria' => $ValidatedData['nomeCategoria'],
             'descricaoCategoria' => $ValidatedData['descricaoCategoria'] ?? null,
         ]);
+
         return response()->json($categoria, 201);
     }
 
@@ -128,7 +132,7 @@ class AdminSistemaController extends Controller
         ]);
 
         $esporte->update($ValidatedData);
-        
+
         return response()->json($esporte->fresh()->load('caracteristicas', 'posicoes'), 200);
     }
 
@@ -138,9 +142,11 @@ class AdminSistemaController extends Controller
     public function EsporteDestroy(string $id)
     {
         $esporte = Esporte::find($id);
+
         if (!$esporte) {
             return response()->json(['message' => 'Esporte não encontrado'], 404);
         }
+        
         $esporte->delete();
         return response()->json(['message' => 'Esporte deletado com sucesso'], 200);
     }

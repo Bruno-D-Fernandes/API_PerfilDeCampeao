@@ -12,16 +12,16 @@ class OpportunityApplicationNotification extends Notification
 {
     use Queueable;
 
-    public $userApplier, $opportunityApplied, $clubApplied;
+    public $applicant, $opportunity, $club;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($userApplier, $opportunityApplied, $clubApplied)
+    public function __construct($applicant, $opportunity, $club)
     {
-        $this->userApplier = $userApplier;
-        $this->opportunityApplied = $opportunityApplied;
-        $this->clubApplied = $clubApplied;
+        $this->applicant = $applicant;
+        $this->opportunity = $opportunity;
+        $this->club = $club;
     }
 
     /**
@@ -42,9 +42,10 @@ class OpportunityApplicationNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => "{$this->userApplier->nomeCompletoUsuario} se inscreveu na oportunidade!",
-            'user_id' => $this->userApplier->id,
-            'user_name' => $this->userApplier->nomeCompletoUsuario,
+            'type' => 'opportunity_application',
+            'message' => "{$this->applicant->nomeCompletoUsuario} se inscreveu em sua oportunidade de recrutamento!",
+            'user_id' => $this->applicant->id,
+            'user_name' => $this->applicant->nomeCompletoUsuario,
         ];
     }
 

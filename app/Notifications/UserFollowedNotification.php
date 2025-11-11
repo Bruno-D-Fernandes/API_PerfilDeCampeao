@@ -40,6 +40,7 @@ class UserFollowedNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'type' => 'user_followed',
             'message' => "{$this->follower->nomeCompletoUsuario} comecou a seguir voce!",
             'follower_id' => $this->follower->id,
             'follower_name' => $this->follower->nomeCompletoUsuario,

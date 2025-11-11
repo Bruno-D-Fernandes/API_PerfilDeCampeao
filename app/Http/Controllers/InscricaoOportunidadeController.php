@@ -114,13 +114,19 @@ class InscricaoOportunidadeController extends Controller
             return response()->json(['message' => 'Não autorizado'], 403);
         }
 
+        $usuario = Usuario::findOrFail($usuarioId);
+
         $insc = Inscricao::where('oportunidade_id', $op->id)
-            ->where('usuario_id', $usuarioId)
+            ->where('usuario_id', $usuario->id)
             ->firstOrFail();
 
         if ($insc->status !== Inscricao::STATUS_APPROVED) {
             $insc->update(['status' => Inscricao::STATUS_APPROVED]);
         }
+
+        $tipo = Inscricao::STATUS_APPROVED;
+
+        event(new ApplicationStatusNotification($clube, $op, $insc, $tipo, $usuario));
 
         return response()->json([
             'status' => $insc->status,
@@ -143,13 +149,19 @@ class InscricaoOportunidadeController extends Controller
             return response()->json(['message' => 'Não autorizado'], 403);
         }
 
+        $usuario = Usuario::findOrFail($usuarioId);
+
         $insc = Inscricao::where('oportunidade_id', $op->id)
-            ->where('usuario_id', $usuarioId)
+            ->where('usuario_id', $usuario->id)
             ->firstOrFail();
 
         if ($insc->status !== Inscricao::STATUS_REJECTED) {
             $insc->update(['status' => Inscricao::STATUS_REJECTED]);
         }
+
+        $tipo = Inscricao::STATUS_REJECTED;
+
+        event(new ApplicationStatusNotification($clube, $op, $insc, $tipo, $usuario));
 
         return response()->json([
             'status' => $insc->status,

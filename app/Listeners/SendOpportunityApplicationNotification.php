@@ -7,7 +7,7 @@ use App\Notifications\OpportunityApplicationNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendOpportunityApplication
+class SendOpportunityApplicationNotification implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -22,9 +22,9 @@ class SendOpportunityApplication
      */
     public function handle(OpportunityApplicationCreatedEvent $event): void
     {
-        $userApplier = $event->userApplier;
-        $opportunityApplied = $event->opportunityApplied;
-        $clubApplied = $event->clubApplied;
-        $clubApplied->notify(new OpportunityApplicationNotification($userApplier, $opportunityApplied, $clubApplied));
+        $applicant = $event->applicant;
+        $opportunity = $event->opportunity;
+        $club = $event->club;
+        $club->notify(new OpportunityApplicationNotification($applicant, $opportunity, $club));
     }
 }

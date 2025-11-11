@@ -4,41 +4,35 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ClubFollowedEvent implements ShouldBroadcast
+class ApplicationStatusChangeEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $follower, $club;
+    public $applicant, $opportunity, $club, $application, $status;
 
-    /**
-     * Create a new event instance.
-     */
-    public function __construct($follower, $club)
+    public function __construct($applicant, $opportunity, $club, $application, $status)
     {
-        $this->follower = $follower;
+        $this->applicant = $applicant;
+        $this->opportunity = $opportunity;
         $this->club = $club;
+        $this->application = $application;
+        $this->status = $status;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
-     */
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('notifications.club.' . $this->club->id),
+            new PrivateChannel('notifications.user.' . $this->applicant->id),
         ];
     }
 
     public function broadcastAs()
     {
-        return 'club.followed';
+        return 'application.status.changed';
     }
 }
