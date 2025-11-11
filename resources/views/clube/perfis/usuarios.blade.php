@@ -4,231 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+     <link rel="stylesheet" href="{{ asset('css/Clube/usuarios/usuarios.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sidebar-clube/sidebar-clube.css') }}">
+     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <style>
-        .hidden {
-            display: none !important;
-        }
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        .profile-container, .profile-info, #profile, .modal-body, .form-group, #listas-view {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
 
-        .form-group.img {
-            align-items: center;
-        }
-
-        .form-group.img .img-btns {
-            display: flex;
-            gap: 16px;
-        }
-
-        .form-group label {
-            width: 100%;
-        }
-
-        .profile-details {
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .profile-tabs {
-            display: flex;
-            gap: 16px; 
-        }
-
-        .profile-imgs {
-            width: 100%;
-            height: 228px;
-            position: relative;
-        }
-
-        .profile-imgs img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-banner {
-            width: 100%;
-            height: 180px;
-            background-color: #000;
-        }
-
-        .profile-picture {
-            height: 96px;
-            aspect-ratio: 1 / 1;
-            border-radius: 50%;
-            background-color: #fff;
-            border: 8px solid #fff;
-            position: absolute;
-            left: 48px;
-            bottom: 0px;
-            overflow: hidden;
-        }
-
-        .modal-backdrop {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 100;
-        }
-
-        .app-modal {
-            width: 600px;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            z-index: 101;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-body {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .close-modal-btn {
-            width: 32px;
-            height: 32px;
-        }
-
-        .modal-body, .form-group {
-            width: 100%;
-        }
-
-        .modal-footer {
-            width: 100%;
-            height: 48px;
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-        }
-
-        .modal-footer button {
-            width: 50%;
-            height: 100%;
-        }
-
-        .profile-picture img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .tab-content.active {
-            display: flex !important;
-        }
-
-        .tab-content {
-            display: none !important;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .sub-tab-content.active {
-            display: flex !important;
-        }
-
-        .sub-tab-content {
-            display: none !important;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .estatisticas-list {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: auto
-        }
-
-        .estatistica-item {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .postagens {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .postagem-card {
-            width: 320px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            background-color: #fafafa;
-            padding: 16px;
-        }
-
-        .postagem-user {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .post-profile-picture {
-            height: 100%;
-            aspect-ratio: 1 / 1;
-            overflow: hidden;
-        }
-
-        .post-profile-picture img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .postagem-localizacao {
-            font-size: 12px;
-        }
-
-        .carousel-container {
-            height: 128px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
-        .carousel-container img {
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .lista-item {
-            width: 100%;
-            display: flex;
-            gap: 16px;
-        }
-
-        #add-lista-btn {
-            height: 32px;
-        }
-    </style>
 </head>
 <body>
+        <main class="conteudo-principal">
+    <!--NAVBAR LT1-->
+    <nav class="barra-lateral" id="barra-lateral">
+
+        <!--ESPAÇO PRA LOGO LT1-->
+        <div class="logo-container">
+            <!-- LOGO PEQUENA-->
+            <img src="../img/logo-reduzida.png" alt="Logo" class="logo-pequena">
+            <!--LOGO GRANDE-->
+            <img src="../img/logo-completa.png" alt="Logo" class="logo-grande">
+            <!--ESPAÇO PRA LOGO LT1-->
+        </div>
+
+        <ul class="menu-navegacao">
+            <li class=".">
+                <a href="../index.html">
+                    <i class='bx bx-home-alt'></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="">
+                    <i class='bx bx-briefcase'></i>
+                    <span>Oportunidades</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-list-ul'></i>
+                    <span>Listas</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-message-dots'></i>
+                    <span>Mensagens</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-bell'></i>
+                    <span>Notificações</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-user'></i>
+                    <span>Perfil</span>
+                </a>
+            </li>
+            <li>
+                <a href="../tela-pesquisa/pesquisa.html">
+                    <i class='bx bx-search'></i>
+                    <span>Pesquisa</span>
+                </a>
+            </li>
+            <li  class="ativo">
+                <a href="#">
+                    <i class='bx bx-cog'></i>
+                    <span>Configurações</span>
+                </a>
+            </li>
+            <li>
+                  <!-- ===== Barra vermelha antes de SAIR ===== -->
+            <hr class="barra-vermelha">   <!-- // ↓↓↓ ALTERADO -->
+
+            <li class="sair-link">        <!-- // ↓↓↓ ALTERADO -->
+                <a href="#">
+                    <i class='bx bx-log-out'></i>
+                    <span>Sair</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!--NAVBAR LT1-->
+
+    </main>
     <div class="profile-container" data-storage-url="{{ asset('/storage') }}" data-usuario-id="{{ $usuario->id }}">
         <div id="profile">
             <div class="profile-info">
@@ -376,7 +238,7 @@
             <div id="listas-view">
                 
                 <button id="add-lista-btn">
-                    <span>
+                    <span id='lista'>
                         Criar lista
                     </span>
                 </button>

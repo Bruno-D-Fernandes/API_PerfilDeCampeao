@@ -1,186 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <style>
-        .hidden {
-            display: none !important;
-        }
+@extends('admin.configuracoes.layout')
 
-        .info {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+@section('content')
+<link rel="stylesheet" href="{{ asset('css/Admin/perfil/perfil.css') }}">
 
-        .general {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .general-profile {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .admin {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .general .profile-picture {
-            height: 48px;
-            aspect-ratio: 1 / 1;
-            border-radius: 50%;
-            background-color: #000;
-        }
-
-        .general .profile-picture img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .personal-info-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            /* gap: 16px; Coloca apenas se não usar h2 */
-        }
-        
-        .personal-info-header {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center; 
-        }
-
-        .personal-info {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: auto
-        }
-
-        .personal-info-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .modal-backdrop {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 100;
-        }
-
-        .app-modal {
-            width: 600px;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            z-index: 101;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .close-modal-btn {
-            width: 32px;
-            height: 32px;
-        }
-
-        .modal-body, .form-group, #perfil-view, #informacoes-view {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .form-group.img {
-            align-items: center;
-        }
-
-        .form-group.img .img-btns {
-            display: flex;
-            gap: 16px;
-        }
-
-        .form-group label {
-            width: 100%;
-        }
-
-        .img-preview {
-            background-color: #000;
-        }
-
-        .img-preview.foto {
-            height: 96px;
-            aspect-ratio: 1 / 1;
-            border-radius: 50%;
-            overflow: hidden;
-        }
-
-        .img-preview.banner {
-            height: 48px;
-            aspect-ratio: 3 / 1;
-            overflow: hidden;
-        }
-
-        .img-preview img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        .modal-body {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .modal-footer {
-            width: 100%;
-            height: 48px;
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-        }
-
-        .modal-footer button {
-            width: 50%;
-            height: 100%;
-        }
-    </style>
-</head>
-<body>
-    <div class="perfil" data-storage-url="{{ asset('storage') }}" data-admin-id="{{ $admin->id }}">
-        <h1>Perfil</h1>
+<div class="perfil" data-storage-url="{{ asset('storage') }}" data-admin-id="{{ $admin->id }}">
 
         <div class="info">
             <div class="general">
@@ -204,7 +27,6 @@
                 </div>
 
                 <button id="editar-perfil-btn">
-                    <span>
                         Editar
                     </span>
                 </button>
@@ -422,11 +244,16 @@
             </button>
         </div>
     </div>
+@endsection
 
-    <script src="{{ asset('js/admin/configuracoes/perfil/dom-elements.js') }}"></script>
-    <script src="{{ asset('js/admin/configuracoes/perfil/utils.js') }}"></script>
-    <script src="{{ asset('js/admin/configuracoes/perfil/modals.js') }}"></script>
-    <script src="{{ asset('js/admin/configuracoes/perfil/api.js') }}"></script>
-    <script src="{{ asset('js/admin/configuracoes/perfil/events.js') }}"></script>
-</body>
-</html>
+@section('scripts')
+
+    <script src="{{ asset('js/admin/perfil/dom-elements.js') }}"></script>
+    <script src="{{ asset('js/admin/perfil/utils.js') }}"></script>
+    <script src="{{ asset('js/admin/perfil/modals.js') }}"></script>
+    <script src="{{ asset('js/admin/perfil/api.js') }}"></script>
+    <script src="{{ asset('js/admin/perfil/events.js') }}"></script>
+
+    <script src="{{ asset('js/admin/perfil/config.js') }}"></script>
+
+@endsection

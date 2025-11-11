@@ -1,0 +1,808 @@
+:root {
+  --bg-body: #f5f5f5;
+  --bg-card: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --accent: #36B37E;
+  --accent-hover: #2faa6d;
+  --danger: #e53935;
+  --danger-bg: #ffebee;
+  --input-bg: #ffffff;
+  --perigo: rgb(228, 7, 7);
+}
+
+[data-theme="dark"] {
+  --bg-body: #121212;
+  --bg-card: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #bbbbbb;
+  --border-color: #333333;
+  --accent: #66bb6a;
+  --accent-hover: #4caf50;
+  --danger: #ef9a9a;
+  --danger-bg: #2c1a1a;
+  --input-bg: #2a2a2a;
+  --perigo: rgb(212, 69, 69);
+}
+
+/* === Reset e base === */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  font-family: 'Inter', 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s, color 0.3s;
+  overflow-x: hidden;
+}
+
+/* === Ajuste do conteúdo principal para conviver com a sidebar === */
+.conteudo-principal {
+  margin-left: 70px;
+  padding: 40px 30px;
+  display: flex;
+  margin-right:200px;
+}
+
+@media (max-width: 768px) {
+  .conteudo-principal {
+    margin-left: 0;
+    padding: 20px 15px;
+  }
+}
+
+/* === Título === */
+.titulo {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* === Container principal === */
+.container {
+  background: var(--bg-body);
+  flex: 1;
+  overflow-y: auto;
+  margin-left: 71px;
+  margin-right: -1px;
+  margin-top: -80px;
+}
+
+#add-member-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+#add-member-btn:hover {
+  background: var(--accent-hover);
+}
+
+.clear-search-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--border-color);
+  color: var(--text-secondary);
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.clear-search-btn:hover {
+  background: #d0d0d0;
+  color: var(--text-primary);
+}
+
+#clube-editar-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+#clube-editar-btn:hover {
+  background: var(--accent-hover);
+}
+
+/* Botão "Excluir" (dentro das oportunidades) */
+.oportunidade-excluir-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.oportunidade-excluir-btn:hover {
+  background: var(--danger);
+  color: white;
+}
+
+/* Botão "Ver" e "Editar" nas oportunidades */
+.oportunidade-ver-btn,
+.oportunidade-editar-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--accent);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.oportunidade-ver-btn:hover,
+.oportunidade-editar-btn:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* Botão "Inscritos" nas oportunidades */
+.oportunidade-inscritos-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--accent);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.oportunidade-inscritos-btn:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* Botão "Remover" nos membros */
+.membro-excluir-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.membro-excluir-btn:hover {
+  background: var(--danger);
+  color: white;
+}
+
+/* Botão "Ver perfil" nos membros */
+.membro-ver-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--accent);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.membro-ver-btn:hover {
+  background: var(--accent);
+  color: white;
+}
+
+
+#profile {
+  background: var(--bg-card);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+/* === Imagens de perfil (ajustado para ficar como na imagem) === */
+.profile-imgs {
+  width: 100%;
+  height: 228px;
+  position: relative;
+}
+
+.banner {
+  width: 100%;
+  height: 180px;
+  background-color: #000;
+}
+
+.banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.picture {
+  height: 96px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background-color: var(--bg-card);
+  border: 8px solid var(--bg-card);
+  position: absolute;
+  left: 48px;
+  bottom: 0;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-details {
+  padding: 24px 48px 24px 160px;
+  margin-top: -48px;
+  background: var(--bg-card);
+}
+
+.profile-name {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: block;
+}
+
+.profile-bio {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  display: block;
+}
+
+/* === Abas === */
+.tabs {
+  display: flex;
+  gap: 16px;
+  padding: 0 20px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tabs button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text-secondary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.tabs button:hover {
+  background: var(--border-color);
+}
+
+
+
+/* === Conteúdo das abas === */
+.tab-container {
+  padding: 20px;
+}
+
+.tab-content {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tab-content.active {
+  display: flex;
+}
+
+/* === Oportunidades === */
+.opportunities-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.opportunities-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.opportunities-header h3::before {
+  content: '';
+  width: 6px;
+  height: 20px;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+/* === Botão "Adicionar oportunidade" — estilizado como na imagem === */
+#oportunidade-add-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+
+}
+
+#oportunidade-add-btn:hover {
+  background: var(--accent-hover);
+}
+
+/* === Oportunidade (item da lista) === */
+.opportunity {
+  background: var(--bg-card);
+  padding: 15px 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease;
+  position: relative;
+  
+}
+
+.opportunity:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.opportunity-details {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.opportunity-details span {
+  font-size: 15px;
+  color: var(--text-primary);
+  background: #f0f0f0;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.see-details-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.opportunity-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: fixed;
+  top: 100%;
+  right: 0;
+  z-index: 100000;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.opportunity-options button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--accent);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.opportunity-options button:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* === Membros === */
+.members-list-search {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.members-list-search input {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.members-list-search input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(54, 179, 126, 0.2);
+}
+
+.members-list-row {
+  background: var(--bg-card);
+  padding: 12px 16px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  margin-bottom: 8px;
+}
+
+.members-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.members-btns button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--accent);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.members-btns button:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* === Sobre === */
+.about-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.about-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.about-header h3::before {
+  content: '';
+  width: 6px;
+  height: 20px;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+.about-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info {
+  background: var(--bg-card);
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.info h4 {
+  color: var(--accent);
+  font-size: 15px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.info p {
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* === Modais === */
+.hidden {
+  display: none !important;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+}
+
+.app-modal {
+  background: var(--bg-card);
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.3s ease;
+  border: none;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.close-modal-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-modal-btn:hover {
+  color: var(--text-primary);
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 10px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(54, 179, 126, 0.2);
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.img-preview {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-preview.banner {
+  width: 300px;
+  height: 80px;
+  border-radius: 8px;
+  aspect-ratio: auto;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.modal-footer button {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  min-width: 100px;
+  text-align: center;
+  align-items: center;
+}
+
+#clube-cancelar-btn,
+#adicionar-membro-cancelar-btn,
+#oportunidade-cancelar-btn,
+#cancel-confirm-btn {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+#clube-cancelar-btn:hover,
+#adicionar-membro-cancelar-btn:hover,
+#oportunidade-cancelar-btn:hover,
+#cancel-confirm-btn:hover {
+  background: var(--border-color);
+}
+
+#clube-salvar-btn,
+#adicionar-membro-salvar-btn,
+#oportunidade-salvar-btn,
+#save-confirm-btn {
+  background: var(--accent);
+  color: white;
+}
+
+#clube-salvar-btn:hover,
+#adicionar-membro-salvar-btn:hover,
+#oportunidade-salvar-btn:hover,
+#save-confirm-btn:hover {
+  background: var(--accent-hover);
+}
+
+/* Botão de exclusão */
+#save-confirm-btn {
+  background: var(--perigo);
+  color: white;
+}
+
+#save-confirm-btn:hover {
+  background: #c62828;
+}
+
+/* === Responsividade === */
+@media (max-width: 768px) {
+  .profile-details {
+    padding: 24px 20px 24px 120px;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+    padding: 0 15px 15px;
+  }
+
+  .opportunities-header,
+  .about-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .members-list-search {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .app-modal {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .modal-footer button {
+    width: 100%;
+  }
+
+  .opportunity {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .opportunity-details {
+    justify-content: flex-start;
+  }
+
+  .opportunity-options {
+    position: static;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+}
+
+/* === Animações === */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

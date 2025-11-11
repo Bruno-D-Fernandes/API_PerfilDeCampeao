@@ -75,6 +75,7 @@ async function saveClube(clubeId = null) {
 
         if(!data.error || !data.errors) {
             alert('Clube salvo com sucesso!');
+            window.location.reload(true);
 
             if (!editMode) {
                 clubes.appendChild(createClubeRow(data));

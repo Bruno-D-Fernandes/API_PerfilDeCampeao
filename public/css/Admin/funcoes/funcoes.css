@@ -1,0 +1,340 @@
+    /* === Correção global === */
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: rgb(232, 240, 247);
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        overflow-x: hidden; /* Bloqueia scroll horizontal */
+    }
+
+    /* === Ajuste do conteúdo principal para conviver com a sidebar === */
+    .conteudo-principal {
+        margin-left: 80px;
+        padding: 20px;
+    }
+
+    /* Em telas pequenas, remove a margem da sidebar */
+    @media (max-width: 768px) {
+        .conteudo-principal {
+            margin-left: 0;
+            padding: 15px;
+        }
+    }
+
+    /* === Título === */
+    .titulo {
+        font-size: 30pt;
+        color: #003dadea;
+        font-family: Inter, Poppins, sans-serif;
+        margin-bottom: 20px;
+        margin-left: 6%;
+    }
+
+    @media (max-width: 768px) {
+        .titulo {
+            font-size: 24pt;
+            
+        }
+    }
+
+    /* === Cabeçalho com pesquisa e botão === */
+    .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    height: auto; /* remove altura fixa para melhor adaptação */
+    min-height: 70px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    margin-left: 100px;
+    margin-right: 30px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    }
+
+    .pesquisa {
+    flex: 1; /* cresce para preencher espaço disponível */
+    min-width: 0; /* previne overflow em flex */
+    height: 50px;
+    padding: 0 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    }
+
+    #funcao-add-btn {
+    flex: 0 0 auto; /* não cresce, mas mantém tamanho natural */
+    background-color: #003dadea;
+    color: aliceblue;
+    padding: 14px 22px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    white-space: nowrap;
+    min-width: 130px; /* evita que fique muito estreito */
+    }
+ 
+    @media (max-width: 600px) {
+        .header {
+            flex-direction: column;
+        align-items: stretch;
+        padding: 12px;
+        margin-left: 15px;
+        margin-right: 15px;
+        }
+.pesquisa {
+        width: 100%;
+        height: 50px;
+    }
+
+        #funcao-add-btn {
+            align-self: flex-end;
+            width: fit-content;
+        }
+    }
+
+    /* === Container principal (substitui .total) === */
+    .funcoes-container {
+    gap: 12px;
+    height: auto; /* remove altura fixa para melhor adaptação */
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    margin-left: 100px;
+    margin-right: 30px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    }
+
+    /* === Tabela de funções === */
+    .list-header,
+    .funcao {
+        display: grid;
+        gap: 12px;
+        padding: 12px 0;
+        align-items: center;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    /* Desktop */
+    @media (min-width: 769px) {
+        .list-header,
+        .funcao {
+            grid-template-columns: 2fr 3fr 1fr 1.5fr;
+        }
+    }
+
+    /* Tablet */
+    @media (max-width: 768px) {
+        .list-header,
+        .funcao {
+            grid-template-columns: 1fr;
+            text-align: left;
+            gap: 8px;
+        }
+        .header-col span,
+        .funcao > div {
+            font-weight: bold;
+        }
+        .funcao > div:not(.funcao-acoes) {
+            font-weight: normal;
+        }
+        .funcao-acoes {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            margin-top: 8px;
+        }
+    }
+
+    .header-col {
+        display: flex;
+        justify-content: center;
+        color: #003dadea;
+        font-weight: bold;
+    }
+
+    .funcao > div {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
+        .header-col,
+        .funcao > div {
+            justify-content: flex-start;
+            padding-left: 8px;
+        }
+    }
+
+    .funcao-acoes {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+    }
+
+    .funcao-acoes button {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 6px;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .funcao-acoes button:hover {
+        background-color: #e0e0e0;
+    }
+
+    /* === Modal === */
+    .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(3px);
+        z-index: 1000;
+    }
+
+    .app-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        width: 90%;
+        max-width: 420px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-title {
+        margin: 0;
+        font-size: 18pt;
+        color: #003dadea;
+    }
+
+    .close-modal-btn {
+        background: none;
+        border: none;
+        font-size: 24pt;
+        cursor: pointer;
+        color: #888;
+    }
+
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #003dadea;
+        margin-bottom: 6px;
+    }
+
+    .form-group input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .modal-footer {
+        display: flex;
+        gap: 12px;
+    }
+
+    .modal-footer button {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    #funcao-cancelar-btn,
+    #cancel-confirm-btn {
+        background-color: #ccc;
+        color: #333;
+    }
+
+    #funcao-salvar-btn,
+    #save-confirm-btn {
+        background-color: #003dadea;
+        color: white;
+    }
+
+    #funcao-cancelar-btn:hover,
+    #cancel-confirm-btn:hover {
+        background-color: #bbb;
+    }
+
+    #funcao-salvar-btn:hover,
+    #save-confirm-btn:hover {
+        background-color: #002a7d;
+    }
+
+    /* === Esconde elementos === */
+    .hidden {
+        display: none !important;
+    }
+
+    .search-box {
+    flex: 1;
+    min-width: 250px;
+    position: relative;
+    
+}
+
+.search-box i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+.search-box input {
+    width: 100%;
+    height: 50px;
+    padding: 10px 14px 10px 42px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: rgb(240, 245, 255);
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: border .2s, box-shadow .2s;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--focus-color);
+    box-shadow: 0 0 0 3px rgba(90, 155, 213, 0.2);
+}

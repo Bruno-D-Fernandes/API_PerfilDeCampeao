@@ -1,0 +1,420 @@
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    user-select: none;
+}
+
+:root {
+    --layout-max-width: 1100px;
+    --container-max-width: 420px;
+    --progress-max-width: 420px;
+    --mobile-container-max-width: 340px;
+    --primary-color: #00D17A;
+    --primary-hover: #00B86A;
+    --text-color: #ffffff;
+    --form-bg: rgba(255, 255, 255, 0.93);
+    --input-border: #01cd9d;
+    --input-focus: #00df82;
+}
+
+body {
+    background-image: url("../../../img/futsal.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+.layout-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    max-width: var(--layout-max-width);
+    width: 100%;
+}
+
+/* === Lado esquerdo: frase === */
+.side-slogan {
+    color: var(--text-color);
+    font-size: 38px;
+    font-weight: 700;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    line-height: 1.1;
+    text-align: left;
+    max-width: 500px;
+    flex-shrink: 0;
+    letter-spacing: 1px;
+}
+
+.side-slogan .line {
+    display: block;
+    margin-bottom: 8px;
+    white-space: normal; /* ← REMOVIDO nowrap */
+}
+
+.highlight {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+/* === Formulário === */
+.form-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.progress-section {
+    width: 100%;
+    max-width: var(--progress-max-width);
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.progress-container {
+    height: 24px;
+    border-radius: 20px;
+    background-color: rgba(150, 150, 150, 0.9);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--primary-color);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 20px;
+}
+
+.progress-percentage {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 700;
+    font-size: 16px;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.runner-icon {
+    position: absolute;
+    bottom: 21px;
+    left:0%;
+    transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 36px;
+    height: 36px;
+    z-index: 10;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.container {
+    width: 100%;
+    max-width: var(--container-max-width);
+    background: var(--form-bg);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1.5px solid rgba(173, 173, 173, 0.3);
+    backdrop-filter: blur(8px);
+    color: #000;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 23px;
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+/* === Partes do formulário === */
+#part1, #part2, #part3, #part4 {
+    display: none;
+    animation: fadeIn 0.4s ease forwards;
+}
+.juntos{
+    display: flex;
+    justify-content: space-between;
+}
+#part1.active, #part2.active, #part3.active, #part4.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Inputs === */
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--input-border);
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    background: white;
+    color: #000;
+}
+
+input::placeholder {
+    color: #aaa;
+    font-size: 15px;
+}
+
+input[type="date"] {
+    color: #000;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 2px rgba(0, 219, 130, 0.2);
+}
+
+/* === Ícones nos inputs === */
+.input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+input.with-icon {
+    padding-left: 42px;
+}
+
+/* === Botões === */
+input[type="button"],
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-next,
+#p1, #p2, #p3 {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-next:hover,
+#p1:hover, #p2:hover, #p3:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+#v1, #v2, #v3,
+.btn-prev {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+#v1:hover, #v2:hover, #v3:hover,
+.btn-prev:hover {
+    background-color: #d0d0d0;
+    transform: translateY(-2px);
+}
+
+#p4 {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease;
+}
+
+#p4:hover {
+    background-color: var(--primary-hover);
+}
+
+/* === Botões de navegação (opcional: centralizar em mobile) === */
+.form-section .container {
+    position: relative;
+}
+
+/* === Indicadores de passo === */
+.step-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    transition: background-color 0.3s ease;
+}
+#dot1{
+    background-color: #00D17A;
+}
+
+.step-dot.active {
+    background-color: var(--primary-color);
+}
+
+/* === Responsivo === */
+@media (max-width: 992px) {
+    .layout-wrapper {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .side-slogan {
+        max-width: 100%;
+        font-size: 32px;
+        text-align: center;
+        padding: 0 10px;
+    }
+
+    :root {
+        --layout-max-width: 900px;
+        --container-max-width: 520px;
+        --progress-max-width: 460px;
+    }
+}
+
+@media (max-width: 576px) {
+    .side-slogan {
+        font-size: 24px;
+        line-height: 1.2;
+    }
+
+    .container {
+        padding: 20px;
+        max-width: var(--mobile-container-max-width);
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h2::after {
+        width: 50px;
+    }
+
+    .input-group {
+        margin-bottom: 16px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="date"],
+    select {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    input.with-icon {
+        padding-left: 38px;
+    }
+
+    .input-icon {
+        left: 10px;
+        font-size: 14px;
+    }
+
+    input[type="button"],
+    button {
+        padding: 10px 20px;
+        font-size: 15px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #part2,
+    #part3,
+    #part4 {
+        display: none;
+    }
+
+    #part2.active,
+    #part3.active,
+    #part4.active {
+        display: block;
+    }
+
+    .step-indicators {
+        gap: 6px;
+    }
+
+    .step-dot {
+        width: 8px;
+        height: 8px;
+    }
+}

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+     <link rel="stylesheet" href="{{ asset('css/Clube/perfil/perfil.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sidebar-clube/sidebar-clube.css') }}">
+     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
         .hidden {
@@ -267,8 +270,88 @@
     </style>
 </head>
 <body>
+
+
+
+    <main class="conteudo-principal">
+    <!--NAVBAR LT1-->
+    <nav class="barra-lateral" id="barra-lateral">
+
+        <!--ESPAÇO PRA LOGO LT1-->
+        <div class="logo-container">
+            <!-- LOGO PEQUENA-->
+            <img src="../img/logo-reduzida.png" alt="Logo" class="logo-pequena">
+            <!--LOGO GRANDE-->
+            <img src="../img/logo-completa.png" alt="Logo" class="logo-grande">
+            <!--ESPAÇO PRA LOGO LT1-->
+        </div>
+
+        <ul class="menu-navegacao">
+            <li class=".">
+                <a href="../index.html">
+                    <i class='bx bx-home-alt'></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="">
+                    <i class='bx bx-briefcase'></i>
+                    <span>Oportunidades</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-list-ul'></i>
+                    <span>Listas</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-message-dots'></i>
+                    <span>Mensagens</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-bell'></i>
+                    <span>Notificações</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-user'></i>
+                    <span>Perfil</span>
+                </a>
+            </li>
+            <li>
+                <a href="../tela-pesquisa/pesquisa.html">
+                    <i class='bx bx-search'></i>
+                    <span>Pesquisa</span>
+                </a>
+            </li>
+            <li  class="ativo">
+                <a href="#">
+                    <i class='bx bx-cog'></i>
+                    <span>Configurações</span>
+                </a>
+            </li>
+            <li>
+                  <!-- ===== Barra vermelha antes de SAIR ===== -->
+            <hr class="barra-vermelha">   <!-- // ↓↓↓ ALTERADO -->
+
+            <li class="sair-link">        <!-- // ↓↓↓ ALTERADO -->
+                <a href="#">
+                    <i class='bx bx-log-out'></i>
+                    <span>Sair</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!--NAVBAR LT1-->
+
+    </main>
     <div class="container" data-storage-url="{{ asset('/storage') }}" data-clube-id="{{ $clube->id }}">
-        <h1>Clube</h1>
 
         <div id="profile">
             <div class="profile-info">

@@ -1,0 +1,358 @@
+    /* === Correção global === */
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: rgb(232, 240, 247);
+        margin: 0;
+        padding: 0;
+        font-family: Inter, Poppins, sans-serif;
+        overflow-x: hidden;
+    }
+
+    /* === Ajuste do conteúdo principal === */
+    .conteudo-principal {
+        margin-left: 80px;
+        padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .conteudo-principal {
+            margin-left: 0;
+            padding: 15px;
+        }
+    }
+
+    /* === Título === */
+    .titulo {
+        font-size: 30pt;
+        color: #003dadea;
+        font-family: Inter, Poppins, sans-serif;
+        margin-bottom: 20px;
+        margin-left: 6%;
+        margin-top: 0;
+    }
+
+    @media (max-width: 768px) {
+        .titulo {
+            font-size: 24pt;
+            margin-left: 0;
+            text-align: center;
+        }
+    }
+
+    /* === Cabeçalho com pesquisa === */
+    .listas-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        min-height: 70px;
+        margin-bottom: 20px;
+        background-color: #ffffff;
+        margin-left: 100px;
+        margin-right: 30px;
+        padding: 10px 20px;
+        border-radius: 20px;
+    }
+
+    .search-box {
+        flex: 1;
+        min-width: 250px;
+        position: relative;
+    }
+
+    .search-box i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #666;
+        font-size: 18px;
+    }
+
+    .search-box input {
+        width: 100%;
+        height: 50px;
+        padding: 10px 16px 10px 50px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background: rgb(240, 245, 255);
+        color: #333;
+        font-size: 14px;
+        font-family: Inter, Poppins, sans-serif;
+        transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    .search-box input:focus {
+        outline: none;
+        border-color: #003dadea;
+        box-shadow: 0 0 0 3px rgba(0, 61, 173, 0.2);
+    }
+
+    /* === Container da tabela === */
+    .listas {
+        background-color: rgb(255, 255, 255);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin-left: 100px;
+        margin-right: 40px;
+        margin-bottom: 30px;
+    }
+
+    /* === Tabela === */
+    .list-header,
+    .lista {
+        display: grid;
+        gap: 12px;
+        padding: 12px 0;
+        align-items: center;
+        border-bottom: 1px solid #e0e0e0;
+        grid-template-columns: 1.5fr 1.5fr 0.5fr 1fr 1fr;
+    }
+
+    @media (max-width: 768px) {
+        .list-header,
+        .lista {
+            grid-template-columns: 1fr;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .header-col span,
+        .lista > div {
+            font-weight: bold;
+        }
+
+        .lista > div:not(.lista-acoes) {
+            font-weight: normal;
+        }
+
+        .lista-acoes {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            margin-top: 8px;
+        }
+    }
+
+    .header-col {
+        display: flex;
+        justify-content: center;
+        color: #003dadea;
+        font-weight: bold;
+    }
+
+    .lista > div {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+        .header-col,
+        .lista > div {
+            justify-content: flex-start;
+            padding-left: 8px;
+        }
+    }
+
+    /* === Ações === */
+    .lista-acoes {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+    }
+
+    .lista-acoes button {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 6px;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .lista-acoes button:hover {
+        background-color: #e0e0e0;
+    }
+
+    /* === Modais (estilo unificado) === */
+    .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(3px);
+        z-index: 1000;
+    }
+
+    .app-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px;
+        animation: modalFadeIn 0.3s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+        from { opacity: 0; transform: translate(-50%, -60%); }
+        to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #003dadea;
+        color: white;
+        padding: 16px 20px;
+        margin: -20px -20px 20px -20px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .modal-title {
+        margin: 0;
+        font-size: 18pt;
+        font-weight: 600;
+        font-family: Inter, Poppins, sans-serif;
+    }
+
+    .close-modal-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24pt;
+        cursor: pointer;
+        line-height: 1;
+    }
+
+    .close-modal-btn:hover {
+        color: #ffcccc;
+    }
+
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        font-family: Inter, Poppins, sans-serif;
+    }
+
+    .modal-body h3 {
+        color: #003dadea;
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .modal-body span {
+        font-size: 15px;
+        color: #333;
+        line-height: 1.5;
+    }
+
+    .users-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .users-list-container {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        max-height: 150px;
+        overflow-y: auto;
+        padding: 8px;
+        background-color: #f9f9f9;
+        border-radius: 6px;
+    }
+
+    .users-list-container span {
+        font-size: 14px;
+        color: #444;
+    }
+
+    /* === Modal de confirmação === */
+    #confirmar-modal .modal-header {
+        background-color: #d32f2f; /* vermelho para alerta */
+    }
+
+    /* === Footer dos modais === */
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+        padding: 15px 0 0 0;
+        margin-top: 16px;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .modal-footer button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 14px;
+        font-family: Inter, Poppins, sans-serif;
+    }
+
+    #cancel-confirm-btn {
+        background-color: #ccc;
+        color: #333;
+    }
+
+    #save-confirm-btn {
+        background-color: #d32f2f;
+        color: white;
+    }
+
+    #cancel-confirm-btn:hover {
+        background-color: #bbb;
+    }
+
+    #save-confirm-btn:hover {
+        background-color: #9b1616;
+    }
+
+    /* === Esconde elementos === */
+    .hidden {
+        display: none !important;
+    }
+
+    /* === Mobile === */
+    @media (max-width: 480px) {
+        .app-modal {
+            width: 95%;
+            padding: 15px;
+        }
+        .modal-header {
+            margin: -15px -15px 15px -15px;
+            padding: 12px 15px;
+        }
+        .modal-footer button {
+            padding: 8px 16px;
+        }
+
+        .listas-header {
+            margin-left: 15px;
+            margin-right: 15px;
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }

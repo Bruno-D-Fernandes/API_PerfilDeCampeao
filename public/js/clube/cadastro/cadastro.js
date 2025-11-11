@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const url = '/api/clube/register';
 
         const formData = new FormData(form);
-
         fetch(url, {
             method: 'POST',
             headers: {
@@ -16,9 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             body: formData,
         })
-        .then(res => res.json())
+         .then(res => res.json())
         .then(data => {
-            if (!data.error && !data.errors) {
+            console.log(data);
+            
+            if (!data.error) {
                 alert('deu certo');
                 localStorage.setItem('clube_token', data.access_token);
             }

@@ -4,178 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/Admin/esporte/esporte.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <style>
-        .hidden {
-            display: none !important;
-        }
 
-        .esportes {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;/
-        }
-
-        .esportes-header {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .esporte, .list-header {
-            width: 100%;
-            display: grid;
-            gap: 16px;
-            grid-template-columns: 2fr 3fr 1fr 1fr 2fr 2fr;
-        }
-
-        .header-col {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .header-col > span {
-            font-size: 16px;
-        }
-
-        .esporte > div {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        } 
-
-        .esporte-acoes {
-            display: flex;
-            gap: 16px
-        }
-
-        .modal-backdrop {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 100;
-        }
-
-        .modal-backdrop.second {
-            z-index: 101;
-        }
-
-        .app-modal {
-            width: 600px;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            z-index: 101;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .close-modal-btn {
-            width: 32px;
-            height: 32px;
-        }
-
-        .modal-body, .form-group, .tab-content, .posicoes-list-container, .caracteristicas-list-container,
-        #esporte-view, #posicao-view, #caracteristica-view {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .posicoes-list-container, .caracteristicas-list-container {
-            max-height: 160px;
-            overflow-y: auto;
-        }
-
-        .tab-content.active {
-            display: block;
-            max-height: 450px;
-            overflow-y: auto;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .posicoes-list-header, .posicoes-list-row {
-            width: 100%;
-            display: grid;
-            gap: 16px;
-            grid-template-columns: 1.5fr 2.5fr 1fr;
-        }
-
-        .caracteristicas-list-header, .caracteristicas-list-row {
-            width: 100%;
-            display: grid;
-            gap: 16px;
-            grid-template-columns: 1.5fr 1fr 2fr 1.5fr;
-        }
-
-        .posicoes-header-col, .posicao-col, .caracteristicas-header-col, .caracteristica-col {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .posicao-col.acoes, .caracteristica-col.acoes {
-            display: flex;
-            gap: 16px;
-        }
-
-        .modal-footer {
-            width: 100%;
-            height: 48px;
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-        }
-
-        .modal-footer button {
-            width: 50%;
-            height: 100%;
-        }
-
-        #posicao-modal, #caracteristica-modal, #confirmar-modal {
-            width: 400px;
-            z-index: 103;
-        }
-    </style>
 </head>
 <body>
-    <div class="esportes">
-        <div class="esportes-header">
-            <h1>Esportes</h1>
+    <main class="conteudo-principal">
+          <h1 class="titulo"></h1>
+          <section class="cards-topo">
+    <!--NAVBAR LT1-->
+    <nav class="barra-lateral" id="barra-lateral">
+
+        <!--ESPAÇO PRA LOGO LT1-->
+        <div class="logo-container">
+            <!-- LOGO PEQUENA-->
+            <img src="../img/logo-admin-reduzida.jpeg" alt="Logo" class="logo-pequena">
+            <!--LOGO GRANDE-->
+            <img src="../img/logo-admin-completa.jpeg" alt="Logo" class="logo-grande">
+            <!--ESPAÇO PRA LOGO LT1-->
+        </div>
+
+        <ul class="menu-navegacao">
+            <li >
+                <a href="./index.html">
+                    <i class='bx bx-home-alt'></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/oportunidades">
+                    <i class='bx bx-briefcase'></i>
+                    <span>Oportunidades</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/usuarios">
+                    <i class='bx bx-list-ul'></i>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/clubes">
+                    <i class='bx bx-message-dots'></i>
+                    <span>Clubes</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/funcoes">
+                    <i class='bx bx-bell'></i>
+                    <span>Funções</span>
+                </a>
+            </li>
+            <li  class="ativo"> 
+                <a href="#">
+                    <i class='bx bx-user'></i>
+                    <span>Esportes</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/listas">
+                    <i class='bx bx-search'></i>
+                    <span>Pesquisa</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-cog'></i>
+                    <span>Configurações</span>
+                </a>
+            </li>
+            <li>
+            <hr class="barra-vermelha">  
+            <li class="sair-link"> 
+                <a href="#">
+                    <i class='bx bx-log-out'></i>
+                    <span>Sair</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+        <h1 class='titulo'>Esportes</h1>
+    </main>
+    <!--NAVBAR LT1-->
+    
+
+
+<div class="esportes-header">
+            
+        <div class="search-box">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Pesquisar">
+                </div>
+
 
             <button id="esporte-add-btn">
                 <span>
-                    Adicionar esporte
+                    Adicionar Esporte
                 </span>
             </button>
         </div>
+
+    <div class="esportes-container">
+    <div class="esportes">
+        
 
         <div class="list-header">
             <div class="header-col">
@@ -232,15 +166,15 @@
 
                 <div class="esporte-acoes">
                     <button class="esporte-ver-btn">
-                        <span>Ver</span>
+                        <span><i class="fa-solid fa-eye"></i></span>
                     </button>
 
                     <button class="esporte-editar-btn">
-                        <span>Editar</span>
+                        <span><i class="fa-solid fa-pen"></i></span>
                     </button>
 
                     <button class="esporte-excluir-btn">
-                        <span>Excluir</span>
+                        <span><i class="fa-solid fa-trash"></i></span>
                     </button>
                 </div>
             </div>
@@ -262,6 +196,7 @@
 
                     <input type="text" name="nomeEsporte" id="esporte-form-nome">
                 </div>
+                <br>
 
                 <div class="form-group">
                     <label for="esporte-form-descricao">Descrição:</label>
@@ -415,6 +350,7 @@
             </button>
         </div>
     </div>
+    
 
     <script src="{{ asset('js/admin/listas/esportes/dom-elements.js') }}"></script>
     <script src="{{ asset('js/admin/listas/esportes/utils.js') }}"></script>

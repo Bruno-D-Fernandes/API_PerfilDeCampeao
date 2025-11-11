@@ -10,6 +10,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminSistemaController;
 use App\Http\Controllers\EsporteController;
 use Illuminate\Support\Facades\Route;
+use App\Mail\ClubWelcomeEmail;
+use App\Mail\UserWelcomeEmail;
 use App\Models\Categoria;
 use App\Models\Esporte;
 

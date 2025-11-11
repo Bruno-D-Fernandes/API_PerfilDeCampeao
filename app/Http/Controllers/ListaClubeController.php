@@ -15,7 +15,7 @@ class ListaClubeController extends Controller
     {
         $listas = Lista::with('clube', 'usuarios')->get();
 
-        return view('admin..listas.listas')->with(['listas' => $listas]);
+        return view('admin.listas.listas')->with(['listas' => $listas]);
     }
 
     public function index()

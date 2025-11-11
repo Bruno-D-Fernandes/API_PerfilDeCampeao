@@ -24,7 +24,6 @@ class OportunidadeController extends Controller
      */
 
 
-
     //ALGUEM ME AJUDA PELO AMOR DE DEUS --ASS: Luan
 
     public function store(Request $request)
