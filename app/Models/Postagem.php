@@ -20,7 +20,8 @@ class Postagem extends Model
         'idUsuario',
         'esporte_id',
         'textoPostagem',
-        'localizacaoPostagem'
+        'localizacaoPostagem',
+        'esporte_id'
     ];
 
     public function esporte()
