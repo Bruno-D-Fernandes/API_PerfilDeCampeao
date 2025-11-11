@@ -115,6 +115,32 @@ body{
     margin-top: 90%;
     margin-left: 30%;
 }
+.iconOportu{
+  position: fixed;
+  top: 30%;
+  left: 25%;
+  height: 50px;
+}
+.iconAbrirOportu{
+  cursor: pointer;
+  position: fixed;
+  top: 22%;
+  left: 25%;
+  height: 35px;
+}
+.iconCampe{
+   position: fixed;
+  top: 30%;
+  left: 50%;
+  height: 50px;
+}
+.iconAbrirLista{
+  cursor: pointer;
+  position: fixed;
+  top: 22%;
+  left: 51%;
+  height: 35px;
+}
 /*tags*/
 
 h1{

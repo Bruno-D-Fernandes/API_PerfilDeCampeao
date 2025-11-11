@@ -85,14 +85,16 @@
 
   <div class="cards">
     <div class="cardOport">
+      <img src="/img/iconOportuDashClube.png" alt="" class="iconOportu">
       <h5>Oportunidades (ativas)</h5>
       <div id="countOppsAtivas">-</div>
-      <a id="linkOppsAtivas" href="/clube/oportunidades">abrir</a>
+      <img src="/img/iconAbrirDashClube.png" alt="" class="iconAbrirOportu"><a id="linkOppsAtivas" href="/clube/oportunidades"></a>
     </div>
 
     <div class="cardCamp">
+      <img src="/img/iconCampeDashClube.png" alt="" class="iconCampe">
       <h5>Lista de Campeões</h5>
-      <a id="linkListaCampeoes" href="/clube/lista">ver lista</a>
+      <img src="/img/iconAbrirDashClube.png" alt="" class="iconAbrirLista"><a id="linkListaCampeoes" href="/clube/lista"></a>
     </div>
 
     <section class="cardSug" id="sugestoes">
