@@ -9,12 +9,9 @@ use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\PostagemController;
 
 use App\Http\Controllers\AdmController;
-<<<<<<< HEAD
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\FuncaoController;
-=======
 use App\Http\Controllers\AdminSistemaController;
->>>>>>> a0b349d8ad65e449d757112c3b4adfd35237c0dd
 use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\SearchUsuarioController;

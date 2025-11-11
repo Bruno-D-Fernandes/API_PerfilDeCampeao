@@ -331,10 +331,17 @@
 
                         <div id="informacoes-{{ $perfil->id }}" class="sub-tab-content">
                             <div class="estatisticas-list">
-                                <div class="estatistica-item">
-                                    <span class="estatistica-label">Posição</span>
-                                    <span class="estatistica-value">{{ $perfil->posicao->nomePosicao }}</span>
-                                </div>
+                                @if($perfil->posicoes->count() > 0)
+                                    <div class="estatistica-item">
+                                        <span class="estatistica-label">Posições</span>
+
+                                        <div class="posicoes">
+                                            @foreach($perfil->posicoes as $posicaoPerfil)
+                                                <p class="estatistica-value">{{ $perfil->posicaoPerfil->nomePosicao }}</p>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
                                 
                                 @if($perfil->caracteristicas)
                                     @foreach($perfil->caracteristicas as $caracteristica)

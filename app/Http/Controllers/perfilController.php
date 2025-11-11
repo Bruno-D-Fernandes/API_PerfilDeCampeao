@@ -62,7 +62,6 @@ class perfilController extends Controller
             'caracteristicas' => 'array',
             'caracteristicas.*.id' => 'required|exists:caracteristicas,id',
             'caracteristicas.*.valor' => 'nullable|max:255',
-            'posicao_id' => 'required|exists:posicoes,id',
             'posicoes' => 'array',
             'posicoes.*' => 'exists:posicoes,id',
         ]);
@@ -71,7 +70,6 @@ class perfilController extends Controller
             'usuario_id' => $validated['usuario_id'],
             'categoria_id' => $validated['categoria_id'],
             'esporte_id' => $validated['esporte_id'],
-            'posicao_id' => $validated['posicao_id'],
         ]);
 
         if (!empty($validated['caracteristicas'])) {
@@ -97,6 +95,7 @@ class perfilController extends Controller
     public function show()
     {
         $usuario = Auth::user();
+        
         $usuario->load([
             'perfis.categoria',
             'perfis.posicoes',

@@ -14,7 +14,6 @@ class Perfil extends Model
     protected $fillable = [
         'usuario_id',
         'categoria_id',
-        'posicao_id',
         'esporte_id',
     ];
 
@@ -28,11 +27,6 @@ class Perfil extends Model
     public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'categoria_id');
-    }
-
-    public function posicao()
-    {
-        return $this->belongsTo(Posicao::class, 'posicao_id');
     }
 
     public function posicoes()
