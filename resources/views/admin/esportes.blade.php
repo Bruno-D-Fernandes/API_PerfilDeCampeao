@@ -55,7 +55,7 @@
             <li>
                 <a href="/admin/funcoes">
                     <i class='bx bx-bell'></i>
-                    <span>funções</span>
+                    <span>Funções</span>
                 </a>
             </li>
             <li  class="ativo"> 
@@ -86,22 +86,30 @@
             </li>
         </ul>
     </nav>
+        <h1 class='titulo'>Esportes</h1>
     </main>
     <!--NAVBAR LT1-->
     
-    <h1 class='titulo'>Esportes</h1>
-    <div class="esportes-container">
-    <div class="esportes">
-        <div class="esportes-header">
+
+
+<div class="esportes-header">
             
-        <input type="text" class="pesquisa" placeholder='Pesquisar'>
+        <div class="search-box">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Pesquisar">
+                </div>
+
 
             <button id="esporte-add-btn">
                 <span>
-                    Adicionar esporte
+                    Adicionar Esporte
                 </span>
             </button>
         </div>
+
+    <div class="esportes-container">
+    <div class="esportes">
+        
 
         <div class="list-header">
             <div class="header-col">
@@ -188,6 +196,7 @@
 
                     <input type="text" name="nomeEsporte" id="esporte-form-nome">
                 </div>
+                <br>
 
                 <div class="form-group">
                     <label for="esporte-form-descricao">Descrição:</label>

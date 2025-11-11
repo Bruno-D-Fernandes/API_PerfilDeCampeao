@@ -1,0 +1,82 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+    background-image: url('/img/fundoLoginAdm.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.input-container {
+  position: relative; 
+  width: 100%;
+}
+#formLogin{
+    width: 30%;
+    min-width: 200px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 17px;
+    margin: 0 auto 10px;
+    text-align: center;
+}
+.container .form-control{
+    width: 100%;
+    margin: 0 auto 5px;
+    display: block;
+    text-align: left; 
+    padding: 8px 8px 8px 40px;
+    font-weight: 400;
+    color: #9aa9bb8e;
+    border: #9aa9bb83 2px solid;
+}
+.container .form-label{
+    display: block;
+    margin: 20px auto 0;
+    margin-right: 50%;
+    font-size: 20px;
+    font-weight: 500;
+    width: 65%;
+    color: #1E4067 ;
+}
+.container button{
+    width: 95%;
+    margin: 0 auto 10px;
+    display: block;
+    padding: 5px 5px;
+    background-color: #3A6BA3;
+    font-weight: 400;
+}
+.footer{
+    display: block;
+    font-weight: 400;
+    font-size: 15px;
+    color: #9aa9bb8e;
+}
+.iconEmail{
+    position: absolute;
+    left: 15px;
+    top: 20%;
+}
+.iconSenha{
+    position: absolute;
+    left: 15px;
+    top: 20%;
+}
+.iconConfirma{
+    position: absolute;
+    left: 15px;
+    top: 20%;
+}
+.logo{
+    width: 30%;
+    height: 100%;
+    border-radius: 9px;
+    display: inline-block;
+}

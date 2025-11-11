@@ -217,22 +217,32 @@
             </li>
         </ul>
     </nav>
+        <h1 class='titulo'>Clube</h1>
     <!--NAVBAR LT1-->
     </main>
-    <h1 class='titulo'>CLUBE</h1>
+
+<div class='header' >
+
+ <div class="search-box">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Pesquisar">
+                </div>
+
+
+           <button id="clube-add-btn">
+        <span>Adicionar clube</span>
+    </button>
+        </div>
+            
+            
+    
+            </div>
+
 <div class="clubes-container">
     <div class="clubes" data-storage-url="{{ asset('storage') }}">
         <div class="clubes-header">
-            <br><br>
-
-            <div class='header' >
-            <input type="text" class="pesquisa" placeholder='Pesquisar'>
 
             
-            <button id="clube-add-btn">
-        <span>Adicionar clube</span>
-    </button>
-            </div>
         </div>
         
         <div class="list-header">

@@ -15,7 +15,12 @@ class OportunidadeController extends Controller
      * Cria uma nova oportunidade (somente clube autenticado)
      */
 
-    
+     public function showWebPage()
+    {
+        $oportunidades = Oportunidade::with('esporte', 'clube', 'posicao', 'inscricoes')->get();
+
+        return view('admin.oportunidades')->with(['oportunidades' => $oportunidades]);
+    }
 
     //ALGUEM ME AJUDA PELO AMOR DE DEUS --ASS: Luan
 

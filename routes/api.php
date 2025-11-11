@@ -9,6 +9,7 @@ use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\PostagemController;
 
 use App\Http\Controllers\AdmController;
+use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\FuncaoController;
 use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\OportunidadeController;
@@ -173,6 +174,8 @@ Route::prefix('admin')->group(function () {
     Route::middleware('auth:adm_sanctum')->group(function () {
         Route::get('/perfil', [AdmController::class, 'perfilAdm']);
         Route::post('/logout', [AdmController::class, 'logoutAdm']);
+        Route::put('/perfil/identidade', [AdminProfileController::class, 'updateIdentidade']);
+        Route::put('/perfil/informacoes', [AdminProfileController::class, 'updateInformacoes']);
 
         // Adição de clube via adm
         Route::post('/clube', [ClubeController::class, 'storeByAdmin']);
@@ -184,8 +187,8 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/oportunidades', [OportunidadeController::class, 'index']);
         Route::get('/oportunidades/pendentes', [AdmController::class, 'listPending']);
-        Route::post('/oportunidades/{id}/aprovar', [AdmController::class, 'aproved']);
-        Route::post('/oportunidades/{id}/recusar', [AdmController::class, 'rejected']);
+        Route::put('/oportunidade/{oportunidade}/status', [AdmController::class, 'oportunidadeUpdateStatus']);
+        Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 
         // Rotas de gerenciamento
         Route::put('/clube/{id}', [AdmController::class, 'clubeUpdate']);
@@ -224,6 +227,9 @@ Route::prefix('admin')->group(function () {
         Route::delete('/funcao/{id}', [FuncaoController::class, 'destroy']);
         Route::get('/funcao', [FuncaoController::class, 'index']);
         Route::get('/funcao/{id}', [FuncaoController::class, 'show']);
+
+                Route::delete('/listas/{id}', [ListaClubeController::class, 'destroy']);
+        Route::get('/listas/{id}', [ListaClubeController::class, 'show']);
     });
 });
 

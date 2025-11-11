@@ -89,24 +89,30 @@
         </ul>
     </nav>
     <!--NAVBAR LT1-->
+        <h1 class="titulo">Funções</h1>
     </main>
-    <h1 class="titulo">Funções</h1>
+
+
+<div class='header'>
+<div class="search-box">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Pesquisar">
+                </div>
+
+            <button id="funcao-add-btn">
+                <span>
+                    Adicionar Função
+                </span>
+            </button>
+        </div>
+
     <div class="funcoes-container">
     <div class="funcoes">
         <div class="funcoes-header">
             
 
 
-<div class='header'>
-<br>
-<input type="text" class="pesquisa" placeholder='Pesquisar'>
 
-            <button id="funcao-add-btn">
-                <span>
-                    Adicionar função
-                </span>
-            </button>
-        </div>
         </div>
 
         <div class="list-header">
@@ -177,6 +183,7 @@
 
                     <input type="text" name="nome" id="funcao-form-nome">
                 </div>
+                <br>
 
                 <div class="form-group">
                     <label for="funcao-form-descricao">Descrição:</label>

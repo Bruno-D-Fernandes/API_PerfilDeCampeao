@@ -90,20 +90,29 @@
         </ul>
     </nav>
     <!--NAVBAR LT1-->
+                <h1 class='titulo'>Usuarios</h1>
     </main>
     
     <div class="usuarios">
         <div class="usuarios-header">
-            <h1 class='titulo'>Usuarios</h1>
+            <div class="search-box">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Pesquisar">
+                </div>
+
+
+           <button id="usuario-add-btn">
+        <span>Adicionar clube</span>
+    </button>
+        </div>
+</div>
+
             <div class='usuarios-container' >
             
 <div class='header'>
-            <input type="text" class="pesquisa" placeholder='Pesquisar'>
 
             
-            <button id="usuario-add-btn">
-        <span>Adicionar clube</span>
-    </button>
+            
             </div>
 
             
@@ -324,4 +333,4 @@
     <script src="{{ asset('js/admin/usuarios/api.js') }}"></script>
     <script src="{{ asset('js/admin/usuarios/events.js') }}"></script>
 </body>
-</html>
+</html> 

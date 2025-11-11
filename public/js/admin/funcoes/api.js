@@ -57,6 +57,7 @@ async function saveFuncao(funcaoId = null) {
 
         if(!data.error || !data.errors) {
             alert('Função salva com sucesso!');
+            window.location.reload(true);
 
             if (!editMode) {
                 funcoes.appendChild(createFuncaoRow(data));

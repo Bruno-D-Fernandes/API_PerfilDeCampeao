@@ -377,15 +377,6 @@ class AdmController extends Controller
         return response()->json($oportunidade, 200);
     }
 
-    public function listPending(Request $request){
-        $perPage = $request->query('per_page', 15);
-        $oportunidades = Oportunidade::pending()
-        ->with(['esporte', 'posicao', 'clube'])
-        ->orderBy('created_at')
-        ->paginate($perPage);
-        
-        return response()->json($oportunidades, 200);
-    }
     public function aproved(Request $request, $id){
         $admin = $request->user();
         if (!$admin || !($admin instanceof Admin)) {
@@ -424,5 +415,43 @@ class AdmController extends Controller
         ]);
 
         return response()->json(['message' => 'Oportunidade rejeitada'], 200);
+    }
+    public function oportunidadeUpdateStatus(Request $request, Oportunidade $oportunidade)
+    {
+        $data = $request->validate([
+            'status' => ['required', Rule::in([Oportunidade::STATUS_REJECTED, Oportunidade::STATUS_APPROVED])],
+            'rejection_reason' => [
+                'nullable',
+                Rule::requiredIf($request->status == Oportunidade::STATUS_REJECTED),
+                'string',
+                'max:255'
+            ]
+        ]);
+
+        $admin = $request->user();
+
+        $oportunidade->status = $data['status'];
+        $oportunidade->reviewed_by = $admin->id;
+        $oportunidade->reviewed_at = now();
+
+        if ($data['status'] == Oportunidade::STATUS_REJECTED) {
+            $oportunidade->rejection_reason = $data['rejection_reason'];
+        } else {
+            $oportunidade->rejection_reason = null;
+        }
+
+        $oportunidade->save();
+
+        return response()->json($oportunidade->load('clube', 'esporte', 'posicao', 'inscricoes'));
+    }
+
+    public function listPending(Request $request){
+        $perPage = $request->query('per_page', 15);
+        $oportunidades = Oportunidade::pending()
+        ->with(['esporte', 'posicao', 'clube'])
+        ->orderBy('created_at')
+        ->paginate($perPage);
+        
+        return response()->json($oportunidades, 200);
     }
 }

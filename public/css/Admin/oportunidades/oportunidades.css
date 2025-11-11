@@ -1,0 +1,213 @@
+        .hidden {
+            display: none !important;
+        }
+
+        .oportunidades {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;/
+        }
+
+        .oportunidades-header {
+        display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    min-height: 70px;
+    margin-bottom: 24px; /* aumentado ligeiramente */
+    background-color: #ffffff;
+    margin-left: 100px;
+    margin-right: 30px;
+    padding: 16px 20px; /* padding um pouco maior */
+    border-radius: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08); /* sombra suave para destaque */
+        }
+
+        .oportunidade, .list-header {
+display: grid;
+    gap: 20px;
+    padding: 14px 0;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    grid-template-columns: 
+        2fr          /* Clube */
+        3fr          /* Esporte */
+        1fr          /* Posição */
+        1fr          /* Data */
+        1.5fr        /* Inscritos */
+        1fr          /* Status */
+        minmax(250px, auto); /* Ações */
+    }
+.total{
+        display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    height: auto; /* remove altura fixa para melhor adaptação */
+    min-height: 70px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    margin-left: 100px;
+    margin-right: 30px;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+        .header-col {
+        display: flex;
+        justify-content: center;
+        color: #003dadea;
+        font-weight: bold;
+    }
+
+    .oportunidade > div {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+        .header-col > span {
+            font-size: 16px;
+        }
+
+        .oportunidade > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        } 
+
+        .oportunidade-acoes {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+        }
+        
+        .oportunidade-acoes button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+        }
+
+        .oportunidade-acoes button:hover {
+    background-color: #e0e0e0;
+}
+        
+
+        .modal-backdrop {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .app-modal {
+            width: 600px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-modal-btn {
+            width: 32px;
+            height: 32px;
+        }
+
+        .modal-body, .form-group, #oportunidade-view, #status-view {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group label {
+            width: 100%;
+        }
+
+        .modal-body {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            width: 100%;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+        }
+
+        .modal-footer button {
+            width: 50%;
+            height: 100%;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+            .search-box {
+    flex: 1;
+    min-width: 250px;
+    position: relative;
+    
+}
+
+.search-box i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+.search-box input {
+    width: 100%;
+    height: 50px;
+    padding: 10px 14px 10px 42px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: rgb(240, 245, 255);
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: border .2s, box-shadow .2s;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--focus-color);
+    box-shadow: 0 0 0 3px rgba(90, 155, 213, 0.2);
+}
+
+    .titulo {
+        font-size: 30pt;
+        color: #003dadea;
+        font-family: Inter, Poppins, sans-serif;
+        margin-left: 5%;
+        margin-top: 0px;
+    }

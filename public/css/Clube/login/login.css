@@ -1,0 +1,377 @@
+/* ==============================
+   Variáveis Globais
+============================== */
+:root {
+    --primary-color: #27ae60;
+    --secondary-color: #3a5a78;
+    --background-color: #f0f4f8;
+    --card-background: #ffffff;
+    --text-color: #5a6a7b;
+    --border-color: #dbe2ea;
+    --placeholder-color: #9aa8b8;
+}
+
+/* ==============================
+   Reset e Base
+============================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+/* Gradiente escuro por cima do fundo */
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+    url('/img/fundo.png'); /* se tiver */
+    background-size: cover;
+    background-attachment: fixed; /* melhor que ::before com fixed */
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ==============================
+   Layout Principal
+============================== */
+.main-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* ==============================
+   Texto Motivacional
+============================== */
+.text-section {
+    flex: 1 1 400px;
+    text-align: left;
+    min-width: 280px;
+}
+
+.text-section h1 {
+    color: #fff;
+    font-size: clamp(28px, 5vw, 56px);
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.highlight {
+    color: var(--primary-color);
+}
+
+/* ==============================
+   Card de Login
+============================== */
+.form-section {
+    flex: 1 1 450px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.login-form {
+    background-color: rgba(255, 255, 255, 0.95);
+    width: 120%;
+    max-width: 700px;
+    padding: 50px;
+    border-radius: 24px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    position: relative;
+    z-index: 2;
+}
+
+/* ==============================
+   Inputs e Labels
+============================== */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    color: var(--primary-color);
+    font-size: 15px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 16px 18px;
+    border: 2px solid #a1ffa7;
+    border-radius: 10px;
+    font-size: 17px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.2);
+}
+
+.input-group input.error {
+    border-color: #e53e3e;
+    box-shadow: 0 0 0 4px rgba(229, 62, 62, 0.2);
+}
+
+.error-message {
+    color: #e53e3e;
+    font-size: 14px;
+    margin-top: 8px;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+}
+
+/* ==============================
+   Links
+============================== */
+.forgot-password {
+    color: var(--primary-color);
+    font-size: 15px;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 24px;
+    transition: 0.3s;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.signup-link {
+    color: var(--primary-color);
+    font-size: 17px;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    font-weight: bold;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}
+
+/* ==============================
+   Botão
+============================== */
+.submit-button {
+    width: 100%;
+    min-height: 54px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 19px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.submit-button:hover:not(:disabled) {
+    background-color: #219653;
+    transform: scale(1.05);
+}
+
+.submit-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Loading Spinner */
+.submit-button.loading {
+    color: transparent;
+}
+
+.submit-button.loading::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 50%;
+    left: 50%;
+    margin-left: -12px;
+    margin-top: -12px;
+    border: 3px solid transparent;
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ==============================
+   Notificações
+============================== */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 10px;
+    color: white;
+    font-weight: 500;
+    z-index: 10001;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    max-width: 300px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification.success {
+    background-color: var(--primary-color);
+}
+
+.notification.error {
+    background-color: #e53e3e;
+}
+
+/* ==============================
+   Responsividade
+============================== */
+
+/* Tablets e telas médias */
+@media (max-width: 1024px) {
+    .main-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .text-section {
+        text-align: center;
+    }
+
+    .text-section h1 {
+        text-align: center;
+    }
+
+    .form-section {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .login-form {
+        max-width: 550px;
+    }
+}
+
+/* Smartphones e telas pequenas */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .main-container {
+        padding: 15px;
+        gap: 25px;
+    }
+
+    .login-form {
+        padding: 30px 25px;
+        max-width: 100%;
+        border-radius: 20px;
+    }
+
+    .submit-button {
+        font-size: 16px;
+        min-height: 48px;
+    }
+
+    .text-section h1 {
+        font-size: clamp(24px, 6vw, 36px);
+        margin-bottom: 15px;
+    }
+
+    .input-group input {
+        padding: 12px 14px;
+        font-size: 15px;
+    }
+}
+
+/* Telas muito pequenas */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .main-container {
+        padding: 10px;
+        gap: 20px;
+    }
+
+    .login-form {
+        padding: 25px 20px;
+        border-radius: 16px;
+    }
+
+    .text-section h1 {
+        font-size: clamp(22px, 7vw, 32px);
+    }
+
+    .input-group {
+        margin-bottom: 16px;
+    }
+
+    .input-group label {
+        font-size: 13px;
+        margin-bottom: 6px;
+    }
+
+    .input-group input {
+        padding: 11px 12px;
+        font-size: 14px;
+    }
+
+    .submit-button {
+        font-size: 15px;
+        min-height: 46px;
+    }
+
+    .forgot-password {
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    .signup-link {
+        font-size: 14px;
+    }
+}
+
+/* Telas grandes (desktops) */
+@media (min-width: 1440px) {
+    .main-container {
+        max-width: 1400px;
+    }
+
+    .login-form {
+        max-width: 620px;
+        padding: 55px;
+    }
+}
+

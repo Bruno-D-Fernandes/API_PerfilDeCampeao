@@ -22,6 +22,7 @@ class Oportunidade extends Model
 
 
     protected $table = 'oportunidades';
+        protected $hidden = ['created_at', 'updated_at'];
 
     public const STATUS_PENDING = 'pending';
     public const STATUS_APPROVED = 'approved';
@@ -100,5 +101,16 @@ class Oportunidade extends Model
     public function candidatos(){
         return $this->belongsToMany(Usuario::class, 'inscricoes', 'oportunidade_id', 'usuario_id')
             ->withPivot('status','mensagem')->withTimestamps();
+    }
+
+    public function showHTMLStatus()
+    {
+        if ($this->status == $this::STATUS_APPROVED) {
+            return 'Aprovada';
+        } else if ($this->status == $this::STATUS_REJECTED) {
+            return 'Rejeitada';
+        } else {
+            return 'Pendente';
+        }
     }
 }
