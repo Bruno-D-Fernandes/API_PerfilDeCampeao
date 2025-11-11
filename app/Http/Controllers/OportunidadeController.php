@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Clube;
+use Carbon\Carbon;
 
 class OportunidadeController extends Controller
 {
@@ -29,9 +30,16 @@ class OportunidadeController extends Controller
     public function store(Request $request)
     {
 
+        $clube = $request->user();
+
+        if (!$clube || !($clube instanceof Clube)) {
+            return response()->json([
+                'message' => 'Apenas clubes autenticados podem criar oportunidades'
+            ], 403);
+        }
+       
         $validatedData = $request->validate([
             'descricaoOportunidades'    => 'required|string|max:255',
-            'datapostagemOportunidades' => 'required|date',
             'esporte_id'                => 'required|exists:esportes,id',
             'posicoes_id'               => 'required|exists:posicoes,id',
             'idadeMinima'               => 'nullable|integer|min:0|max:120',
@@ -42,13 +50,11 @@ class OportunidadeController extends Controller
             'cepOportunidade'           => 'nullable|string|max:9',
         ]);
 
-        $clube = $request->user();
-
         try {
 
             $oportunidade = Oportunidade::create([
                 'descricaoOportunidades'    => $validatedData['descricaoOportunidades'],
-                'datapostagemOportunidades' => $validatedData['datapostagemOportunidades'],
+                'datapostagemOportunidades' => Carbon::now(),
                 'esporte_id'                => $validatedData['esporte_id'],
                 'posicoes_id'               => $validatedData['posicoes_id'],
                 'clube_id'                  => $clube->id,
@@ -61,7 +67,6 @@ class OportunidadeController extends Controller
                 'cepOportunidade'           => $validatedData['cepOportunidade']    ?? null,
             ]);
 
-            // 4. Sucesso!
             return response()->json($oportunidade->load('posicao', 'esporte', 'candidatos'), 201);
         } catch (\Exception $e) {
 
@@ -80,6 +85,7 @@ class OportunidadeController extends Controller
 
         return response()->json($oportunidades, 200);
     }
+
 
     public function show($id)
     {
@@ -108,7 +114,6 @@ class OportunidadeController extends Controller
 
         $validatedData = $request->validate([
             'descricaoOportunidades'    => 'sometimes|required|string|max:255',
-            'datapostagemOportunidades' => 'sometimes|required|date',
             'esporte_id'                => 'sometimes|required|exists:esportes,id',
             'posicoes_id'               => 'sometimes|required|exists:posicoes,id',
             'idadeMinima'               => 'sometimes|integer|min:0|max:120',
