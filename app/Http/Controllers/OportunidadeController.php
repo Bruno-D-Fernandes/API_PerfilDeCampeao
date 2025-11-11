@@ -16,7 +16,7 @@ class OportunidadeController extends Controller
     {
         $oportunidades = Oportunidade::with('esporte', 'clube', 'posicao', 'inscricoes')->get();
 
-        return view('admin.oportunidades')->with(['oportunidades' => $oportunidades]);
+        return view('admin.listas.oportunidades')->with(['oportunidades' => $oportunidades]);
     }
 
     /**

@@ -13,7 +13,7 @@ class AdminProfileController extends Controller
     public function showProfilePage(Request $request) {
         $admin = Admin::findOrFail(1);
 
-        return view('admin.perfil')->with(
+        return view('admin.configuracoes.perfil')->with(
             ['admin' => $admin]
         );
     }

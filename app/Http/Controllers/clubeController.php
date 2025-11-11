@@ -42,7 +42,7 @@ class ClubeController extends Controller
 
         $categorias = Categoria::all();
 
-        return view('clube.perfil')->with(['clube' => $clube, 'esportes' => $esportes, 'funcoes' => $funcoes, 'posicoes' => $posicoes, 'categorias' => $categorias, 'membrosAgrupados' => $membrosAgrupados]);
+        return view('clube.perfis.perfil')->with(['clube' => $clube, 'esportes' => $esportes, 'funcoes' => $funcoes, 'posicoes' => $posicoes, 'categorias' => $categorias, 'membrosAgrupados' => $membrosAgrupados]);
     }
 
     public function showWebPage()
@@ -51,7 +51,7 @@ class ClubeController extends Controller
         $esportes = Esporte::all();
         $categorias = Categoria::all();
 
-        return view('admin.clubes')->with(['clubes' => $clubes, 'esportes' => $esportes, 'categorias' => $categorias]);
+        return view('admin.listas.clubes')->with(['clubes' => $clubes, 'esportes' => $esportes, 'categorias' => $categorias]);
     }
 
     // Listar todos os clubes

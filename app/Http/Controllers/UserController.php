@@ -24,7 +24,7 @@ class UserController extends Controller
             'perfis.caracteristicas',
         ])->findOrFail($id);
 
-        return view('clube.usuarios', [
+        return view('clube.perfis.usuarios', [
             'usuario' => $usuario
         ]);
     }
@@ -33,7 +33,7 @@ class UserController extends Controller
     {
         $usuarios = Usuario::all();
 
-        return view('admin.usuarios')->with(['usuarios' => $usuarios]);
+        return view('admin.listas.usuarios')->with(['usuarios' => $usuarios]);
     }
 
     // Listar todos os usuários

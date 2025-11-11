@@ -13,7 +13,7 @@ class FuncaoController extends Controller
     {
         $funcoes = Funcao::all();
 
-        return view('admin.funcoes')->with(['funcoes' => $funcoes]);
+        return view('admin.listas.funcoes')->with(['funcoes' => $funcoes]);
     }
 
     /**
