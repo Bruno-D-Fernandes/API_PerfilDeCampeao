@@ -61,22 +61,3 @@ function renderActions() {
   });
 }
 
-function renderPendingOpps() {
-  const ul = $('#pendingOpps');
-  ul.innerHTML = '';
-  const ordered = state.pending.slice().sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0));
-  const slice = ordered.slice(0, state.pendingShown * state.pendingPageSize);
-  slice.forEach(o => {
-    const li = document.createElement('li');
-    const href = `/admin/oportunidades`;
-    const desc = o.descricaoOportunidades || '(sem descrição)';
-    const pos  = o.posicao?.nomePosicao || '-';
-    const esp  = o.esporte?.nomeEsporte || '-';
-    const club = o.clube?.nomeClube || o.clube?.nome || `#${o.clube_id}`;
-    const date = o.created_at ? new Date(o.created_at).toLocaleString() : '-';
-    li.innerHTML = `<a href="${href}">[PENDENTE] ${desc} — ${pos} / ${esp} — ${club} — ${date}</a>`;
-    ul.appendChild(li);
-  });
-  const btn = $('#morePending');
-  if (btn) btn.disabled = slice.length >= state.pending.length;
-}

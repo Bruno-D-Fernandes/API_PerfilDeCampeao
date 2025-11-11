@@ -37,5 +37,4 @@ const api = {
       throw e;
     }
   },
-  oppsPending: () => apiGet('/api/admin/oportunidades/pendentes')
 };

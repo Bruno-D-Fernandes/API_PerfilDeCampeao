@@ -18,15 +18,6 @@ async function loadOppsFlow() {
   renderActions();
 }
 
-async function loadPendingFlow() {
-  try {
-    const res = await api.oppsPending();
-    state.pending = normalizeList(res);
-    state.pendingShown = 1;
-    renderPendingOpps();
-  } catch {}
-}
-
 document.addEventListener('DOMContentLoaded', async () => {
   const token = getToken();
   if (!token || !token.startsWith('Bearer ')) {
@@ -55,8 +46,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderLatestOpps();
   });
 
-  $('#morePending')?.addEventListener('click', () => {
-    state.pendingShown += 1;
-    renderPendingOpps();
-  });
 });

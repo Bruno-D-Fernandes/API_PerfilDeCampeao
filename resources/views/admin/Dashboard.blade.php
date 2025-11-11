@@ -51,11 +51,6 @@
       <button id="moreOpps">Ver mais</button>
     </section>
 
-    <section>
-        <h3>Oportunidades pendentes</h3>
-        <ul id="pendingOpps"></ul>
-        <button id="morePending" type="button">Ver mais</button>
-    </section>
 
     <section>
       <h3>Últimas denúncias</h3>

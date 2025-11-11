@@ -12,10 +12,13 @@ use Carbon\Carbon;
 
 class InscricaoOportunidadeController extends Controller
 {
+    /**
+     * USUÁRIO: inscrever-se em uma oportunidade (status = PENDING).
+     */
     public function store(Request $request, $oportunidadeId)
     {
         $user = $request->user();
-        
+
         if (!$user || !($user instanceof Usuario)) {
             return response()->json(['message' => 'Somente usuário autenticado pode se inscrever'], 403);
         }
@@ -23,7 +26,9 @@ class InscricaoOportunidadeController extends Controller
         $op = Oportunidade::findOrFail($oportunidadeId);
 
         $jaExiste = Inscricao::where('oportunidade_id', $op->id)
-            ->where('usuario_id', $user->id)->exists();
+            ->where('usuario_id', $user->id)
+            ->exists();
+
         if ($jaExiste) {
             return response()->json(['message' => 'Já inscrito'], 409);
         }
@@ -31,7 +36,7 @@ class InscricaoOportunidadeController extends Controller
         $insc = Inscricao::create([
             'oportunidade_id' => $op->id,
             'usuario_id'      => $user->id,
-            'status'          => 'pendente',
+            'status'          => Inscricao::STATUS_PENDING,
         ]);
 
         event(new OpportunityApplicationCreatedEvent($user, $op, $op->clube));
@@ -39,11 +44,14 @@ class InscricaoOportunidadeController extends Controller
         return response()->json($insc, 201);
     }
 
-    // USUÁRIO: minhas inscrições
+    /**
+     * USUÁRIO: minhas inscrições (com paginação configurável).
+     */
     public function myOportunidadesUsuario(Request $request)
     {
         $user = $request->user();
-        $per_page = $request->query('per_page', 15);
+        $per_page = (int) $request->query('per_page', 15);
+
         if (!$user || !($user instanceof Usuario)) {
             return response()->json(['message' => 'Somente usuário autenticado'], 403);
         }
@@ -55,55 +63,74 @@ class InscricaoOportunidadeController extends Controller
             ])
             ->where('usuario_id', $user->id)
             ->orderByDesc('created_at')
-            ->paginate(15);
+            ->paginate($per_page);
 
         return response()->json($lista);
     }
 
-    // CLUBE: ver inscritos de uma oportunidade do próprio clube
+    /**
+     * 
+     */
     public function inscritosClube(Request $request, $oportunidadeId)
     {
-        try{
         $clube = $request->user();
         if (!$clube || !($clube instanceof Clube)) {
             return response()->json(['message' => 'Somente clube autenticado'], 403);
         }
 
-        $op = Oportunidade::with(['esporte:id,nomeEsporte','posicao:id,nomePosicao'])->findOrFail($oportunidadeId);
-        if ($op->clube_id !== $clube->id) {
+        $op = Oportunidade::findOrFail($oportunidadeId);
+        if ((int)$op->clube_id !== (int)$clube->id) {
             return response()->json(['message' => 'Não autorizado'], 403);
         }
 
-        $inscritos = Inscricao::with([
+        $perPage = (int) $request->query('per_page', 15);
+
+        $listAtletas = Inscricao::with([
                 'usuario:id,nomeCompletoUsuario,emailUsuario,estadoUsuario,cidadeUsuario,dataNascimentoUsuario,alturaCm,pesoKg'
             ])
-            ->where('oportunidade_id', $op->id)
+            ->where('oportunidade_id', $oportunidadeId)
+            ->where(function ($q) {
+                $q->where('status', Inscricao::STATUS_PENDING)
+                  ->orWhere('status', Inscricao::STATUS_APPROVED);
+            })
             ->orderByDesc('created_at')
-            ->paginate(30);
+            ->paginate($perPage);
 
-        $mapped = $inscritos->getCollection()->map(function($row) use ($op) {
-            $u = $row->usuario;
-            return [
-                'inscricao_id' => $row->id,
-                'usuario_id'   => $u->id,
-                'nome'         => $u->nomeCompletoUsuario,
-                'modalidade'   => $op->esporte?->nomeEsporte,
-                'posicao'      => $op->posicao?->nomePosicao,
-                'local'        => ($u->cidadeUsuario ? $u->cidadeUsuario.' - ' : '') . ($u->estadoUsuario ?? ''),
-                'idade'        => $u->dataNascimentoUsuario ? Carbon::parse($u->dataNascimentoUsuario)->age . ' anos' : null,
-                'status'       => $row->status,
-            ];
-        });
-
-        $inscritos->setCollection($mapped);
-        return response()->json($inscritos);
-    }catch(\Exception $e){
-        return response()->json(['message' => 'Oportunidade não encontrada'], 500);
-
-    }
+        return response()->json($listAtletas, 200);
     }
 
-    // CLUBE: remover um inscrito (ex.: botão "Remover")
+    /**
+     * 
+     */
+    public function aceitar(Request $request, $oportunidadeId, $usuarioId)
+    {
+        $clube = $request->user();
+        if (!$clube || !($clube instanceof Clube)) {
+            return response()->json(['message' => 'Somente clube autenticado'], 403);
+        }
+
+        $op = Oportunidade::findOrFail($oportunidadeId);
+        if ((int)$op->clube_id !== (int)$clube->id) {
+            return response()->json(['message' => 'Não autorizado'], 403);
+        }
+
+        $insc = Inscricao::where('oportunidade_id', $op->id)
+            ->where('usuario_id', $usuarioId)
+            ->firstOrFail();
+
+        if ($insc->status !== Inscricao::STATUS_APPROVED) {
+            $insc->update(['status' => Inscricao::STATUS_APPROVED]);
+        }
+
+        return response()->json([
+            'status' => $insc->status,
+            'message'=> 'Inscrição aprovada com sucesso.'
+        ], 200);
+    }
+
+    /**
+     * 
+     */
     public function remover(Request $request, $oportunidadeId, $usuarioId)
     {
         $clube = $request->user();
@@ -112,17 +139,27 @@ class InscricaoOportunidadeController extends Controller
         }
 
         $op = Oportunidade::findOrFail($oportunidadeId);
-        if ($op->clube_id !== $clube->id) {
+        if ((int)$op->clube_id !== (int)$clube->id) {
             return response()->json(['message' => 'Não autorizado'], 403);
         }
 
         $insc = Inscricao::where('oportunidade_id', $op->id)
-                ->where('usuario_id', $usuarioId)->firstOrFail();
+            ->where('usuario_id', $usuarioId)
+            ->firstOrFail();
 
-        $insc->delete();
-        return response()->json(['ok' => true]);
+        if ($insc->status !== Inscricao::STATUS_REJECTED) {
+            $insc->update(['status' => Inscricao::STATUS_REJECTED]);
+        }
+
+        return response()->json([
+            'status' => $insc->status,
+            'message'=> 'Inscrição recusada com sucesso.'
+        ], 200);
     }
 
+    /**
+     * USUÁRIO: cancelar a própria inscrição (deleta).
+     */
     public function cancelar(Request $request, $oportunidadeId)
     {
         $user = $request->user();
@@ -131,26 +168,35 @@ class InscricaoOportunidadeController extends Controller
         }
 
         $insc = Inscricao::where('oportunidade_id', $oportunidadeId)
-                ->where('usuario_id', $user->id)->firstOrFail();
+            ->where('usuario_id', $user->id)
+            ->firstOrFail();
 
         $insc->delete();
-        return response()->json(['ok' => true]);
+        return response()->json([
+            'message' => 'Inscrição cancelada com sucesso.'
+        ], 200);
     }
 
+    /**
+     * 
+     */
     public function myOportunidadesClube(Request $request)
     {
         $clube = $request->user();
-        $per_page = $request->query('per_page', 15);
+        $per_page = (int) $request->query('per_page', 15);
+
+        if (!$clube || !($clube instanceof Clube)) {
+            return response()->json(['message' => 'Somente clube autenticado'], 403);
+        }
 
         $q = Oportunidade::where('clube_id', $clube->id)
             ->with(['esporte','posicao'])
             ->orderByDesc('id');
 
-        if($s = $request->query('status')){
+        if ($s = $request->query('status')) {
             $q->where('status', $s);
         }
+
         return response()->json($q->paginate($per_page));
     }
 }
-
-
