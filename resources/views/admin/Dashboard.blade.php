@@ -9,8 +9,10 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
-  <nav class="barra-lateral" id="barra-lateral">
-<div class="logo-container">
+<nav class="barra-lateral" id="barra-lateral">
+
+        <!--ESPAÇO PRA LOGO LT1-->
+        <div class="logo-container">
             <!-- LOGO PEQUENA-->
             <img src="/img/logo-admin-reduzida.jpeg" alt="Logo" class="logo-pequena">
             <!--LOGO GRANDE-->
@@ -19,7 +21,7 @@
         </div>
 
         <ul class="menu-navegacao">
-            <li>
+            <li class="ativo">
                 <a href="/admin/dashboard">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
@@ -61,8 +63,8 @@
                     <span>Pesquisa</span>
                 </a>
             </li>
-            <li class="ativo">
-                <a href="#">
+            <li >
+                <a href="/admin/config/layout">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>
@@ -78,73 +80,85 @@
         </ul>
 </nav>    
   <h1>Dashboard</h1>
-  <div id="adminProfile">Admin logado</div>
+  <!-- <div id="adminProfile">Admin logado</div> -->
 
   <!-- Cards -->
   <section id="metrics">
-    <div>
-      <h6>Usuários</h6>
-      <div id="metricUsers">-</div>
+    <div class="grupoCardCima">
+    <div class="cardCima">
+      <h4>Usuários</h4>
+      <div id="metricUsers" class="numUser">-</div>
+      <img src="/img/usuarioDashAdm.png" alt="" class="imgUserDash">
     </div>
-    <div>
-      <h2>Clubes</h2>
-      <div id="metricClubs">-</div>
+
+    <div class="cardCima">
+      <h4>Clubes</h4>
+      <div id="metricClubs" class="numClubes">-</div>
+      <img src="/img/clubeDashAdm.png" alt="" class="imgClubeDash">
     </div>
-    <div>
-      <h2>Oportunidades</h2>
-      <div id="metricOpps">-</div>
+    <div class="cardCima">
+      <h4>Oportunidades</h4>
+      <div id="metricOpps" class="numOportu">-</div>
     </div>
-    <div>
-      <h2>Denúncias</h2>
-      <div id="metricReports">—</div>
-      <small>(API ainda não implementada)</small>
+    <div class="cardCima">
+      <h4>Denúncias</h4>
+      <div id="metricReports" class="numDenun">—</div>
+      <!--<small>(API ainda não implementada)</small>-->
+    </div>
     </div>
   </section>
 
   <!-- Blocos -->
   <main>
-    <section>
-      <h3>Cadastro de usuários</h3>
-      <div id="usersChartPlaceholder">[gráfico futuro]</div>
-      <select id="usersChartRange">
+    <div class="grupoCardMeio">
+    <section class="cardCadaUser">
+      <img src="{{asset('/img/cadaUsuarioDashAdmin.png')}}" class="iconUser" alt="">
+      <h4>Cadastro de usuários</h4>
+      <!--<div id="usersChartPlaceholder">[gráfico futuro]</div>-->
+      <select id="usersChartRange" class="tempoCada">
         <option value="6m">6 meses</option>
         <option value="12m">12 meses</option>
         <option value="3m">3 meses</option>
       </select>
     </section>
 
-    <section>
-      <h3>Últimas oportunidades</h3>
+    <section class="cardUltiOpor">
+      <img src="{{asset('/img/oportuDashAdm.png')}}" class="iconOportuUm" alt="">
+      <h4>Últimas oportunidades</h4>
       <ul id="latestOpps"></ul>
       <button id="moreOpps">Ver mais</button>
     </section>
 
-    <section>
-        <h3>Oportunidades pendentes</h3>
+    <section class="cardOportuPen">
+      <img src="{{asset('/img/oportuDashAdm.png')}}" class="iconOportuDois" alt="">
+        <h4>Oportunidades pendentes</h4>
         <ul id="pendingOpps"></ul>
         <button id="morePending" type="button">Ver mais</button>
     </section>
 
-    <section>
-      <h3>Últimas denúncias</h3>
+    <section class="cardUltiDenun">
+      <img src="{{asset('/img/denunDashAdm.png')}}" class="iconDenun" alt="">
+      <h4>Últimas denúncias</h4>
       <ul id="latestReports">
-        <li>Em breve: conectar API de denúncias</li>
+        <!--<li>Em breve: conectar API de denúncias</li>-->
       </ul>
     </section>
-
+</div>
   </main>
 
   <!-- Ações recentes -->
-  <section>
-    <h3>Ações recentes</h3>
-
+  <section class="acoes">
+    <div class="acoes-topo">
+    <h4>Ações recentes</h4>
+    <div class="ordenar">
     <label for="orderBy">Ordenar por</label>
-    <select id="orderBy">
+    <select id="orderBy" class="selectData">
       <option value="date_desc">Data (mais recente)</option>
       <option value="date_asc">Data (mais antiga)</option>
     </select>
-
-     <table border="1" cellpadding="4" cellspacing="0">
+    </div>
+    </div>
+     <table border="0" cellpadding="4" cellspacing="0">
       <thead>
         <tr>
           <th>Data</th>
