@@ -84,11 +84,12 @@
 <div class="dashContainer">
 
   <div class="cards">
-    <div class="cardOport">
+    <div class="cardOport"><a id="linkOppsAtivas" href="/clube/oportunidades">
       <img src="/img/iconOportuDashClube.png" alt="" class="iconOportu">
       <h5>Oportunidades (ativas)</h5>
       <div id="countOppsAtivas">-</div>
-      <img src="/img/iconAbrirDashClube.png" alt="" class="iconAbrirOportu"><a id="linkOppsAtivas" href="/clube/oportunidades"></a>
+      <img src="/img/iconAbrirDashClube.png" alt="" class="iconAbrirOportu">
+        </a>
     </div>
 
     <div class="cardCamp">
@@ -147,5 +148,6 @@
     <script src="{{ asset('js/clube/dashboard/models.js') }}"></script>
     <script src="{{ asset('js/clube/dashboard/dom-elements.js') }}"></script>
     <script src="{{ asset('js/clube/dashboard/events.js') }}"></script>
+
 </body>
 </html>

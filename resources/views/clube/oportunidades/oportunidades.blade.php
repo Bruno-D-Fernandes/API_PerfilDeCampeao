@@ -123,9 +123,9 @@
                     </div>
                     </div>
                     <div class="col">
-                    <div class="mb-3 input-conteiner">
-                        <input class="form-control" type="text" name="cepOportunidade" id="cep" maxlength="8" onblur="buscaCep()" placeholder="Cep" required>
-                    </div>
+                                    <div class="mb-3 input-conteiner">
+                                        <input class="form-control" type="text" name="cepOportunidade" id="cep" maxlength="8" onblur="handleCepBlur()" placeholder="Cep" required>
+                                    </div>
                     
                     <select class="form-select"  name="estadoOportunidade" id="estadoOportunidade" required>
                         <option value="" selected disabled>Estado</option>
@@ -171,56 +171,13 @@
         </div>
     </div>
 
-    <script>
-        
-//src="{{ asset('js/clube/oportunidades.js')}}"
+    <script src="{{ asset('js/clube/oportunidades/events.js')}}"></script>
+    <script src="{{ asset('js/clube/oportunidades/dom-elements.js')}}"></script>
+    <script src="{{ asset('js/clube/oportunidades/api.js')}}"></script>
+    <script src="{{ asset('js/clube/oportunidades/modals.js')}}"></script>
+    <script src="{{ asset('js/clube/oportunidades/utils.js')}}"></script>
 
-    function buscaCep() {
-        let cep = document.getElementById('cep').value;
-        cep = cep.replace(/\D/g, '');
-        
-        if (cep.length !== 8) { 
 
-            document.getElementById('cidadeOportunidade').value = '';
-            document.getElementById('enderecoOportunidade').value = '';
-            document.getElementById('estadoOportunidade').value = '';
-            return alert('CEP inválido. Deve conter 8 dígitos.');
-
-            if(cep.length > 0){
-                alert('CEP inválido. Deve conter 8 dígitos.');
-            }
-            return
-        }
-
-    document.getElementById('cidadeOportunidade').value = '...';
-
-    const url = `https://viacep.com.br/ws/${cep}/json/`;
-
-    fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro de rede ou na API do ViaCEP.');
-                }
-                return response.json(); 
-            })
-        .then(data => {
-            if (!data.erro) {
-                document.getElementById('cidadeOportunidade').value = data.localidade;
-                document.getElementById('enderecoOportunidade').value = data.logradouro;
-                document.getElementById('estadoOportunidade').value = data.uf;
-            } else {
-                document.getElementById('cidadeOportunidade').value = '';
-                document.getElementById('enderecoOportunidade').value = '';
-                document.getElementById('estadoOportunidade').value = '';
-                alert('CEP não encontrado.');
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao buscar o CEP:', error);
-        });
-
-    }
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
