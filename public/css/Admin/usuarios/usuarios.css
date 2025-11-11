@@ -6,10 +6,10 @@
     }
 
     body {
-        background-color: rgb(232, 240, 247);
+        background-color: rgb(250, 250, 250);
         margin: 0;
         padding: 0;
-        font-family: Arial, sans-serif;
+        font-family: Inter,Poppins,sans-serif;
         overflow-x: hidden;
     }
 
@@ -30,9 +30,9 @@
     .titulo {
         font-size: 30pt;
         color: #003dadea;
-        font-family: serif;
-        margin-bottom: 20px;
-        margin-left: 6%;
+        font-family: Inter,Poppins,sans-serif;
+        margin-top: 25px;
+        margin-left: 1%;
     }
 
     @media (max-width: 768px) {
@@ -67,12 +67,14 @@
         color: aliceblue;
         padding: 14px 20px;
         border: none;
-        border-radius: 14px;
+        border-radius: 15px;
         cursor: pointer;
         font-weight: bold;
         white-space: nowrap;
     }
-
+     #usuario-add-btn:hover {
+        background-color: #0046c9ea;
+     }
     @media (max-width: 600px) {
         .header {
             flex-direction: column;
@@ -369,7 +371,7 @@
     width: 100%;
     height: 50px;
     padding: 10px 14px 10px 42px;
-    border: 1px solid var(--border-color);
+    border: #dfdfdf 2px solid;
     border-radius: 10px;
     background: rgb(240, 245, 255);
     color: var(--text-primary);
@@ -379,8 +381,7 @@
 
 .search-box input:focus {
     outline: none;
-    border-color: var(--focus-color);
-    box-shadow: 0 0 0 3px rgba(90, 155, 213, 0.2);
+    box-shadow: 0 0 0 3px rgba(113, 172, 224, 0.493);
 }
 
     .usuarios-header{

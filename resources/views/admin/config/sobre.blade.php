@@ -1,12 +1,19 @@
 @extends('admin.config.layout')
 
 @section('content')
-  <h2>Sobre</h2>
-  <h3>Sistema</h3>
+<div class="corpoSobre">
   
-  <p>Perfil de Campeão — Versão 1.0 (TCC)</p>
+  <h2>Sobre</h2>
+  <h6>Especificações do sistema desenvolvido.</h6>
+  <h3>Sistema</h3>
+  <div class="logoSobre">
+  <img src="{{asset('/img/logo-admin-reduzida.jpeg')}}" class="logo" alt="">
+  </div>
+  <h6>Perfil de Campeão</h6>
+  <h6>Versão 1.0 (TCC)</h6>
 
   <h3>Desenvolvedores</h3>
+  <div class="listaDev">
   <ul id="devList">
     <li>Adriel</li>
     <li>Bruno</li>
@@ -19,8 +26,9 @@
     <li>Maria Clara</li>
     <li>Vitor Augusto</li>
   </ul>
-
-  <p><a href="#">Política de Privacidade</a></p>
-  <p><a href="#">Termos e Condições</a></p>
-  <p><a href="#">Relatar um problema</a></p>
+</div>
+  <p>Política de privicidade</p>
+  <p>Termos e Condições</p>
+  <p>Relatar um problema</p>
+  </div>
 @endsection

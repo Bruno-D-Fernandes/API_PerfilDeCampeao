@@ -166,7 +166,7 @@
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="/admin/oportunidades">
                     <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
                 </a>
@@ -196,13 +196,13 @@
                 </a>
             </li>
             <li>
-                <a href="./tela-pesquisa/pesquisa.html">
+                <a href="/admin/listas">
                     <i class='bx bx-search'></i>
-                    <span>Pesquisa</span>
+                    <span>Lista</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="/admin/config/layout">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>

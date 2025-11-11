@@ -16,6 +16,19 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+
+    public function showProfilePage(Request $request, $id)
+    {
+        $usuario = Usuario::with([
+            'perfis.esporte',
+            'perfis.posicao',
+            'perfis.caracteristicas',
+        ])->findOrFail($id);
+
+        return view('clube.usuarios', [
+            'usuario' => $usuario
+        ]);
+    }
     public function showWebPage()
     {
         $usuarios = Usuario::all();

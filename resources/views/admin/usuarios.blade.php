@@ -16,7 +16,6 @@
 <body>
 
 <main class="conteudo-principal">
-          <h1 class="titulo"></h1>
           <section class="cards-topo">
     <!--NAVBAR LT1-->
     <nav class="barra-lateral" id="barra-lateral">
@@ -90,7 +89,7 @@
         </ul>
     </nav>
     <!--NAVBAR LT1-->
-                <h1 class='titulo'>Usuarios</h1>
+                <h1 class='titulo'>Usuários</h1>
     </main>
     
     <div class="usuarios">
@@ -102,10 +101,9 @@
 
 
            <button id="usuario-add-btn">
-        <span>Adicionar clube</span>
+        <span>Adicionar Usuario</span>
     </button>
         </div>
-</div>
 
             <div class='usuarios-container' >
             
@@ -196,7 +194,7 @@
 
     <div id="usuario-modal" class="app-modal hidden">
         <div class="modal-header">
-            <h2 class="modal-title">Adicionar usuario</h2>
+            <h2 class="modal-title">Adicionar Usurio</h2>
             <button class="close-modal-btn" data-modal-target="usuario-modal">&times;</button>
         </div>
 

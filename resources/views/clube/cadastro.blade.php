@@ -115,6 +115,10 @@ display: none;
 
 
 <div id='part3'>
+
+        <label for="clube-cidade">Cep</label>
+        <input type="text" name="Cep" id="Cep">
+
         <label for="clube-cidade">Cidade:</label>
         <input type="text" name="cidadeClube" id="clube-cidade">
 
@@ -309,7 +313,8 @@ display: none;
 
 
     </Script>
-    <script src="{{ asset('js/clube/cadastro.js') }}"></script>
+    <script src="{{ asset('js/clube/cadastro/cadastro.js') }}"></script>
+    <script src="{{ asset('js/clube/cadastro/viacep.js') }}"></script>
     
 </body>
 </html>

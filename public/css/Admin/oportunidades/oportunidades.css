@@ -207,7 +207,7 @@ display: grid;
     .titulo {
         font-size: 30pt;
         color: #003dadea;
-        font-family: Inter, Poppins, sans-serif;
-        margin-left: 5%;
-        margin-top: 0px;
+        font-family: Inter,Poppins,sans-serif;
+        margin-top: 25px;
+        margin-left: 0%;
     }

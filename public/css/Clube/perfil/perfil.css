@@ -74,7 +74,7 @@ body {
   overflow-y: auto;
   margin-left: 71px;
   margin-right: -1px;
-  margin-top: -85px;
+  margin-top: -80px;
 }
 
 #add-member-btn {
@@ -686,7 +686,7 @@ body {
 }
 
 .modal-footer button {
-  padding: 10px 20px;
+  padding: 10px 24px;
   border: none;
   border-radius: 8px;
   font-weight: 500;
@@ -694,6 +694,7 @@ body {
   font-size: 14px;
   min-width: 100px;
   text-align: center;
+  align-items: center;
 }
 
 #clube-cancelar-btn,

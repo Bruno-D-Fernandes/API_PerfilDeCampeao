@@ -5,17 +5,275 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="{{ asset('css/Clube/perfil/perfil.css') }}">
+     <link rel="stylesheet" href="{{ asset('css/Clube/perfil/perfil.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sidebar-clube/sidebar-clube.css') }}">
      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
+        .hidden {
+            display: none !important;
+        }
 
+        .container, .profile-info, #profile, .profile-details, .modal-body, .form-group, #oportunidade-view, #opportunities, #members-list, .members-list-group, .members-list-group-function, .members-list-rows, #adicionar-membro-view, #about, #clube-view {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group.img {
+            align-items: center;
+        }
+
+        .form-group.img .img-btns {
+            display: flex;
+            gap: 16px;
+        }
+
+        .form-group label {
+            width: 100%;
+        }
+
+        .img-preview {
+            background-color: #000;
+        }
+
+        .img-preview.foto {
+            height: 96px;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .img-preview.banner {
+            height: 48px;
+            aspect-ratio: 3 / 1;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .img-preview img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 16px; 
+        }
+
+        .profile-imgs {
+            width: 100%;
+            height: 228px;
+            position: relative;
+        }
+
+        .profile-imgs img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .banner {
+            width: 100%;
+            height: 180px;
+            background-color: #000;
+        }
+
+        .picture {
+            height: 96px;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 8px solid #fff;
+            position: absolute;
+            left: 48px;
+            bottom: 0px;
+            overflow: hidden;
+        }
+        
+        .opportunity {
+            width: 100%;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .opportunity-details, .members-btns {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .opportunity-options {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            z-index: 100;
+        }
+
+        .modal-backdrop {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .app-modal {
+            width: 600px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .close-modal-btn {
+            width: 32px;
+            height: 32px;
+        }
+
+        .modal-body, .form-group, #oportunidade-view {
+            width: 100%;
+        }
+
+        .modal-footer {
+            width: 100%;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+        }
+
+        .modal-footer button {
+            width: 50%;
+            height: 100%;
+        }
+
+        #members-list, .members-list-group, .members-list-group-function, .members-list-rows, .members-list-row {
+            width: 100%;
+        }
+
+        .members-list-search {
+            width: 100%;
+            height: 32px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .members-list-row, .opportunities-header, .about-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .no-data {
+            width: 100%;
+            min-height: 140px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-user {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .search-user-container {
+            width: 100%;
+            max-height: 100px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .search-user-row {
+            width: 100%;
+            flex-shrink: 0;
+            background-color: #fafafa;
+        }
+
+        .user-selected {
+            width: 100%;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-picture {
+            height: 75%;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            background-color: #000;
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tab-content.active {
+            display: flex !important;
+        }
+
+        .tab-content {
+            display: none !important;
+        }
+
+        #confirmar-modal, #adicionar-membro-modal, #inscritos-modal {
+            width: 420px;
+        }
+
+        .about-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .info {
+            aspect-ratio: 5 / 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
     </style>
 </head>
 <body>
 
-<main class="conteudo-principal">
+
+
+    <main class="conteudo-principal">
     <!--NAVBAR LT1-->
     <nav class="barra-lateral" id="barra-lateral">
 
@@ -93,7 +351,6 @@
     <!--NAVBAR LT1-->
 
     </main>
-
     <div class="container" data-storage-url="{{ asset('/storage') }}" data-clube-id="{{ $clube->id }}">
 
         <div id="profile">
@@ -650,10 +907,10 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/clube/perfil/dom-elements.js') }}"></script>
-    <script src="{{ asset('js/clube/perfil/utils.js') }}"></script>
-    <script src="{{ asset('js/clube/perfil/modals.js') }}"></script>
-    <script src="{{ asset('js/clube/perfil/api.js') }}"></script>
-    <script src="{{ asset('js/clube/perfil/events.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/perfil/dom-elements.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/perfil/utils.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/perfil/modals.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/perfil/api.js') }}"></script>
+    <script src="{{ asset('js/clube/perfis/perfil/events.js') }}"></script>
 </body>
 </html>

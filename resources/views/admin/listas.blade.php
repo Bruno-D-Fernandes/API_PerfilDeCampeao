@@ -212,7 +212,7 @@
 
             <button id="save-confirm-btn">
                 <span>
-                    Salvar
+                    Excluir
                 </span>
             </button>
         </div>

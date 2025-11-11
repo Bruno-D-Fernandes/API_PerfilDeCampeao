@@ -1,4 +1,4 @@
-const BEARER = '6|z5CkcVgJsQK2greZwGJhIcvPu7c3BkSjkFlb1eundd71ea5e';
+const BEARER = '1|PgHMjEkYTPAxwTPzAMxjy23uFmCkdD8eWgsXXrNj187a5d3a';
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 const funcoes = document.querySelector('.funcoes');

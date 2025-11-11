@@ -1,4 +1,4 @@
-const BEARER = '4|0C5uK0x5dgj7Kq2duezc1n2nqOeUFVZpMszzH7ym6a42ef00';
+const BEARER = localStorage.getItem('adm_token');
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 const usuarios = document.querySelector('.usuarios');

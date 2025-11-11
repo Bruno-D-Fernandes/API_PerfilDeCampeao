@@ -52,7 +52,7 @@ Route::get('/clube/login', function () {
 Route::get('/admin/login', function () {
     return view('admin.login');
 }) ->name('admin.login');
-
+ 
 Route::get('/admin/esportes', [AdmController::class, 'ListarEsportesWeb'])->name('admin-esportes');
 
 Route::get('/admin/funcoes', [FuncaoController::class, 'showWebPage'])->name('admin-funcoes');
@@ -69,9 +69,7 @@ Route::get('/admin/listas', [ListaClubeController::class, 'showWebPage'])->name(
 
 Route::get('/admin/perfil', [AdmController::class, 'showProfilePage']);
 
-Route::get('/admin/config/perfil',function(){
-    return view('admin.config.perfil');
-})->name('admin.config.perfil');
+
 
 Route::get('/admin/config/layout',function(){
     return view('admin.config.layout');
@@ -92,3 +90,5 @@ Route::get('/admin/config/sobre',function(){
 Route::get('/admin/config/tema',function(){
     return view('admin.config.tema');
 })->name('admin.config.tema');
+
+Route::get('/usuario/{id}', [UserController::class, 'showProfilePage'])->name('usuarios');

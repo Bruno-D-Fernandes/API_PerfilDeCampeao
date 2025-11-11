@@ -1,4 +1,4 @@
-const BEARER = '3|iA9K9nhso0buphu3Qa2dpWLQTXeNv9lpwPnyBV7l8e675c82';
+const BEARER = '1|PgHMjEkYTPAxwTPzAMxjy23uFmCkdD8eWgsXXrNj187a5d3a';
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 const clubes = document.querySelector('.clubes');
