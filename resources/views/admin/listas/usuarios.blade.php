@@ -31,13 +31,13 @@
 
         <ul class="menu-navegacao">
             <li >
-                <a href="./index.html">
+                <a href="/admin/dashboard">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="/admin/oportunidades">
                     <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
                 </a>
@@ -67,13 +67,13 @@
                 </a>
             </li>
             <li>
-                <a href="./tela-pesquisa/pesquisa.html">
+                <a href="/admin/listas">
                     <i class='bx bx-search'></i>
-                    <span>Pesquisa</span>
+                    <span>Lista</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="/admin/configuracoes/perfil">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>
@@ -91,6 +91,26 @@
     <!--NAVBAR LT1-->
                 <h1 class='titulo'>Usuários</h1>
     </main>
+                
+    <div class="modal" id="deleteModal">
+    <div class="modal-content">
+      <div class="success delete">Excluído com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <div class="success edit">Editado com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="addModal">
+    <div class="modal-content">
+      <div class="success add">Adicionado com sucesso!</div>
+    </div>
+  </div>
+
+    
     
     <div class="usuarios">
         <div class="usuarios-header">
@@ -232,11 +252,15 @@
                     <input type="text" name="emailUsuario" id="usuario-form-email">
                 </div>
 
-                <div class="form-group">
-                    <label for="usuario-form-genero">Gênero:</label>
-
-                    <input type="text" name="generoUsuario" id="usuario-form-genero">
-                </div>
+<div class="form-group">
+    <label for="usuario-form-genero">Gênero:</label>
+    <select  name="generoUsuario" id="usuario-form-genero">
+        <option value="" disabled>Selecione...</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Feminino">Feminino</option>
+        <option value="Outro">Outro</option>
+    </select>
+</div>
 
                 <div class="form-group">
                     <label for="usuario-form-data">Data de Nascimento:</label>
@@ -300,7 +324,7 @@
     </div>
 
     <div id="confirmar-modal" class="app-modal hidden">
-        <div class="modal-header">
+        <div class="modal-header excluir">
             <h2 class="modal-title">Você deseja excluir este usuario?</h3>
         </div>
         
@@ -319,16 +343,16 @@
 
             <button id="save-confirm-btn">
                 <span>
-                    Salvar
+                    Excluir
                 </span>
             </button>
         </div>
     </div>
 
-    <script src="{{ asset('js/admin/usuarios/dom-elements.js') }}"></script>
-    <script src="{{ asset('js/admin/usuarios/utils.js') }}"></script>
-    <script src="{{ asset('js/admin/usuarios/modals.js') }}"></script>
-    <script src="{{ asset('js/admin/usuarios/api.js') }}"></script>
-    <script src="{{ asset('js/admin/usuarios/events.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/usuarios/dom-elements.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/usuarios/utils.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/usuarios/modals.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/usuarios/api.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/usuarios/events.js') }}"></script>
 </body>
 </html> 
