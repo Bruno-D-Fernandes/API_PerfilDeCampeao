@@ -1,8 +1,7 @@
 // ==== Helpers ====
   const $     = (s) => document.querySelector(s);
-  const rawToken = localStorage.getItem('clube_token') || '';
-  // normalize token to include 'Bearer ' prefix if missing
-  const token = rawToken.startsWith('Bearer ') ? rawToken : (rawToken ? `Bearer ${rawToken}` : '');
+  // token stored in localStorage already contains 'Bearer ' prefix
+  const token = localStorage.getItem('clube_token');
   const csrf  = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
   const headers = {
