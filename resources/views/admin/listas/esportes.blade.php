@@ -90,7 +90,23 @@
     </main>
     <!--NAVBAR LT1-->
     
+     <div class="modal" id="deleteModal">
+    <div class="modal-content">
+      <div class="success delete">Excluído com sucesso!</div>
+    </div>
+  </div>
 
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <div class="success edit">Editado com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="addModal">
+    <div class="modal-content">
+      <div class="success add">Adicionado com sucesso!</div>
+    </div>
+  </div>
 
 <div class="esportes-header">
             
@@ -326,7 +342,7 @@
     </div>
 
     <div id="confirmar-modal" class="app-modal hidden">
-        <div class="modal-header">
+        <div class="modal-header excluir">
             <h2 class="modal-title">Você deseja excluir este usuário?</h3>
         </div>
         
@@ -345,7 +361,7 @@
 
             <button id="save-confirm-btn">
                 <span>
-                    Salvar
+                    Excluir
                 </span>
             </button>
         </div>

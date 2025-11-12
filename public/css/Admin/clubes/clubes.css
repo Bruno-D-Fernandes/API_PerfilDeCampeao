@@ -289,18 +289,23 @@
 .sumir{
     display: flex;
 }
-    #save-confirm-btn {
+  #save-confirm-btn {
         background-color: #ff0000ea;
         color: white;
     }
+
+        #save-confirm-btn:hover {
+        background-color: #e23030ea;
+        color: white;
+    }
+
 
     #clube-cancelar-btn:hover,
     #cancel-confirm-btn:hover {
         background-color: #bbb;
     }
 
-    #clube-salvar-btn:hover,
-    #save-confirm-btn:hover {
+    #clube-salvar-btn:hover{
         background-color: #002a7d;
     }
 

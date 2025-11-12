@@ -23,6 +23,8 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
 
     const saveBtn = modalConfirmar.content.querySelector('#save-confirm-btn');
     const cancelBtn = modalConfirmar.content.querySelector('#cancel-confirm-btn');
+    const modalexc = document.getElementById('deleteModal')
+
 
     const newSaveBtn = saveBtn.cloneNode(true);
     saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
@@ -34,7 +36,12 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
 
     newSaveBtn.addEventListener('click', () => {
         funcaoSim();
+        modalexc.style.display = 'flex';
         fecharModal(modalConfirmar);
+        setTimeout(() => {
+        modalexc.style.display = "none";
+        window.location.reload(true);
+      }, 2000);
     });
 
     newCancelBtn.addEventListener('click', () => {
@@ -49,6 +56,9 @@ function disableInputs() {
         modalFuncao.inputs[1].disabled = true;
         salvarFuncaoBtn.disabled = true;
         cancelarFuncaoBtn.disabled = true;
+        salvarFuncaoBtn.style.display = 'none';
+        cancelarFuncaoBtn.style.display = 'none';
+
     }
 }
 
@@ -57,4 +67,7 @@ function enableInputs() {
     modalFuncao.inputs[1].disabled = false;
     salvarFuncaoBtn.disabled = false;
     cancelarFuncaoBtn.disabled = false;
+    salvarFuncaoBtn.style.display = 'flex';
+    cancelarFuncaoBtn.style.display = 'flex';
+
 }

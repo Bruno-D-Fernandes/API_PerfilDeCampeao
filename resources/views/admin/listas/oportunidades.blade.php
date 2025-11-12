@@ -342,10 +342,10 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/admin/oportunidades/dom-elements.js') }}"></script>
-    <script src="{{ asset('js/admin/oportunidades/utils.js') }}"></script>
-    <script src="{{ asset('js/admin/oportunidades/modals.js') }}"></script>
-    <script src="{{ asset('js/admin/oportunidades/api.js') }}"></script>
-    <script src="{{ asset('js/admin/oportunidades/events.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/oportunidades/dom-elements.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/oportunidades/utils.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/oportunidades/modals.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/oportunidades/api.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/oportunidades/events.js') }}"></script>
 </body>
 </html>

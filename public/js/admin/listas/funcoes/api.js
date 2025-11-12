@@ -35,6 +35,8 @@ async function saveFuncao(funcaoId = null) {
 
         const formData = new FormData(document.querySelector('#funcao-form'));
 
+        
+
         if (editMode) {
             formData.append('_method', 'PUT');
         }
@@ -55,9 +57,27 @@ async function saveFuncao(funcaoId = null) {
 
         const data = await response.json();
 
-        if(!data.error || !data.errors) {
-            alert('Função salva com sucesso!');
-            window.location.reload(true);
+         const addModal = document.getElementById('addModal');
+        const editModal = document.getElementById('editModal');
+
+        if (!data.error && !data.errors) {
+            fecharModal(modalFuncao);
+
+            if (editMode) {
+                // Mostra modal de edição
+                editModal.style.display = 'flex';
+                setTimeout(() => {
+                    editModal.style.display = 'none';
+                    window.location.reload(true);
+                }, 2000);
+            } else {
+                // Mostra modal de adição
+                addModal.style.display = 'flex';
+                setTimeout(() => {
+                    addModal.style.display = 'none';
+                    window.location.reload(true);
+                }, 2000);
+            }
 
             if (!editMode) {
                 funcoes.appendChild(createFuncaoRow(data));
@@ -95,12 +115,12 @@ async function deleteFuncao(funcaoId) {
         const data = await response.json();
 
         if(!data.error && !data.errors) {
-            alert('Função excluída com sucesso!');
+
             funcoes.querySelector(`.funcao[data-funcao-id="${funcaoId}"]`)?.remove();
             funcaoId = -1;
         }                
     } catch (error) {
         console.error('Erro ao excluir função:', error);
-        alert('Erro ao excluir função!');
+/*         alert('Erro ao excluir função!'); */
     }
 }

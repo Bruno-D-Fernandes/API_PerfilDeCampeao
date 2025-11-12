@@ -45,6 +45,8 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
 
     const saveBtn = modalConfirmar.content.querySelector('#save-confirm-btn');
     const cancelBtn = modalConfirmar.content.querySelector('#cancel-confirm-btn');
+    const modalexc = document.getElementById('deleteModal')
+
 
     const newSaveBtn = saveBtn.cloneNode(true);
     saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
@@ -57,6 +59,12 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
     newSaveBtn.addEventListener('click', () => {
         funcaoSim();
         fecharModal(modalConfirmar);
+        modalexc.style.display = 'flex';
+        
+        setTimeout(() => {
+        modalexc.style.display = "none";
+        
+      }, 2000);
     });
 
     newCancelBtn.addEventListener('click', () => {
