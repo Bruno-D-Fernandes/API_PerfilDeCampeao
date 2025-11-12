@@ -179,13 +179,37 @@
       const esporteId = op.esporte_id || op.esporte?.id || '';
       if (esporteId) $('#edit_esporte_id').value = String(esporteId);
 
+      const editEsporteEl = $('#edit_esporte_id');
+      const editPosEl = $('#edit_posicoes_id');
+
+      // initially load positions for the current esporte (if any)
       if (esporteId) {
         const posicoes = await getPosicoes(esporteId);
-        fillSelect($('#edit_posicoes_id'), posicoes, 'id', 'nomePosicao', 'Selecione a posição...');
+        fillSelect(editPosEl, posicoes, 'id', 'nomePosicao', 'Selecione a posição...');
         const posId = op.posicoes_id || op.posicao_id || op.posicao?.id || '';
-        if (posId) $('#edit_posicoes_id').value = String(posId);
+        if (posId) editPosEl.value = String(posId);
       } else {
-        $('#edit_posicoes_id').innerHTML = '<option value="">Selecione um esporte primeiro...</option>';
+        if (editPosEl) editPosEl.innerHTML = '<option value="">Selecione um esporte primeiro...</option>';
+      }
+
+      // Ensure that when user changes esporte in the edit modal, positions are reloaded
+      if (editEsporteEl) {
+        // replace any previous handler to avoid duplicates
+        editEsporteEl.onchange = async (ev) => {
+          const id = ev.target.value;
+          if (!editPosEl) return;
+          if (!id) {
+            editPosEl.innerHTML = '<option value="">Selecione um esporte primeiro...</option>';
+            return;
+          }
+          try {
+            const posicoes = await getPosicoes(id);
+            fillSelect(editPosEl, posicoes, 'id', 'nomePosicao', 'Selecione a posição...');
+          } catch (err) {
+            console.error('Erro ao carregar posições para edição (change):', err);
+            editPosEl.innerHTML = '<option value="">Erro ao carregar posições</option>';
+          }
+        };
       }
     } catch (err) {
       console.error('Erro ao carregar esporte/posição para edição', err);
