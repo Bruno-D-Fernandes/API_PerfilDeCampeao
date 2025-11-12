@@ -297,7 +297,7 @@
   }
 
   // ==== INIT ====
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
     carregarOportunidades();
 
     document.getElementById('btnFiltrarAtivos')?.addEventListener('click', () => {
@@ -308,6 +308,35 @@
     const modalCreate = document.getElementById('modalOportunidades');
     if (modalCreate && window.bootstrap) {
       modalCreate.addEventListener('hidden.bs.modal', () => carregarOportunidades());
+    }
+
+    // ===== Populate create-form selects (esporte -> posicoes) =====
+    const createEsporteEl = document.getElementById('esporte_id');
+    const createPosicoesEl = document.getElementById('posicoes_id');
+
+    if (createEsporteEl) {
+      try {
+        const esportes = await getEsportes();
+        fillSelect(createEsporteEl, esportes, 'id', 'nomeEsporte', 'Selecione o esporte...');
+
+        createEsporteEl.addEventListener('change', async (ev) => {
+          const id = ev.target.value;
+          if (!createPosicoesEl) return;
+          if (!id) {
+            createPosicoesEl.innerHTML = '<option value="">Selecione um esporte primeiro...</option>';
+            return;
+          }
+          try {
+            const posicoes = await getPosicoes(id);
+            fillSelect(createPosicoesEl, posicoes, 'id', 'nomePosicao', 'Selecione a posição...');
+          } catch (err) {
+            console.error('Erro ao carregar posições (create):', err);
+            createPosicoesEl.innerHTML = '<option value="">Erro ao carregar posições</option>';
+          }
+        });
+      } catch (err) {
+        console.error('Erro ao carregar esportes (create):', err);
+      }
     }
 
     const formEdit = document.getElementById('formEditarOportunidade');
