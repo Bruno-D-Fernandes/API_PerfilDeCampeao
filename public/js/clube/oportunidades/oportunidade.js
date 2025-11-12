@@ -310,37 +310,71 @@
       modalCreate.addEventListener('hidden.bs.modal', () => carregarOportunidades());
     }
 
-    // ===== Populate create-form selects (esporte -> posicoes) =====
+    // ===== Populate create-form selects (esporte -> posicoes) using shared api helpers =====
     const createEsporteEl = document.getElementById('esporte_id');
     const createPosicoesEl = document.getElementById('posicoes_id');
 
-    if (createEsporteEl) {
+    async function populateCreateEsportes() {
+      if (!createEsporteEl) return;
       try {
-        console.debug('[oportunidade] populating create esporte select, token present?', !!token);
-        const esportes = await getEsportes();
-        console.debug('[oportunidade] getEsportes returned', esportes);
-        fillSelect(createEsporteEl, esportes, 'id', 'nomeEsporte', 'Selecione o esporte...');
+        console.debug('[oportunidade] populateCreateEsportes: requesting esportes');
+        const { ok, data } = (typeof apiCarregarEsportes === 'function')
+          ? await apiCarregarEsportes()
+          : { ok: true, data: await (await fetch('/api/clube/esporte', { headers:{ Authorization: token, Accept: 'application/json' }})).json() };
 
-          createEsporteEl.addEventListener('change', async (ev) => {
-          const id = ev.target.value;
-          if (!createPosicoesEl) return;
-          if (!id) {
-            createPosicoesEl.innerHTML = '<option value="">Selecione um esporte primeiro...</option>';
-            return;
-          }
-          try {
-            console.debug('[oportunidade] loading posicoes for esporte', id);
-            const posicoes = await getPosicoes(id);
-            console.debug('[oportunidade] getPosicoes returned', posicoes);
-            fillSelect(createPosicoesEl, posicoes, 'id', 'nomePosicao', 'Selecione a posição...');
-          } catch (err) {
-            console.error('Erro ao carregar posições (create):', err);
-            createPosicoesEl.innerHTML = '<option value="">Erro ao carregar posições</option>';
-          }
-        });
+        if (!ok) {
+          console.error('[oportunidade] apiCarregarEsportes returned error', data);
+          createEsporteEl.innerHTML = '<option value="">Erro ao carregar esportes</option>';
+          return;
+        }
+
+        fillSelect(createEsporteEl, data, 'id', 'nomeEsporte', 'Selecione o esporte...');
       } catch (err) {
-        console.error('Erro ao carregar esportes (create):', err);
+        console.error('[oportunidade] populateCreateEsportes failed', err);
+        createEsporteEl.innerHTML = '<option value="">Erro ao carregar esportes</option>';
       }
+    }
+
+    async function populateCreatePosicoes(esporteId) {
+      if (!createPosicoesEl) return;
+      if (!esporteId) {
+        createPosicoesEl.innerHTML = '<option value="">Selecione um esporte primeiro...</option>';
+        return;
+      }
+      try {
+        const { ok, data } = (typeof apiCarregarPosicoes === 'function')
+          ? await apiCarregarPosicoes(esporteId)
+          : { ok: true, data: await (await fetch(`/api/clube/posicao?idEsporte=${encodeURIComponent(esporteId)}`, { headers:{ Authorization: token, Accept: 'application/json' }})).json() };
+
+        if (!ok) {
+          console.error('[oportunidade] apiCarregarPosicoes returned error', data);
+          createPosicoesEl.innerHTML = '<option value="">Erro ao carregar posições</option>';
+          return;
+        }
+
+        fillSelect(createPosicoesEl, data, 'id', 'nomePosicao', 'Selecione a posição...');
+      } catch (err) {
+        console.error('[oportunidade] populateCreatePosicoes failed', err);
+        createPosicoesEl.innerHTML = '<option value="">Erro ao carregar posições</option>';
+      }
+    }
+
+    // Populate when modal is shown to ensure selects exist and token is available
+    const modalCreateEl = document.getElementById('modalOportunidades');
+    if (modalCreateEl) {
+      modalCreateEl.addEventListener('show.bs.modal', async () => {
+        await populateCreateEsportes();
+        // clear posicoes until esporte selected
+        if (createPosicoesEl) createPosicoesEl.innerHTML = '<option value="">Selecione um esporte primeiro...</option>';
+      });
+    }
+
+    // Also handle change events on esporte select
+    if (createEsporteEl) {
+      createEsporteEl.addEventListener('change', (ev) => {
+        const id = ev.target.value;
+        populateCreatePosicoes(id);
+      });
     }
 
     const formEdit = document.getElementById('formEditarOportunidade');
