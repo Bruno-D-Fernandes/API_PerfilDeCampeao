@@ -9,6 +9,8 @@ use App\Notifications\UserFollowedNotification;
 
 class SendUserFollowedNotification implements ShouldQueue
 {
+    public $afterCommit = true;
+    
     /**
      * Create the event listener.
      */

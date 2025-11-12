@@ -13,7 +13,6 @@ class ApplicationStatusChangeNotification extends Notification
 
     public $applicant, $opportunity, $club, $application, $status;
 
-
     public function __construct($applicant, $opportunity, $club, $application, $status)
     {
         $this->applicant = $applicant;

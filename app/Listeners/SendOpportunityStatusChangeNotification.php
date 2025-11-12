@@ -11,6 +11,8 @@ class SendOpportunityStatusChangeNotification implements ShouldQueue
 {
     use InteractsWithQueue;
 
+    public $afterCommit = true;
+
     public function __construct()
     {
         //

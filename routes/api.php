@@ -45,10 +45,6 @@ Route::prefix('usuario')->group(function () {
         Route::delete('/delete', [AuthUserController::class, 'deleteAccount']);
         Route::put('/update', [AuthUserController::class, 'updateAccount']);
 
-        Route::put('/{id}', [UserController::class, 'update']);
-        Route::get('/{id}', [UserController::class, 'show']);
-        Route::delete('/{id}', [UserController::class, 'destroy']);
-
         // Multiplos perfis
         Route::post('/perfilStore', [perfilController::class, 'store']);
         Route::get('/perfilForm/{id}', [perfilController::class, 'formInfo']);
@@ -87,6 +83,10 @@ Route::prefix('usuario')->group(function () {
         Route::get('/notificacoes', [NotificacoesController::class, 'index']);
         Route::post('notificacao/{id}/ler', [NotificacoesController::class, 'markAsRead']);
         Route::post('notificacoes/ler', [NotificacoesController::class, 'markAllAsRead']);
+
+        Route::put('/{id}', [UserController::class, 'update']);
+        Route::get('/{id}', [UserController::class, 'show']);
+        Route::delete('/{id}', [UserController::class, 'destroy']);
     });
 });
 

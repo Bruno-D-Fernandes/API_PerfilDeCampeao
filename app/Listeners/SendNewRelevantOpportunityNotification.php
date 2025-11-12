@@ -9,6 +9,8 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class SendNewRelevantOpportunityNotification
 {
+    public $afterCommit = true;
+
     public function __construct()
     {
         //

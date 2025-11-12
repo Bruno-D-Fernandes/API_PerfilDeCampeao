@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OpportunityStatusChangeEvent;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\Oportunidade;
@@ -272,6 +273,8 @@ class AdminSistemaController extends Controller
             'rejection_reason' => null,
         ]);
 
+        event(new OpportunityStatusChangeEvent($opp->clube, $opp, Oportunidade::STATUS_APPROVED));
+
         return response()->json(['message' => 'Oportunidade aprovada'], 200);
     }
     
@@ -304,6 +307,8 @@ class AdminSistemaController extends Controller
             'reviewed_at'    => now(),
             'rejection_reason' => $validatedData['rejection_reason'],
         ]);
+
+        event(new OpportunityStatusChangeEvent($opp->clube, $opp, Oportunidade::STATUS_REJECTED));
 
         return response()->json(['message' => 'Oportunidade rejeitada'], 200);
     }

@@ -9,6 +9,8 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class SendClubFollowedNotification implements ShouldQueue
 {
+    public $afterCommit = true;
+    
     /**
      * Create the event listener.
      */

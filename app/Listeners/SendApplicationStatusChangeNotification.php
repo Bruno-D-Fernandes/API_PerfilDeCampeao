@@ -9,6 +9,8 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class SendApplicationStatusChangeNotification implements ShouldQueue
 {
+    public $afterCommit = true;
+
     public function __construct()
     {
         //

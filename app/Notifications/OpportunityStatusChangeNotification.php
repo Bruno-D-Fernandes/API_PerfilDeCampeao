@@ -28,9 +28,9 @@ class OpportunityStatusChangeNotification extends Notification
     public function toArray(object $notifiable): array
     {
         if ($this->status === Oportunidade::STATUS_APPROVED) {
-            $message = "Parabéns! Sua vaga para {$this->opportunity->posicao->nomePosicao} foi APROVADA e está disponível para candidatos.";
+            $message = "Parabéns! Sua oportunidade para {$this->opportunity->posicao->nomePosicao} foi APROVADA e está disponível para candidatos.";
         } elseif ($this->status === Oportunidade::STATUS_REJECTED) {
-            $message = "Sua vaga para {$this->opportunity->posicao->nomePosicao} foi REJEITADA e requer ajustes. Entre em contato com o suporte.";
+            $message = "Sua oportunidade para {$this->opportunity->posicao->nomePosicao} foi REJEITADA e requer ajustes. Entre em contato com o suporte.";
         }
         
         return [

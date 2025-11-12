@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Notification;
 
 class SendNewPendingOpportunityNotification implements ShouldQueue
 {
-    use InteractsWithQueue, ShouldQueue;
+    public $afterCommit = true;
 
     public function handle(NewPendingOpportunityEvent $event): void
     {

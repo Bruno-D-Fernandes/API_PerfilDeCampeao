@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewPendingOpportunityEvent;
 use Illuminate\Http\Request;
 use App\Models\Oportunidade;
 use Illuminate\Support\Facades\Auth;
@@ -65,6 +66,8 @@ class OportunidadeController extends Controller
                 'enderecoOportunidade'      => $validatedData['enderecoOportunidade'] ?? null,
                 'cepOportunidade'           => $validatedData['cepOportunidade']    ?? null,
             ]);
+
+            event(new NewPendingOpportunityEvent($oportunidade, $clube));
 
             return response()->json($oportunidade->load('posicao', 'esporte', 'candidatos'), 201);
         } catch (\Exception $e) {

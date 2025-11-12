@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ApplicationStatusChangeEvent;
 use App\Events\OpportunityApplicationCreatedEvent;
 use Illuminate\Http\Request;
 use App\Models\Inscricao;
@@ -126,7 +127,7 @@ class InscricaoOportunidadeController extends Controller
 
         $tipo = Inscricao::STATUS_APPROVED;
 
-        event(new ApplicationStatusNotification($clube, $op, $insc, $tipo, $usuario));
+        event(new ApplicationStatusChangeEvent($usuario, $op, $clube, $insc, $tipo));
 
         return response()->json([
             'status' => $insc->status,
@@ -161,7 +162,7 @@ class InscricaoOportunidadeController extends Controller
 
         $tipo = Inscricao::STATUS_REJECTED;
 
-        event(new ApplicationStatusNotification($clube, $op, $insc, $tipo, $usuario));
+        event(new ApplicationStatusChangeEvent($usuario, $op, $clube, $insc, $tipo));
 
         return response()->json([
             'status' => $insc->status,
