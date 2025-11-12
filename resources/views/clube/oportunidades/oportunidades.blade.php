@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('/css/clube/oportunidadesClube.css')}}">
     <link rel="stylesheet" href="{{ asset('css//clube/sidebar/sidebar.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     <nav class="barra-lateral" id="barra-lateral">
@@ -111,7 +112,8 @@
                     </div>
 
                     <div class="mb-3 input-conteiner">
-                        <input class="form-control" type="text" name="descricaoOportunidade" placeholder="Descrição" required>
+                        <!-- name changed to match server-side validation: descricaoOportunidades -->
+                        <input class="form-control" type="text" name="descricaoOportunidades" placeholder="Descrição" required>
                     </div>
 
                     <div class="mb-3 input-conteiner">
@@ -126,7 +128,20 @@
                                     <div class="mb-3 input-conteiner">
                                         <input class="form-control" type="text" name="cepOportunidade" id="cep" maxlength="8" onblur="handleCepBlur()" placeholder="Cep" required>
                                     </div>
-                    
+
+                                    <!-- Esporte/Posição: elements populated by public/js/clube/oportunidades/dom-elements.js -->
+                                    <div class="mb-3 input-conteiner">
+                                        <select class="form-select" name="esporte_id" id="esporte_id" required>
+                                            <option value="">Carregando esportes...</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3 input-conteiner">
+                                        <select class="form-select" name="posicoes_id" id="posicoes_id" required>
+                                            <option value="">Selecione um esporte primeiro...</option>
+                                        </select>
+                                    </div>
+
                     <select class="form-select"  name="estadoOportunidade" id="estadoOportunidade" required>
                         <option value="" selected disabled>Estado</option>
                         <option value="AC">Acre</option>
