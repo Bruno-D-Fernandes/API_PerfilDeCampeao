@@ -69,8 +69,57 @@ class OportunidadeController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->query('per_page', 10);
+        $usuario = Auth::guard('sanctum')->user();
+        $query = Oportunidade::approved()->with(['esporte', 'posicao', 'clube']);
 
-        $oportunidades = Oportunidade::approved()->with(['esporte', 'posicao', 'clube'])->paginate($perPage);
+        if ($usuario) {
+            $query->whereDoesntHave('inscricoes', function ($q) use ($usuario) {
+                $q->where('usuario_id', $usuario->id);
+            });
+        }
+
+        $oportunidades = $query->paginate($perPage);
+        $oportunidades->getCollection()->makeHidden(['status']);
+
+        return response()->json($oportunidades, 200);
+    }
+
+    public function filtrar(Request $request)
+    {
+        $perPage = $request->query('per_page', 10);
+        $esporteId = $request->query('esporte_id');
+        $estado = $request->query('estado');
+        $idadeMinima = $request->query('idadeMinima');
+        $idadeMaxima = $request->query('idadeMaxima');
+
+        $query = Oportunidade::approved()->with(['esporte', 'posicao', 'clube']);
+
+        if ($esporteId) {
+            $query->where('esporte_id', $esporteId);
+        }
+
+        if ($estado) {
+            $query->where('estadoOportunidade', $estado);
+        }
+
+        if ($idadeMinima) {
+            $idadeMinima = (int) $idadeMinima;
+            $query->where(function ($q) use ($idadeMinima) {
+                $q->whereNull('idadeMaxima')
+                    ->orWhere('idadeMaxima', '>=', $idadeMinima);
+            });
+        }
+
+        if ($idadeMaxima) {
+            $idadeMaxima = (int) $idadeMaxima;
+            $query->where(function ($q) use ($idadeMaxima) {
+                $q->whereNull('idadeMinima')
+                    ->orWhere('idadeMinima', '<=', $idadeMaxima);
+            });
+        }
+
+        $oportunidades = $query->paginate($perPage);
+        $oportunidades->getCollection()->makeHidden(['status']);
 
         return response()->json($oportunidades, 200);
     }

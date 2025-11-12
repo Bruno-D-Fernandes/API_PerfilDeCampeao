@@ -71,10 +71,15 @@ class PostagemController extends Controller
 
     public function showUserPosts($userId, $esporteId)
     {
-        $postagens = Postagem::with(['imagens'])
+        $postagens = Postagem::with(['imagens', 'usuario'])
             ->where('idUsuario', $userId)
             ->where('esporte_id', $esporteId)
             ->get();
+
+        $postagens = $postagens->map(function ($postagem) {
+            $postagem->nomeCompletoUsuario = $postagem->usuario ? $postagem->usuario->nomeCompletoUsuario : null;
+            return $postagem;
+        });
 
         return response()->json($postagens, 200);
     }

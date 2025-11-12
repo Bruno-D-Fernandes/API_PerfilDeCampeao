@@ -80,6 +80,7 @@ Route::prefix('usuario')->group(function () {
 
         // Rotas de inscrições em oportunidades
         Route::get('/oportunidades', [OportunidadeController::class, 'index']);
+        Route::get('/oportunidades/filtrar', [OportunidadeController::class, 'filtrar']);
         Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 
         Route::post('/oportunidades/{id}/inscrever', [InscricaoOportunidadeController::class, 'store']);

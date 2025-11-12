@@ -3,17 +3,21 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Clube;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
 
 class ClubeSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
-        DB::table('clubes')->insert([
+        Clube::firstOrCreate([
+            'nomeClube' => 'Clube Exemplo'
+        ], [
             'nomeClube' => 'Club de Regatas Vasco da Gama',
-            'cnpjClube' => '00.000.000/0001-91', 
+            'cnpjClube' => '00.000.000/0001-91',
             'emailClube' => 'contato@vasco.com.br',
             'cidadeClube' => 'Rio de Janeiro',
             'estadoClube' => 'RJ',

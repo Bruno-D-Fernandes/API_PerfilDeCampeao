@@ -30,12 +30,19 @@ class Clube extends Authenticatable
         'fotoBannerClube',
     ];
 
+    protected $hidden = [
+        'senhaClube',
+        'remember_token',
+        'cnpjClube',
+    ];
+
+    //kk --Bruno 
 
     function esportes()
     {
         return $this->belongsToMany(Esporte::class);
     }
-    
+
     public function membros()
     {
         return $this->belongsToMany(Usuario::class, 'clubes_usuario', 'clube_id')->withPivot('esporte_id', 'funcao_id');
