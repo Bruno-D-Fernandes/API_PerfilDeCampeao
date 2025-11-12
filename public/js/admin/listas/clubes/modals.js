@@ -18,12 +18,16 @@ function limparModal(modal) {
     hideFormImgs();
 }
 
+
+
 function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
     confirmarModalTitle.textContent = titulo;
     confirmarModalAlert.textContent = texto;
 
     const saveBtn = modalConfirmar.content.querySelector('#save-confirm-btn');
     const cancelBtn = modalConfirmar.content.querySelector('#cancel-confirm-btn');
+    const modalexc = document.getElementById('deleteModal')
+    
 
     const newSaveBtn = saveBtn.cloneNode(true);
     saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
@@ -35,7 +39,14 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
 
     newSaveBtn.addEventListener('click', () => {
         funcaoSim();
+        modalexc.style.display = 'flex'
+        setTimeout(() => {
+        modalexc.style.display = "none";
         fecharModal(modalConfirmar);
+        window.location.reload(true);
+      }, 2000);
+    
+        
     });
 
     newCancelBtn.addEventListener('click', () => {
@@ -45,13 +56,16 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
 }
 
 function disableInputs() {
+    const view = document.getElementById('sumir')
     if (clubeId === -1) {
         hideFormImgs();
     }
 
     if (readOnly) {
         modalClube.inputs.forEach(inp => inp.disabled = true);
+        salvarClubeBtn.style.display = 'none';
         salvarClubeBtn.disabled = true;
+        cancelarClubeBtn.style.display = 'none';
         cancelarClubeBtn.disabled = true;
     }
 }
@@ -78,6 +92,8 @@ function enableInputs() {
     }
 
     modalClube.inputs.forEach(inp => inp.disabled = false);
-    salvarClubeBtn.disabled = false;
+    salvarClubeBtn.disabled = false
+    salvarClubeBtn.style.display = 'flex';
+    cancelarClubeBtn.style.display = 'flex';
     cancelarClubeBtn.disabled = false;
 }

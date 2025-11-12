@@ -24,7 +24,8 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
 
     const saveBtn = modalConfirmar.content.querySelector('#save-confirm-btn');
     const cancelBtn = modalConfirmar.content.querySelector('#cancel-confirm-btn');
-
+    const modalexc = document.getElementById('deleteModal')
+    
     const newSaveBtn = saveBtn.cloneNode(true);
     saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
 
@@ -35,7 +36,13 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
 
     newSaveBtn.addEventListener('click', () => {
         funcaoSim();
+        modalexc.style.display = 'flex';
         fecharModal(modalConfirmar);
+        setTimeout(() => {
+        modalexc.style.display = "none";
+        
+        window.location.reload(true);
+      }, 2000);
     });
 
     newCancelBtn.addEventListener('click', () => {
@@ -53,6 +60,9 @@ function disableInputs() {
         modalUsuario.inputs.forEach(inp => inp.disabled = true);
         salvarUsuarioBtn.disabled = true;
         cancelarUsuarioBtn.disabled = true;
+        salvarUsuarioBtn.style.display = 'none';
+        cancelarUsuarioBtn.style.display = 'none';
+
     }
 }
 
@@ -80,4 +90,6 @@ function enableInputs() {
     modalUsuario.inputs.forEach(inp => inp.disabled = false);
     salvarUsuarioBtn.disabled = false;
     cancelarUsuarioBtn.disabled = false;
+    salvarUsuarioBtn.style.display = 'flex';
+    cancelarUsuarioBtn.style.display = 'flex';
 }

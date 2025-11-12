@@ -74,8 +74,28 @@ async function saveClube(clubeId = null) {
         const data = await response.json();
 
         if(!data.error || !data.errors) {
-            alert('Clube salvo com sucesso!');
+
+const addModal = document.getElementById('addModal');
+    const editModal = document.getElementById('editModal');
+
+
+    if (editMode) {
+        // Mostra modal de edição
+        editModal.style.display = 'flex';
+        setTimeout(() => {
+            editModal.style.display = 'none';
             window.location.reload(true);
+        }, 2000);
+    } else {
+        addModal.style.display = 'flex';
+        setTimeout(() => {
+            addModal.style.display = 'none';
+            window.location.reload(true);
+        }, 2000);
+    }
+
+
+
 
             if (!editMode) {
                 clubes.appendChild(createClubeRow(data));
@@ -108,14 +128,12 @@ async function deleteClube(clubeId) {
 
         if (response.ok) {
             if (response.status === 204) {
-                alert('Clube excluído com sucesso!');
                 clubes.querySelector(`.clube[data-clube-id="${clubeId}"]`)?.remove();
             } else {
                 const data = await response.json();
 
                 if (data.error || data.errors) {
                     console.error('Erro retornado pela API:', data);
-                    alert('Erro ao excluir clube');
                 } else {
                     alert('Clube excluído com sucesso! (Obteve retorno de dados)');
                     clubes.querySelector(`.clube[data-clube-id="${clubeId}"]`)?.remove();

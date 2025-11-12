@@ -31,7 +31,7 @@ async function fetchUsuarioDetails(usuarioId) {
 
         modalUsuario.inputs[0].value = data.nomeCompletoUsuario;
         modalUsuario.inputs[1].value = data.emailUsuario;
-        modalUsuario.inputs[2].value = data.generoUsuario;
+        document.querySelector('#usuario-form-genero').value = data.generoUsuario || '';
         modalUsuario.inputs[3].value = data.dataNascimentoUsuario;
         
         let dataNascimentoApi = data.dataNascimentoUsuario;
@@ -81,9 +81,26 @@ async function saveUsuario(usuarioId = null) {
         }
 
         const data = await response.json();
+        const addModal = document.getElementById('addModal');
+            const editModal = document.getElementById('editModal');
 
         if(!data.error || !data.errors) {
-            alert('Usuário salvo com sucesso!');
+
+            if (editMode) {
+                editModal.style.display = 'flex';
+                fecharModal(modalUsuario);
+                setTimeout(() => {
+                    editModal.style.display = 'none';
+                    window.location.reload(true);
+                }, 2000);
+            } else {
+                addModal.style.display = 'flex';
+                fecharModal(modalUsuario);
+                setTimeout(() => {
+                    addModal.style.display = 'none';
+                    window.location.reload(true);
+                }, 2000);
+            }
 
             if (!editMode) {
                 usuarios.appendChild(createUsuarioRow(data));
@@ -97,7 +114,7 @@ async function saveUsuario(usuarioId = null) {
         }                
     } catch (error) {
         console.error('Erro ao salvar usuário:', error);
-        alert('Erro ao salvar usuário!');
+
     }
 }
 
@@ -121,7 +138,7 @@ async function deleteUsuario(usuarioId) {
                 console.error('Erro retornado pela API:', data);
                 alert('Erro ao excluir usuário');
             } else {
-                alert('Usuário excluído com sucesso!');
+
                 usuarios.querySelector(`.usuario[data-usuario-id="${usuarioId}"]`)?.remove();
             }
         } else {

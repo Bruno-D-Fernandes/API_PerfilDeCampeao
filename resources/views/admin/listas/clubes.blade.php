@@ -160,7 +160,7 @@
 
         <ul class="menu-navegacao">
             <li>
-                <a href="./index.html">
+                <a href="/admin/dashboard">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
@@ -202,7 +202,7 @@
                 </a>
             </li>
             <li>
-                <a href="/admin/config/layout">
+                <a href="/admin/configuracoes/perfil">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>
@@ -220,6 +220,24 @@
         <h1 class='titulo'>Clube</h1>
     <!--NAVBAR LT1-->
     </main>
+
+            <div class="modal" id="deleteModal">
+    <div class="modal-content">
+      <div class="success delete">Excluído com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <div class="success edit">Editado com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="addModal">
+    <div class="modal-content">
+      <div class="success add">Adicionado com sucesso!</div>
+    </div>
+  </div>
 
 <div class='header' >
 
@@ -418,7 +436,9 @@
         </form>
 
 
+        
 
+                    
         <div class="modal-footer">
             <button id="clube-cancelar-btn">
                 <span>Cancelar</span>
@@ -431,7 +451,7 @@
     </div>
 
     <div id="confirmar-modal" class="app-modal hidden">
-        <div class="modal-header">
+        <div class="modal-header excluir">
             <h2 class="modal-title">Você deseja excluir este clube?</h3>
         </div>
         
@@ -450,7 +470,7 @@
 
             <button id="save-confirm-btn">
                 <span>
-                    Salvar
+                    Excluir
                 </span>
             </button>
         </div>
