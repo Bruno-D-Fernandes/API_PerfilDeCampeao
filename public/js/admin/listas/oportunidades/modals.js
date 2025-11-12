@@ -35,7 +35,7 @@ function limparModal(modal) {
     }
 
     if (modal === modalStatus) {
-        statusModalTitle.textContent = 'Alterar status de oportunidade';
+        statusModalTitle.textContent = 'Rejeitar oportunidade';
     }
 }
 
@@ -56,6 +56,7 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
 
     newSaveBtn.addEventListener('click', () => {
         funcaoSim();
+        
         fecharModal(modalConfirmar);
     });
 

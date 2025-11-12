@@ -82,8 +82,8 @@ display: none;
                     </div>
                     <input type="button" class="btn-next" value="Próximo ➥" id="p1">
 
-        <label for="clube-ano-criacao">Ano de Criação:</label>
-        <input type="date" name="anoCriacaoClube" id="clube-ano-criacao">
+                    </div>
+                </div>
 
 
 
@@ -150,7 +150,6 @@ display: none;
 </div>
 </div>
 
-    <script src="{{ asset('js/clube/cadastro/cadastro.js') }}"></script>
     <Script>
         parte1 = document.getElementById('part1')
         parte2 = document.getElementById('part2')

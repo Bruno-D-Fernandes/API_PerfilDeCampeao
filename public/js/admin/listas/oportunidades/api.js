@@ -67,8 +67,18 @@ async function approveOportunidade(oportunidadeId) {
 
         const data = await response.json();
 
+        const deleModal = document.getElementById('deleteModal');
+        const editModal = document.getElementById('editModal');
+
         if(data) {
-            alert('Oportunidade APROVADA com sucesso!');
+            editModal.style.display = 'flex';
+    setTimeout(() => {
+        editModal.style.display = 'none';
+        
+    }, 2000);
+    setTimeout(() => {
+        window.location.reload(true);
+        }, 1000);
 
             const row = oportunidadesContainer.querySelector(`.oportunidade[data-oportunidade-id="${oportunidadeId}"]`);
 
@@ -110,9 +120,19 @@ async function rejectOportunidade(oportunidadeId) {
         }
 
         const data = await response.json();
+        const deleModal = document.getElementById('deleteModal');
+        const editModal = document.getElementById('editModal');
 
         if (data) {
-            alert('Oportunidade REJEITADA com sucesso!');
+
+             deleModal.style.display = 'flex';
+    setTimeout(() => {
+        deleModal.style.display = 'none';
+        
+    }, 2000);
+    setTimeout(() => {
+        window.location.reload(true);
+        }, 1000);
 
             const row = oportunidadesContainer.querySelector(`.oportunidade[data-oportunidade-id="${oportunidadeId}"]`);
                 
@@ -128,6 +148,5 @@ async function rejectOportunidade(oportunidadeId) {
         }               
     } catch (error) {
         console.error('Erro ao rejeitar oportunidade:', error);
-        alert('Erro ao rejeitar oportunidade!');
     }
 }

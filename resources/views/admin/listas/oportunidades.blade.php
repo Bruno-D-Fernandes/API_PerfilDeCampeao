@@ -30,7 +30,7 @@
 
         <ul class="menu-navegacao">
             <li>
-                <a href="./index.html">
+                <a href="/admin/dashboard">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
@@ -43,32 +43,32 @@
             </li>
             <li>
                 <a href="/admin/usuarios">
-                    <i class='bx bx-list-ul'></i>
+                    <i class='bx bx-user'></i>
                     <span>Usuarios</span>
                 </a>
             </li>
             <li >
                 <a href="/admin/clubes">
-                    <i class='bx bx-message-dots'></i>
+                    <i class='bx bx-group'></i>
                     <span>Clubes</span>
                 </a>
             </li>
             <li>
                 <a href="#">
-                    <i class='bx bx-bell'></i>
+                    <i class='bx bx-extension'></i>
                     <span>Funções</span>
                 </a>
             </li>
             <li>
                 <a href="/admin/esportes">
-                    <i class='bx bx-user'></i>
+                    <i class='bx bx-football'></i>
                     <span>Esportes</span>
                 </a>
             </li>
             <li>
-                <a href="./tela-pesquisa/pesquisa.html">
-                    <i class='bx bx-search'></i>
-                    <span>Pesquisa</span>
+                <a href="/admin/listas">
+                    <i class='bx bx-list-ul'></i>
+                    <span>Listas</span>
                 </a>
             </li>
             <li>
@@ -90,6 +90,24 @@
     <!--NAVBAR LT1-->
     <h1 class='titulo'>Oportunidades</h1>
     </main>
+
+         <div class="modal" id="deleteModal">
+    <div class="modal-content">
+      <div class="success delete">Rejeitada com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <div class="success edit"> Aprovada com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="addModal">
+    <div class="modal-content">
+      <div class="success add">Adicionado com sucesso!</div>
+    </div>
+  </div>
 
 
 
@@ -176,11 +194,11 @@
 
                     @if ($oportunidade->status === \App\Models\Oportunidade::STATUS_PENDING)
                         <button class="oportunidade-aprovar-btn">
-                            <span>Aprovar</span>
+                            <i class='bx bx-check'></i>
                         </button>
 
                         <button class="oportunidade-rejeitar-btn">
-                            <span>Rejeitar</span>
+                            <i class='bx bx-x'></i>
                         </button>
                     @else
                         @endif
@@ -198,7 +216,7 @@
             <button class="close-modal-btn" data-modal-target="oportunidade-modal">&times;</button>
         </div>
 
-        <form class="modal-body" id="oportunidade-form">
+        <form class="modal-body detalhes" id="oportunidade-form">
             <div id="oportunidade-view">
                 <div class="modal-tabs">
                     <button class="tab-button active" data-target-tab="detalhes-tab" type="button">
@@ -286,7 +304,7 @@
     </div>
 
     <div id="status-modal" class="app-modal hidden">
-        <div class="modal-header">
+        <div class="modal-header reject">
             <h2 class="modal-title">Alterar status de oportunidade</h2>
 
             <button class="close-modal-btn" data-modal-target="status-modal">&times;</button>
@@ -311,7 +329,7 @@
 
             <button id="save-status-btn">
                 <span>
-                    Salvar
+                    Rejeitar
                 </span>
             </button>
         </div>
@@ -337,7 +355,7 @@
 
             <button id="save-confirm-btn">
                 <span>
-                    Salvar
+                    Aprovar
                 </span>
             </button>
         </div>
