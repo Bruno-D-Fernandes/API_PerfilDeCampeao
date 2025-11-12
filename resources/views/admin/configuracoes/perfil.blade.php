@@ -1,4 +1,4 @@
-@extends('admin.configuracoes.layout')
+@extends('admin.config.layout')
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/Admin/perfil/perfil.css') }}">

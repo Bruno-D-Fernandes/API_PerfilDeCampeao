@@ -5,8 +5,10 @@
   <title>Configurações — Admin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="{{asset('/css/admin/layoutConfig.css')}}">
-  <link rel="stylesheet" href="{{ asset('css/admin/sidebar/sidebar.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
 </head>
 <body>
 <nav class="barra-lateral" id="barra-lateral">
@@ -28,7 +30,7 @@
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="/admin/oportunidades">
                     <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
                 </a>
@@ -82,19 +84,20 @@
   <h1>Configurações</h1>
 
   <nav class="navConfig">
-        <h5>Menu</h5>
-    <ul>
-      <li><img src="{{asset('/img/iconPerfilAdm.png')}}" class="iconEmail" alt=""><a href="{{ url('/admin/config/perfil') }}">Perfil</a></li>
-      <li><img src="{{asset('/img/iconNotificacaoAdm.png')}}" class="iconNotifica" alt=""><a href="{{ url('/admin/config/notificacoes') }}">Notificações</a></li>
-      <li><img src="{{asset('/img/iconTemaAdm.png')}}" class="iconTema" alt=""><a href="{{ url('/admin/config/tema') }}">Tema</a></li>
-      <li><img src="{{asset('/img/iconBackupAdm.png')}}" class="iconBackup" alt=""><a href="{{ url('/admin/config/backup') }}">Backup</a></li>
-      <li><img src="{{asset('/img/iconSobreAdm.png')}}" class="iconSobre" alt=""><a href="{{ url('/admin/config/sobre') }}">Sobre</a></li>
-    </ul>
-  </nav>
+  <h5>Menu</h5>
+  <ul>
+    <li><a href="{{ url('/admin/config/perfil') }}"><i class='bx bxs-user-circle'></i>Perfil</a></li>
+    <li><a href="{{ url('/admin/config/notificacoes') }}"><i class='bx bxs-bell'></i>Notificações</a></li>
+    <li><a href="{{ url('/admin/config/tema') }}"><i class='bx bxs-paint'></i>Tema</a></li>
+    <li><a href="{{ url('/admin/config/backup') }}"><i class='bx bxs-cloud-download'></i>Backup</a></li>
+    <li><a href="{{ url('/admin/config/sobre') }}"><i class='bx bxs-info-circle'></i>Sobre</a></li>
+  </ul>
+</nav>
 
   <main>
     @yield('content')
   </main>
+
 
   <script src="{{ asset('js/admin/settings/utils.js') }}"></script>
   @yield('scripts')

@@ -62,12 +62,12 @@ Route::prefix('admin')->group(function () {
     })->name('admin.dashboard');
 
     Route::prefix('configuracoes')->group(function () {
-        Route::get('/perfil', function () {
-            return view('admin.configuracoes.perfil');
-        })->name('admin-config-perfil');
+
+        Route::get('/perfil', [AdmController::class, 'showProfilePage'])->name('admin-config-perfil');
+
 
         Route::get('/layout', function () {
-            return view('admin.configuracoes.layout');
+            return view('admin.config.layout');
         })->name('admin-config-layout');
 
         Route::get('/backup', function () {

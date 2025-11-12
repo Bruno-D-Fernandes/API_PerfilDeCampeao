@@ -80,14 +80,20 @@ function disableInputs() {
         modalEsporte.inputs[1].disabled = true;
         salvarEsporteBtn.disabled = true;
         cancelarEsporteBtn.disabled = true;
+                  salvarEsporteBtn.style.display = 'none';
+    cancelarEsporteBtn.style.display = 'none';
+
+          addPosicaoBtn.style.display = 'none';
+    addCaracteristicaBtn.style.display = 'none';
     }
 
     addPosicaoBtn.disabled = true;
     addCaracteristicaBtn.disabled = true;
 
 
-      addPosicaoBtn.style.display = 'none';
-    addCaracteristicaBtn.style.display = 'none';
+
+
+
 
 
     document.querySelectorAll('.posicao-editar-btn, .posicao-excluir-btn, .caracteristica-editar-btn, .caracteristica-excluir-btn')
