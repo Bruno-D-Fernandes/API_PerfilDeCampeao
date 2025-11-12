@@ -29,7 +29,7 @@
 
         <ul class="menu-navegacao">
             <li >
-                <a href="./index.html">
+                <a href="/admin/dashboard">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
@@ -42,32 +42,32 @@
             </li>
             <li>
                 <a href="/admin/usuarios">
-                    <i class='bx bx-list-ul'></i>
+                    <i class='bx bx-user'></i>
                     <span>Usuarios</span>
                 </a>
             </li>
             <li>
                 <a href="/admin/clubes">
-                    <i class='bx bx-message-dots'></i>
+                    <i class='bx bx-group'></i>
                     <span>Clubes</span>
                 </a>
             </li>
             <li>
                 <a href="/admin/funcoes">
-                    <i class='bx bx-bell'></i>
+                    <i class='bx bx-extension'></i>
                     <span>Funções</span>
                 </a>
             </li>
             <li  class="ativo"> 
                 <a href="#">
-                    <i class='bx bx-user'></i>
+                    <i class='bx bx-football'></i>
                     <span>Esportes</span>
                 </a>
             </li>
             <li>
                 <a href="/admin/listas">
-                    <i class='bx bx-search'></i>
-                    <span>Pesquisa</span>
+                    <i class='bx bx-list-ul'></i>
+                    <span>Listas</span>
                 </a>
             </li>
             <li>
@@ -90,7 +90,23 @@
     </main>
     <!--NAVBAR LT1-->
     
+     <div class="modal" id="deleteModal">
+    <div class="modal-content">
+      <div class="success delete">Excluído com sucesso!</div>
+    </div>
+  </div>
 
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <div class="success edit">Editado com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="addModal">
+    <div class="modal-content">
+      <div class="success add">Adicionado com sucesso!</div>
+    </div>
+  </div>
 
 <div class="esportes-header">
             
@@ -326,7 +342,7 @@
     </div>
 
     <div id="confirmar-modal" class="app-modal hidden">
-        <div class="modal-header">
+        <div class="modal-header excluir">
             <h2 class="modal-title">Você deseja excluir este usuário?</h3>
         </div>
         
@@ -345,7 +361,7 @@
 
             <button id="save-confirm-btn">
                 <span>
-                    Salvar
+                    Excluir
                 </span>
             </button>
         </div>

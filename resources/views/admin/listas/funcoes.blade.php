@@ -31,13 +31,13 @@
 
         <ul class="menu-navegacao">
             <li>
-                <a href="./index.html">
+                <a href="/admin/dashboard">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="/admin/oportunidades">
                     <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
                 </a>
@@ -67,13 +67,13 @@
                 </a>
             </li>
             <li>
-                <a href="./tela-pesquisa/pesquisa.html">
+                <a href="/admin/listas">
                     <i class='bx bx-search'></i>
-                    <span>Pesquisa</span>
+                    <span>Lista</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="/admin/configuracoes/layout">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>
@@ -92,6 +92,23 @@
         <h1 class="titulo">Funções</h1>
     </main>
 
+     <div class="modal" id="deleteModal">
+    <div class="modal-content">
+      <div class="success delete">Excluído com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <div class="success edit">Editado com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="addModal">
+    <div class="modal-content">
+      <div class="success add">Adicionado com sucesso!</div>
+    </div>
+  </div>
 
 <div class='header'>
 <div class="search-box">
@@ -224,12 +241,12 @@
 
             <button id="save-confirm-btn">
                 <span>
-                    Salvar
+                    Excluir
                 </span>
             </button>
         </div>
     </div>
-
+ 
     <script src="{{ asset('js/admin/listas/funcoes/dom-elements.js') }}"></script>
     <script src="{{ asset('js/admin/listas/funcoes/utils.js') }}"></script>
     <script src="{{ asset('js/admin/listas/funcoes/modals.js') }}"></script>

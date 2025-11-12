@@ -186,6 +186,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/usuarios', [UserController::class, 'index']);
         Route::get('/clubes', [ClubeController::class, 'index']);
 
+        Route::put('/oportunidade/{oportunidade}/status',
+        [AdminSistemaController::class,'oportunidadeUpdateStatus']);
+
+Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
+
         Route::get('/oportunidades', [OportunidadeController::class, 'index']);
         Route::get('/list', [AdminSistemaController::class, 'ListOportunidades']);
         Route::get('/oportunidades/pendentes', [AdminSistemaController::class, 'listPending']);
@@ -210,6 +215,8 @@ Route::prefix('admin')->group(function () {
         Route::post('/posicao', [AdminSistemaController::class, 'Posicaostore']);
         Route::put('/posicao/{id}', [AdminSistemaController::class, 'Posicaoupdate']);
         Route::delete('/posicao/{id}', [AdminSistemaController::class, 'Posicaodestroy']);
+
+        Route::get('/posicao/{id}', [AdminSistemaController::class, 'showPosicao']);
 
         Route::get('/posicao', [AdminSistemaController::class, 'listarPosicoes']);
         Route::post('/posicao', [AdminSistemaController::class, 'storePosicao']);      // Antes era Posicaostore

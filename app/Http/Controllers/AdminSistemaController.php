@@ -19,6 +19,45 @@ use Illuminate\Validation\Rule;
 
 class AdminSistemaController extends Controller
 {
+
+
+public function oportunidadeUpdateStatus(Request $request, Oportunidade $oportunidade)
+{
+    $data = $request->validate([
+        'status' => [
+            'required',
+            Rule::in([
+                Oportunidade::STATUS_REJECTED,
+                Oportunidade::STATUS_APPROVED
+            ]),
+        ],
+        'rejection_reason' => [
+            'nullable',
+            Rule::requiredIf($request->status == Oportunidade::STATUS_REJECTED),
+            'string',
+            'max:255'
+        ]
+    ]);
+
+    $admin = $request->user();
+
+    $oportunidade->status = $data['status'];
+    $oportunidade->reviewed_by = $admin->id;
+    $oportunidade->reviewed_at = now();
+
+    if ($data['status'] == Oportunidade::STATUS_REJECTED) {
+        $oportunidade->rejection_reason = $data['rejection_reason'];
+    } else {
+        $oportunidade->rejection_reason = null;
+    }
+
+    $oportunidade->save();
+
+    return response()->json(
+        $oportunidade->load('clube', 'esporte', 'posicao', 'inscricoes')
+    );
+}
+
     public function showEsporte(Request $request, $id)
     {
         $esporte = Esporte::with('posicoes', 'caracteristicas')->findOrFail($id);
@@ -151,6 +190,16 @@ class AdminSistemaController extends Controller
         $esporte->delete();
         return response()->json(['message' => 'Esporte deletado com sucesso'], 200);
     }
+
+    public function showPosicao($id)
+{
+    try {
+        $posicao = \App\Models\Posicao::findOrFail($id);
+        return response()->json($posicao, 200);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Posição não encontrada.'], 404);
+    }
+}
 
     public function listarPosicoes(Request $request){
         $idEsporte = $request->query('idEsporte');

@@ -18,17 +18,15 @@
 
   <!-- CSS (Bootstrap + seus estilos) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('/css/clube/oportunidadesClube.css') }}">
+  <link rel="stylesheet" href="{{ asset('/css/clube/oportunidade/oportunidadesClube.css') }}">
   <link rel="stylesheet" href="{{ asset('css/clube/sidebar/sidebar.css') }}">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
   <!-- =================== START: SIDEBAR =================== -->
   <nav class="barra-lateral" id="barra-lateral">
-    <div class="logo-container">
-      <img src="../img/logo-clube-reduzida.png" alt="Logo" class="logo-pequena">
-      <img src="../img/logo-clube-completa.jpeg" alt="Logo" class="logo-grande">
-    </div>
 
     <ul class="menu-navegacao">
       <li><a href="{{ route('clube-dashboard')}}"><i class='bx bx-home-alt'></i><span>Dashboard</span></a></li>
@@ -50,11 +48,12 @@
     <h1 class="mb-3">Oportunidades</h1>
 
     <!-- START: Header da seção -->
+     <div class="boxDentro">
     <div class="d-flex align-items-center justify-content-between mb-3">
       <h3 class="m-0">Minhas oportunidades</h3>
       <div class="d-flex align-items-center gap-2">
-        <button id="btnFiltrarAtivos" type="button" class="btn btn-outline-success btn-sm">
-          Ativos <span id="countAtivos" class="badge bg-success ms-1">0</span>
+        <button id="btnFiltrarAtivos" type="button" class="botaoAtivo">
+          Ativos <span id="countAtivos" class=""></span>
         </button>
         <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalOportunidades">
           <span class="me-1">+</span> Novo
@@ -67,6 +66,7 @@
     <ul id="listaOportunidades" class="list-group">
       <!-- itens inseridos via JS -->
     </ul>
+</div>
     <!-- END: Lista renderizada via JS -->
   </div>
   <!-- =================== END: MAIN CONTAINER =================== -->

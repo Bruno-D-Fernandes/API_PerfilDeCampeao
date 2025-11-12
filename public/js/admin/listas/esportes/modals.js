@@ -45,6 +45,8 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
 
     const saveBtn = modalConfirmar.content.querySelector('#save-confirm-btn');
     const cancelBtn = modalConfirmar.content.querySelector('#cancel-confirm-btn');
+    const modalexc = document.getElementById('deleteModal')
+
 
     const newSaveBtn = saveBtn.cloneNode(true);
     saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
@@ -57,6 +59,12 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
     newSaveBtn.addEventListener('click', () => {
         funcaoSim();
         fecharModal(modalConfirmar);
+        modalexc.style.display = 'flex';
+        
+        setTimeout(() => {
+        modalexc.style.display = "none";
+        
+      }, 2000);
     });
 
     newCancelBtn.addEventListener('click', () => {
@@ -66,6 +74,7 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
 }
 
 function disableInputs() {
+
     if (readOnly) {
         modalEsporte.inputs[0].disabled = true;
         modalEsporte.inputs[1].disabled = true;
@@ -76,8 +85,13 @@ function disableInputs() {
     addPosicaoBtn.disabled = true;
     addCaracteristicaBtn.disabled = true;
 
+
+      addPosicaoBtn.style.display = 'none';
+    addCaracteristicaBtn.style.display = 'none';
+
+
     document.querySelectorAll('.posicao-editar-btn, .posicao-excluir-btn, .caracteristica-editar-btn, .caracteristica-excluir-btn')
-        .forEach(btn => btn.disabled = true);
+        .forEach(btn => btn.style.display = 'none');
 }
 
 function enableInputs() {
@@ -88,6 +102,11 @@ function enableInputs() {
 
     addPosicaoBtn.disabled = false;
     addCaracteristicaBtn.disabled = false;
+
+                    salvarEsporteBtn.style.display = 'flex';
+        cancelarEsporteBtn.style.display = 'flex';
+      addPosicaoBtn.style.display = 'flex';
+    addCaracteristicaBtn.style.display = 'flex';
 
     document.querySelectorAll('.posicao-editar-btn, .posicao-excluir-btn, .caracteristica-editar-btn, .caracteristica-excluir-btn')
         .forEach(btn => btn.disabled = false);

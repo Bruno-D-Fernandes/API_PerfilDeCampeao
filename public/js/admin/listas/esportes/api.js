@@ -164,8 +164,19 @@ async function saveCaracteristica(caracteristicaId = null) {
 
         const data = await response.json();
 
+                         const addModal = document.getElementById('addModal');
+        const editModal = document.getElementById('editModal');
+
         if(!data.error || !data.errors) {
-            alert('Característica salva com sucesso!');
+             addModal.style.display = 'flex';
+    setTimeout(() => {
+        addModal.style.display = 'none';
+        
+    }, 2000);
+    setTimeout(() => {
+
+        }, 2000);
+
 
             if (!editMode) {
                 document.querySelector('.caracteristicas-list-container').appendChild(createCaracteristicaRow(data));
@@ -213,8 +224,19 @@ async function savePosicao(posicaoId = null) {
 
         const data = await response.json();
 
+                 const addModal = document.getElementById('addModal');
+        const editModal = document.getElementById('editModal');
+
         if(!data.error || !data.errors) {
-            alert('Posição salvo com sucesso!');
+            addModal.style.display = 'flex';
+    setTimeout(() => {
+        modal.style.display = 'none';
+        
+    }, 2000);
+    setTimeout(() => {
+addModal.style.display = 'none';
+        }, 1000);
+
 
             if (!editMode) {
                 document.querySelector('.posicoes-list-container').appendChild(createPosicaoRow(data));
@@ -260,10 +282,31 @@ async function saveEsporte(esporteId = null) {
 
         const data = await response.json();
 
-        if(!data.error || !data.errors) {
-            alert('Esporte salvo com sucesso!');
+        
+         const addModal = document.getElementById('addModal');
+        const editModal = document.getElementById('editModal');
 
+        if(!data.error || !data.errors) {
+            
+            addModal.style.display = 'flex';
+    setTimeout(() => {
+        modal.style.display = 'none';
+        
+    }, 2000);
+    setTimeout(() => {
+window.location.reload(true); // recarrega a página depois de 2s
+        }, 2000);
+    
+
+    fecharModal(modais['esporte-modal']);
             if (!editMode) {
+                 editModal.style.display = 'flex';
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 2000);
+     setTimeout(() => {
+window.location.reload(true); // recarrega a página depois de 2s
+        }, 2000);
                 esportes.appendChild(createEsporteRow(data));
             } else {
                 const oldRow = esportes.querySelector(`.esporte[data-esporte-id="${esporteId}"]`);
@@ -274,10 +317,11 @@ async function saveEsporte(esporteId = null) {
             fecharModal(modais['esporte-modal']);
         }                
     } catch (error) {
-        console.error('Erro ao salvar esporte:', error);
-        alert('Erro ao salvar esporte!');
+        console.error('Erro ao salvar esporte:', error);    
     }
 }
+
+
 
 async function deleteCaracteristica(caracteristicaId) {
     try {
@@ -299,13 +343,11 @@ async function deleteCaracteristica(caracteristicaId) {
         const data = await response.json();
 
         if(!data.error && !data.errors) {
-            alert('Caractéristica excluída com sucesso!');
             caracteristicasListContainer.querySelector(`.caracteristicas-list-row[data-caracteristica-id="${caracteristicaId}"]`)?.remove();
             caracteristicaId = -1;
         }                
     } catch (error) {
         console.error('Erro ao excluir característica:', error);
-        alert('Erro ao excluir característica!');
     }
 }
 
@@ -329,7 +371,6 @@ async function deletePosicao(posicaoId) {
         const data = await response.json();
 
         if(!data.error && !data.errors) {
-            alert('Posição excluída com sucesso!');
             posicoesListContainer.querySelector(`.posicoes-list-row[data-posicao-id="${posicaoId}"]`)?.remove();
             posicaoId = -1;
         }                
@@ -359,7 +400,6 @@ async function deleteEsporte(esporteId) {
         const data = await response.json();
 
         if(!data.error && !data.errors) {
-            alert('Esporte excluído com sucesso!');
             esportes.querySelector(`.esporte[data-esporte-id="${esporteId}"]`)?.remove();
             esporteId = -1;
         }                
