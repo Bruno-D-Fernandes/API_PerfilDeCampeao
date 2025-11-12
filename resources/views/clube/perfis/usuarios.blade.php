@@ -28,13 +28,13 @@
 
         <ul class="menu-navegacao">
             <li class=".">
-                <a href="../index.html">
+                <a href="/clube/dashboard">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="">
-                <a href="">
+                <a href="/clube/oportunidades">
                     <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
                 </a>
@@ -57,20 +57,20 @@
                     <span>Notificações</span>
                 </a>
             </li>
-            <li>
+            <li class="ativo">
                 <a href="#">
                     <i class='bx bx-user'></i>
                     <span>Perfil</span>
                 </a>
             </li>
             <li>
-                <a href="../tela-pesquisa/pesquisa.html">
+                <a href="#">
                     <i class='bx bx-search'></i>
                     <span>Pesquisa</span>
                 </a>
             </li>
-            <li  class="ativo">
-                <a href="#">
+            <li>
+                <a href="/clube/configuracoes">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>

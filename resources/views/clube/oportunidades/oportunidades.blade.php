@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <script>(function(){try{var t=localStorage.getItem('clube_theme')||'system';if(t&&t!=='system'){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.removeAttribute('data-theme');}}catch(e){} })();</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oportunidades</title>
@@ -17,27 +18,25 @@
 
   <!-- CSS (Bootstrap + seus estilos) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('/css/clube/oportunidadesClube.css') }}">
+  <link rel="stylesheet" href="{{ asset('/css/clube/oportunidade/oportunidadesClube.css') }}">
   <link rel="stylesheet" href="{{ asset('css/clube/sidebar/sidebar.css') }}">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
   <!-- =================== START: SIDEBAR =================== -->
   <nav class="barra-lateral" id="barra-lateral">
-    <div class="logo-container">
-      <img src="../img/logo-clube-reduzida.png" alt="Logo" class="logo-pequena">
-      <img src="../img/logo-clube-completa.jpeg" alt="Logo" class="logo-grande">
-    </div>
 
     <ul class="menu-navegacao">
-      <li><a href="./index.html"><i class='bx bx-home-alt'></i><span>Dashboard</span></a></li>
-      <li class="ativo"><a href=""><i class='bx bx-briefcase'></i><span>Oportunidades</span></a></li>
+      <li><a href="{{ route('clube-dashboard')}}"><i class='bx bx-home-alt'></i><span>Dashboard</span></a></li>
+      <li class="{{ route('clube-oportunidades')}}}"><a href=""><i class='bx bx-briefcase'></i><span>Oportunidades</span></a></li>
       <li><a href="#"><i class='bx bx-list-ul'></i><span>Listas</span></a></li>
       <li><a href="#"><i class='bx bx-message-dots'></i><span>Mensagens</span></a></li>
       <li><a href="#"><i class='bx bx-bell'></i><span>Notificações</span></a></li>
       <li><a href="#"><i class='bx bx-user'></i><span>Perfil</span></a></li>
       <li><a href="./tela-pesquisa/pesquisa.html"><i class='bx bx-search'></i><span>Pesquisa</span></a></li>
-      <li><a href="#"><i class='bx bx-cog'></i><span>Configurações</span></a></li>
+      <li><a href="{{route('clube-configuracoes')}}"><i class='bx bx-cog'></i><span>Configurações</span></a></li>
       <li><hr class="barra-vermelha"></li>
       <li class="sair-link"><a href="#"><i class='bx bx-log-out'></i><span>Sair</span></a></li>
     </ul>
@@ -49,11 +48,12 @@
     <h1 class="mb-3">Oportunidades</h1>
 
     <!-- START: Header da seção -->
+     <div class="boxDentro">
     <div class="d-flex align-items-center justify-content-between mb-3">
       <h3 class="m-0">Minhas oportunidades</h3>
       <div class="d-flex align-items-center gap-2">
-        <button id="btnFiltrarAtivos" type="button" class="btn btn-outline-success btn-sm">
-          Ativos <span id="countAtivos" class="badge bg-success ms-1">0</span>
+        <button id="btnFiltrarAtivos" type="button" class="botaoAtivo">
+          Ativos <span id="countAtivos" class=""></span>
         </button>
         <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalOportunidades">
           <span class="me-1">+</span> Novo
@@ -66,6 +66,7 @@
     <ul id="listaOportunidades" class="list-group">
       <!-- itens inseridos via JS -->
     </ul>
+</div>
     <!-- END: Lista renderizada via JS -->
   </div>
   <!-- =================== END: MAIN CONTAINER =================== -->
@@ -232,6 +233,23 @@
     </div>
   </div>
   <!-- =================== END: MODAL EDITAR =================== -->
+    <!-- =================== MODAL INSCRITOS =================== -->
+<div class="modal fade" id="modalInscritos" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content" style="background:#ffffff;">
+      <div class="modal-header">
+        <h5 class="modal-title">Inscritos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div id="inscritosChips"></div>
+        <div id="inscritosContainer"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ================= END MODAL ================= -->
 
 
   <!-- =================== START: JS DA PÁGINA =================== -->

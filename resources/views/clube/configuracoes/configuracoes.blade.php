@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <script>(function(){try{var t=localStorage.getItem('clube_theme')||'system';if(t&&t!=='system'){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.removeAttribute('data-theme');}}catch(e){} })();</script>
     <meta charset="utf-8">
     <title>Configurações — Clube</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('css/Clube/config/config.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/sidebar-clube/sidebar-clube.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/clube/sidebar/sidebar.css') }}">
      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -20,21 +21,21 @@
         <!--ESPAÇO PRA LOGO LT1-->
         <div class="logo-container">
             <!-- LOGO PEQUENA-->
-            <img src="../img/logo-reduzida.png" alt="Logo" class="logo-pequena">
+            <img src="../img/logo-clube-reduzida.png" alt="Logo" class="logo-pequena">
             <!--LOGO GRANDE-->
-            <img src="../img/logo-completa.png" alt="Logo" class="logo-grande">
+            <img src="../img/logo-clube-completa.jpeg" alt="Logo" class="logo-grande">
             <!--ESPAÇO PRA LOGO LT1-->
         </div>
 
         <ul class="menu-navegacao">
             <li class=".">
-                <a href="../index.html">
+                <a href="{{route('clube-dashboard')}}">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="">
-                <a href="">
+                <a href="{{route('clube-oportunidades')}}">
                     <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
                 </a>
@@ -58,7 +59,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="/clube/perfil">
                     <i class='bx bx-user'></i>
                     <span>Perfil</span>
                 </a>
@@ -70,7 +71,7 @@
                 </a>
             </li>
             <li  class="ativo">
-                <a href="#">
+                <a href="{{route('clube-configuracoes')}}">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>
