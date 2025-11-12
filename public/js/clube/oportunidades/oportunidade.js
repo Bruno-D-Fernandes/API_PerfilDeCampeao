@@ -1,6 +1,8 @@
 // ==== Helpers ====
   const $     = (s) => document.querySelector(s);
-  const token = localStorage.getItem('clube_token');
+  const rawToken = localStorage.getItem('clube_token') || '';
+  // normalize token to include 'Bearer ' prefix if missing
+  const token = rawToken.startsWith('Bearer ') ? rawToken : (rawToken ? `Bearer ${rawToken}` : '');
   const csrf  = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
   const headers = {
@@ -60,35 +62,37 @@
   const subLabel    = (op) => (op.idadeMaxima ? `Sub-${op.idadeMaxima}` : (op.idadeMinima ? `≥${op.idadeMinima}` : '—'));
 
   const renderItem = (op) => {
-    const id      = op.id || op.oportunidade_id || op.uuid || '';
-    const posNome = op.posicao?.nomePosicao || op.posicao?.nome || op.posicao || '—';
-    const espNome = op.esporte?.nomeEsporte || op.esporte?.nome || op.esporte || '—';
-    const cat     = subLabel(op);
-    const st      = statusLabel(op.status);
+  const id      = op.id || op.oportunidade_id || op.uuid || '';
+  const posNome = op.posicao?.nomePosicao || op.posicao?.nome || op.posicao || '—';
+  const espNome = op.esporte?.nomeEsporte || op.esporte?.nome || op.esporte || '—';
+  const cat     = subLabel(op);
+  const st      = statusLabel(op.status);
+  const approved = isApproved(op.status);
 
-    return `
-      <li class="list-group-item" data-op="${id}">
-        <div class="d-flex align-items-center justify-content-between">
-          <div class="d-flex align-items-center gap-2 flex-wrap">
-            ${renderBadge(posNome)}
-            ${renderBadge(espNome)}
-            ${renderBadge(cat)}
-            <span class="ms-2">${st}</span>
-          </div>
-          <div class="dropdown">
-            <button class="btn btn-sm btn-link p-0 text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false" aria-label="menu">
-              &#8226;&#8226;&#8226;
-            </button>
-            <div class="dropdown-menu dropdown-menu-end">
-              <button class="dropdown-item" data-action="inscritos" data-id="${id}">Inscritos</button>
-              <button class="dropdown-item" data-action="editar" data-id="${id}">Editar</button>
-              <button class="dropdown-item text-danger" data-action="excluir" data-id="${id}">Excluir</button>
-            </div>
+  return `
+    <li class="list-group-item" data-op="${id}">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          ${renderBadge(posNome)}
+          ${renderBadge(espNome)}
+          ${renderBadge(cat)}
+          <span class="ms-2">${st}</span>
+        </div>
+
+        <div class="dropdown">
+          <button class="btn btn-sm btn-link p-0 text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false" aria-label="menu">
+            &#8226;&#8226;&#8226;
+          </button>
+          <div class="dropdown-menu dropdown-menu-end">
+            ${approved ? `<button class="dropdown-item" data-action="inscritos" data-id="${id}">Inscritos</button>` : ``}
+            <button class="dropdown-item" data-action="editar" data-id="${id}">Editar</button>
+            <button class="dropdown-item text-danger" data-action="excluir" data-id="${id}">Excluir</button>
           </div>
         </div>
-      </li>
-    `;
-  };
+      </div>
+    </li>
+  `;
+};
 
   const renderLista = () => {
     const ul = $('#listaOportunidades');
@@ -113,10 +117,35 @@
 
   // ==== Edição: carregar selects ====
   const getEsportes = async () => {
+    // Prefer the centralized client in public/js/clube/oportunidades/api.js
+    if (typeof apiCarregarEsportes === 'function') {
+      try {
+        const { ok, data } = await apiCarregarEsportes();
+        if (!ok) throw new Error((data && (data.message || data.error)) || 'Erro ao carregar esportes');
+        return data;
+      } catch (err) {
+        console.error('getEsportes failed via apiCarregarEsportes', err);
+        throw err;
+      }
+    }
+
+    // fallback to direct fetch
     const r = await fetch('/api/clube/esporte', { headers:{ Authorization: token, Accept: 'application/json' }});
     return r.json();
   };
+
   const getPosicoes = async (idEsporte) => {
+    if (typeof apiCarregarPosicoes === 'function') {
+      try {
+        const { ok, data } = await apiCarregarPosicoes(idEsporte);
+        if (!ok) throw new Error((data && (data.message || data.error)) || 'Erro ao carregar posições');
+        return data;
+      } catch (err) {
+        console.error('getPosicoes failed via apiCarregarPosicoes', err);
+        throw err;
+      }
+    }
+
     const r = await fetch(`/api/clube/posicao?idEsporte=${encodeURIComponent(idEsporte)}`, { headers:{ Authorization: token, Accept: 'application/json' }});
     return r.json();
   };
