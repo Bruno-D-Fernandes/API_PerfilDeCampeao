@@ -7,6 +7,8 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="stylesheet" href="{{asset('/css/clube/dashboard.css')}}">
     <link rel="stylesheet" href="{{ asset('css//clube/sidebar/sidebar.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
 <nav class="barra-lateral" id="barra-lateral">
@@ -22,13 +24,13 @@
 
         <ul class="menu-navegacao">
             <li class="ativo">
-                <a href="./index.html">
+                <a href="../index.html">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li>
-                <a href="">
+            <li class="">
+                <a href="/clube/oportunidades">
                     <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
                 </a>
@@ -58,20 +60,22 @@
                 </a>
             </li>
             <li>
-                <a href="./tela-pesquisa/pesquisa.html">
+                <a href="">
                     <i class='bx bx-search'></i>
                     <span>Pesquisa</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="/clube/configuracoes">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>
             </li>
             <li>
-            <hr class="barra-vermelha">  
-            <li class="sair-link"> 
+                  <!-- ===== Barra vermelha antes de SAIR ===== -->
+            <hr class="barra-vermelha">   <!-- // ↓↓↓ ALTERADO -->
+
+            <li class="sair-link">        <!-- // ↓↓↓ ALTERADO -->
                 <a href="#">
                     <i class='bx bx-log-out'></i>
                     <span>Sair</span>
@@ -84,18 +88,20 @@
 <div class="dashContainer">
 
   <div class="cards">
-    <div class="cardOport"><a id="linkOppsAtivas" href="/clube/oportunidades">
+    <div class="cardOport">
       <img src="/img/iconOportuDashClube.png" alt="" class="iconOportu">
-      <h5>Oportunidades (ativas)</h5>
-      <div id="countOppsAtivas">-</div>
+      <h4>Oportunidades</h4>
+      <h5>Ativas</h5>
+      <div id="countOppsAtivas" class="oportuAtivas">-</div>
+      <a id="linkOppsAtivas" href="/clube/oportunidades">
       <img src="/img/iconAbrirDashClube.png" alt="" class="iconAbrirOportu">
         </a>
     </div>
 
     <div class="cardCamp">
       <img src="/img/iconCampeDashClube.png" alt="" class="iconCampe">
-      <h5>Lista de Campeões</h5>
-      <img src="/img/iconAbrirDashClube.png" alt="" class="iconAbrirLista"><a id="linkListaCampeoes" href="/clube/lista"></a>
+      <h4>Lista de Campeões</h4>
+      <a id="linkListaCampeoes" href="/clube/lista"><img src="/img/iconAbrirDashClube.png" alt="" class="iconAbrirLista"></a>
     </div>
 
     <section class="cardSug" id="sugestoes">
@@ -108,7 +114,7 @@
         <option value="Goleiro">Goleiro</option>
       </select>
 
-      <ul id="listaSugestoes"></ul>
+      <ul id="listaSugestoes" class="listaSugestoes"></ul>
 
       <button= id="VerMaisSugestoes" type="button">Ver mais</button>
     </section>
@@ -122,7 +128,7 @@
 
   <div class="recentes">
     <section class="cardAtiv" id="atividadesRecentes">
-      <h3>Atividades recentes</h3>
+      <h2>Atividades recentes</h2>
 
       <table border="1" cellpadding="4" cellspacing="0">
         <thead>

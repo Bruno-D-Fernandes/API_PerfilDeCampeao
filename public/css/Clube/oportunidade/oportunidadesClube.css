@@ -4,13 +4,20 @@
   box-sizing: border-box;
 }
 body{
-  background-color: #9aa9bb51;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-color: #9aa9bb71;
 }
 .container{
-  height: 70vh;
+  height: 100vh;
+}
+.boxDentro{
+  border: 0;
+  padding: 10px;
+  height: 70%;
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+h1{
+  color: #2A683D;
 }
 h5{
   position: absolute;
@@ -24,27 +31,42 @@ h2{
   color: #2A683D;
 
 }
-.botaoNovo{
+h3 {
+  margin-top: 5vh;
+  color: #979797ae;
+  position: static;
+  margin-left: 17vh; 
+}
+h4{
+  color: #06cb5289;
+}
+.btn-light{
   width: 100%;
-  margin: 7px auto 7px;
-  display: block;
-  padding: 7px 35px;
+  margin: 7px auto 5px;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 7px;
   background-color: #EFEFEF;
   font-weight: 400;
   border-radius: 10px;
   color: #0a6718ae;
   border: 0;
 }
-.btn-group{
-  top: 5%;
-  left: 40%;
+.botaoAtivo{
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 2px 7px;
+  background-color: #61d48471;
+  color: #3BA55B;
+  font-weight: 400;
+  border: 0;
+  border-radius: 10px;
 }
 .box{
   border-radius: 20px;
   background-color: #ffffff;
-}
-h4{
-  color: #06cb5289;
 }
 .iconNovo{
     position: absolute;
@@ -90,4 +112,83 @@ h4{
     border-radius: 10px;
     color: #14cb4b;
     border: 0;
+}
+#listaOportunidades {
+  margin-top: 5vh;
+  width: 100%;
+  max-width: 95%;
+  margin-left: 20px;
+}
+.itemOportunidade {
+  background-color: #f8f9fa;
+  border: 0;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  transition: 0.2s;
+}
+
+.statusItem {
+  font-weight: 300;
+  color: #555;
+}
+.tag {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-weight: 300;
+  font-size: 15px;
+  text-align: center;
+  margin: 4px;
+}
+.tagAzul {
+  color: #2563eb;
+  border: 2px solid #93c5fd;
+  background-color: #f0f9ff;
+}
+.tagVerde {
+  color: #16a34a;
+  border: 2px solid #86efac;
+  background-color: #f0fdf4;
+}
+
+.tagCinza {
+  color: #6b7280;
+  border: 2px solid #d1d5db;
+  background-color: #f9fafb;
+}
+.statusTag {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-weight: 300;
+  font-size: 14px;
+  text-align: center;
+  margin-left: 6px;
+}
+
+.statusAprovada {
+  background-color: #77ffa065;
+  color: #29B252;
+  border: 0;
+}
+
+.statusPendente {
+  background-color: #ffd07869;
+  color: #FFA600;
+  border: 0;
+}
+
+.statusRejeitada {
+  background-color: #fee2e2;
+  color: #DB0808;
+  border: 0;
+}
+.inscritos{
+  color: #14cb4b;
+}
+.editar{
+  color: #838383;
+}
+.excluir{
+  color: #838383;
 }

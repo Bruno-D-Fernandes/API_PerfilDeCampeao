@@ -50,14 +50,37 @@
     const s = String(st).toLowerCase();
     return s.includes('aprov') || s === 'approved' || s === 'true' || s === '1';
   };
-  const statusLabel = (raw) => {
-    const s = String(raw || '').toLowerCase();
-    if (s.includes('aprov') || s === 'approved') return 'Aprovada';
-    if (s.includes('pend')  || s === 'pending')  return 'Pendente';
-    if (s.includes('rej')   || s === 'rejected') return 'Rejeitada';
-    return String(raw || '—');
-  };
-  const renderBadge = (t) => `<span class="border rounded-pill px-2 py-1">${t}</span>`;
+ const statusLabel = (raw) => {
+  const s = String(raw || '').toLowerCase();
+  let text = '—';
+  let classe = 'statusTag ';
+
+  if (s.includes('aprov') || s === 'approved') {
+    text = 'Aprovada';
+    classe += 'statusAprovada';
+  } else if (s.includes('pend') || s === 'pending') {
+    text = 'Pendente';
+    classe += 'statusPendente';
+  } else if (s.includes('rej') || s === 'rejected') {
+    text = 'Rejeitada';
+    classe += 'statusRejeitada';
+  }
+
+  return `<span class="${classe}">${text}</span>`;
+};
+
+  const renderBadge = (t) => {
+  const lower = String(t).toLowerCase();
+  let classe = "tag";
+
+  if (lower.includes("atac")) classe += " tagAzul";
+  else if (lower.includes("fut")) classe += " tagVerde";
+  else if (lower.includes("sub")) classe += " tagVerde";
+  else classe += " tagCinza";
+
+  return `<span class="${classe}">${t}</span>`;
+};
+
   const subLabel    = (op) => (op.idadeMaxima ? `Sub-${op.idadeMaxima}` : (op.idadeMinima ? `≥${op.idadeMinima}` : '—'));
 
   const renderItem = (op) => {
@@ -69,16 +92,16 @@
   const approved = isApproved(op.status);
 
   return `
-    <li class="list-group-item" data-op="${id}">
-      <div class="d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center gap-2 flex-wrap">
+    <li class="list-group-item itemOportunidade ${approved ? 'itemAprovado' : 'itemPendente'}" data-op="${id}">
+      <div class="conteudoItem d-flex align-items-center justify-content-between">
+        <div class="infoItem d-flex align-items-center gap-2 flex-wrap">
           ${renderBadge(posNome)}
           ${renderBadge(espNome)}
           ${renderBadge(cat)}
-          <span class="ms-2">${st}</span>
+          <span class="statusItem ms-2">${st}</span>
         </div>
 
-        <div class="dropdown">
+        <div class="dropdown"> 
           <button class="btn btn-sm btn-link p-0 text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false" aria-label="menu">
             &#8226;&#8226;&#8226;
           </button>
