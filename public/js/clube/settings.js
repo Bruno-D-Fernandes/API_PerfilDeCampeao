@@ -73,7 +73,9 @@ const THEME_KEY = 'clube_theme';
 
 const applyTheme = (val) => {
   const theme = ['light', 'dark', 'system'].includes(val) ? val : 'system';
-  document.documentElement.setAttribute('data-theme', theme);
+  // Keep behavior consistent with theme-init: remove attribute for 'system'
+  if (theme === 'system') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', theme);
 
   if (theme === 'light') $('#themeLight').checked = true;
   else if (theme === 'dark') $('#themeDark').checked = true;

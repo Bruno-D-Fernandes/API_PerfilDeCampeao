@@ -49,6 +49,8 @@
 
                 <br>
                 <button type="submit" class="submit-button">Login</button>
+
+                <a href="{{route('clube-cadastro')}}" class="cadastro-link">Cadastre-se</a>
             </form>
 </div>
         <script  src="{{ asset('js/clube/login.js')}}"></script>
