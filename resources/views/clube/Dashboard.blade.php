@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <script>(function(){try{var t=localStorage.getItem('clube_theme')||'system';if(t&&t!=='system'){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.removeAttribute('data-theme');}}catch(e){} })();</script>
+  <script src="{{ asset('js/theme-init.js') }}"></script>
   <meta charset="utf-8" />
   <title>Dashboard — Clube</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,13 +24,13 @@
 
         <ul class="menu-navegacao">
             <li class="ativo">
-                <a href="./index.html">
+                <a href="{{route('clube-dashboard')}}">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="{{route('clube-oportunidades')}}">
                     <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
                 </a>
@@ -64,7 +66,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{route('clube-configuracoes')}}">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>
@@ -72,7 +74,7 @@
             <li>
             <hr class="barra-vermelha">  
             <li class="sair-link"> 
-                <a href="#">
+                <a href="">
                     <i class='bx bx-log-out'></i>
                     <span>Sair</span>
                 </a>

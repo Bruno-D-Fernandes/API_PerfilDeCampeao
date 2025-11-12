@@ -4,10 +4,11 @@
   box-sizing: border-box;
 }
 body{
-  background-color: #9aa9bb51;
+  background-color: var(--bg-body);
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--text-primary);
 }
 .container{
   height: 70vh;
@@ -41,7 +42,7 @@ h2{
 }
 .box{
   border-radius: 20px;
-  background-color: #ffffff;
+  background-color: var(--bg-card);
 }
 h4{
   color: #06cb5289;
@@ -74,20 +75,21 @@ h4{
   text-align: left; 
   padding: 8px 8px 8px 40px;
   font-weight: 400;
-  color: #06cb5289;
-  border: #9aa9bb83 2px solid;
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  background: var(--input-bg);
 }
 .modal-body .form-control:hover{
   border-color: #06cb5289;
 }
 .modal-body .botaoEnviar{
-    width: 95%;
-    margin: 0 auto 10px;
-    display: block;
-    padding: 5px 5px;
-    background-color: #61d4847f;
-    font-weight: 400;
-    border-radius: 10px;
-    color: #14cb4b;
-    border: 0;
+  width: 95%;
+  margin: 0 auto 10px;
+  display: block;
+  padding: 5px 5px;
+  background-color: var(--accent);
+  font-weight: 400;
+  border-radius: 10px;
+  color: white;
+  border: 0;
 }

@@ -4,12 +4,14 @@
   box-sizing: border-box;
 }
 body{
-  background-color: #9aa9bb51;
+  /* Use CSS variable so dark/light theme can change this */
+  background-color: var(--bg-body);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 20px;
+  color: var(--text-primary);
 }
 
 .dashContainer {
@@ -29,7 +31,7 @@ body{
 }
 
 .cardOport{
-    background: #fff;
+    background: var(--bg-card);
     width: 350px;
     height: 100px;
   border:   1px solid #d3d3d3;
@@ -38,8 +40,8 @@ body{
   border: 0;
 }
 .cardCamp {
-  background: #fff;
-  border: 1px solid #d3d3d3;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 15px;
   width: 350px;
@@ -48,8 +50,8 @@ body{
 }
 
 .cardSug {
-  background: #fff;
-  border: 1px solid #d3d3d3;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 15px;
   width: 200px;
@@ -65,8 +67,8 @@ body{
 }
 
 .cardInt {
-  background: #fff;
-  border: 1px solid #d3d3d3;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 15px;
   width: 710px;
@@ -80,7 +82,7 @@ body{
 }
 
 .cardAtiv {
-  background: #fff;
+  background: var(--bg-card);
   position: absolute;
   top: 108%;
   border-radius: 6px;
@@ -98,6 +100,7 @@ body{
   padding: 6px;
   font-size: 14px;
   font-weight: 300;
+  color: var(--text-secondary);
 }
 #tipoSugestao{
     border: #2A683D 2px solid;
@@ -144,17 +147,48 @@ body{
 /*tags*/
 
 h1{
-    color: #2A683D;
-    position: fixed;
-    top: 5%;
-    left: 12%;
+  color: var(--accent);
+  position: fixed;
+  top: 5%;
+  left: 12%;
 }
 h3{
-    color: #2A683D;
+  color: var(--accent);
 }
 h4{
     font-weight: 400;
 }
 h5{
     font-weight: 500;
+}
+
+:root {
+  --bg-body: #f5f5f5;
+  --bg-card: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --accent: #36B37E;
+  --accent-hover: #2faa6d;
+  --danger: #e53935;
+  --danger-bg: #ffebee;
+  --input-bg: #ffffff;
+  --salvar-bg:#ffffff;
+  --perigo:rgb(228, 7, 7);
+}
+
+/* Tema escuro */
+[data-theme="dark"] {
+  --bg-body: #121212;
+  --bg-card: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #bbbbbb;
+  --border-color: #333333;
+  --accent: #66bb6a; /* Verde mais claro para contraste */
+  --accent-hover: #4caf50;
+  --danger: #ef9a9a;
+  --danger-bg: #2c1a1a;
+  --input-bg: #a8a8a8;
+  --salvar-bg:#ffffff;
+  --perigo:rgb(212, 69, 69);
 }
