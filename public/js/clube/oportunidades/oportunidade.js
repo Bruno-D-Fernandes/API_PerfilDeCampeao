@@ -316,10 +316,12 @@
 
     if (createEsporteEl) {
       try {
+        console.debug('[oportunidade] populating create esporte select, token present?', !!token);
         const esportes = await getEsportes();
+        console.debug('[oportunidade] getEsportes returned', esportes);
         fillSelect(createEsporteEl, esportes, 'id', 'nomeEsporte', 'Selecione o esporte...');
 
-        createEsporteEl.addEventListener('change', async (ev) => {
+          createEsporteEl.addEventListener('change', async (ev) => {
           const id = ev.target.value;
           if (!createPosicoesEl) return;
           if (!id) {
@@ -327,7 +329,9 @@
             return;
           }
           try {
+            console.debug('[oportunidade] loading posicoes for esporte', id);
             const posicoes = await getPosicoes(id);
+            console.debug('[oportunidade] getPosicoes returned', posicoes);
             fillSelect(createPosicoesEl, posicoes, 'id', 'nomePosicao', 'Selecione a posição...');
           } catch (err) {
             console.error('Erro ao carregar posições (create):', err);

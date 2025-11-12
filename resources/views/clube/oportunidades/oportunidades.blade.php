@@ -102,7 +102,7 @@
               </div>
 
               <div class="mb-3 input-conteiner">
-                <input class="form-control" type="text" name="cepOportunidade" id="cep" maxlength="9" placeholder="CEP" onblur="handleCepBlur()" required>
+                <input class="form-control" type="text" name="cepOportunidade" id="cep" maxlength="8" placeholder="CEP" onblur="handleCepBlur()" required>
               </div>
             </div>
 
