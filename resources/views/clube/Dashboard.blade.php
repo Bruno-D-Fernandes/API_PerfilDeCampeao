@@ -26,22 +26,13 @@
 
         <ul class="menu-navegacao">
             <li class="ativo">
-<<<<<<< HEAD
                 <a href="{{route('clube-dashboard')}}">
-=======
-                <a href="../index.html">
->>>>>>> 0fb2a67374b5d8ceb6cfc34ede19346f75998609
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
             </li>
-<<<<<<< HEAD
             <li>
                 <a href="{{route('clube-oportunidades')}}">
-=======
-            <li class="">
-                <a href="/clube/oportunidades">
->>>>>>> 0fb2a67374b5d8ceb6cfc34ede19346f75998609
                     <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
                 </a>

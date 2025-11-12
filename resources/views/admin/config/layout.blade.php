@@ -87,11 +87,11 @@
   <nav class="navConfig">
   <h5>Menu</h5>
   <ul>
-    <li><a href="{{ url('/admin/config/perfil') }}"><i class='bx bxs-user-circle'></i>Perfil</a></li>
-    <li><a href="{{ url('/admin/config/notificacoes') }}"><i class='bx bxs-bell'></i>Notificações</a></li>
-    <li><a href="{{ url('/admin/config/tema') }}"><i class='bx bxs-paint'></i>Tema</a></li>
-    <li><a href="{{ url('/admin/config/backup') }}"><i class='bx bxs-cloud-download'></i>Backup</a></li>
-    <li><a href="{{ url('/admin/config/sobre') }}"><i class='bx bxs-info-circle'></i>Sobre</a></li>
+    <li><a href="{{ url('/admin/configuracoes/perfil') }}"><i class='bx bxs-user-circle'></i>Perfil</a></li>
+    <li><a href="{{ url('/admin/configuracoes/notificacoes') }}"><i class='bx bxs-bell'></i>Notificações</a></li>
+    <li><a href="{{ url('/admin/configuracoes/tema') }}"><i class='bx bxs-paint'></i>Tema</a></li>
+    <li><a href="{{ url('/admin/configuracoes/backup') }}"><i class='bx bxs-cloud-download'></i>Backup</a></li>
+    <li><a href="{{ url('/admin/configuracoes/sobre') }}"><i class='bx bxs-info-circle'></i>Sobre</a></li>
   </ul>
 </nav>
 
