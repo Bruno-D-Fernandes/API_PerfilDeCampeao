@@ -29,7 +29,7 @@
 
         <ul class="menu-navegacao">
             <li >
-                <a href="./index.html">
+                <a href="/admin/dashboard">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
@@ -42,32 +42,32 @@
             </li>
             <li>
                 <a href="/admin/usuarios">
-                    <i class='bx bx-list-ul'></i>
+                    <i class='bx bx-user'></i>
                     <span>Usuarios</span>
                 </a>
             </li>
             <li>
                 <a href="/admin/clubes">
-                    <i class='bx bx-message-dots'></i>
+                    <i class='bx bx-group'></i>
                     <span>Clubes</span>
                 </a>
             </li>
             <li>
                 <a href="/admin/funcoes">
-                    <i class='bx bx-bell'></i>
+                    <i class='bx bx-extension'></i>
                     <span>Funções</span>
                 </a>
             </li>
             <li  class="ativo"> 
                 <a href="#">
-                    <i class='bx bx-user'></i>
+                    <i class='bx bx-football'></i>
                     <span>Esportes</span>
                 </a>
             </li>
             <li>
                 <a href="/admin/listas">
-                    <i class='bx bx-search'></i>
-                    <span>Pesquisa</span>
+                    <i class='bx bx-list-ul'></i>
+                    <span>Listas</span>
                 </a>
             </li>
             <li>

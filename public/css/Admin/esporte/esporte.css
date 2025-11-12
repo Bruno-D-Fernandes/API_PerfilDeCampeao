@@ -372,10 +372,7 @@ body {
     border-bottom: 2px solid transparent;
 }
 
-.tab-button.active {
-    color: #003dadea;
-    border-bottom: 2px solid #003dadea;
-}
+
 
 .tab-content {
     display: none;
@@ -572,21 +569,6 @@ z-index: 10000;
     .edit { background-color: #27ae60; }     /* laranja */
     .add { background-color: #27ae60; }      /* verde */
 
-    .posicao-editar-btn,.caracteristica-editar-btn{
-        background-color: #003dadea;
-        border: none;
-        width: 70px;
-        height: 25px;
-        border-radius: 10px;
-        color: white;
-    }
-    .posicao-excluir-btn,.caracteristica-excluir-btn{
-        background-color: #ff5858;
-        color: white;
-        border: none;
-        width: 70px;
-        height: 25px;
-        border-radius: 10px;
-    }
+
 
 
