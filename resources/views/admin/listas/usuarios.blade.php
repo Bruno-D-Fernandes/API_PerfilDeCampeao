@@ -81,10 +81,11 @@
             <li>
             <hr class="barra-vermelha">  
             <li class="sair-link"> 
-                <a href="#">
-                    <i class='bx bx-log-out'></i>
-                    <span>Sair</span>
-                </a>
+                <form id="logout">
+                    <button class="logout" type="submit"><i class='bx bx-log-out'></i>
+                      <span>Sair</span>
+                  </button>
+                </form>
             </li>
         </ul>
     </nav>
@@ -354,5 +355,6 @@
     <script src="{{ asset('js/admin/listas/usuarios/modals.js') }}"></script>
     <script src="{{ asset('js/admin/listas/usuarios/api.js') }}"></script>
     <script src="{{ asset('js/admin/listas/usuarios/events.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/oportunidades/logout.js') }}"></script>
 </body>
 </html> 

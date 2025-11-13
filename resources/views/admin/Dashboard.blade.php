@@ -23,16 +23,40 @@
         </div>
 
         <ul class="menu-navegacao">
-            <li class="ativo">
+            <li>
                 <a href="{{route('admin-dashboard')}}">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li>
+            <li  class="ativo">
                 <a href="{{route('admin-oportunidades')}}">
                     <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{route('admin-usuarios')}}">
+                    <i class='bx bx-user'></i>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+            <li >
+                <a href="{{route('admin-clubes')}}">
+                    <i class='bx bx-group'></i>
+                    <span>Clubes</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{route('admin-funcoes')}}">
+                    <i class='bx bx-extension'></i>
+                    <span>Funções</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{route('admin-esportes')}}">
+                    <i class='bx bx-football'></i>
+                    <span>Esportes</span>
                 </a>
             </li>
             <li>
@@ -42,28 +66,19 @@
                 </a>
             </li>
             <li>
-                <a href="{{route('admin-perfil')}}">
-                    <i class='bx bx-user'></i>
-                    <span>Perfil</span>
-                </a>
-            </li>
-            <li >
-                <a href="admin-config-layout">
+                <a href="{{route('admin-config-layout')}}">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>
             </li>
-             <li>
-                  <hr class="barra-vermelha">
+            <li>
+            <hr class="barra-vermelha">  
+            <li class="sair-link"> 
+                <a href="#">
+                    <i class='bx bx-log-out'></i>
+                    <span>Sair</span>
+                </a>
             </li>
-              <li class="sair-link">
-                  <form id="logout">
-                      <button class="sair" type="submit">
-                          <i class='bx bx-log-out'></i>
-                          <span>Sair</span>
-                      </button>
-                  </form>
-              </li>
         </ul>
 </nav>    
   <h1>Dashboard</h1>
@@ -96,7 +111,7 @@
   </section>
 
   <!-- Blocos -->
-  <main>
+  <main class="conteudo-principal">
     <div class="grupoCardMeio">
     <section class="cardCadaUser">
       <img src="{{asset('/img/cadaUsuarioDashAdmin.png')}}" class="iconUser" alt="">

@@ -522,7 +522,7 @@ function renderInscritosLista(container, lista) {
              data-status="${normalized}">
 
           <div>
-            ${avatarURL ? `<img src="${avatarURL}" width="40" height="40">` : `👤`}
+            ${avatarURL ? `<img src="${avatarURL}" width="40" height="40">` : ``}
           </div>
 
           <div>

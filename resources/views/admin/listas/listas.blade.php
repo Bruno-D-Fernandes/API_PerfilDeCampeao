@@ -32,49 +32,49 @@
 
         <ul class="menu-navegacao">
             <li >
-                <a href="/admin/dashboard">
+                <a href="{{route('admin-dashboard')}}">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li>
-                <a href="/admin/oportunidades">
+                <a href="{{route('admin-oportunidades')}}">
                     <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
                 </a>
             </li>
             <li>
-                <a href="/admin/usuarios">
+                <a href="{{route('admin-usuarios')}}">
                     <i class='bx bx-user'></i>
                     <span>Usuarios</span>
                 </a>
             </li>
             <li>
-                <a href="/admin/clubes">
+                <a href="{{route('admin-clubes')}}">
                     <i class='bx bx-group'></i>
                     <span>Clubes</span>
                 </a>
             </li>
             <li>
-                <a href="/admin/funcoes">
+                <a href="{{route('admin-funcoes')}}">
                     <i class='bx bx-extension'></i>
                     <span>Funções</span>
                 </a>
             </li>
             <li> 
-                <a href="/admin/esportes">
+                <a href="{{route('admin-esportes')}}">
                     <i class='bx bx-football'></i>
                     <span>Esportes</span>
                 </a>
             </li>
             <li  class="ativo">
-                <a href="/admin/listas">
+                <a href="{{route('admin-listas')}}">
                     <i class='bx bx-list-ul'></i>
                     <span>Listas</span>
                 </a>
             </li>
             <li>
-                <a href="/admin/configuracoes/perfil">
+                <a href="{{route('admin-config-layout')}}">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>
@@ -82,10 +82,11 @@
             <li>
             <hr class="barra-vermelha">  
             <li class="sair-link"> 
-                <a href="#">
-                    <i class='bx bx-log-out'></i>
-                    <span>Sair</span>
-                </a>
+                <form id="logout">
+                    <button class="logout" type="submit"><i class='bx bx-log-out'></i>
+                      <span>Sair</span>
+                  </button>
+                </form>
             </li>
         </ul>
     </nav>
@@ -226,5 +227,6 @@
     <script src="{{ asset('js/admin/listas/listas/modals.js') }}"></script>
     <script src="{{ asset('js/admin/listas/listas/api.js') }}"></script>
     <script src="{{ asset('js/admin/listas/listas/events.js') }}"></script>
+    <script src="{{ asset('js/admin/listas/oportunidades/logout.js') }}"></script>
 </body>
 </html>
