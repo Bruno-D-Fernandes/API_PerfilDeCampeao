@@ -54,8 +54,9 @@ const Settings = (() => {
     return v === 'light' || v === 'dark' || v === 'system' ? v : 'system';
   }
   function applyTheme(value) {
-   
-    document.documentElement.setAttribute('data-theme', value);
+   // If value is 'system' prefer removing the attribute so prefers-color-scheme works
+    if (value === 'system') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', value);
   }
   async function saveThemePref(value) {
     localStorage.setItem(THEME_KEY, value);
