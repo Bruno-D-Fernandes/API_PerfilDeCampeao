@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <script>(function(){try{var t=localStorage.getItem('clube_theme')||'system';if(t&&t!=='system'){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.removeAttribute('data-theme');}}catch(e){} })();</script>
+  <link rel="stylesheet" href="{{ asset('css/clube/vars.css') }}">
     <meta charset="utf-8">
     <title>Configurações — Clube</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const url = '/api/clube/register';
+        const url = '../api/clube/register';
 
         const formData = new FormData(form);
         fetch(url, {

@@ -3,7 +3,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-/* Theme variables (define here so this CSS works standalone) */
 :root {
   --bg-body: #f5f5f5;
   --bg-card: #ffffff;

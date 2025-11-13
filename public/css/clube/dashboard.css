@@ -131,51 +131,6 @@ body{
   left: 25%;
   height: 35px;
 }
-.iconCampe{
-   position: fixed;
-  top: 30%;
-  left: 53%;
-  height: 50px;
-}
-.iconAbrirLista{
-  cursor: pointer;
-  position: fixed;
-  top: 22%;
-  left: 53%;
-  height: 35px;
-}
-.listaSugestoes{
-  list-style: none;
-  margin-top: 10px;
-  color: #2A683D;
-}
-.oportuAtivas{
-  font-size: 30px;
-
-}
-/*tags*/
-
-h1{
-  color: var(--accent);
-  position: fixed;
-  top: 5%;
-  left: 12%;
-}
-h2{
-  color: #2A683D;
-  font-weight: 500;
-}
-h3{
-  color: var(--accent);
-}
-h4{
-    font-weight: 500;
-}
-h5{
-  color: #61D483;
-    font-weight: 500;
-}
-
 :root {
   --bg-body: #f5f5f5;
   --bg-card: #ffffff;
@@ -206,3 +161,18 @@ h5{
   --salvar-bg:#ffffff;
   --perigo:rgb(212, 69, 69);
 }
+h2{
+  color: #2A683D;
+  font-weight: 500;
+}
+h3{
+  color: var(--accent);
+}
+h4{
+    font-weight: 500;
+}
+h5{
+  color: #61D483;
+    font-weight: 500;
+}
+/* Theme variables moved to css/Clube/vars.css (single source of truth). Remove duplicates here to avoid overrides. */

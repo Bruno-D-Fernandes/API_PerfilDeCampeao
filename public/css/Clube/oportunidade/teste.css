@@ -3,70 +3,8 @@
   padding: 0;
   box-sizing: border-box;
 }
-:root{
-  --bg-body: #f5f5f5;
-  --bg-card: #ffffff;
-  --text-primary: #111827;
-  --muted: #6b7280;
-  --muted-opaque: rgba(151,151,151,0.7);
-  --accent: #2A683D;
-  --accent-weak: rgba(6,197,82,0.54);
-  --btn-light-bg: #EFEFEF;
-  --item-bg: #f8f9fa;
-  --input-bg: #ffffff;
-  --border-color: #e5e7eb;
-  --tag-blue-color: #2563eb;
-  --tag-blue-border: #93c5fd;
-  --tag-blue-bg: #f0f9ff;
-  --tag-green-color: #16a34a;
-  --tag-green-border: #86efac;
-  --tag-green-bg: #f0fdf4;
-  --tag-gray-color: #6b7280;
-  --tag-gray-border: #d1d5db;
-  --tag-gray-bg: #f9fafb;
-  --status-approved-bg: rgba(119,255,160,0.4);
-  --status-approved-color: #29B252;
-  --status-pending-bg: rgba(255,208,120,0.41);
-  --status-pending-color: #FFA600;
-  --status-rejected-bg: #fee2e2;
-  --status-rejected-color: #DB0808;
-}
-
-/* Dark theme overrides */
-[data-theme="dark"] {
-  --bg-body: #121212;
-  --bg-card: #1e1e1e;
-  --text-primary: #ffffff;
-  --text-secondary: #bbbbbb;
-  --border-color: #333333;
-  --accent: #66bb6a;
-  --accent-hover: #4caf50;
-  --danger: #ef9a9a;
-  --danger-bg: #2c1a1a;
-  --input-bg: #a8a8a8;
-  --salvar-bg:#ffffff;
-  --perigo:rgb(212, 69, 69);
-  --emphasis: #2fa05b;
-  --muted: #9ca3af;
-  --muted-opaque: rgba(156,163,175,0.7);
-  --btn-light-bg: #2a2a2a;
-  --item-bg: #2a2a2a;
-  --tag-blue-color: #93c5fd;
-  --tag-blue-border: #2563eb;
-  --tag-blue-bg: #1e3a8a;
-  --tag-green-color: #86efac;
-  --tag-green-border: #16a34a;
-  --tag-green-bg: #14532d;
-  --tag-gray-color: #d1d5db;
-  --tag-gray-border: #4b5563;
-  --tag-gray-bg: #374151;
-  --status-approved-bg: rgba(29,78,15,0.4);
-  --status-approved-color: #22c55e;
-  --status-pending-bg: rgba(202,138,4,0.41);
-  --status-pending-color: #facc15;
-  --status-rejected-bg: #7f1d1d;
-  --status-rejected-color: #f87171;
-}
+/* Theme variables (local fallback). Prefer including a central vars.css in layout for global reuse. */
+/* Theme variables moved to css/Clube/vars.css (single source of truth). Remove duplicates here to avoid overrides. */
 body{
   background-color: var(--bg-body);
   display: flex;
@@ -295,7 +233,6 @@ h4{
   background: var(--input-bg) !important;
   color: var(--text-primary) !important;
   border-color: var(--border-color) !important;
-
 }
 
 [data-theme="dark"] .btn-light,
@@ -324,3 +261,32 @@ h4{
   color: var(--muted) !important;
 }
 
+/* Make Bootstrap dropdowns and menu items follow the club theme variables
+   (this styles the menu opened by the "..." button in each item) */
+.dropdown-menu {
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  min-width: 10rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+.dropdown-menu .dropdown-item {
+  color: var(--text-primary) !important;
+  background: transparent !important;
+}
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus,
+.dropdown-menu .dropdown-item.active {
+  background: var(--accent-weak) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Ensure modal backdrop/content follow variables (safety for other pages) */
+.modal-content {
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+.modal-backdrop {
+  background-color: rgba(0,0,0,0.5) !important;
+}

@@ -49,6 +49,10 @@ Route::prefix('clube')->group(function () {
         return view('clube.oportunidades.oportunidades'); 
     })->name('clube-oportunidades');
 
+    Route::get('/pesquisa', function () {
+        return view('clube.pesquisa.pesquisa'); 
+    })->name('clube-pesquisa');
+
     Route::get('/{id}', [ClubeController::class, 'showProfilePage'])->name('clube-perfil'); 
 });
 

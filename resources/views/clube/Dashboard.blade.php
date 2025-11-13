@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <script>(function(){try{var t=localStorage.getItem('clube_theme')||'system';if(t&&t!=='system'){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.removeAttribute('data-theme');}}catch(e){} })();</script>
+  <link rel="stylesheet" href="{{ asset('css/clube/vars.css') }}">
   <script src="{{ asset('js/theme-init.js') }}"></script>
   <meta charset="utf-8" />
   <title>Dashboard — Clube</title>
@@ -62,7 +63,7 @@
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="{{route('clube-pesquisa')}}">
                     <i class='bx bx-search'></i>
                     <span>Pesquisa</span>
                 </a>

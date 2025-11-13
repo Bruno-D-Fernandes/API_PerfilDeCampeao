@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
         <link rel="stylesheet" href="{{ asset('css/Admin/clubes/clubes.css') }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="stylesheet" href="{{ asset('css/Clube/vars.css') }}">
     <style>
         .hidden {
             display: none !important;

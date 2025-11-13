@@ -18,6 +18,7 @@
 
   <!-- CSS (Bootstrap + seus estilos) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('css/clube/vars.css') }}">
   <link rel="stylesheet" href="{{ asset('/css/clube/oportunidade/oportunidadesClube.css') }}">
   <link rel="stylesheet" href="{{ asset('css/clube/sidebar/sidebar.css') }}">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -35,7 +36,7 @@
       <li><a href="#"><i class='bx bx-message-dots'></i><span>Mensagens</span></a></li>
       <li><a href="#"><i class='bx bx-bell'></i><span>Notificações</span></a></li>
       <li><a href="#"><i class='bx bx-user'></i><span>Perfil</span></a></li>
-      <li><a href="./tela-pesquisa/pesquisa.html"><i class='bx bx-search'></i><span>Pesquisa</span></a></li>
+      <li><a href="{{route('clube-pesquisa')}}}"><i class='bx bx-search'></i><span>Pesquisa</span></a></li>
       <li><a href="{{route('clube-configuracoes')}}"><i class='bx bx-cog'></i><span>Configurações</span></a></li>
       <li><hr class="barra-vermelha"></li>
       <li class="sair-link"><a href="#"><i class='bx bx-log-out'></i><span>Sair</span></a></li>
@@ -236,7 +237,7 @@
     <!-- =================== MODAL INSCRITOS =================== -->
 <div class="modal fade" id="modalInscritos" tabindex="-1">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content" style="background:#ffffff;">
+    <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Inscritos</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
