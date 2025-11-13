@@ -66,7 +66,7 @@
                 </a>
             </li>
             <li>
-                <a href="../tela-pesquisa/pesquisa.html">
+                <a href="{{route('clube-pesquisa')}}">
                     <i class='bx bx-search'></i>
                     <span>Pesquisa</span>
                 </a>
