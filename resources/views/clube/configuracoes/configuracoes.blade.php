@@ -7,7 +7,7 @@
     <title>Configurações — Clube</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('css/Clube/config/config.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/clube/sidebar/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
