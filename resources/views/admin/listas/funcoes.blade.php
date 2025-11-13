@@ -223,7 +223,7 @@
 
     <div id="confirmar-modal" class="app-modal hidden">
         <div class="modal-header">
-            <h2 class="modal-title">Você deseja excluir esta função?</h3>
+            <h2 class="modal-title aqui"> Você deseja excluir esta função?</h3>
         </div>
         
         <div class="modal-body">

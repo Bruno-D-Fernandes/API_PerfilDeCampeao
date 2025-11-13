@@ -5,11 +5,26 @@
 }
 
 body {
-    background-color: rgb(232, 240, 247);
+    background-color: #ffffff;
     margin: 0;
     padding: 0;
     font-family: Inter,Poppins,sans-serif;
     overflow-x: hidden;
+}
+    :root {
+  --container: #f7f7f7;
+  --border-color: #bdbdbd;
+  --bg-bottom: #d6d6d6ea;
+  --bg-bottom-hover: #cacacaea;
+  
+}
+
+/* dark theme overrides */
+[data-theme="dark"] {
+  --container:  #272727;
+  --border-color: #272727;
+  --bg-bottom: #c5c5c5ea;
+  --bg-bottom-hover: #424242ea;
 }
 
 /* === Ajuste do conteúdo principal para conviver com a sidebar === */
@@ -27,13 +42,12 @@ body {
 
 /* === Título === */
 .titulo {
-    font-size: 30pt;
-    color: #003dadea;
-    font-family: Inter,Poppins,sans-serif;
-    margin-bottom: 20px;
-    margin-left: 6%;
-    margin-top: 0;
-}
+        font-size: 30pt;
+        color: #003dadea;
+        font-family: Inter,Poppins,sans-serif;
+        margin-top: 25px;
+        margin-left: 1%;
+    }
 
 @media (max-width: 768px) {
     .titulo {
@@ -51,10 +65,10 @@ body {
     height: auto; /* remove altura fixa para melhor adaptação */
     min-height: 70px;
     margin-bottom: 20px;
-    background-color: #ffffff;
+    background: var(--container);
     margin-left: 100px;
     margin-right: 30px;
-    padding: 10px 20px;
+    padding: 5px 10px;
     border-radius: 20px;
 }
 
@@ -106,7 +120,7 @@ body {
 
 /* === Container principal === */
 .esportes-container {
-    background-color: rgb(255, 255, 255);
+    background: var(--container);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -271,6 +285,17 @@ body {
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+.aqui2{
+    background-color: var(--bg-bottom);
+    border: none;
+    width: 60px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+.aqui2:hover{
+    background-color:var(--bg-bottom-hover) ;
 }
 
 .form-group {
@@ -463,6 +488,9 @@ body {
     align-items: center;
     margin-bottom: 12px;
 }
+.semposi{
+    display: none;
+}
 
 .tab-header button {
     background-color: #003dadea;
@@ -478,6 +506,10 @@ body {
 .hidden {
     display: none !important;
 }
+.sumir{
+    display: none;
+}
+
 
 /* === Mobile === */
 @media (max-width: 480px) {
@@ -517,7 +549,7 @@ body {
     padding: 10px 14px 10px 42px;
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    background: rgb(240, 245, 255);
+    background: #ffffff;
     color: var(--text-primary);
     font-size: 14px;
     transition: border .2s, box-shadow .2s;
@@ -526,7 +558,6 @@ body {
 .search-box input:focus {
     outline: none;
     border-color: var(--focus-color);
-    box-shadow: 0 0 0 3px rgba(90, 155, 213, 0.2);
 }
 /*esporte  */.modal {
       display: none; /* começa escondido */
