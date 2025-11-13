@@ -10,10 +10,14 @@
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="{{asset('/css/admin/layoutConfig.css')}}">
-  <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/admin/sidebar/sidebar.css') }}">
 </head>
 <body>
-<nav class="barra-lateral" id="barra-lateral">
+<main class="conteudo-principal">
+          <h1 class="titulo"></h1>
+          <section class="cards-topo">
+    <!--NAVBAR LT1-->
+    <nav class="barra-lateral" id="barra-lateral">
 
         <!--ESPAÇO PRA LOGO LT1-->
         <div class="logo-container">
@@ -38,37 +42,37 @@
                 </a>
             </li>
             <li>
-                <a href="#">
-                    <i class='bx bx-list-ul'></i>
-                    <span>Listas</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-message-dots'></i>
-                    <span>Mensagens</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-bell'></i>
-                    <span>Notificações</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
+                <a href="/admin/usuarios">
                     <i class='bx bx-user'></i>
-                    <span>Perfil</span>
+                    <span>Usuarios</span>
                 </a>
             </li>
             <li>
-                <a href="./tela-pesquisa/pesquisa.html">
-                    <i class='bx bx-search'></i>
-                    <span>Pesquisa</span>
+                <a href="#">
+                    <i class='bx bx-group'></i>
+                    <span>Clubes</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/funcoes">
+                    <i class='bx bx-extension'></i>
+                    <span>Funções</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/esportes">
+                    <i class='bx bx-football'></i>
+                    <span>Esportes</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/listas">
+                    <i class='bx bx-list-ul'></i>
+                    <span>Lista</span>
                 </a>
             </li>
             <li class="ativo">
-                <a href="#">
+                <a href="/admin/configuracoes/perfil">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>
@@ -82,7 +86,9 @@
                 </a>
             </li>
         </ul>
-</nav>    
+    </nav>
+    <!--NAVBAR LT1-->
+    </main>
   <h1>Configurações</h1>
 
   <nav class="navConfig">

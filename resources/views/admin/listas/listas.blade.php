@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/sidebar/sidebar.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/Admin/lista/lista.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
 </head>
+
 <body>
+    
 
 <main class="conteudo-principal">
           <h1 class="titulo"></h1>
@@ -35,7 +38,7 @@
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="/admin/oportunidades">
                     <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
                 </a>

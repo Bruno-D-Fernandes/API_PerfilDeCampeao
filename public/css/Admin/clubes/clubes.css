@@ -12,6 +12,16 @@
         font-family: Arial, sans-serif;
         overflow-x: hidden;
     }
+      :root {
+  --container: #f7f7f7;
+  --border-color: #bdbdbd;
+}
+
+/* dark theme overrides */
+[data-theme="dark"] {
+  --container:  #272727;
+  --border-color: #272727;
+}
 
     /* === CONTEÚDO PRINCIPAL (com espaço para sidebar) === */
     .conteudo-principal {
@@ -27,12 +37,12 @@
     }
 
     /* === TÍTULO === */
-    .titulo {
+      .titulo {
         font-size: 30pt;
         color: #003dadea;
-        font-family: Inter, Poppins, sans-serif;
-        margin-bottom: 20px;
-        margin-left: 6%;
+        font-family: Inter,Poppins,sans-serif;
+        margin-top: 25px;
+        margin-left: 1%;
     }
 
     @media (max-width: 768px) {
@@ -43,7 +53,7 @@
     }
 
     /* === CABEÇALHO (PESQUISA + BOTÃO) === */
-    .header {
+        .header {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -51,12 +61,13 @@
     height: auto; /* remove altura fixa para melhor adaptação */
     min-height: 70px;
     margin-bottom: 20px;
-    background-color: #ffffff;
+    background: var(--container);
     margin-left: 100px;
     margin-right: 30px;
-    padding: 10px 20px;
+    padding: 5px 10px;
     border-radius: 20px;
     }
+
 
     .pesquisa {
         width: 100%;
@@ -106,7 +117,7 @@
     .list-header,
     .clube {
         display: grid;
-        gap: 20px;
+        gap: 12px;
         padding: 12px 0;
         align-items: center;
         border-bottom: 1px solid #e0e0e0;
@@ -116,7 +127,7 @@
     @media (min-width: 769px) {
         .list-header,
         .clube {
-            grid-template-columns: 1.5fr 1fr 1.2fr 1fr 1fr 0.8fr;
+            grid-template-columns: 2fr 3fr 1fr 1.5fr;
         }
     }
 
@@ -166,19 +177,18 @@
 
     /* === AÇÕES === */
     .clube-acoes {
-        display: flex;
-        gap: 15px;
+         display: flex;
+        gap: 12px;
         justify-content: center;
     }
 
     .clube-acoes button {
-        background: none;
+         padding: 6px 12px;
         border: none;
-        cursor: pointer;
-        font-size: 16px;
-        padding: 6px;
         border-radius: 6px;
-        transition: background 0.2s;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        font-size: 14px;
     }
 
     .clube-acoes button:hover {
@@ -229,12 +239,12 @@
         align-items: center;
         background-color: #003dadea;
         color: white;
-        padding: 16px 20px;
+        padding: 17px 21px;
     }
 
     .modal-title {
         margin: 0;
-        font-size: 18pt;
+        font-size: 16pt;
         font-weight: 600;
     }
 
@@ -260,7 +270,7 @@
     .modal-footer {
         display: flex;
         justify-content: flex-end;
-        gap: 15px;
+        gap: 10px;
         padding: 15px 20px;
         background-color: #f7f9fb;
         border-top: 1px solid #e0e0e0;
@@ -320,7 +330,7 @@
     .form-group label {
         font-weight: bold;
         color: #003dadea;
-        margin-bottom: 6px;
+        margin-bottom: -15px;
     }
 
     .form-group input,
@@ -329,6 +339,7 @@
         width: 100%;
         padding: 10px;
         border: 1px solid #ccc;
+        resize: none;
         border-radius: 6px;
         font-size: 14px;
         box-sizing: border-box;
@@ -336,7 +347,7 @@
 
     .form-group textarea {
         min-height: 80px;
-        resize: vertical;
+        resize: none;
     }
 
     .form-group input:focus,
@@ -401,7 +412,6 @@
         align-items: center;
         flex-wrap: wrap;
         gap: 12px;
-        margin-bottom: 20px;
     }
 
     .search-box {
@@ -419,14 +429,13 @@
     color: var(--text-secondary);
     font-size: 16px;
 }
-
 .search-box input {
     width: 100%;
     height: 50px;
     padding: 10px 14px 10px 42px;
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    background: rgb(240, 245, 255);
+    background: #ffffff;
     color: var(--text-primary);
     font-size: 14px;
     transition: border .2s, box-shadow .2s;
@@ -435,7 +444,6 @@
 .search-box input:focus {
     outline: none;
     border-color: var(--focus-color);
-    box-shadow: 0 0 0 3px rgba(90, 155, 213, 0.2);
 }
 
 .modal {

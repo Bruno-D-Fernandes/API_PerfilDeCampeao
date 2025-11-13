@@ -40,9 +40,10 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
     newSaveBtn.addEventListener('click', () => {
         funcaoSim();
         modalexc.style.display = 'flex'
+        fecharModal(modalConfirmar);
         setTimeout(() => {
         modalexc.style.display = "none";
-        fecharModal(modalConfirmar);
+        
         window.location.reload(true);
       }, 2000);
     
