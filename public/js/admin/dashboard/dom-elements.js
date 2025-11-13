@@ -9,14 +9,19 @@ const state = {
 };
 
 function renderMetrics({ usersRes, clubsRes, oppsRes }) {
-  $('#metricUsers').textContent = normalizeTotal(usersRes);
-  $('#metricClubs').textContent = normalizeTotal(clubsRes);
-  $('#metricOpps').textContent  = normalizeTotal(oppsRes);
-  $('#metricReports').textContent = '—';
+  const metricUsers = $('#metricUsers');
+  const metricClubs = $('#metricClubs');
+  const metricOpps = $('#metricOpps');
+  const metricReports = $('#metricReports');
+  if (metricUsers) metricUsers.textContent = normalizeTotal(usersRes);
+  if (metricClubs) metricClubs.textContent = normalizeTotal(clubsRes);
+  if (metricOpps) metricOpps.textContent  = normalizeTotal(oppsRes);
+  if (metricReports) metricReports.textContent = '—';
 }
 
 function renderLatestOpps() {
   const ul = $('#latestOpps');
+  if (!ul) return;
   ul.innerHTML = '';
   const ordered = state.opps.slice().sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0));
   const slice = ordered.slice(0, state.oppsPageShown * state.oppsPageSize);
@@ -32,7 +37,8 @@ function renderLatestOpps() {
     li.textContent = `[${status || '-'}] ${desc} — ${pos} / ${esp} — ${club} — ${created}${motivo}`;
     ul.appendChild(li);
   });
-  $('#moreOpps').disabled = slice.length >= state.opps.length;
+  const moreBtn = $('#moreOpps');
+  if (moreBtn) moreBtn.disabled = slice.length >= state.opps.length;
 }
 
 function buildRecentActions() {
@@ -52,6 +58,7 @@ function buildRecentActions() {
 
 function renderActions() {
   const tbody = $('#recentActionsBody');
+  if (!tbody) return;
   tbody.innerHTML = '';
   state.recentActions.forEach(a => {
     const tr = document.createElement('tr');

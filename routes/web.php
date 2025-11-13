@@ -64,7 +64,7 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
-    })->name('admin.dashboard');
+    })->name('admin-dashboard');
 
     Route::prefix('configuracoes')->group(function () {
 

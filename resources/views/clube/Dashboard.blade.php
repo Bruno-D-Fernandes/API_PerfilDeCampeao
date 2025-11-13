@@ -81,7 +81,8 @@
             <li class="sair-link">        <!-- // ↓↓↓ ALTERADO -->
                 <form id="logout">
                     <button class="logout" type="submit"><i class='bx bx-log-out'></i>
-                    <span>Sair</span></button>
+                      <span>Sair</span>
+                  </button>
                 </form>
             </li>
         </ul>

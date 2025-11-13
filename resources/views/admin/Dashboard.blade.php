@@ -24,61 +24,46 @@
 
         <ul class="menu-navegacao">
             <li class="ativo">
-                <a href="/admin/dashboard">
+                <a href="{{route('admin-dashboard')}}">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="{{route('admin-oportunidades')}}">
                     <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{route('admin-listas')}}">
                     <i class='bx bx-list-ul'></i>
                     <span>Listas</span>
                 </a>
             </li>
             <li>
-                <a href="#">
-                    <i class='bx bx-message-dots'></i>
-                    <span>Mensagens</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-bell'></i>
-                    <span>Notificações</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
+                <a href="{{route('admin-perfil')}}">
                     <i class='bx bx-user'></i>
                     <span>Perfil</span>
                 </a>
             </li>
-            <li>
-                <a href="./tela-pesquisa/pesquisa.html">
-                    <i class='bx bx-search'></i>
-                    <span>Pesquisa</span>
-                </a>
-            </li>
             <li >
-                <a href="/admin/config/layout">
+                <a href="admin-config-layout">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>
             </li>
-            <li>
-            <hr class="barra-vermelha">  
-            <li class="sair-link"> 
-                <a href="#">
-                    <i class='bx bx-log-out'></i>
-                    <span>Sair</span>
-                </a>
+             <li>
+                  <hr class="barra-vermelha">
             </li>
+              <li class="sair-link">
+                  <form id="logout">
+                      <button class="sair" type="submit">
+                          <i class='bx bx-log-out'></i>
+                          <span>Sair</span>
+                      </button>
+                  </form>
+              </li>
         </ul>
 </nav>    
   <h1>Dashboard</h1>
@@ -128,7 +113,7 @@
       <img src="{{asset('/img/oportuDashAdm.png')}}" class="iconOportuUm" alt="">
       <h4>Últimas oportunidades</h4>
       <ul id="latestOpps"></ul>
-      <button id="moreOpps">Ver mais</button>
+  <button id="moreOpps" type="button">Ver mais</button>
     </section>
 
     <section class="cardOportuPen">
@@ -181,6 +166,7 @@
   <script src="{{ asset('js/admin/dashboard/dom-elements.js') }}"></script>
   <script src="{{ asset('js/admin/dashboard/modals.js') }}"></script>
   <script src="{{ asset('js/admin/dashboard/events.js') }}"></script>
+  <script src="{{ asset('js/admin/dashboard/logout.js') }}"></script>
 
 </body>
 </html>
