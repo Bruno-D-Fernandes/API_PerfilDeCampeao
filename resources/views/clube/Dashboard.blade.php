@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="stylesheet" href="{{asset('/css/clube/dashboard.css')}}">
-    <link rel="stylesheet" href="{{ asset('css//clube/sidebar/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
@@ -38,7 +38,7 @@
                     <span>Oportunidades</span>
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="#">
                     <i class='bx bx-list-ul'></i>
                     <span>Listas</span>
@@ -55,9 +55,9 @@
                     <i class='bx bx-bell'></i>
                     <span>Notificações</span>
                 </a>
-            </li>
+            </li> -->
             <li>
-                <a href="#">
+                <a href="/clube/1">
                     <i class='bx bx-user'></i>
                     <span>Perfil</span>
                 </a>

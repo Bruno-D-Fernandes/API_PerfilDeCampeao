@@ -41,24 +41,24 @@
                     <span>Oportunidades</span>
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="#">
                     <i class='bx bx-list-ul'></i>
                     <span>Listas</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="#">
                     <i class='bx bx-message-dots'></i>
                     <span>Mensagens</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+           <!--  <li>
                 <a href="#">
                     <i class='bx bx-bell'></i>
                     <span>Notificações</span>
                 </a>
-            </li>
+            </li> -->
             <li>
                 <a href="/clube/perfil">
                     <i class='bx bx-user'></i>

@@ -6,8 +6,11 @@
 <div class="perfil" data-storage-url="{{ asset('storage') }}" data-admin-id="{{ $admin->id }}">
 
         <div class="info">
+            
             <div class="general">
                 <div class="general-profile">
+                <h2>Perfil</h2><br><br>
+
                     <div class="profile-picture">
                         @if($admin->foto_perfil)
                             <img src="{{ asset('storage/' . $admin->foto_perfil) }}" alt="Foto de Perfil">

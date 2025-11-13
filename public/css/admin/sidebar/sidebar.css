@@ -126,7 +126,51 @@ body{
     margin:6px 15px px 1px;
 }
 
-.sair-link a i,
-.sair-link a span{
-    color:#e53935 !important;
+.sair-link {
+    margin: 4px 0;
+}
+
+.sair-link form {
+    margin: 0;
+    padding: 0;
+}
+
+.sair-link .logout {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    font-weight: 650;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    width: 100%;
+    text-align: left;
+    color: #e53935;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .2s, color .2s;
+    font-family: Inter, Poppins, sans-serif;
+    font-size: inherit;
+}
+
+.sair-link .logout:hover {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.sair-link .logout i {
+    font-size: 20px;
+    flex-shrink: 0;
+    color: inherit;
+}
+
+.sair-link .logout span {
+    opacity: 0;
+    transition: opacity .2s;
+    color: inherit;
+}
+
+.barra-lateral:hover .sair-link .logout span {
+    opacity: 1;
 }

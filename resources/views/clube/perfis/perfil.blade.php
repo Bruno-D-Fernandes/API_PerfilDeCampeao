@@ -17,7 +17,36 @@
 
 <div class="modal" id="addModal">
     <div class="modal-content">
-      <div class="success add">Adicionado com sucesso!</div>
+      <div class="success add">Membro Adicionado Com Sucesso!</div>
+    </div>
+  </div>
+    <div class="modal" id="esporteModal">
+    <div class="modal-content">
+      <div class="success erro">Erro ao Adicinoar Membro!</div>
+    </div>
+  </div>
+
+   <div class="modal" id="caraModal">
+    <div class="modal-content">
+      <div class="success erro">Membro Excluido com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="erroModal">
+    <div class="modal-content">
+      <div class="success erro">Oportunidade Excluida com Sucesso!</div>
+    </div>
+  </div>
+
+    <div class="modal" id="opoModal">
+    <div class="modal-content">
+      <div class="success erro">Oportunidade Adicionada com Sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="erro2Modal">
+    <div class="modal-content">
+      <div class="success erro">Erro ao criar Oportunidade</div>
     </div>
   </div>
 
@@ -28,9 +57,9 @@
         <!--ESPAÇO PRA LOGO LT1-->
         <div class="logo-container">
             <!-- LOGO PEQUENA-->
-            <img src="../img/logo-reduzida.png" alt="Logo" class="logo-pequena">
+            <img src="../img/logo-clube-reduzida.png" alt="Logo" class="logo-pequena">
             <!--LOGO GRANDE-->
-            <img src="../img/logo-completa.jpeg" alt="Logo" class="logo-grande">
+            <img src="../img/logo-clube-completa.jpeg" alt="Logo" class="logo-grande">
             <!--ESPAÇO PRA LOGO LT1-->
         </div>
 
@@ -47,7 +76,7 @@
                     <span>Oportunidades</span>
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="#">
                     <i class='bx bx-list-ul'></i>
                     <span>Listas</span>
@@ -64,7 +93,7 @@
                     <i class='bx bx-bell'></i>
                     <span>Notificações</span>
                 </a>
-            </li>
+            </li> -->
             <li class="ativo">
                 <a href="#">
                     <i class='bx bx-user'></i>
@@ -72,13 +101,13 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="/clube/pesquisa">
                     <i class='bx bx-search'></i>
                     <span>Pesquisa</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="/clube/configuracoes">
                     <i class='bx bx-cog'></i>
                     <span>Configurações</span>
                 </a>
@@ -100,7 +129,7 @@
 
     </main>
     <div class="container" data-storage-url="{{ asset('/storage') }}" data-clube-id="{{ $clube->id }}">
-
+    
         <div id="profile">
             <div class="profile-info">
                 <div class="profile-imgs">

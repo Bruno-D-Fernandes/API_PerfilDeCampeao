@@ -20,9 +20,9 @@
         <!--ESPAÇO PRA LOGO LT1-->
         <div class="logo-container">
             <!-- LOGO PEQUENA-->
-            <img src="../img/logo-reduzida.png" alt="Logo" class="logo-pequena">
+            <img src="../img/logo-clube-reduzida.png" alt="Logo" class="logo-pequena">
             <!--LOGO GRANDE-->
-            <img src="../img/logo-completa.png" alt="Logo" class="logo-grande">
+            <img src="../img/logo-clube-completa.jpeg" alt="Logo" class="logo-grande">
             <!--ESPAÇO PRA LOGO LT1-->
         </div>
 
@@ -39,24 +39,24 @@
                     <span>Oportunidades</span>
                 </a>
             </li>
-            <li>
+           <!--  <li>
                 <a href="#">
                     <i class='bx bx-list-ul'></i>
                     <span>Listas</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+           <!--  <li>
                 <a href="#">
                     <i class='bx bx-message-dots'></i>
                     <span>Mensagens</span>
                 </a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
                 <a href="#">
                     <i class='bx bx-bell'></i>
                     <span>Notificações</span>
                 </a>
-            </li>
+            </li> -->
             <li class="ativo">
                 <a href="#">
                     <i class='bx bx-user'></i>
@@ -79,11 +79,12 @@
                   <!-- ===== Barra vermelha antes de SAIR ===== -->
             <hr class="barra-vermelha">   <!-- // ↓↓↓ ALTERADO -->
 
-            <li class="sair-link">        <!-- // ↓↓↓ ALTERADO -->
-                <a href="#">
-                    <i class='bx bx-log-out'></i>
+           <li class="sair-link">        <!-- // ↓↓↓ ALTERADO -->
+                <form id="logout">
+                    <button class="logout" type="submit"><i class='bx bx-log-out'></i>
                     <span>Sair</span>
-                </a>
+                  </button>
+                </form>
             </li>
         </ul>
     </nav>

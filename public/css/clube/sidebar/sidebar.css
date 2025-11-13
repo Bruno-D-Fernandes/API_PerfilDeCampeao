@@ -133,4 +133,5 @@ body{
 .sair-link a i,
 .sair-link a span{
     color:var(--danger) !important;
+    border-radius: 10px;
 }

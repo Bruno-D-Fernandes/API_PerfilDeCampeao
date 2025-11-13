@@ -27,7 +27,14 @@ async function saveOportunidade(oportunidadeId = null) {
         const data = await response.json();
 
         if(!data.error || !data.errors) {
-            alert('Oportunidade salva com sucesso!');
+            const erroModal = document.getElementById('opoModal');
+                erroModal.style.display = 'flex';
+    setTimeout(() => {
+        erroModal.style.display = 'none';
+    }, 1000);
+    setTimeout(() => {
+
+        }, 1000);
 
             if (!editMode) {
                 oportunidades.appendChild(createOportunidadeRow(data));
@@ -41,9 +48,18 @@ async function saveOportunidade(oportunidadeId = null) {
         }                
     } catch (error) {
         console.error('Erro ao salvar oportunidade:', error);
-        alert('Erro ao salvar oportunidade!');
+        const erroModal = document.getElementById('erro2Modal');
+                erroModal.style.display = 'flex';
+    setTimeout(() => {
+        erroModal.style.display = 'none';
+    }, 1000);
+    setTimeout(() => {
+
+        }, 1000);
     }
 }
+
+
 
 async function saveMembro() {
     const usuarioId = modalAdicionarMembro.content.querySelector('.user-selected').dataset.usuarioId;
@@ -74,18 +90,41 @@ async function saveMembro() {
         }
 
         const data = await response.json();
+        const addModal = document.getElementById('addModal');
+        const espModal = document.getElementById('esporteModal');
 
         if (!data.error && !data.errors) {
-            alert('Membro adicionado com sucesso!');
             fecharModal(modalAdicionarMembro);
             searchMembers('');
+        addModal.style.display = 'flex';
+    setTimeout(() => {
+        addModal.style.display = 'none';
+    }, 1000);
+    setTimeout(() => {
+
+        }, 1000);
         } else {
             console.error('Erro retornado pela API:', data);
-            alert('Erro ao adicionar membro');
+                    espModal.style.display = 'flex';
+    setTimeout(() => {
+        espModal.style.display = 'none';
+    }, 1000);
+    setTimeout(() => {
+
+        }, 1000);
+            
+            
         }
     } catch (error) {
         console.error('Erro ao salvar membro:', error);
-        alert('Erro ao salvar membro!');
+        espModal.style.display = 'flex';
+    setTimeout(() => {
+        espModal.style.display = 'none';
+    }, 1000);
+    setTimeout(() => {
+
+        }, 1000);
+        
     }
 }
 
@@ -313,8 +352,19 @@ async function deleteOportunidade(oportunidadeId) {
 
         if (response.ok) {
             if (response.status === 204) {
-                alert('Oportunidade excluída com sucesso!');
                 oportunidades.querySelector(`.opportunity[data-oportunidade-id="${oportunidadeId}"]`)?.remove();
+                const erroModal = document.getElementById('erroModal');
+                erroModal.style.display = 'flex';
+    setTimeout(() => {
+        erroModal.style.display = 'none';
+    }, 1000);
+    setTimeout(() => {
+
+        }, 1000);
+                    
+                
+                
+                
             } else {
                 const data = await response.json();
 
@@ -322,7 +372,14 @@ async function deleteOportunidade(oportunidadeId) {
                     console.error('Erro retornado pela API:', data);
                     alert('Erro ao excluir oportunidade');
                 } else {
-                    alert('Oportunidade excluída com sucesso! (Obteve retorno de dados)');
+                    const erroModal = document.getElementById('erroModal');
+                erroModal.style.display = 'flex';
+    setTimeout(() => {
+        erroModal.style.display = 'none';
+    }, 1000);
+    setTimeout(() => {
+
+        }, 1000);
                     oportunidades.querySelector(`.opportunity[data-oportunidade-id="${oportunidadeId}"]`)?.remove();
                 }
             }
@@ -405,14 +462,29 @@ async function deleteMembro(membroId) {
 
         if (response.ok) {
             if (response.status === 204) {
-                alert('Membro removido com sucesso!');
+                const caraModal = document.getElementById('caraModal');
+                caraModal.style.display = 'flex';
+    setTimeout(() => {
+        caraModal.style.display = 'none';
+    }, 1000);
+    setTimeout(() => {
+
+        }, 1000);
             } else {
                 const data = await response.json();
                 if (data.error || data.errors) {
                     console.error('Erro retornado pela API:', data);
                     alert('Erro ao remover membro');
                 } else {
-                    alert('Membro removido com sucesso!');
+                    const caraModal = document.getElementById('caraModal');
+                caraModal.style.display = 'flex';
+    setTimeout(() => {
+        caraModal.style.display = 'none';
+    }, 1000);
+    setTimeout(() => {
+
+        }, 1000);
+                    
                 }
             }
 

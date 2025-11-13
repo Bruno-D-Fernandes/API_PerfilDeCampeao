@@ -5,7 +5,18 @@
     user-select: none;
 }
 
-/* Theme / layout variables moved to css/Clube/vars.css where appropriate. Local :root removed to avoid overrides. */
+:root {
+    --layout-max-width: 1100px;
+    --container-max-width: 420px;
+    --progress-max-width: 420px;
+    --mobile-container-max-width: 340px;
+    --primary-color: #00D17A;
+    --primary-hover: #00B86A;
+    --text-color: #ffffff;
+    --form-bg: rgba(255, 255, 255, 0.93);
+    --input-border: #01cd9d;
+    --input-focus: #00df82;
+}
 
 body {
     background-image: url("../../../img/futsal.png");
@@ -330,7 +341,11 @@ button {
         padding: 0 10px;
     }
 
-    /* responsive layout vars intentionally moved to central place when needed */
+    :root {
+        --layout-max-width: 900px;
+        --container-max-width: 520px;
+        --progress-max-width: 460px;
+    }
 }
 
 @media (max-width: 576px) {
@@ -403,6 +418,7 @@ button {
         height: 8px;
     }
 }
+
 .modal {
       display: none; /* começa escondido */
       position: fixed;

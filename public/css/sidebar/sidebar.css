@@ -62,7 +62,7 @@ body{
     box-shadow:2px 0 10px rgba(0, 0, 0, 0.253);
     transition:width .3s ease;
     overflow:hidden;
-    z-index:1000;
+    z-index:10000;
 }
 .barra-lateral:hover{
     width:240px;
@@ -170,7 +170,67 @@ body{
     margin:6px 15px px 1px;
 }
 
-.sair-link a i,
-.sair-link a span{
-    color:#e53935 !important;
+.barra-lateral .sair-link {
+    margin: 4px 0; /* mesmo margin dos outros <li> */
+    padding: 0 20px; /* alinha com o padding horizontal dos outros itens */
+}
+
+.barra-lateral .sair-link form {
+    width: 100%;
+    margin: 0;
+}
+
+.barra-lateral .logout {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* alinha com os outros itens (ícone à esquerda) */
+    gap: 12px; /* mesmo gap dos <a> */
+    width: 100%;
+    padding: 12px 0; /* o padding horizontal já vem do .sair-link */
+    background: none;
+    border: none;
+    color: #e53935;
+    font-weight: 650;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 0 25px 25px 0;
+    transition: background 0.2s, color 0.2s;
+    text-align: left;
+    font-family: inherit;
+}
+
+.barra-lateral .logout:hover {
+    background: #ffffff;
+}
+
+.barra-lateral .logout i {
+    font-size: 20px;
+    color: inherit;
+    flex-shrink: 0;
+}
+
+/* Quando a sidebar estiver expandida, mantém o texto visível */
+.barra-lateral:hover .logout span {
+    opacity: 1;
+}
+
+/* Quando fechada, esconde o texto (opcional, mas consistente) */
+.barra-lateral .logout span {
+    opacity: 0;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+}
+
+.barra-lateral:hover .logout span {
+    opacity: 1;
+}
+
+/* TEMA ESCURO */
+[data-theme="dark"] .barra-lateral .logout {
+    color: #ef9a9a;
+}
+
+[data-theme="dark"] .barra-lateral .logout:hover {
+    background: #2c1a1a;
+    color: #ef9a9a;
 }

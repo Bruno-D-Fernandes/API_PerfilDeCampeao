@@ -152,7 +152,7 @@ Pesquisa.utils = {
         return `
             <article class="result-row" data-user-id="${id}">
                 <div class="result-main">
-                    <div class="result-avatar"><span>👤</span></div>
+                    <div class="result-avatar"><span><i class='bx bx-user'></i></span></div>
 
                     <div class="result-info">
                         <div class="result-name">${nome}</div>

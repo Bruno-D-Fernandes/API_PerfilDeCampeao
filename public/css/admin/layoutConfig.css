@@ -87,10 +87,15 @@ body{
 }
 /* parte tela notificação*/
 .corpoNotifica{
+    border: 0;
+    border-radius: 7px;
+    background-color: #ffffff;
     position:fixed;
+    left: 40%;
     top: 12%;
-    height: 50vh;
-    width: 90vh;
+    height: 60vh;
+    width: 120vh;
+    padding: 10px;
     justify-content: center;
     align-items: center;
 }
@@ -171,7 +176,7 @@ input:checked + .checkSlide:before {
 .botaoNotifica{
     width: 10%;
     position: fixed;
-    top: 70%;
+    top: 66%;
     display: block;
     padding: 5px 5px;
     background-color: #3A6BA3;
@@ -307,6 +312,18 @@ input:checked + .checkSlide:before {
     flex-direction: column;
     gap: 19px;
     list-style: none;
+    padding: 0;
+}
+.listaDownloads li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-right: 20px;
+}
+.listaDownloads li h4{
+    margin: 0;
+    flex: 1;
 }
 .btnDump{
     padding: 5px 20px;
@@ -329,9 +346,7 @@ input:checked + .checkSlide:before {
     border: 0;
     color: #ffffff;
     border-radius: 5px;
-    position: absolute;
-    left: 70%;
-    top: 47%;
+    margin-left: auto;
 }
 .btnUser:hover{
     background-color: #4c90df;
@@ -343,9 +358,7 @@ input:checked + .checkSlide:before {
     border: 0;
     color: #ffffff;
     border-radius: 5px;
-    position: absolute;
-    left: 70%;
-    top: 55%;
+    margin-left: auto;
 }
 .btnClube:hover{
     background-color: #4c90df;
@@ -357,9 +370,7 @@ input:checked + .checkSlide:before {
     border: 0;
     color: #ffffff;
     border-radius: 5px;
-    position: absolute;
-    left: 70%;
-    top: 63%;
+    margin-left: auto;
 }
 .btnOportu:hover{
     background-color: #4c90df;
@@ -371,9 +382,7 @@ input:checked + .checkSlide:before {
     border: 0;
     color: #ffffff;
     border-radius: 5px;
-    position: absolute;
-    left: 70%;
-    top: 71%;
+    margin-left: auto;
 }
 .btnFunc:hover{
     background-color: #4c90df;
@@ -385,9 +394,7 @@ input:checked + .checkSlide:before {
     border: 0;
     color: #ffffff;
     border-radius: 5px;
-    position: absolute;
-    left: 70%;
-    top:  79%;
+    margin-left: auto;
 }
 .btnEspo:hover{
     background-color: #4c90df;
@@ -399,9 +406,7 @@ input:checked + .checkSlide:before {
     border: 0;
     color: #ffffff;
     border-radius: 5px;
-    position: absolute;
-    left: 70%;
-    top: 87%;
+    margin-left: auto;
 }
 .btnDenun:hover{
     background-color: #4c90df;

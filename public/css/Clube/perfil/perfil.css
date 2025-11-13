@@ -385,6 +385,7 @@ body {
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
+  
 }
 
 .opportunity-details span {
@@ -394,6 +395,7 @@ body {
   padding: 4px 10px;
   border-radius: 20px;
   font-weight: 500;
+  
 }
 
 .see-details-btn {
@@ -402,6 +404,7 @@ body {
   color: var(--text-secondary);
   cursor: pointer;
   font-size: 20px;
+  
 }
 
 .opportunity-options {
@@ -697,6 +700,8 @@ body {
 #adicionar-membro-cancelar-btn,
 #oportunidade-cancelar-btn,
 #cancel-confirm-btn {
+    height: 40px;
+  width: 150px;
   background: var(--bg-card);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
@@ -713,6 +718,8 @@ body {
 #adicionar-membro-salvar-btn,
 #oportunidade-salvar-btn,
 #save-confirm-btn {
+  height: 40px;
+  width: 150px;
   background: var(--accent);
   color: white;
 }
@@ -771,11 +778,7 @@ body {
     width: 100%;
   }
 
-  .opportunity {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
+
 
   .opportunity-details {
     justify-content: flex-start;
@@ -1100,3 +1103,4 @@ z-index: 10000;
     .delete { background-color: #e74c3c; }   /* vermelho */
     .edit { background-color: #27ae60; }     /* laranja */
     .add { background-color: #27ae60; }      /* verde */
+    .erro{ background-color: #ff0000; }      /* vermelho */

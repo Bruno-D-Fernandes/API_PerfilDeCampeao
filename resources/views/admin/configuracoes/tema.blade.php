@@ -29,7 +29,7 @@
       <h6>Ative se preferir um modo claro para utilização</h6>
     </label>  
 
-    <label class="labelTemaEscuro">
+    <!-- <label class="labelTemaEscuro">
       <img src="{{asset('/img/iconTemaEscuro.png')}}" class="iconEscuro" alt=""><strong class="nomeEscuro">Tema Escuro</strong>
       <input type="radio" name="theme" value="dark">
        <div class="imagemTema">
@@ -37,7 +37,7 @@
       </div>
       <h4>Modo Escuro</h4>
       <h6>Ative se preferir um modo escuro para utilização</h6>
-    </label>
+    </label> -->
 
     </div>
     <button type="submit" class="botaoNotifica">Salvar</button>
