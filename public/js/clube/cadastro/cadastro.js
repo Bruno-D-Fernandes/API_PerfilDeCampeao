@@ -33,7 +33,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
         .catch(e => {
+            const erroModal = document.getElementById('erroModal');
             console.error('ocorreu um erro', e);
+            erroModal.style.display = 'flex';
+                setTimeout(() => {
+                    window.location.href = "/clube/dashboard";
+                }, 2000);
+                setTimeout(() => {
+                    window.location.href = "/clube/dashboard";
+                }, 2000);
         })
     });
 })

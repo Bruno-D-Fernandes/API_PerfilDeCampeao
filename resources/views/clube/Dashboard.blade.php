@@ -13,6 +13,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
+
 <body>
 <nav class="barra-lateral" id="barra-lateral">
 
@@ -57,7 +58,7 @@
                 </a>
             </li> -->
             <li>
-                <a href="/clube/1">
+               <a id='verPerfil' href="#">
                     <i class='bx bx-user'></i>
                     <span>Perfil</span>
                 </a>
@@ -159,5 +160,54 @@
     <script src="{{ asset('js/clube/dashboard/dom-elements.js') }}"></script>
     <script src="{{ asset('js/clube/dashboard/events.js') }}"></script>
     <script src="{{asset('js/clube/dashboard/logout.js')}}"></script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", async () => {
+    const token = localStorage.getItem('clube_token'); // o token salvo no login
+
+    if (!token) {
+        console.error("Token não encontrado!");
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/clube/perfil', {
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/json'
+            }
+        });
+        const data = await response.json();
+        
+        if (data.id) {
+            console.log("ID do Clube:", data.id);
+            localStorage.setItem('clube_id', data.id);
+        } else {
+            console.error("Erro ao buscar ID do clube:", data);
+        }
+    } catch (err) {
+        console.error("Falha na requisição:", err);
+    }
+});
+
+
+ const linkPerfil = document.getElementById('verPerfil');
+
+  // Adiciona o evento de clique
+  linkPerfil.addEventListener('click', function (event) {
+    event.preventDefault(); // impede o link de redirecionar imediatamente
+
+    // Pega o ID do clube do localStorage
+    const clubeId = localStorage.getItem('clube_id');
+
+    if (clubeId) {
+      // Redireciona para a URL desejada
+      window.location.href = `/clube/${clubeId}`;
+    } else {
+      alert('Nenhum clube_id encontrado no localStorage!');
+    }
+  });
+
+</script>
 </body>
 </html>

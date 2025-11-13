@@ -35,12 +35,7 @@ body {
     margin-top: -80px;
 }
 
-.titulo{
-    color:#3cff00;
-}
-.titi h1{
-    color: #36B37E;
-}
+
 
 /* Estilo para a barra lateral expandida (se a classe for adicionada ao body) */
 /* Se o seu framework adicionar uma classe como 'sidebar-expanded' ao body quando a barra lateral estiver aberta,
@@ -56,10 +51,10 @@ body {
 }
 
 #search-root header h1 {
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 40px;
     color: var(--accent-hover);
     margin: 0;
+    font-weight: normal;
 }
 
 /* Estilo da seção de busca */
@@ -616,3 +611,4 @@ body {
     outline: none;
     border-color: var(--focus-color);
 }
+

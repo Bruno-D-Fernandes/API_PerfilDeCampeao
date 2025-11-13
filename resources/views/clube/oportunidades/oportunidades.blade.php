@@ -20,82 +20,100 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/clube/vars.css') }}">
   <link rel="stylesheet" href="{{ asset('/css/clube/oportunidade/oportunidadesClube.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/clube/sidebar/sidebar.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
   <!-- =================== START: SIDEBAR =================== -->
-  <nav class="barra-lateral" id="barra-lateral">
+ 
 
-    <ul class="menu-navegacao">
-        <li>
-            <a href="{{ route('clube-dashboard')}}">
-                <i class='bx bx-home-alt'></i>
+    <main class="conteudo-principal">
+    <!--NAVBAR LT1-->
+    <nav class="barra-lateral" id="barra-lateral">
+
+        <!--ESPAÇO PRA LOGO LT1-->
+        <div class="logo-container">
+            <!-- LOGO PEQUENA-->
+            <img src="../img/logo-clube-reduzida.png" alt="Logo" class="logo-pequena">
+            <!--LOGO GRANDE-->
+            <img src="../img/logo-clube-completa.jpeg" alt="Logo" class="logo-grande">
+            <!--ESPAÇO PRA LOGO LT1-->
+        </div>
+
+        <ul class="menu-navegacao">
+            <li class=".">
+                <a href="{{route('clube-dashboard')}}">
+                    <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
-            </a>
-        </li>
-        <li class="{{ route('clube-oportunidades')}}}">
-            <a href="">
-                <i class='bx bx-briefcase'></i>
+                </a>
+            </li>
+            <li  class="ativo">
+                <a href="{{route('clube-oportunidades')}}">
+                    <i class='bx bx-briefcase'></i>
                     <span>Oportunidades</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-list-ul'>
-                </i><span>Listas</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-message-dots'>
-                </i><span>Mensagens</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-bell'>
-                </i><span>Notificações</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-user'>
-                </i><span>Perfil</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{route('clube-pesquisa')}}">
-                <i class='bx bx-search'></i>
-                <span>Pesquisa</span>
-            </a>
+                </a>
             </li>
-        <li>
-            <a href="{{route('clube-configuracoes')}}">
-                <i class='bx bx-cog'></i>
-                <span>Configurações</span>
-            </a>
+            <!-- <li>
+                <a href="#">
+                    <i class='bx bx-list-ul'></i>
+                    <span>Listas</span>
+                </a>
+            </li> -->
+            <!-- <li>
+                <a href="#">
+                    <i class='bx bx-message-dots'></i>
+                    <span>Mensagens</span>
+                </a>
+            </li> -->
+           <!--  <li>
+                <a href="#">
+                    <i class='bx bx-bell'></i>
+                    <span>Notificações</span>
+                </a>
+            </li> -->
+            <li>
+                <a id='verPerfil' href="#">
+                    <i class='bx bx-user'></i>
+                    <span>Perfil</span>
+                </a>
             </li>
-        <li>
-            <hr class="barra-vermelha"></li>
-        <li class="sair-link">
-            <form id="logout">
-                <button class="logout" type="submit">
-                        <i class='bx bx-log-out'></i>
+            <li>
+                <a href="{{route('clube-pesquisa')}}">
+                    <i class='bx bx-search'></i>
+                    <span>Pesquisa</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{route('clube-configuracoes')}}">
+                    <i class='bx bx-cog'></i>
+                    <span>Configurações</span>
+                </a>
+            </li>
+            <li>
+                  <!-- ===== Barra vermelha antes de SAIR ===== -->
+            <hr class="barra-vermelha">   <!-- // ↓↓↓ ALTERADO -->
+
+            <li class="sair-link">        <!-- // ↓↓↓ ALTERADO -->
+                <form id="logout">
+                    <button class="logout" type="submit"><i class='bx bx-log-out'></i>
                     <span>Sair</span>
-                </button>
-            </form>
-        </li>
-    </ul>
-  </nav>
+                  </button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+    
+    <!--NAVBAR LT1-->
+
+    </main>
   <!-- =================== END: SIDEBAR =================== -->
 
   <!-- =================== START: MAIN CONTAINER =================== -->
   <div class="container">
     <h1 class="mb-3">Oportunidades</h1>
-
+ 
     <!-- START: Header da seção -->
      <div class="boxDentro">
     <div class="d-flex align-items-center justify-content-between mb-3">
@@ -198,6 +216,7 @@
       </div>
     </div>
   </div>
+
   <!-- =================== END: MODAL CRIAR =================== -->
 
 
@@ -302,6 +321,56 @@
 
 
   <!-- =================== START: JS DA PÁGINA =================== -->
+
+
+  <script>
+document.addEventListener("DOMContentLoaded", async () => {
+    const token = localStorage.getItem('clube_token'); // o token salvo no login
+
+    if (!token) {
+        console.error("Token não encontrado!");
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/clube/perfil', {
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/json'
+            }
+        });
+        const data = await response.json();
+        
+        if (data.id) {
+            console.log("ID do Clube:", data.id);
+            localStorage.setItem('clube_id', data.id);
+        } else {
+            console.error("Erro ao buscar ID do clube:", data);
+        }
+    } catch (err) {
+        console.error("Falha na requisição:", err);
+    }
+});
+
+
+ const linkPerfil = document.getElementById('verPerfil');
+
+  // Adiciona o evento de clique
+  linkPerfil.addEventListener('click', function (event) {
+    event.preventDefault(); // impede o link de redirecionar imediatamente
+
+    // Pega o ID do clube do localStorage
+    const clubeId = localStorage.getItem('clube_id');
+
+    if (clubeId) {
+      // Redireciona para a URL desejada
+      window.location.href = `/clube/${clubeId}`;
+    } else {
+      alert('Nenhum clube_id encontrado no localStorage!');
+    }
+  });
+
+</script>
 
 <script src="{{ asset('js/clube/oportunidades/utils.js') }}"></script>
 <script src="{{ asset('js/clube/oportunidades/modals.js') }}"></script>

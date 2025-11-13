@@ -8,13 +8,30 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
     <body>
+          <div class="modal" id="addModal">
+    <div class="modal-content">
+      <div class="success add">Login Efetuado Com Sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="creModal">
+    <div class="modal-content">
+      <div class="success add">Credenciais Invalidas!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="deleteModal">
+    <div class="modal-content">
+      <div class="success delete">Credenciais Invalidas!</div>
+    </div>
+  </div>
     <div class="main-container">
 
       <div class="text-section">
             <h1>
-                Se você acredita,<br> 
-                <span class="highlight">o mundo</span> também<br>
-                vai acreditar.
+                SE VOCÊ ACREDITA,<br> 
+                <span class="highlight">O MUNDO</span> TAMBÉM<br>
+                VAI ACREDITAR.
             </h1>
         </div>
                 <div class="form-section">
@@ -23,7 +40,7 @@
                 @csrf
                 
                  <div class="input-group">
-                        <label for="email">Cnpj</label>
+                        <label for="email">Cnpj:</label>
                         
                         <input 
                             type="text" 
@@ -36,7 +53,7 @@
                     </div>
 
                      <div class="input-group">
-                        <label for="password">Senha</label>
+                        <label for="password">Senha:</label>
                         <input 
                             type="password" 
                             id="password" 

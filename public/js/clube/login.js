@@ -20,7 +20,12 @@ document.getElementById('formLogin').addEventListener('submit', async function(e
         const dataToken = await response.json();
 
         if (!response.ok) {
-            alert(dataToken.message || 'Erro ao fazer login.');
+                    const ecxModal = document.getElementById('creModal');
+        console.error('Erro de rede:', error);
+        ecxModal.style.display = 'flex';
+        setTimeout(() => {
+        ecxModal.style.display = 'none';
+        }, 1000);
             return;
         }
 
@@ -28,14 +33,23 @@ document.getElementById('formLogin').addEventListener('submit', async function(e
             alert('Login respondeu sem token. Verifica o controller.');
             return;
         }
+const addModal = document.getElementById('addModal');
 
-        localStorage.setItem('clube_token', dataToken.access_token);
-
-        alert('Login realizado com sucesso!');
-        console.log('Token salvo:', dataToken.access_token);
+addModal.style.display = 'flex';
+        setTimeout(() => {
+            addModal.style.display = 'none';
         window.location.href = '/clube/dashboard';
+        }, 2000);
+        localStorage.setItem('clube_token', dataToken.access_token);
+        console.log('Token salvo:', dataToken.access_token);
+/*         window.location.href = '/clube/dashboard'; */
     } catch (error) {
+        const ecxModal = document.getElementById('deleteModal');
         console.error('Erro de rede:', error);
-        alert('Não foi possível conectar ao servidor.'); 
+        ecxModal.style.display = 'flex';
+        setTimeout(() => {
+        ecxModal.style.display = 'none';
+        }, 2000);
+
     }
 });

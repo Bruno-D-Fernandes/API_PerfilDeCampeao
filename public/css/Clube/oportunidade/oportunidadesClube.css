@@ -73,17 +73,23 @@ body{
   justify-content: center;
   align-items: center;
   color: var(--text-primary);
+  font-family: 'Arial', sans-serif;
 }
 .container{
-  height: 100vh;
+  height: 70vh;
+
 }
 .boxDentro{
-  height: auto;
-  overflow-y: scroll; 
+height: auto;
+padding: 20px;
+ background-color: #e4e4e4;
+ margin-right: 100px;
+ margin-top: 50px;
 
 }
 h1{
-  color: var(--accent);
+  color:#36B37E;
+  margin-top: 50px;
 }
 h5{
   position: absolute;
@@ -321,4 +327,3 @@ h4{
 [data-theme="dark"] .inscritos {
   color: var(--muted) !important;
 }
-

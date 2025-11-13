@@ -347,12 +347,13 @@ button {
         --progress-max-width: 460px;
     }
 }
-
+    
 @media (max-width: 576px) {
     .side-slogan {
         font-size: 24px;
         line-height: 1.2;
     }
+
 
     .container {
         padding: 20px;
@@ -409,14 +410,6 @@ button {
         display: block;
     }
 
-    .step-indicators {
-        gap: 6px;
-    }
-
-    .step-dot {
-        width: 8px;
-        height: 8px;
-    }
 }
 
 .modal {

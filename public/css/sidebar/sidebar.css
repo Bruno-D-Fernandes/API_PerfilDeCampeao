@@ -102,6 +102,8 @@ body{
     opacity:0;
     transform:translateX(-10px);
     transition:opacity .25s ease, transform .25s ease;
+    border-radius:15px;
+
 }
 .barra-lateral:hover .logo-pequena{
     opacity:0;

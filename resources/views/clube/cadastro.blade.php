@@ -27,7 +27,13 @@ display: none;
 
   <div class="modal" id="addModal">
     <div class="modal-content">
-      <div class="success add">Adicionado com sucesso!</div>
+      <div class="success add">Cadastrado com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="erroModal">
+    <div class="modal-content">
+      <div class="success add">Informaçoês Invalidas!</div>
     </div>
   </div>
 
@@ -54,10 +60,6 @@ display: none;
             <h2 id="step-title">Informações do Clube</h2>
             
             <div class="step-indicators">
-                <div class="step-dot" id="dot1"></div>
-                <div class="step-dot" id="dot2"></div>
-                <div class="step-dot" id="dot3"></div>
-                <div class="step-dot" id="dot4"></div> 
             </div>
     <form action="" id="cadastro-clube">
         @csrf
@@ -104,7 +106,7 @@ display: none;
                 <option value="{{ $categoria->id }}">{{ $categoria->nomeCategoria }}</option>
             @endforeach
         </select>
-
+<br><br>
         <label for="clube-esporte">Esporte:</label>
         <select name="esporte_id" id="clube-esporte">
             @foreach($esportes as $esporte)
@@ -124,14 +126,14 @@ display: none;
 
         <label for="clube-cidade">Cep</label>
         <input type="text" name="Cep" id="Cep">
-
+        <br><br>
         <label for="clube-cidade">Cidade:</label>
         <input type="text" name="cidadeClube" id="clube-cidade">
-
+<br><br>
         <label for="clube-estado">Estado:</label>
         <input type="text" name="estadoClube" id="clube-estado">
-
-        <label for="clube-endereco">Endereco:</label>
+<br><br>
+        <label for="clube-endereco">Endereço:</label>
         <input type="text" name="enderecoClube" id="clube-endereco">
         <br><br>
 <div class='juntos'>
@@ -142,7 +144,7 @@ display: none;
 <div id='part4'>
         <label for="clube-cnpj">Cnpj:</label>
         <input type="text" name="cnpjClube" id="clube-cnpj">
-
+<br><br>
         <label for="clube-senha">Senha:</label>
         <input type="password" name="senhaClube" id="clube-senha">
         <br><br>
@@ -178,10 +180,6 @@ display: none;
         valorbarra = document.getElementById('progressPercentage')
         corredor = document.getElementById('runnerIcon')
 
-        ponto1 = document.getElementById('dot1')
-        ponto2 = document.getElementById('dot2')
-        ponto3 = document.getElementById('dot3')
-        ponto4 = document.getElementById('dot4')
 
         
         
@@ -196,7 +194,7 @@ display: none;
             else{ */
             valorbarra.textContent = '25%'
 
-            ponto2.style.background = '#00D17A'
+
 
             botao1.style.display = 'none'
             botao2.style.display = 'block'
@@ -221,7 +219,6 @@ display: none;
             else{ */
             valorbarra.textContent = '50%'
 
-            ponto3.style.background = '#00D17A'
 
             botao2.style.display = 'none'
             botao3.style.display = 'block'
@@ -238,7 +235,7 @@ display: none;
 
         botao3.addEventListener("click", function() {
 
-            ponto4.style.background = '#00D17A'
+
 
             valorbarra.textContent = '75%'
             botao3.style.display = 'none'
@@ -258,10 +255,6 @@ display: none;
 
         botao4.addEventListener("click", function() {
 
-            ponto1.style.background = '#d0d0d0'
-            ponto2.style.background = '#d0d0d0'
-            ponto3.style.background = '#d0d0d0'
-            ponto4.style.background = '#d0d0d0'
 
             valorbarra.textContent = '100%'
             barra.style.width = '100%'
