@@ -53,6 +53,7 @@ Route::prefix('clube')->group(function () {
         return view('clube.pesquisa.pesquisa'); 
     })->name('clube-pesquisa');
 
+
     Route::get('/{id}', [ClubeController::class, 'showProfilePage'])->name('clube-perfil'); 
 });
 

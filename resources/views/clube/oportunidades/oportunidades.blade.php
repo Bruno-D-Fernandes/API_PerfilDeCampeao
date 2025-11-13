@@ -30,16 +30,64 @@
   <nav class="barra-lateral" id="barra-lateral">
 
     <ul class="menu-navegacao">
-      <li><a href="{{ route('clube-dashboard')}}"><i class='bx bx-home-alt'></i><span>Dashboard</span></a></li>
-      <li class="{{ route('clube-oportunidades')}}}"><a href=""><i class='bx bx-briefcase'></i><span>Oportunidades</span></a></li>
-      <li><a href="#"><i class='bx bx-list-ul'></i><span>Listas</span></a></li>
-      <li><a href="#"><i class='bx bx-message-dots'></i><span>Mensagens</span></a></li>
-      <li><a href="#"><i class='bx bx-bell'></i><span>Notificações</span></a></li>
-      <li><a href="#"><i class='bx bx-user'></i><span>Perfil</span></a></li>
-      <li><a href="{{route('clube-pesquisa')}}"><i class='bx bx-search'></i><span>Pesquisa</span></a></li>
-      <li><a href="{{route('clube-configuracoes')}}"><i class='bx bx-cog'></i><span>Configurações</span></a></li>
-      <li><hr class="barra-vermelha"></li>
-      <li class="sair-link"><a href="#"><i class='bx bx-log-out'></i><span>Sair</span></a></li>
+        <li>
+            <a href="{{ route('clube-dashboard')}}">
+                <i class='bx bx-home-alt'></i>
+                    <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="{{ route('clube-oportunidades')}}}">
+            <a href="">
+                <i class='bx bx-briefcase'></i>
+                    <span>Oportunidades</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-list-ul'>
+                </i><span>Listas</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-message-dots'>
+                </i><span>Mensagens</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-bell'>
+                </i><span>Notificações</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-user'>
+                </i><span>Perfil</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{route('clube-pesquisa')}}">
+                <i class='bx bx-search'></i>
+                <span>Pesquisa</span>
+            </a>
+            </li>
+        <li>
+            <a href="{{route('clube-configuracoes')}}">
+                <i class='bx bx-cog'></i>
+                <span>Configurações</span>
+            </a>
+            </li>
+        <li>
+            <hr class="barra-vermelha"></li>
+        <li class="sair-link">
+            <form id="logout">
+                <button class="logout" type="submit">
+                        <i class='bx bx-log-out'></i>
+                    <span>Sair</span>
+                </button>
+            </form>
+        </li>
     </ul>
   </nav>
   <!-- =================== END: SIDEBAR =================== -->
@@ -261,6 +309,7 @@
 <script src="{{ asset('js/clube/oportunidades/events.js') }}"></script>
 <script src="{{ asset('js/clube/oportunidades/api.js') }}"></script>
 <script src="{{asset('js/clube/oportunidades/oportunidade.js')}}"></script>
+<script src="{{asset('js/clube/oportunidades/logout.js')}}"></script>
 
   <!-- =================== END: JS DA PÁGINA =================== -->
 

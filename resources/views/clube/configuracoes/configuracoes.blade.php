@@ -82,10 +82,11 @@
             <hr class="barra-vermelha">   <!-- // ↓↓↓ ALTERADO -->
 
             <li class="sair-link">        <!-- // ↓↓↓ ALTERADO -->
-                <a href="#">
-                    <i class='bx bx-log-out'></i>
+                <form id="logout">
+                    <button class="logout" type="submit"><i class='bx bx-log-out'></i>
                     <span>Sair</span>
-                </a>
+                  </button>
+                </form>
             </li>
         </ul>
     </nav>
@@ -261,5 +262,6 @@
   </div>
 </div>
 <script src="{{ asset('js/clube/settings.js') }}"></script>
+<script src="{{ asset('js/clube/logout.js') }}"></script>
 </body>
 </html>
