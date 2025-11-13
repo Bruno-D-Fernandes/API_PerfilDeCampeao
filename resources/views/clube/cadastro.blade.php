@@ -25,6 +25,12 @@ display: none;
 </head>
 <body>
 
+  <div class="modal" id="addModal">
+    <div class="modal-content">
+      <div class="success add">Adicionado com sucesso!</div>
+    </div>
+  </div>
+
 <div class="layout-wrapper">
     <!-- Frase exatamente como na imagem -->
     <div class="side-slogan">

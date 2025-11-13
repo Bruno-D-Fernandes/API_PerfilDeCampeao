@@ -379,10 +379,6 @@ body {
   
 }
 
-.opportunity:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent);
-}
 
 .opportunity-details {
   display: flex;

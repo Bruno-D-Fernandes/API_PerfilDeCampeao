@@ -18,10 +18,18 @@ document.addEventListener("DOMContentLoaded", () => {
          .then(res => res.json())
         .then(data => {
             console.log(data);
-            
+            const addModal = document.getElementById('addModal');
             if (!data.error) {
-                alert('deu certo');
+                addModal.style.display = 'flex';
                 localStorage.setItem('clube_token', data.access_token);
+                setTimeout(() => {
+                    window.location.href = "/clube/dashboard";
+                }, 2000);
+                setTimeout(() => {
+                    window.location.href = "/clube/dashboard";
+                }, 2000);
+/*                 alert('deu certo'); */
+                
             }
         })
         .catch(e => {
