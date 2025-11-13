@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/sidebar/sidebar.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/Admin/oportunidades/oportunidades.css') }}">
@@ -231,12 +231,13 @@
                             Inscritos
                         </span>
                     </button>
+                    
                 </div>
 
                 <div id="detalhes-tab" class="tab-content active">
                     <div class="tab-header">
                         <h3>Detalhes</h3>
-                    </div>
+                    </div><br>
 
                     <div class="detalhes-list-container">
                         <div class="detalhe-group">
@@ -295,6 +296,7 @@
                     <div class="tab-header">
                         <h3>Inscritos</h3>
                     </div>
+                    <br>
 
                     <div class="inscritos-list-container">
 

@@ -6,7 +6,7 @@
     <title>Document</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/sidebar/sidebar.css') }}">
         <link rel="stylesheet" href="{{ asset('css/Admin/clubes/clubes.css') }}">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="stylesheet" href="{{ asset('css/Clube/vars.css') }}">
@@ -14,49 +14,47 @@
         .hidden {
             display: none !important;
         }
+.clubes-header {
+    width: 99%;
+    display: block;
+    align-items: center;
+    justify-content: space-between;
+}
 
-        .clubes {
-            width: 95%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;/
-        }
+.clube, .list-header {
+    width: 100%;
+    display: grid;
+    gap: 40px;
+    grid-template-columns: 2fr 1fr 1.5fr 1fr 1fr 1fr;
+}
 
-        .clubes-header {
-            width: 99%;
-            display: block;
-            align-items: center;
-            justify-content: space-between;
-        }
+.header-col > span {
+    font-size: 16px;
+}
 
-        .clube, .list-header {
-            width: 100%;
-            display: grid;
-            gap: 16px;
-            grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr 1fr
-        }
+/* CORREÇÃO: Adicione estas regras para controlar o overflow */
+.clube > div, .list-header > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0; /* Permite que o grid encolha a coluna */
+    text-overflow: ellipsis; /* Adiciona "..." no texto cortado */
+    white-space: nowrap; /* Evita quebra de linha */
+}
 
-        .header-col {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+/* Se você quiser permitir quebra de texto em vez de cortar */
+.clube > div.allow-wrap {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
 
-        .header-col > span {
-            font-size: 16px;
-        }
+.clube-acoes {
+    display: flex;
+    gap: 16px;
+    justify-content: center; /* Centraliza os ícones */
+}
 
-        .clube > div {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        } 
-
-        .clube-acoes {
-            display: flex;
-            gap: 16px
-        }
 
         .modal-backdrop {
             width: 100%;

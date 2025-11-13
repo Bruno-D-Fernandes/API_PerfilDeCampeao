@@ -6,12 +6,23 @@
     }
 
     body {
-        background-color: rgb(232, 240, 247);
+        background-color: #ffffff;
         margin: 0;
         padding: 0;
         font-family: Inter, Poppins, sans-serif;
         overflow-x: hidden;
     }
+         :root {
+  --container: #f7f7f7;
+  --border-color: #bdbdbd;
+}
+
+/* dark theme overrides */
+[data-theme="dark"] {
+  --container:  #272727;
+  --border-color: #272727;
+}
+
 
     /* === Ajuste do conteúdo principal === */
     .conteudo-principal {
@@ -27,15 +38,13 @@
     }
 
     /* === Título === */
-    .titulo {
+     .titulo {
         font-size: 30pt;
         color: #003dadea;
-        font-family: Inter, Poppins, sans-serif;
-        margin-bottom: 20px;
-        margin-left: 6%;
-        margin-top: 0;
+        font-family: Inter,Poppins,sans-serif;
+        margin-top: 25px;
+        margin-left: 1%;
     }
-
     @media (max-width: 768px) {
         .titulo {
             font-size: 24pt;
@@ -46,17 +55,18 @@
 
     /* === Cabeçalho com pesquisa === */
     .listas-header {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 12px;
-        min-height: 70px;
-        margin-bottom: 20px;
-        background-color: #ffffff;
-        margin-left: 100px;
-        margin-right: 30px;
-        padding: 10px 20px;
-        border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    height: auto; /* remove altura fixa para melhor adaptação */
+    min-height: 70px;
+    margin-bottom: 20px;
+    background: var(--container);
+    margin-left: 100px;
+    margin-right: 30px;
+    padding: 5px 10px;
+    border-radius: 20px;
     }
 
     .search-box {
@@ -73,37 +83,35 @@
         color: #666;
         font-size: 18px;
     }
+    
+.search-box input {
+    width: 100%;
+    height: 50px;
+    padding: 10px 14px 10px 42px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: #ffffff;
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: border .2s, box-shadow .2s;
+}
 
-    .search-box input {
-        width: 100%;
-        height: 50px;
-        padding: 10px 16px 10px 50px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        background: rgb(240, 245, 255);
-        color: #333;
-        font-size: 14px;
-        font-family: Inter, Poppins, sans-serif;
-        transition: border 0.2s, box-shadow 0.2s;
-    }
-
-    .search-box input:focus {
-        outline: none;
-        border-color: #003dadea;
-        box-shadow: 0 0 0 3px rgba(0, 61, 173, 0.2);
-    }
-
+.search-box input:focus {
+    outline: none;
+    border-color: var(--focus-color);
+}
     /* === Container da tabela === */
     .listas {
-        background-color: rgb(255, 255, 255);
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        margin-left: 100px;
-        margin-right: 40px;
-        margin-bottom: 30px;
+    gap: 12px;
+    height: auto; /* remove altura fixa para melhor adaptação */
+    margin-bottom: 20px;
+    background: var(--container);
+    margin-left: 100px;
+    margin-right: 30px;
+    padding: 10px 20px;
+    border-radius: 20px;
     }
-
+    
     /* === Tabela === */
     .list-header,
     .lista {
@@ -151,7 +159,7 @@
         display: flex;
         justify-content: center;
         text-align: center;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     @media (max-width: 768px) {
