@@ -191,6 +191,8 @@ Route::prefix('admin')->group(function () {
 
 Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 
+
+
         Route::get('/oportunidades', [OportunidadeController::class, 'index']);
         Route::get('/list', [AdminSistemaController::class, 'ListOportunidades']);
         Route::get('/oportunidades/pendentes', [AdminSistemaController::class, 'listPending']);
