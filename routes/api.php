@@ -192,6 +192,9 @@ Route::prefix('admin')->group(function () {
 Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 
 
+        Route::put('/perfil/identidade', [AdminProfileController::class, 'updateIdentidade']);
+        Route::put('/perfil/informacoes', [AdminProfileController::class, 'updateInformacoes']);
+
 
         Route::get('/oportunidades', [OportunidadeController::class, 'index']);
         Route::get('/list', [AdminSistemaController::class, 'ListOportunidades']);

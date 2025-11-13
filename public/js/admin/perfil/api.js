@@ -1,6 +1,6 @@
 async function savePerfil() {
     try {
-        const url = '../api/admin/perfil/identidade';
+        const url = '/api/admin/perfil/identidade';
 
         const formData = new FormData(document.querySelector('#perfil-form'));
 
@@ -9,7 +9,7 @@ async function savePerfil() {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },
@@ -47,7 +47,7 @@ async function savePerfil() {
 
 async function saveInformacoes() {
     try {
-        const url = '../api/admin/perfil/informacoes';
+        const url = '/api/admin/perfil/informacoes';
 
         const formData = new FormData(document.querySelector('#informacoes-form'));
 
@@ -56,7 +56,7 @@ async function saveInformacoes() {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${BEARER}`,
+                'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },
