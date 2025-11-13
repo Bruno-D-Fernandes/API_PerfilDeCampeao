@@ -28,12 +28,12 @@
         </div>
 
         <ul class="menu-navegacao">
-            <li >
+            <!-- <li >
                 <a href="/admin/dashboard">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
-            </li>
+            </li> -->
             <li>
                 <a href="/admin/oportunidades">
                     <i class='bx bx-briefcase'></i>
@@ -43,7 +43,7 @@
             <li>
                 <a href="/admin/usuarios">
                     <i class='bx bx-user'></i>
-                    <span>Usuarios</span>
+                    <span>Usuários</span>
                 </a>
             </li>
             <li>

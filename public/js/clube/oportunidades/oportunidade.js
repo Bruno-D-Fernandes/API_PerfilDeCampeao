@@ -284,7 +284,15 @@ async function onSubmitEditar(e) {
       window.bootstrap.Modal.getOrCreateInstance(modalEl).hide();
     }
     await carregarOportunidades();
-    alert('Oportunidade atualizada!');
+    const editModal = document.getElementById('editModal');
+if (editModal) {
+  editModal.style.display = 'flex';
+  setTimeout(() => {
+    editModal.style.display = 'none';
+  }, 2000);
+} else {
+  alert('Oportunidade atualizada!'); // Fallback
+}
     console.debug('PUT OK', resp);
   } catch (err) {
     console.error('PUT FAIL', err);
@@ -312,16 +320,31 @@ document.addEventListener('click', async (e) => {
     return;
   }
   if (action === 'excluir') {
-    if (!confirm('Deseja realmente excluir esta oportunidade?')) return;
-    try {
-      await delJSON(`/api/clube/oportunidade/${id}`);
-      state.oportunidades = state.oportunidades.filter(o => (o.id || o.oportunidade_id || o.uuid) != id);
-      renderLista();
-    } catch (e2) {
-      console.error(e2);
-      alert('Não foi possível excluir.');
-    }
+  if (!confirm('Deseja realmente excluir esta oportunidade?')) return;
+  try {
+    // ✅ 1. Fazer exclusão PRIMEIRO
+    await delJSON(`/api/clube/oportunidade/${id}`);
+    
+    // ✅ 2. Remover da lista
+    state.oportunidades = state.oportunidades.filter(o => (o.id || o.oportunidade_id || o.uuid) != id);
+    renderLista();
+    
+    // ✅ 3. Mostrar modal
+    const deleteModal = document.getElementById('deleteModal');
+    deleteModal.style.display = 'flex';
+    
+    // ✅ 4. Recarregar
+    setTimeout(() => {
+      deleteModal.style.display = 'none';
+      window.location.reload();
+    }, 2000);
+
+  } catch (e2) {
+    console.error('Erro ao excluir:', e2);
+    alert('Não foi possível excluir a oportunidade.');
   }
+  return; // Importante!
+}
 });
 
 // CEP criação

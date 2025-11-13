@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 addModal.style.display = 'flex';
                 localStorage.setItem('clube_token', data.access_token);
                 setTimeout(() => {
-                    window.location.href = "/clube/dashboard";
+                    window.location.href = "/clube/login";
                 }, 2000);
                 setTimeout(() => {
-                    window.location.href = "/clube/dashboard";
+                    window.location.href = "/clube/login";
                 }, 2000);
 /*                 alert('deu certo'); */
                 
@@ -37,10 +37,10 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('ocorreu um erro', e);
             erroModal.style.display = 'flex';
                 setTimeout(() => {
-                    window.location.href = "/clube/dashboard";
+                    window.location.href = "/clube/login";
                 }, 2000);
                 setTimeout(() => {
-                    window.location.href = "/clube/dashboard";
+                    window.location.href = "/clube/login";
                 }, 2000);
         })
     });

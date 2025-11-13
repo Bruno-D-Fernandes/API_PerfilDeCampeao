@@ -6,7 +6,7 @@
     <title>Document</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
      <link rel="stylesheet" href="{{ asset('css/Clube/perfil/perfil.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/clube/sidebar/sidebar.css') }}">
      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
@@ -64,12 +64,12 @@
         </div>
 
         <ul class="menu-navegacao">
-            <li class=".">
+           <!--  <li class=".">
                 <a href="/clube/dashboard">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
-            </li>
+            </li> -->
             <li class="">
                 <a href="/clube/oportunidades">
                     <i class='bx bx-briefcase'></i>

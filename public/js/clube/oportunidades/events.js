@@ -46,9 +46,29 @@ async function handleSubmitOportunidade(event) {
             return;
         }
 
-        showSuccess('Oportunidade criada com sucesso!');
+        // ==========================================
+        // 🔧 LINHAS ADICIONADAS PARA CORRIGIR:
+        // ==========================================
+        
+        // 1. Fechar o modal do Bootstrap que está aberto
+        const modalElement = document.getElementById('modalOportunidades');
+        if (modalElement) {
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            if (modal) {
+                modal.hide(); // Fecha o modal do Bootstrap
+            }
+        }
+        
+        // 2. Agora sim, abrir o seu modal customizado
+        const addModal = document.getElementById('addModal');
+        addModal.style.display = 'flex';
+        
+        // 3. Recarregar após 2 segundos
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000);
+
         console.log('Criado:', data);
-        formOportunidadesEl.reset();
 
     } catch (err) {
         logError('Erro inesperado ao enviar oportunidade:', err);

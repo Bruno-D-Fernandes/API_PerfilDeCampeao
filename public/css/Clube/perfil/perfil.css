@@ -40,7 +40,6 @@ body {
   margin: 0;
   padding: 0;
   transition: background-color 0.3s, color 0.3s;
-  overflow-x: hidden;
 }
 
 /* === Ajuste do conteúdo principal para conviver com a sidebar === */

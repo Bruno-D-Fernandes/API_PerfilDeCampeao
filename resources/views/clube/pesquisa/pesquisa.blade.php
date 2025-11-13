@@ -26,12 +26,12 @@
         </div>
 
         <ul class="menu-navegacao">
-            <li class=".">
+<!--             <li class=".">
                 <a href="{{route('clube-dashboard')}}">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
-            </li>
+            </li> -->
             <li class="">
                 <a href="{{route('clube-oportunidades')}}">
                     <i class='bx bx-briefcase'></i>

@@ -30,12 +30,12 @@
         </div>
 
         <ul class="menu-navegacao">
-            <li class=".">
+<!--             <li class=".">
                 <a href="{{route('clube-dashboard')}}">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
-            </li>
+            </li> -->
             <li class="">
                 <a href="{{route('clube-oportunidades')}}">
                     <i class='bx bx-briefcase'></i>
@@ -95,6 +95,18 @@
     <!--NAVBAR LT1-->
 
     </main>
+
+    <div class="modal" id="deleteModal">
+    <div class="modal-content">
+      <div class="success delete">Excluído com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <div class="success edit">Editado com sucesso!</div>
+    </div>
+  </div>
 
 <header class='titulo'>
     <h1 id="page-title">Configuração</h1>

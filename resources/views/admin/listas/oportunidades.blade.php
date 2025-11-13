@@ -30,12 +30,12 @@
         </div>
 
         <ul class="menu-navegacao">
-            <li>
+            <!-- <li>
                 <a href="{{route('admin-dashboard')}}">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
-            </li>
+            </li> -->
             <li  class="ativo">
                 <a href="{{route('admin-oportunidades')}}">
                     <i class='bx bx-briefcase'></i>
@@ -45,7 +45,7 @@
             <li>
                 <a href="{{route('admin-usuarios')}}">
                     <i class='bx bx-user'></i>
-                    <span>Usuarios</span>
+                    <span>Usuários</span>
                 </a>
             </li>
             <li >

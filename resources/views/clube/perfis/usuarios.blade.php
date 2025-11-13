@@ -27,12 +27,12 @@
         </div>
 
         <ul class="menu-navegacao">
-            <li class=".">
+        <!--     <li class=".">
                 <a href="/clube/dashboard">
                     <i class='bx bx-home-alt'></i>
                     <span>Dashboard</span>
                 </a>
-            </li>
+            </li> -->
             <li class="">
                 <a href="/clube/oportunidades">
                     <i class='bx bx-briefcase'></i>
@@ -113,11 +113,11 @@
                         {{ $usuario->nomeCompletoUsuario }}
                     </span>
 
-                    <button id="add-to-list-btn">
+                    <!-- <button id="add-to-list-btn">
                         <span>
                             Adicionar à lista
                         </span>
-                    </button>
+                    </button> -->
                 </div>
             </div>
 

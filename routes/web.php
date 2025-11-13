@@ -107,4 +107,4 @@ Route::prefix('admin')->group(function () {
     Route::get('/perfil', [AdminProfileController::class, 'showProfilePage'])->name('admin-perfil');
 });
 
-Route::get('/usuario/{id}', [UserController::class, 'showProfilePage'])->name('usuarios');
+Route::get('/usuarios/{id}', [UserController::class, 'showProfilePage'])->name('usuarios');

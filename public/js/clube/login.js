@@ -38,7 +38,7 @@ const addModal = document.getElementById('addModal');
 addModal.style.display = 'flex';
         setTimeout(() => {
             addModal.style.display = 'none';
-        window.location.href = '/clube/dashboard';
+        window.location.href = '/clube/oportunidades';
         }, 2000);
         localStorage.setItem('clube_token', dataToken.access_token);
         console.log('Token salvo:', dataToken.access_token);
