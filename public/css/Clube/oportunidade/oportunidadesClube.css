@@ -78,11 +78,9 @@ body{
   height: 100vh;
 }
 .boxDentro{
-  border: 0;
-  padding: 10px;
-  height: 70%;
-  border-radius: 10px;
-  background-color: var(--bg-card);
+  height: auto;
+  overflow-y: scroll; 
+
 }
 h1{
   color: var(--accent);
