@@ -56,6 +56,12 @@ body{
   color: var(--accent);
 
 }
+.boxDentro{
+  height: auto;
+   overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
 .botaoNovo{
   width: 100%;
   margin: 7px auto 7px;
