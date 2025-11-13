@@ -59,6 +59,7 @@ async function saveFuncao(funcaoId = null) {
 
          const addModal = document.getElementById('addModal');
         const editModal = document.getElementById('editModal');
+        
 
         if (!data.error && !data.errors) {
             fecharModal(modalFuncao);
@@ -88,10 +89,16 @@ async function saveFuncao(funcaoId = null) {
             }
             
             fecharModal(modalFuncao);
-        }                
+        }          
     } catch (error) {
+        const erroModal = document.getElementById('erroModal');
         console.error('Erro ao salvar função:', error);
-        alert('Erro ao salvar função!');
+    erroModal.style.display = 'flex';
+                setTimeout(() => {
+                    erroModal.style.display = 'none';
+                }, 1000);
+        
+
     }
 }
 

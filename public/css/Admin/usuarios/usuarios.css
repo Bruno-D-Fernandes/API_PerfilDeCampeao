@@ -429,7 +429,7 @@ background-color: var(--container);
       background-color: rgba(0, 0, 0, 0.5);
       justify-content: center;
       align-items: center;
-      z-index: 1000;
+      z-index: 10000;
     }
     .excluir{
         background-color: rgb(233, 28, 28);
@@ -445,6 +445,7 @@ background-color: var(--container);
       text-align: center;
       min-width: 250px;
       animation: fadeIn 0.3s ease;
+      z-index: 10000;
     }
 
     @keyframes fadeIn {
@@ -458,9 +459,11 @@ background-color: var(--container);
       border-radius: 8px;
       margin-bottom: 10px;
       font-weight: bold;
+      z-index: 10000;
     }
 
     .delete { background-color: #e74c3c; }   /* vermelho */
     .edit { background-color: #27ae60; }     /* laranja */
     .add { background-color: #27ae60; }      /* verde */
+    .erro{ background-color: #ff0000; }      /* vermelho */
 

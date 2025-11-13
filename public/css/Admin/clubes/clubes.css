@@ -488,4 +488,5 @@
     .delete { background-color: #e74c3c; }   /* vermelho */
     .edit { background-color: #27ae60; }     /* laranja */
     .add { background-color: #27ae60; }      /* verde */
+    .erro{ background-color: #ff0000; }      /* vermelho */
 

@@ -108,6 +108,24 @@
     </div>
   </div>
 
+      <div class="modal" id="erroModal">
+    <div class="modal-content">
+      <div class="success erro">Erro ao Adicinoar Posição!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="esporteModal">
+    <div class="modal-content">
+      <div class="success erro">Erro ao Adicinoar Esporte!</div>
+    </div>
+  </div>
+
+   <div class="modal" id="caraModal">
+    <div class="modal-content">
+      <div class="success erro">Erro ao Adicinoar Caracteristica!</div>
+    </div>
+  </div>
+
 <div class="esportes-header">
             
         <div class="search-box">

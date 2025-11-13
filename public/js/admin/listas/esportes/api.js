@@ -189,8 +189,16 @@ async function saveCaracteristica(caracteristicaId = null) {
             fecharModal(modais['caracteristica-modal']);
         }                
     } catch (error) {
+        const caraModal = document.getElementById('caraModal');
         console.error('Erro ao salvar caracteristica:', error);
-        alert('Erro ao salvar caracteristica!');
+        caraModal.style.display = 'flex';
+    setTimeout(() => {
+        caraModal.style.display = 'none';
+        
+    }, 500);
+    setTimeout(() => {
+
+        }, 1000);
     }
 }
 
@@ -249,8 +257,16 @@ addModal.style.display = 'none';
             fecharModal(modais['posicao-modal']);
         }                
     } catch (error) {
+        const addModal = document.getElementById('erroModal');
         console.error('Erro ao salvar posição:', error);
-        alert('Erro ao salvar posição!');
+        addModal.style.display = 'flex';
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 2000);
+    setTimeout(() => {
+addModal.style.display = 'none';
+        }, 1000);
+
     }
 }
 
@@ -317,7 +333,15 @@ window.location.reload(true); // recarrega a página depois de 2s
             fecharModal(modais['esporte-modal']);
         }                
     } catch (error) {
-        console.error('Erro ao salvar esporte:', error);    
+        const esporteModal = document.getElementById('esporteModal');
+        console.error('Erro ao salvar esporte:', error); 
+        esporteModal.style.display = 'flex';
+    setTimeout(() => {
+
+    }, 2000);
+     setTimeout(() => {
+        esporteModal.style.display = 'none'; // recarrega a página depois de 2s
+        }, 2000);
     }
 }
 
@@ -347,6 +371,7 @@ async function deleteCaracteristica(caracteristicaId) {
             caracteristicaId = -1;
         }                
     } catch (error) {
+        const esporteModal = document.getElementById('esporteModal');
         console.error('Erro ao excluir característica:', error);
     }
 }
