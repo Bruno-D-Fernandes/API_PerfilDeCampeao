@@ -220,7 +220,7 @@
                     <input type="text" name="descricaoEsporte" id="esporte-form-descricao">
                 </div>
             </div>
-
+        
             <div class="modal-tabs">
                 <button class="tab-button active" data-target-tab="posicoes-tab" type="button">
                     <span>

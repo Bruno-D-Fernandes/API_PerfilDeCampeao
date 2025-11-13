@@ -94,8 +94,8 @@ async function fetchEsporteDetails(esporteId) {
                         <div class="posicao-col nome"><span>${posicao.nomePosicao}</span></div>
                         <div class="posicao-col data"><span>${formatarDataPortugues(posicao.created_at)}</span></div>
                         <div class="posicao-col acoes">
-                            <button class="posicao-editar-btn" data-posicao-id="${posicao.id}" ${readOnly ? 'disabled="true"' : ''} type="button"><span>Editar</span></button>
-                            <button class="posicao-excluir-btn" data-posicao-id="${posicao.id}" ${readOnly ? 'disabled="true"' : ''} type="button"><span>Excluir</span></button>
+                            <button class="posicao-editar-btn aqui2" data-posicao-id="${posicao.id}" ${readOnly ? 'disabled="true"' : ''} type="button"><span>Editar</span></button>
+                            <button class="posicao-excluir-btn aqui2" data-posicao-id="${posicao.id}" ${readOnly ? 'disabled="true"' : ''} type="button"><span>Excluir</span></button>
                         </div>
                     </div>
                 `;
@@ -119,8 +119,8 @@ async function fetchEsporteDetails(esporteId) {
                         <div class="caracteristica-col unidade"><span>${caracteristica.unidade_medida || 'N/A'}</span></div>
                         <div class="caracteristica-col data"><span>${formatarDataPortugues(caracteristica.created_at) || 'N/A'}</span></div>
                         <div class="caracteristica-col acoes">
-                            <button class="caracteristica-editar-btn" data-caracteristica-id="${caracteristica.id}" ${readOnly ? 'disabled="true"' : ''} type="button"><span>Editar</span></button>
-                            <button class="caracteristica-excluir-btn" data-caracteristica-id="${caracteristica.id}" ${readOnly ? 'disabled="true"' : ''} type="button"><span>Excluir</span></button>
+                            <button class="caracteristica-editar-btn aqui2" data-caracteristica-id="${caracteristica.id}" ${readOnly ? 'disabled="true"' : ''} type="button"><span>Editar</span></button>
+                            <button class="caracteristica-excluir-btn aqui2" data-caracteristica-id="${caracteristica.id}" ${readOnly ? 'disabled="true"' : ''} type="button"><span>Excluir</span></button>
                         </div>
                     </div>
                 `;

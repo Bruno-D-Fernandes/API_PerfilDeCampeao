@@ -187,7 +187,7 @@
             <li>
                 <a href="/admin/funcoes">
                     <i class='bx bx-extension'></i>
-                    <span>funções</span>
+                    <span>Funções</span>
                 </a>
             </li>
             <li>
