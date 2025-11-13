@@ -10,7 +10,7 @@ async function fetchListaDetails(listaId) {
                 'Accept': 'application/json'
             }
         });
-
+ 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -52,10 +52,14 @@ async function deleteLista(listaId) {
                 'Accept': 'application/json'
             },
         });
-
+const erroModal = document.getElementById('erroModal');
+    const deleteModal = document.getElementById('deleteModal');
         if (response.ok) {
             if (response.status === 204) {
-                alert('Lista excluída com sucesso!');
+                 deleteModal.style.display = 'flex';
+        setTimeout(() => {
+            deleteModal.style.display = 'none';
+        }, 2000);
 
                 const row = listasContainer.querySelector(`.lista[data-lista-id="${listaId}"]`);
 
@@ -65,9 +69,16 @@ async function deleteLista(listaId) {
 
                 if (data.error || data.errors) {
                     console.error('Erro retornado pela API:', data);
-                    alert('Erro ao excluir lista');
+                    erroModal.style.display = 'flex';
+        setTimeout(() => {
+            erroModal.style.display = 'none';
+        }, 2000);
                 } else {
-                    alert('Lista excluída com sucesso! (Obteve retorno de dados)');
+                    deleteModal.style.display = 'flex';
+        setTimeout(() => {
+            deleteModal.style.display = 'none';
+        }, 2000);
+                    
 
                     const row = listasContainer.querySelector(`.lista[data-lista-id="${listaId}"]`);
                     

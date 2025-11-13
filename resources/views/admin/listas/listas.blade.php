@@ -93,6 +93,18 @@
         <h1 class='titulo'>Listas</h1>
     </main>
 
+    <div class="modal" id="deleteModal">
+    <div class="modal-content">
+      <div class="success delete">Excluído com sucesso!</div>
+    </div>
+  </div>
+
+          <div class="modal" id="erroModal">
+    <div class="modal-content">
+      <div class="success erro">Erro ao Excluir a Lista!</div>
+    </div>
+  </div>
+
     <div class="listas-header">
             <div class="search-box">
                     <i class='bx bx-search'></i>

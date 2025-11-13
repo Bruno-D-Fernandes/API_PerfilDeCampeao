@@ -92,14 +92,14 @@ async function saveUsuario(usuarioId = null) {
                 setTimeout(() => {
                     editModal.style.display = 'none';
                     window.location.reload(true);
-                }, 2000);
+                }, 500);
             } else {
                 addModal.style.display = 'flex';
                 fecharModal(modalUsuario);
                 setTimeout(() => {
                     addModal.style.display = 'none';
                     window.location.reload(true);
-                }, 2000);
+                }, 500);
             }
 
             if (!editMode) {
@@ -113,7 +113,16 @@ async function saveUsuario(usuarioId = null) {
             fecharModal(modalUsuario);
         }                
     } catch (error) {
+        setTimeout(() => {
+        const addModal = document.getElementById('addModal');
+        const erroModal = document.getElementById('erroModal');
+        erroModal.style.display = 'flex';
         console.error('Erro ao salvar usuário:', error);
+        setTimeout(() => {
+                    erroModal.style.display = 'none';
+
+                }, 1000);
+                }, 700);
 
     }
 }

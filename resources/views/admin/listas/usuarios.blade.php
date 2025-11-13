@@ -111,6 +111,18 @@
     </div>
   </div>
 
+          <div class="modal" id="erroModal">
+    <div class="modal-content">
+      <div class="success erro">Erro ao Excluir Usuario!</div>
+    </div>
+  </div>
+
+        <div class="modal" id="erroAModal">
+    <div class="modal-content">
+      <div class="success erro">Erro ao Adicinoar Usuario!</div>
+    </div>
+  </div>
+
     
     
     <div class="usuarios">

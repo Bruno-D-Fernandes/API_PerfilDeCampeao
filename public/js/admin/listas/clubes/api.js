@@ -108,8 +108,13 @@ const addModal = document.getElementById('addModal');
             fecharModal(modalClube);
         }                
     } catch (error) {
+        const erroModal = document.getElementById('erroAModal');
         console.error('Erro ao salvar clube:', error);
-        alert('Erro ao salvar clube!');
+        erroModal.style.display = 'flex';
+                setTimeout(() => {
+                    erroAModal.style.display = 'none';
+                }, 1000);
+
     }
 }
 
@@ -150,8 +155,12 @@ async function deleteClube(clubeId) {
             }
         }          
     } catch (error) {
+        const erroModal = document.getElementById('erroModal');
         console.error('Erro ao excluir clube:', error);
-        alert('Erro ao excluir clube!');
+        erroModal.style.display = 'flex';
+                setTimeout(() => {
+                    erroModal.style.display = 'none';
+                }, 1000);
     }
 }
 
