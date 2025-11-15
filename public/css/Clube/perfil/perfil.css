@@ -390,7 +390,6 @@ body {
 .opportunity-details span {
   font-size: 15px;
   color: var(--text-primary);
-  background: #f0f0f0;
   padding: 4px 10px;
   border-radius: 20px;
   font-weight: 500;

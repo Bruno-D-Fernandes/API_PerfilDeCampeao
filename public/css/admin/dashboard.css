@@ -4,24 +4,29 @@
     --text-primary: #333333;
     --text-secondary: #666666;
     --border-color: #e0e0e0;
-    --accent: #003dadea;
-    --accent-hover: #2149ccea;
+  --accent: #003dadea;
+  --accent-hover: #2149ccea;
     --danger: #e53935;
     --danger-bg: #ffebee;
     --input-bg: #ffffff;
   }
   /* === Modo Escuro === */
 [data-theme="dark"] {
-  --bg-body: #0f0f1b;
-  --bg-card: #1a1a2e;
-  --text-primary: #e6e6ff;
-  --text-secondary: #b3b3d9;
-  --border-color: #2d2d44;
-  --accent: #4da6ff;       /* azul mais vibrante para contraste */
-  --accent-hover: #66b3ff; /* hover levemente mais claro */
-  --danger: #ff6b6b;
-  --danger-bg: #2a1a1a;
-  --input-bg: #222233;
+ --bg-body: #0b0b0b;       /* preto profundo */
+  --bg-card: #141414;       /* card quase preto */
+  
+  --text-primary: #f2f2f2;  /* branco suave */
+  --text-secondary: #c7c7c7;/* cinza claro */
+
+  --border-color: #262626;  /* borda sutil */
+  
+  --accent: #0078d4;
+  --accent-hover: #106ebe;
+  
+  --danger: #ff4b4b;        /* vermelho forte */
+  --danger-bg: #1a0f0f;     /* fundo danger mais escuro */
+
+  --input-bg: #1c1c1c;      /* fundo input mais neutro */
 }
 
   /* Reset e configurações globais */
@@ -35,7 +40,7 @@
   }
   #titulo{
           font-size: 32pt;
-          color: #003dadea;
+          color: var(--accent);
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
           margin-top: 25px;
           margin-left: 95px;
@@ -88,7 +93,7 @@
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--accent);
     text-align: center;
     position: relative;
   }
@@ -118,6 +123,8 @@
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 24px;
     margin-bottom: 30px;
+    border: 1px solid var(--accent);
+    border-radius: 12px;
   }
 
   .conteudo-principal section {
@@ -125,7 +132,6 @@
     padding: 24px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border: 1px solid var(--border-color);
   }
 
 
@@ -207,7 +213,8 @@
     padding: 24px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
   }
 
   .acoes-topo {

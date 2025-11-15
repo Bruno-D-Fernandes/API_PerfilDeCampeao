@@ -1,13 +1,19 @@
 function abrirModal(modal) {
+      const modalopor = document.getElementById('totaltotal')
+   modalopor.classList.add('hidden1');
     modal.content.classList.remove('hidden');
     modalBackdrop.classList.remove('hidden');
 }
 
 function fecharModal(modal) {
     modal.content.classList.add('hidden');
+    const modalopor = document.getElementById('totaltotal')
+    modalopor.classList.remove('hidden1');
     limparModal(modal);
     const algumAberto = Object.values(modais).some(m => !m.content.classList.contains('hidden'));
     if (!algumAberto) modalBackdrop.classList.add('hidden');
+        
+    
 }
 
 function limparModal(modal) {
@@ -27,6 +33,7 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
     const saveBtn = modalConfirmar.content.querySelector('#save-confirm-btn');
     const cancelBtn = modalConfirmar.content.querySelector('#cancel-confirm-btn');
     const modalexc = document.getElementById('deleteModal')
+    
     
 
     const newSaveBtn = saveBtn.cloneNode(true);
@@ -63,8 +70,12 @@ function disableInputs() {
     }
 
     if (readOnly) {
+        const sele = document.getElementById('sele')
+        const sele1 = document.getElementById('sele1')
         modalClube.inputs.forEach(inp => inp.disabled = true);
         salvarClubeBtn.style.display = 'none';
+        sele.style.display='none'
+        sele1.style.display='none'
         salvarClubeBtn.disabled = true;
         cancelarClubeBtn.style.display = 'none';
         cancelarClubeBtn.disabled = true;
@@ -93,6 +104,10 @@ function enableInputs() {
     }
 
     modalClube.inputs.forEach(inp => inp.disabled = false);
+    const sele = document.getElementById('sele')
+    const sele1 = document.getElementById('sele1')
+    sele.style.display='flex'
+    sele1.style.display='flex'
     salvarClubeBtn.disabled = false
     salvarClubeBtn.style.display = 'flex';
     cancelarClubeBtn.style.display = 'flex';

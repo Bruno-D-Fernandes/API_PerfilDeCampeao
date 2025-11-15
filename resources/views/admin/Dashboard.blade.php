@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <script>(function(){try{var t=localStorage.getItem('clube_theme')||'system';if(t&&t!=='system'){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.removeAttribute('data-theme');}}catch(e){} })();</script>
+  <script>(function(){try{var t=localStorage.getItem('admin_theme')||'system';if(t&&t!=='system'){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.removeAttribute('data-theme');}}catch(e){} })();</script>
   <link rel="stylesheet" href="{{ asset('css/Clube/vars.css') }}">
   <meta charset="utf-8" />
   <title>Dashboard Admin</title>
@@ -89,7 +89,7 @@
   <section class="acoes">
     <div class="acoes-topo">
     <h3>Ações recentes</h3>
-   <!--  <div class="ordenar">
+ <!--    <div class="ordenar">
     <label for="orderBy">Ordenar por</label>
     <select id="orderBy" class="selectData">
       <option class='nada' value="date_desc">Data (mais recente)</option>

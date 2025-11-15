@@ -6,7 +6,6 @@
     <title>Document</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
      <link rel="stylesheet" href="{{ asset('css/Clube/perfil/perfil.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/clube/sidebar/sidebar.css') }}">
      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
@@ -14,6 +13,8 @@
     </style>
 </head>
 <body>
+
+@include('clube.sidebar.sidebar')
 
 <div class="modal" id="addModal">
     <div class="modal-content">
@@ -50,84 +51,7 @@
     </div>
   </div>
 
-    <main class="conteudo-principal">
-    <!--NAVBAR LT1-->
-    <nav class="barra-lateral" id="barra-lateral">
-
-        <!--ESPAÇO PRA LOGO LT1-->
-        <div class="logo-container">
-            <!-- LOGO PEQUENA-->
-            <img src="../img/logo-clube-reduzida.png" alt="Logo" class="logo-pequena">
-            <!--LOGO GRANDE-->
-            <img src="../img/logo-clube-completa.jpeg" alt="Logo" class="logo-grande">
-            <!--ESPAÇO PRA LOGO LT1-->
-        </div>
-
-        <ul class="menu-navegacao">
-           <!--  <li class=".">
-                <a href="/clube/dashboard">
-                    <i class='bx bx-home-alt'></i>
-                    <span>Dashboard</span>
-                </a>
-            </li> -->
-            <li class="">
-                <a href="/clube/oportunidades">
-                    <i class='bx bx-briefcase'></i>
-                    <span>Oportunidades</span>
-                </a>
-            </li>
-            <!-- <li>
-                <a href="#">
-                    <i class='bx bx-list-ul'></i>
-                    <span>Listas</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-message-dots'></i>
-                    <span>Mensagens</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-bell'></i>
-                    <span>Notificações</span>
-                </a>
-            </li> -->
-            <li class="ativo">
-                <a href="#">
-                    <i class='bx bx-user'></i>
-                    <span>Perfil</span>
-                </a>
-            </li>
-            <li>
-                <a href="/clube/pesquisa">
-                    <i class='bx bx-search'></i>
-                    <span>Pesquisa</span>
-                </a>
-            </li>
-            <li>
-                <a href="/clube/configuracoes">
-                    <i class='bx bx-cog'></i>
-                    <span>Configurações</span>
-                </a>
-            </li>
-            <li>
-                  <!-- ===== Barra vermelha antes de SAIR ===== -->
-            <hr class="barra-vermelha">   <!-- // ↓↓↓ ALTERADO -->
-
-            <li class="sair-link">        <!-- // ↓↓↓ ALTERADO -->
-                <a href="#">
-                    <i class='bx bx-log-out'></i>
-                    <span>Sair</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
     
-    <!--NAVBAR LT1-->
-
-    </main>
     <div class="container" data-storage-url="{{ asset('/storage') }}" data-clube-id="{{ $clube->id }}">
     
         <div id="profile">
@@ -693,5 +617,23 @@
     <script src="{{ asset('js/clube/perfis/perfil/events.js') }}"></script>
     <script src="{{ asset('js/clube/perfis/perfil/viacep.js') }}"></script>
     <script src="{{ asset('js/theme-init.js') }}"></script>
+
+<script>// Força o primeiro item (Dashboard) como ativo
+const dashboardItem = document.querySelector('.menu-navegacao li:nth-child(3)');
+if (dashboardItem) {
+    dashboardItem.classList.add('ativo');
+}
+
+// Alternativa: buscar especificamente pelo link do dashboard
+const dashboardLink = document.querySelector('a[href*="admin-clubes"], a[href*="dashboard"]');
+if (dashboardLink && dashboardLink.closest('li')) {
+    // Remove ativo de todos primeiro
+    menuItems.forEach(item => item.classList.remove('ativo'));
+    // Adiciona no dashboard
+    dashboardLink.closest('li').classList.add('ativo');
+}
+
+</script>
+
 </body>
 </html>

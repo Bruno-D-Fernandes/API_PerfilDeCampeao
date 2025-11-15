@@ -1,10 +1,14 @@
 function abrirModal(modal) {
+  const modalopor = document.getElementById('totaltotal')
+   modalopor.classList.add('hidden1');
     modal.content.classList.remove('hidden');
-    modalBackdrop.classList.remove('hidden');
+     modalBackdrop.classList.remove('hidden');
 }
 
 function fecharModal(modal) {
     modal.content.classList.add('hidden');
+    const modalopor = document.getElementById('totaltotal')
+   modalopor.classList.remove('hidden1');
 
     limparModal(modal);
 

@@ -3,6 +3,8 @@ let modaisFechados = [];
 
 // Função modificada para abrir modal
 function abrirModal(modal) {
+                  const modalopor = document.getElementById('totaltotal')
+   modalopor.classList.add('hidden1');
     // Se está abrindo um modal de tipo 2 ou 3, fechar os outros modais primeiro e salvá-los na pilha
     if (modal.type === 2 || modal.type === 3) {
         modaisFechados = [];
@@ -16,8 +18,10 @@ function abrirModal(modal) {
         });
         
         // Limpar backdrops
+        
         modalBackdrop.classList.add('hidden');
         modalBackdropSecond.classList.add('hidden');
+
     }
     
     modal.content.classList.remove('hidden');
@@ -38,12 +42,17 @@ function fecharModal(modal) {
     const isModalEspecifico = modal.type === 2 || modal.type === 3;
     
     modal.content.classList.add('hidden');
+    const modalopor = document.getElementById('totaltotal')
+    modalopor.classList.remove('hidden1');
+    
     limparModal(modal);
 
     // Para modais de tipo 2 ou 3, reabrir os modais da pilha se existirem
     if (isModalEspecifico && modaisFechados.length > 0) {
         modaisFechados.forEach(modalFechado => {
             modalFechado.content.classList.remove('hidden');
+            modal.content.classList.add('hidden');
+            modalopor.classList.add('hidden1');
         });
         modaisFechados = [];
         
@@ -58,12 +67,15 @@ function fecharModal(modal) {
             );
             
             if (algumTipo2Aberto) {
+                modal.content.classList.add('hidden');
                 modalBackdropSecond.classList.remove('hidden');
                 modalBackdrop.classList.remove('hidden');
             } else {
                 modalBackdropSecond.classList.remove('hidden');
+                modal.content.classList.add('hidden');
             }
         } else {
+            
             modalBackdropSecond.classList.add('hidden');
         }
     } else {

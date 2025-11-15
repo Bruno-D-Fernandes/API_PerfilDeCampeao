@@ -85,7 +85,11 @@ const applyTheme = (val) => {
 const saveTheme = (val) => {
   localStorage.setItem(THEME_KEY, val);
   applyTheme(val);
-  alert('Tema salvo!');
+  const tema = document.getElementById('temaModal')
+  tema.style.display='flex'
+  setTimeout(() => {
+    tema.style.display = 'none';
+  }, 2000);
 };
 
 const NOTIF_KEY = 'clube_notifications';
@@ -169,7 +173,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
       await put('/api/clube/update', { emailClube, current_password });
-      alert('E-mail atualizado');
+      const email = document.getElementById('emailModal')
+  email.style.display='flex'
+  setTimeout(() => {
+    email.style.display = 'none';
+  }, 2000);
       closeModal('modalEmail');
     } catch (err) {
       alert(err.message || 'Erro ao atualizar e-mail');
@@ -191,10 +199,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
       await put('/api/clube/update', payload);
-      alert('Senha atualizada');
+       const tema = document.getElementById('senhaModal')
+  tema.style.display='flex'
+  setTimeout(() => {
+    tema.style.display = 'none';
+  }, 2000);
       closeModal('modalSenha');
     } catch (err) {
-      alert(err.message || 'Erro ao atualizar senha');
+      const senhar = document.getElementById('senharModal')
+  senhar.style.display='flex'
+  setTimeout(() => {
+    senhar.style.display = 'none';
+  }, 2000);
+      /* alert(err.message || 'Erro ao atualizar senha'); */
     }
   });
 
@@ -228,7 +245,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       await post('/api/clube/logout');
       localStorage.removeItem('clube_token');
-      alert('Sessão encerrada');
+       const tema = document.getElementById('sairModal')
+  tema.style.display='flex'
+  setTimeout(() => {
+    tema.style.display = 'none';
+  }, 2000);
+      /* alert('Sessão encerrada'); */
       window.location.href = '/clube/login';
       closeModal('modalLogout');
     } catch (err) {

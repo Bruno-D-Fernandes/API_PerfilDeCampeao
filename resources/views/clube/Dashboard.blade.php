@@ -90,53 +90,24 @@
     <script src="{{ asset('js/clube/dashboard/events.js') }}"></script>
     <script src="{{asset('js/clube/dashboard/logout.js')}}"></script>
 
-    <script>
-document.addEventListener("DOMContentLoaded", async () => {
-    const token = localStorage.getItem('clube_token'); // o token salvo no login
+  
 
-    if (!token) {
-        console.error("Token não encontrado!");
-        return;
-    }
+<script>// Força o primeiro item (Dashboard) como ativo
+const dashboardItem = document.querySelector('.menu-navegacao li:nth-child(1)');
+if (dashboardItem) {
+    dashboardItem.classList.add('ativo');
+}
 
-    try {
-        const response = await fetch('/api/clube/perfil', {
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Accept': 'application/json'
-            }
-        });
-        const data = await response.json();
-        
-        if (data.id) {
-            console.log("ID do Clube:", data.id);
-            localStorage.setItem('clube_id', data.id);
-        } else {
-            console.error("Erro ao buscar ID do clube:", data);
-        }
-    } catch (err) {
-        console.error("Falha na requisição:", err);
-    }
-});
-
-
- const linkPerfil = document.getElementById('verPerfil');
-
-  // Adiciona o evento de clique
-  linkPerfil.addEventListener('click', function (event) {
-    event.preventDefault(); // impede o link de redirecionar imediatamente
-
-    // Pega o ID do clube do localStorage
-    const clubeId = localStorage.getItem('clube_id');
-
-    if (clubeId) {
-      // Redireciona para a URL desejada
-      window.location.href = `/clube/${clubeId}`;
-    } else {
-      alert('Nenhum clube_id encontrado no localStorage!');
-    }
-  });
+// Alternativa: buscar especificamente pelo link do dashboard
+const dashboardLink = document.querySelector('a[href*="admin-clubes"], a[href*="dashboard"]');
+if (dashboardLink && dashboardLink.closest('li')) {
+    // Remove ativo de todos primeiro
+    menuItems.forEach(item => item.classList.remove('ativo'));
+    // Adiciona no dashboard
+    dashboardLink.closest('li').classList.add('ativo');
+}
 
 </script>
+
 </body>
 </html>

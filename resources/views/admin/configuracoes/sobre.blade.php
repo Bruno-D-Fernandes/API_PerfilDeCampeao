@@ -4,7 +4,6 @@
 <div class="corpoSobre">
   
   <h2>Sobre</h2>
-  <h6>Especificações do sistema desenvolvido.</h6>
   <h3>Sistema</h3>
   <div class="logoSobre">
   <img src="{{asset('/img/logo-admin-reduzida.jpeg')}}" class="logo" alt="">

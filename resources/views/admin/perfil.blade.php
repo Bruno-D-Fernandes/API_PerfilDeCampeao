@@ -12,83 +12,9 @@
 </head>
 <body>
 
-    <main class="conteudo-principal">
-          <h1 class="titulo"></h1>
-          <section class="cards-topo">
-    <!--NAVBAR LT1-->
-    <nav class="barra-lateral" id="barra-lateral">
-
-        <!--ESPAÇO PRA LOGO LT1-->
-        <div class="logo-container">
-            <!-- LOGO PEQUENA-->
-            <img src="../img/logo-admin-reduzida.jpeg" alt="Logo" class="logo-pequena">
-            <!--LOGO GRANDE-->
-            <img src="../img/logo-admin-completa.jpeg" alt="Logo" class="logo-grande">
-            <!--ESPAÇO PRA LOGO LT1-->
-        </div>
-
-        <ul class="menu-navegacao">
-            <li>
-                <a href="./index.html">
-                    <i class='bx bx-home-alt'></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <li  class="ativo">
-                <a href="">
-                    <i class='bx bx-briefcase'></i>
-                    <span>Oportunidades</span>
-                </a>
-            </li>
-            <li>
-                <a href="/admin/usuarios">
-                    <i class='bx bx-list-ul'></i>
-                    <span>Usuarios</span>
-                </a>
-            </li>
-            <li >
-                <a href="/admin/clubes">
-                    <i class='bx bx-message-dots'></i>
-                    <span>Clubes</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-bell'></i>
-                    <span>Funções</span>
-                </a>
-            </li>
-            <li>
-                <a href="/admin/esportes">
-                    <i class='bx bx-user'></i>
-                    <span>Esportes</span>
-                </a>
-            </li>
-            <li>
-                <a href="./tela-pesquisa/pesquisa.html">
-                    <i class='bx bx-search'></i>
-                    <span>Pesquisa</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-cog'></i>
-                    <span>Configurações</span>
-                </a>
-            </li>
-            <li>
-            <hr class="barra-vermelha">  
-            <li class="sair-link"> 
-                <a href="#">
-                    <i class='bx bx-log-out'></i>
-                    <span>Sair</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+ 
     <!--NAVBAR LT1-->
     <h1 class='titulo'>Perfil</h1>
-    </main>
  
     <nav class='menu'>
     <ul>

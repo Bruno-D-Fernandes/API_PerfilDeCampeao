@@ -28,17 +28,21 @@
 
   /* === TEMA ESCURO === */
   [data-theme="dark"] {
-    --bg-primary: #0a0a1a;
-    --bg-secondary: #0f0f2a;
-    --text-primary: #e0e0ff;
-    --text-secondary: #b3d9ff;
-    --border-color: #1a3366;
-    --shadow: rgba(0, 102, 255, 0.3);
-    --hover-bg: #1a3366;
-    --active-bg: #0055cc;
-    --active-text: #ffffff;
-    --danger-color: #dc3545;
-    --icon-color: #66b3ff;
+--bg-primary: #0b0b0b;       /* Preto profundo */
+    --bg-secondary: #131313;     /* Preto acinzentado */
+    
+    --text-primary: #f5f5f5;     /* Branco suave */
+    --text-secondary: #cfcfcf;   /* Cinza claro */
+    
+    --border-color: #262626;     /* Borda leve */
+    --shadow: rgba(0, 0, 0, 0.4); /* Sombra escura e natural */
+
+    --hover-bg: #1f1f1f;         /* Hover bem sutil */
+    --active-bg: #003c97ff; /* Azul vibrante ativo */
+    --active-text: #ffffff;      /* Texto de ativo sempre branco */
+
+    --danger-color: #ff4b4b;     /* Vermelho destacado — combina bem com dark */
+    --icon-color: #e0e0e0;       /* Ícones claros */
   }
 
   body {
@@ -224,7 +228,7 @@ $pagina_atual = Route::currentRouteName();
 <nav class="barra-lateral" id="barra-lateral">
   <div class="logo-container">
     <img src="/img/logo-admin-reduzida.jpeg" alt="Logo Pequena" class="logo-pequena">
-    <img src="../img/logo-admin-completa.jpeg" alt="Logo Grande" class="logo-grande">
+    <img src="/img/logo-admin-completa.jpeg" alt="Logo Grande" class="logo-grande">
   </div>
 
   <ul class="menu-navegacao">
@@ -264,14 +268,14 @@ $pagina_atual = Route::currentRouteName();
         <span>Esportes</span>
       </a>
     </li>
-    <li class="<?= ($pagina_atual === 'lista.php') ? 'ativo' : '' ?>">
-      <a href="/admin/lista">
+<!--     <li class="{{ ($pagina_atual === 'admin.listas') ? 'ativo' : '' }}">
+      <a href="/admin/listas">
         <i class='bx bx-list-ul'></i>
         <span>Lista</span>
       </a>
-    </li>
+    </li> -->
     <li class="<?= ($pagina_atual === 'configuracao.php') ? 'ativo' : '' ?>">
-      <a href="/admin/configuracoes">
+      <a href="/admin/configuracoes/perfil">
         <i class='bx bx-cog'></i>
         <span>Configurações</span>
       </a>

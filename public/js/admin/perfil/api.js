@@ -24,7 +24,12 @@ async function savePerfil() {
         const data = await response.json();
 
         if (data) {
-            alert('Perfil salvo com sucesso!');
+             const amodal = document.getElementById('aModal')
+                amodal.style.display='flex'
+        setTimeout(() => {
+        amodal.style.display = 'none';
+
+    }, 3000);
 
             displayNome.textContent = data.nome;
 
@@ -71,7 +76,13 @@ async function saveInformacoes() {
         const data = await response.json();
 
         if (data) {
-            alert('Informações salvas com sucesso!');
+             const amodal = document.getElementById('bModal')
+                amodal.style.display='flex'
+        setTimeout(() => {
+        amodal.style.display = 'none';
+
+    }, 3000);
+            /* alert('Informações salvas com sucesso!'); */
 
             displayEmail.textContent = data.email;
 

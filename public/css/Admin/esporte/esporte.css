@@ -1,606 +1,678 @@
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-body {
-    background-color: #ffffff;
-    margin: 0;
-    padding: 0;
-    font-family: Inter,Poppins,sans-serif;
-    overflow-x: hidden;
-}
-    :root {
-  --container: #f7f7f7;
-  --border-color: #bdbdbd;
+/* === VARIÁVEIS DE TEMA === */
+:root {
+  --bg-body: #f5f5f5;
+  --bg-card: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-btn: #ffffff;
+  --border-color: #e0e0e0;
+  --accent: #003dadea;
+  --accent-hover: #002a7d;
+  --danger: #e53935;
+  --danger-bg: #ffebee;
+  --input-bg: #ffffff;
   --bg-bottom: #d6d6d6ea;
   --bg-bottom-hover: #cacacaea;
-  
 }
 
-/* dark theme overrides */
 [data-theme="dark"] {
-  --container:  #272727;
-  --border-color: #272727;
-  --bg-bottom: #c5c5c5ea;
-  --bg-bottom-hover: #424242ea;
+  --bg-body: #0b0b0b;
+  --bg-card: #141414;
+  --text-primary: #f2f2f2;
+  --text-secondary: #c7c7c7;
+  --text-btn: #ffffff;
+  --border-color: #262626;
+  --accent: #0078d4;
+  --accent-hover: #106ebe;
+  --danger: #cc4940;
+  --danger-bg: #1a0f0f;
+  --input-bg: #1c1c1c;
+  --bg-bottom: #424242ea;
+  --bg-bottom-hover: #555555ea;
+}
+
+/* === ESTILOS GLOBAIS === */
+body {
+  background-color: var(--bg-body);
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-primary);
+  overflow-x: hidden;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 /* === Ajuste do conteúdo principal para conviver com a sidebar === */
 .conteudo-principal {
-    margin-left: 80px;
-    padding: 20px;
+  margin-left: 80px;
+  padding: 20px;
 }
 
 @media (max-width: 768px) {
-    .conteudo-principal {
-        margin-left: 0;
-        padding: 15px;
-    }
+  .conteudo-principal {
+    margin-left: 0;
+    padding: 15px;
+  }
 }
 
 /* === Título === */
 .titulo {
-        font-size: 30pt;
-        color: #003dadea;
-        font-family: Inter,Poppins,sans-serif;
-        margin-top: 25px;
-        margin-left: 1%;
-    }
+  font-size: 32pt;
+  color: var(--accent);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 25px;
+  margin-left: 110px;
+}
 
 @media (max-width: 768px) {
-    .titulo {
-        font-size: 24pt;
-        margin-bottom: 15px;
-    }
+  .titulo {
+    font-size: 24pt;
+    margin-left: 20px;
+  }
 }
 
 /* === Cabeçalho com pesquisa e botão === */
 .esportes-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-    height: auto; /* remove altura fixa para melhor adaptação */
-    min-height: 70px;
-    margin-bottom: 20px;
-    background: var(--container);
-    margin-left: 100px;
-    margin-right: 30px;
-    padding: 5px 10px;
-    border-radius: 20px;
-}
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  min-height: 70px;
+  margin-bottom: 20px;
+  background: var(--bg-card);
+  margin-left: 100px;
+  margin-right: 30px;
+  padding: 5px 10px;
+  border-radius: 20px;
 
-.pesquisa {
-    flex: 1; /* cresce para preencher espaço disponível */
-    min-width: 0; /* previne overflow em flex */
-    height: 50px;
-    padding: 0 16px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 14px;
-}
-
-#esporte-add-btn {
-    flex: 0 0 auto; /* não cresce, mas mantém tamanho natural */
-    background-color: #003dadea;
-    color: aliceblue;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    font-weight: bold;
-    white-space: nowrap;
-    min-width: 130px; /* evita que fique muito estreito */
 }
 
 @media (max-width: 600px) {
-    .esportes-header {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 12px;
-        margin-left: 15px;
-        margin-right: 15px;
-    }
+  .esportes-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+}
 
-    .pesquisa {
-        width: 100%;
-        height: 50px;
-    }
+.search-box {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+}
 
-    #esporte-add-btn {
-        width: 100%;
-        padding: 12px;
-        text-align: center;
-        min-width: auto;
-        white-space: normal;
-    }
+.search-box i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+.search-box input {
+  width: 100%;
+  height: 50px;
+  padding: 10px 14px 10px 42px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: inherit;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(0, 61, 173, 0.2);
+}
+
+#esporte-add-btn {
+  flex: 0 0 auto;
+  background-color: var(--accent);
+  color: var(--text-btn);
+  padding: 14px 20px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+  min-width: 130px;
+}
+
+#esporte-add-btn:hover {
+  background-color: var(--accent-hover);
+}
+
+@media (max-width: 600px) {
+  .pesquisa,
+  #esporte-add-btn {
+    width: 100%;
+    min-width: auto;
+    white-space: normal;
+    padding: 12px;
+    text-align: center;
+  }
 }
 
 /* === Container principal === */
 .esportes-container {
-    background: var(--container);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    margin-left: 100px; /* mesmo espaço da sidebar */
-    margin-right:  40px;
-    margin-bottom: 30px;
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 100px;
+  margin-right: 40px;
+  margin-bottom: 30px;
+
 }
 
 @media (max-width: 768px) {
-    .esportes-container {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
+  .esportes-container {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 }
 
 /* === Tabela de esportes === */
 .list-header,
 .esporte {
-    display: grid;
-    gap: 12px;
-    padding: 12px 0;
-    align-items: center;
-    border-bottom: 1px solid #e0e0e0;
+  display: grid;
+  gap: 12px;
+  padding: 12px 0;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
 }
 
 @media (min-width: 769px) {
-    .list-header,
-    .esporte {
-        grid-template-columns: 2fr 3fr 1fr 1fr 1.5fr 1fr;
-    }
+  .list-header,
+  .esporte {
+    grid-template-columns: 2fr 3fr 1fr 1fr 1.5fr 1fr;
+  }
 }
 
 @media (max-width: 768px) {
-    .list-header,
-    .esporte {
-        grid-template-columns: 1fr;
-
-        gap: 8px;
-    }
-    .header-col span,
-    .esporte > div {
-        font-weight: bold;
-    }
-    .esporte > div:not(.esporte-acoes) {
-        font-weight: normal;
-    }
-    .esporte-acoes {
-        display: flex;
-        justify-content: flex-start;
-        gap: 10px;
-        margin-top: 8px;
-    }
+  .list-header,
+  .esporte {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .header-col span,
+  .esporte > div {
+    font-weight: bold;
+  }
+  .esporte > div:not(.esporte-acoes) {
+    font-weight: normal;
+  }
+  .esporte-acoes {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 8px;
+  }
 }
 
 .header-col {
-    display: flex;
-    justify-content: center;
-    color: #003dadea;
-    font-weight: bold;
+  display: flex;
+  justify-content: center;
+  color: var(--accent);
+  font-weight: bold;
+  
+}
+
+.header-col > span {
+  font-size: 17px;
+  font-weight: 900;
+  
 }
 
 .esporte > div {
-    display: flex;
-    justify-content: center;
-    text-align: center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
-    .header-col,
-    .esporte > div {
-        justify-content: flex-start;
-        padding-left: 8px;
-    }
+  .header-col,
+  .esporte > div {
+    justify-content: flex-start;
+    padding-left: 8px;
+  }
 }
 
 /* === Ações === */
 .esporte-acoes {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
 }
 
 .esporte-acoes button {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 6px;
-    background-color: #f0f0f0;
-    cursor: pointer;
-    font-size: 14px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 14px;
+
 }
 
 .esporte-acoes button:hover {
-    background-color: #e0e0e0;
+  background-color: var(--bg-bottom-hover);
 }
 
-/* === Modais (herdado do seu estilo atual) === */
+.excluir {
+  background-color: var(--danger) !important;
+  color: var(--text-btn) !important;
+}
+
+/* === Modais === */
 .modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(3px);
-    z-index: 1000;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.modal-backdrop.active {
+  opacity: 1;
+  visibility: visible;
 }
 
 .app-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    width: 90%;
-    max-width: 600px;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    z-index: 1001;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px;
-    animation: modalFadeIn 0.3s ease-out;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--bg-card);
+  width: 90%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  color: var(--text-primary);
+  animation: modalFadeIn 0.3s ease-out;
 }
 
 @keyframes modalFadeIn {
-    from { opacity: 0; transform: translate(-50%, -60%); }
-    to { opacity: 1; transform: translate(-50%, -50%); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #003dadea;
-    color: white;
-    padding: 16px 20px;
-    margin: -20px -20px 20px -20px;
-    border-radius: 12px 12px 0 0;
-}
-.excluir{
- background-color: #ff0000ea;   
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--accent);
+  color: var(--text-btn);
+  padding: 16px 20px;
+  margin: -20px -20px 20px -20px;
+  border-radius: 12px 12px 0 0;
 }
 
 .modal-title {
-    margin: 0;
-    font-size: 18pt;
-    font-weight: 600;
+  margin: 0;
+  font-size: 18pt;
+  font-weight: 600;
 }
 
 .close-modal-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24pt;
-    cursor: pointer;
-    line-height: 1;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24pt;
+  cursor: pointer;
+  line-height: 1;
 }
 
 .close-modal-btn:hover {
-    color: #ffcccc;
+  color: #ffcccc;
 }
 
 .modal-body {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-.aqui2{
-    background-color: var(--bg-bottom);
-    border: none;
-    width: 60px;
-    height: 30px;
-    border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.aqui2:hover{
-    background-color:var(--bg-bottom-hover) ;
+.aqui2 {
+  background-color: var(--bg-bottom);
+  border: none;
+  width: 60px;
+  height: 30px;
+  border-radius: 10px;
+}
+
+.aqui2:hover {
+  background-color: var(--bg-bottom-hover);
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-group label {
-    font-weight: bold;
-    color: #003dadea;
-    margin-bottom: 6px;
+  font-weight: bold;
+  color: var(--accent);
+  margin-bottom: 6px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 14px;
+  background: var(--input-bg);
+  color: var(--text-primary);
 }
 
 .form-group input:focus,
 .form-group select:focus {
-    outline: none;
-    border-color: #003dadea;
+  outline: none;
+  border-color: var(--accent);
 }
 
 .modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-    padding: 15px 0 0 0;
-    margin-top: 16px;
-    border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  padding: 15px 0 0 0;
+  margin-top: 16px;
+  border-top: 1px solid var(--border-color);
 }
 
 .modal-footer button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 #esporte-cancelar-btn,
 #posicao-cancelar-btn,
 #caracteristica-cancelar-btn,
 #cancel-confirm-btn {
-    background-color: #ccc;
-    color: #333;
+  background-color: #ccc;
+  color: #333;
 }
-
-#esporte-salvar-btn,
-#posicao-salvar-btn,
-#caracteristica-salvar-btn{
-    background-color: #003dadea;
-    color: white;
-}
-
-  #save-confirm-btn {
-        background-color: #ff0000ea;
-        color: white;
-    }
-
-        #save-confirm-btn:hover {
-        background-color: #e23030ea;
-        color: white;
-    }
 
 #esporte-cancelar-btn:hover,
 #posicao-cancelar-btn:hover,
 #caracteristica-cancelar-btn:hover,
 #cancel-confirm-btn:hover {
-    background-color: #bbb;
+  background-color: #bbb;
+}
+
+#esporte-salvar-btn,
+#posicao-salvar-btn,
+#caracteristica-salvar-btn {
+  background-color: var(--accent);
+  color: var(--text-btn);
 }
 
 #esporte-salvar-btn:hover,
 #posicao-salvar-btn:hover,
-#caracteristica-salvar-btn:hover{
-    background-color: #002a7d;
+#caracteristica-salvar-btn:hover {
+  background-color: var(--accent-hover);
+}
+
+#save-confirm-btn {
+  background-color: var(--danger);
+  color: var(--text-btn);
+}
+
+#save-confirm-btn:hover {
+  background-color: #e23030ea;
 }
 
 /* === Abas (tabs) === */
 .modal-tabs {
-    display: flex;
-    gap: 8px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 12px;
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
 }
 
 .tab-button {
-    background: none;
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #666;
-    border-bottom: 2px solid transparent;
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--text-secondary);
+  border-bottom: 2px solid transparent;
 }
 
-
+.tab-button.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
 
 .tab-content {
-    display: none;
+  display: none;
 }
 
 .tab-content.active {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 /* === Listas internas === */
 .posicoes-list-container,
 .caracteristicas-list-container {
-    max-height: 160px;
-    overflow-y: auto;
-    border: 1px solid #eee;
-    border-radius: 6px;
-    padding: 8px;
+  max-height: 160px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px;
+  
 }
 
 .posicoes-list-header,
 .posicoes-list-row,
 .caracteristicas-list-header,
 .caracteristicas-list-row {
-    display: grid;
-    gap: 8px;
-    padding: 6px 0;
-    font-size: 14px;
+  display: grid;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 14px;
 }
 
 @media (min-width: 769px) {
-    .posicoes-list-header,
-    .posicoes-list-row {
-        grid-template-columns: 1.5fr 2.5fr 1fr;
-    }
-    .caracteristicas-list-header,
-    .caracteristicas-list-row {
-        grid-template-columns: 1.5fr 1fr 2fr 1fr;
-    }
+  .posicoes-list-header,
+  .posicoes-list-row {
+    grid-template-columns: 1.5fr 2.5fr 1fr;
+  }
+  .caracteristicas-list-header,
+  .caracteristicas-list-row {
+    grid-template-columns: 1.5fr 1fr 2fr 1fr;
+  }
 }
 
 @media (max-width: 768px) {
-    .posicoes-list-header,
-    .posicoes-list-row,
-    .caracteristicas-list-header,
-    .caracteristicas-list-row {
-        grid-template-columns: 1fr;
-        gap: 4px;
-    }
+  .posicoes-list-header,
+  .posicoes-list-row,
+  .caracteristicas-list-header,
+  .caracteristicas-list-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
 }
 
 .posicoes-header-col,
 .posicao-col,
 .caracteristicas-header-col,
 .caracteristica-col {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
 }
 
 @media (max-width: 768px) {
-    .posicoes-header-col,
-    .posicao-col,
-    .caracteristicas-header-col,
-    .caracteristica-col {
-        justify-content: flex-start;
-        padding-left: 8px;
-    }
+  .posicoes-header-col,
+  .posicao-col,
+  .caracteristicas-header-col,
+  .caracteristica-col {
+    justify-content: flex-start;
+    padding-left: 8px;
+  }
 }
 
 .posicao-col.acoes,
 .caracteristica-col.acoes {
-    display: flex;
-    gap: 8px;
+  display: flex;
+  gap: 8px;
 }
 
 .posicao-col.acoes button,
 .caracteristica-col.acoes button {
-    padding: 4px 8px;
-    font-size: 12px;
+  padding: 4px 8px;
+  font-size: 12px;
 }
 
 /* === Botões de adicionar nas abas === */
 .tab-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-.semposi{
-    display: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
 .tab-header button {
-    background-color: #003dadea;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
+  background-color: var(--accent);
+  color: var(--text-btn);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
-/* === Esconde elementos === */
+.tab-header button:hover {
+  background-color: var(--accent-hover);
+}
+
+/* === Utilitários === */
 .hidden {
-    display: none !important;
-}
-.sumir{
-    display: none;
+  display: none !important;
 }
 
+.semposi {
+  display: none;
+}
+
+.sumir {
+  display: none;
+}
 
 /* === Mobile === */
 @media (max-width: 480px) {
-    .app-modal {
-        width: 95%;
-        padding: 15px;
-    }
-    .modal-header {
-        margin: -15px -15px 15px -15px;
-        padding: 12px 15px;
-    }
-    .modal-footer button {
-        padding: 8px 16px;
-        font-size: 14px;
-    }
-}
-
-.search-box {
-    flex: 1;
-    min-width: 250px;
-    position: relative;
-    
-}
-
-.search-box i {
-    position: absolute;
-    left: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-secondary);
-    font-size: 16px;
-}
-
-.search-box input {
-    width: 100%;
-    height: 50px;
-    padding: 10px 14px 10px 42px;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    background: #ffffff;
-    color: var(--text-primary);
+  .app-modal {
+    width: 95%;
+    padding: 15px;
+  }
+  .modal-header {
+    margin: -15px -15px 15px -15px;
+    padding: 12px 15px;
+  }
+  .modal-footer button {
+    padding: 8px 16px;
     font-size: 14px;
-    transition: border .2s, box-shadow .2s;
+  }
 }
 
-.search-box input:focus {
-    outline: none;
-    border-color: var(--focus-color);
+/* === Modal de feedback rápido === */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
 }
-/*esporte  */.modal {
-      display: none; /* começa escondido */
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-    }
 
+.modal-content {
+  z-index: 10001;
+  padding: 20px 30px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 250px;
+  animation: fadeIn 0.3s ease;
+  color: var(--text-primary);
+}
 
-    .modal-content {
-z-index: 10000;
-      padding: 20px 30px;
-      border-radius: 8px;
-      text-align: center;
-      min-width: 250px;
-      animation: fadeIn 0.3s ease;
-    }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
+.success {
+  color: var(--text-btn);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
 
-    .success {
-      color: white;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      font-weight: bold;
-      z-index: 10000;
-    }
+.delete {
+  background-color: var(--danger);
+}
 
-    .delete { background-color: #e74c3c; }   /* vermelho */
-    .edit { background-color: #27ae60; }     /* laranja */
-    .add { background-color: #27ae60; }      /* verde */
-    .erro{ background-color: #ff0000; }      /* vermelho */
+.edit,
+.add {
+  background-color: #27ae60;
+}
 
-
-
-
+.erro {
+  background-color: var(--danger);
+}
+.esportes-container{
+    border: none;
+}
+.hidden1{
+    position: absolute;
+    filter: blur(6px);
+    transition: filter 0.6s ease;
+}

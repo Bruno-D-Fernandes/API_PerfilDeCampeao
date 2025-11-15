@@ -307,6 +307,28 @@ document.addEventListener('click', async (e) => {
 
   const action = act.getAttribute('data-action');
   const id     = act.getAttribute('data-id');
+  const deleteModal = document.getElementById('deleteModal');
+const btnDeleteOk = document.getElementById('deleteOk');
+const btnDeleteCancel = document.getElementById('deleteCancel');
+
+let deleteCallback = null;
+
+function openDeleteModal(callback) {
+  deleteCallback = callback;
+  deleteModal.style.display = 'flex'; // aparece
+}
+
+function closeDeleteModal() {
+  deleteModal.style.display = 'none';
+  deleteCallback = null;
+}
+
+btnDeleteOk.addEventListener('click', () => {
+  if (deleteCallback) deleteCallback(); 
+  closeDeleteModal();
+});
+
+btnDeleteCancel.addEventListener('click', closeDeleteModal);
 
   if (action === 'inscritos') {
     // <<< ALTERADO: agora abre modal, não navega >>>
@@ -320,7 +342,21 @@ document.addEventListener('click', async (e) => {
     return;
   }
   if (action === 'excluir') {
-  if (!confirm('Deseja realmente excluir esta oportunidade?')) return;
+  openDeleteModal(async () => {
+    try {
+      const response = await fetch(`/oportunidades/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization: token }
+      });
+
+      if (!response.ok) throw new Error('Erro ao excluir');
+
+      loadOportunidades(); // recarrega tabela
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
   try {
     // ✅ 1. Fazer exclusão PRIMEIRO
     await delJSON(`/api/clube/oportunidade/${id}`);

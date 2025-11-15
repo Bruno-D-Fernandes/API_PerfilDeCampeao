@@ -1,11 +1,22 @@
 @extends('admin.config.layout')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/Admin/perfil/perfil.css') }}">
 
 <div class="perfil" data-storage-url="{{ asset('storage') }}" data-admin-id="{{ $admin->id }}">
 
         <div class="info">
+
+        <div class="modal" id="aModal">
+    <div class="modal-content">
+      <div class="success add">Perfil salvo com sucesso!</div>
+    </div>
+  </div>
+
+  <div class="modal" id="bModal">
+    <div class="modal-content">
+      <div class="success add">Informações salvas com sucesso!</div>
+    </div>
+  </div>
             
             <div class="general">
                 <div class="general-profile">

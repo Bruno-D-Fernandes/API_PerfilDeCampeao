@@ -8,83 +8,16 @@
     <link rel="stylesheet" href="{{ asset('css/Clube/vars.css') }}">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+ 
 
-  <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
 </head>
 <body>
-<nav class="barra-lateral" id="barra-lateral">
 
-        <!--ESPAÇO PRA LOGO LT1-->
-        <div class="logo-container">
-            <!-- LOGO PEQUENA-->
-            <img src="/img/logo-admin-reduzida.jpeg" alt="Logo" class="logo-pequena">
-            <!--LOGO GRANDE-->
-            <img src="/img/logo-admin-completa.jpeg" alt="Logo" class="logo-grande">
-            <!--ESPAÇO PRA LOGO LT1-->
-        </div>
+@include('admin.sidebar.sidebar-adm')
 
-        <ul class="menu-navegacao">
-            <li>
-                <a href="/admin/dashboard">
-                    <i class='bx bx-home-alt'></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <li>
-                <a href="/admin/oportunidades">
-                    <i class='bx bx-briefcase'></i>
-                    <span>Oportunidades</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-list-ul'></i>
-                    <span>Listas</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-message-dots'></i>
-                    <span>Mensagens</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-bell'></i>
-                    <span>Notificações</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-user'></i>
-                    <span>Perfil</span>
-                </a>
-            </li>
-            <li>
-                <a href="./tela-pesquisa/pesquisa.html">
-                    <i class='bx bx-search'></i>
-                    <span>Pesquisa</span>
-                </a>
-            </li>
-            <li class="ativo">
-                <a href="#">
-                    <i class='bx bx-cog'></i>
-                    <span>Configurações</span>
-                </a>
-            </li>
-            <li>
-            <hr class="barra-vermelha">  
-            <li class="sair-link"> 
-                <a href="#">
-                    <i class='bx bx-log-out'></i>
-                    <span>Sair</span>
-                </a>
-            </li>
-        </ul>
-</nav>    
   <h1>Configurações</h1>
 
-  <nav class="navConfig">
+
   <h5>Menu</h5>
   <ul>
     <li><a href="{{ url('/admin/config/perfil') }}"><i class='bx bxs-user-circle'></i>Perfil</a></li>
@@ -101,6 +34,22 @@
 
 
   <script src="{{ asset('js/admin/settings/utils.js') }}"></script>
+  <script>// Força o primeiro item (Dashboard) como ativo
+const dashboardItem = document.querySelector('.menu-navegacao li:nth-child(4)');
+if (dashboardItem) {
+    dashboardItem.classList.add('ativo');
+}
+
+// Alternativa: buscar especificamente pelo link do dashboard
+const dashboardLink = document.querySelector('a[href*="admin-clubes"], a[href*="dashboard"]');
+if (dashboardLink && dashboardLink.closest('li')) {
+    // Remove ativo de todos primeiro
+    menuItems.forEach(item => item.classList.remove('ativo'));
+    // Adiciona no dashboard
+    dashboardLink.closest('li').classList.add('ativo');
+}
+
+</script>
   @yield('scripts')
 </body>
 </html>

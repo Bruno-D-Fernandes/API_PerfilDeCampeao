@@ -7,6 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const value = new FormData(e.target).get('theme') || 'system';
     await Settings.saveThemePref(value);
-    alert('Tema salvo.');
+        const amodal = document.getElementById('aModal')
+                amodal.style.display='flex'
+        setTimeout(() => {
+        amodal.style.display = 'none';
+
+    }, 3000);
+    
   });
 });

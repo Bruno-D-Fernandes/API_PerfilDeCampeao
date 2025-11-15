@@ -1,3 +1,4 @@
+<!-- sidebar.php -->
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 <style>
@@ -13,31 +14,31 @@
   /* === TEMA CLARO (PADRÃO) === */
   :root {
     --bg-primary: #ffffff;
-    --bg-secondary: #f0f8ff;
-    --text-primary: #1a1a1a;
-    --text-secondary: #333333;
-    --border-color: #4b93ffff;
-    --shadow: rgba(0, 102, 255, 0.15);
-    --hover-bg: #e6f2ff;
-    --active-bg: #0066ff;
+    --bg-secondary: #f5f7fa;
+    --text-primary: #2d2d2d;
+    --text-secondary: #666666;
+    --border-color: #d1d1d1;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --hover-bg: #e9ecef;
+    --active-bg: #28a745;      /* Verde ativo */
     --active-text: #ffffff;
     --danger-color: #dc3545;
-    --icon-color: #000000ff;
+    --icon-color: #28a745;     /* ÍCONES VERDES */
   }
 
   /* === TEMA ESCURO === */
   [data-theme="dark"] {
-    --bg-primary: #0a0a1a;
-    --bg-secondary: #0f0f2a;
-    --text-primary: #e0e0ff;
-    --text-secondary: #b3d9ff;
-    --border-color: #1a3366;
-    --shadow: rgba(0, 102, 255, 0.3);
-    --hover-bg: #1a3366;
-    --active-bg: #0055cc;
-    --active-text: #ffffff;
-    --danger-color: #dc3545;
-    --icon-color: #66b3ff;
+    --bg-primary: #161616ff;
+    --bg-secondary: #232323ff;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --border-color: #404040;
+    --shadow: rgba(0, 0, 0, 0.6);
+    --hover-bg: #3a3a3a;
+    --active-bg: #67d600ff;    /* Verde escuro */
+    --active-text: #000000ff;
+    --danger-color: #c14444;
+    --icon-color: #67d600;     /* ÍCONES VERDES NO MODO ESCURO */
   }
 
   body {
@@ -55,12 +56,20 @@
     height: 100vh;
     width: 70px;
     background: var(--bg-secondary);
-    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.35);
+    /* REMOVIDA A BORDA LATERAL */
+    /* ADICIONADA SOMENTE SOMBRAS ESCURAS */
+    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.25); /* Sombra escura no modo claro */
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     z-index: 1000;
     display: flex;
     flex-direction: column;
+    /* REMOVIDO: border-right: ... */
+  }
+
+  /* Sombra mais intensa no modo escuro */
+  [data-theme="dark"] .barra-lateral {
+    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.45);
   }
 
   .barra-lateral:hover {
@@ -108,12 +117,29 @@
   }
 
   .menu-navegacao li,
-  .sair-link-container {
+  .sair-link {
     margin: 4px 0;
   }
 
-  .menu-navegacao a,
-  .sair-link {
+  .sair-link button {
+      display: flex;
+    align-items: center;
+    font-weight: bold;
+    gap: 5px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 16px;
+  }
+
+  .menu-navegacao a{
     display: flex;
     align-items: center;
     font-weight: bold;
@@ -127,19 +153,21 @@
     border: none;
     cursor: pointer;
     width: 100%;
+    text-align: left;
     font-family: 'Segoe UI', sans-serif;
     font-size: 16px;
-    text-align: left;
   }
 
+  /* Ícones sempre visíveis e VERDES */
   .menu-navegacao i,
   .sair-link i {
     font-size: 20px;
     min-width: 24px;
     text-align: center;
-    color: var(--icon-color);
+    color: var(--icon-color); /* Agora VERDE em todos os modos */
   }
 
+  /* Texto some quando fechado */
   .menu-navegacao span,
   .sair-link span {
     opacity: 0;
@@ -153,7 +181,7 @@
   }
 
   .menu-navegacao a:hover,
-  .sair-link:hover {
+  .sair-link button:hover {
     background: var(--hover-bg);
     color: var(--text-primary);
   }
@@ -165,83 +193,134 @@
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
   }
 
+  /* Garante que o ícone fique branco quando ativo (sobre fundo verde) */
   .menu-navegacao .ativo a i {
     color: var(--active-text) !important;
   }
 
-  .sair-link {
+  /* Botão Sair em vermelho (não verde) */
+  .sair-link button {
     color: var(--danger-color) !important;
   }
-
   .sair-link i {
     color: var(--danger-color) !important;
   }
+
+  .spacer {
+    flex: 1;
+  }
 </style>
+
+<?php
+$pagina_atual = basename($_SERVER['PHP_SELF']);
+?>
 
 <nav class="barra-lateral" id="barra-lateral">
   <div class="logo-container">
-    <img src="{{ asset('img/logo-admin-reduzida.jpeg') }}" alt="Logo Pequena" class="logo-pequena">
-    <img src="{{ asset('img/logo-admin-completa.jpeg') }}" alt="Logo Grande" class="logo-grande">
+    <img src="/img/logo-reduzida1.png" alt="Logo Pequena" class="logo-pequena">
+    <img src="/img/logo-completa1.png" alt="Logo Grande" class="logo-grande">
   </div>
 
   <ul class="menu-navegacao">
-    <li class="{{ $pagina_atual === 'admin-dashboard' ? 'ativo' : '' }}">
-      <a href="{{ route('admin-dashboard') }}">
+    <li class="<?= ($pagina_atual === 'dashboard.php') ? 'ativo' : '' ?>">
+      <a href="/clube/dashboard">
         <i class='bx bx-home-alt'></i>
         <span>Dashboard</span>
       </a>
     </li>
-    <li class="{{ $pagina_atual === 'admin-oportunidades' ? 'ativo' : '' }}">
-      <a href="{{ route('admin-oportunidades') }}">
+    <li class="<?= ($pagina_atual === 'oportunidades.php') ? 'ativo' : '' ?>">
+      <a href="/clube/oportunidades">
         <i class='bx bx-briefcase'></i>
         <span>Oportunidades</span>
       </a>
     </li>
-    <li class="{{ Route::is('admin-usuarios') ? 'ativo' : '' }}">
-      <a href="{{ route('admin-usuarios') }}">
-        <i class='bx bx-group'></i>
-        <span>Usuários</span>
+    <li class="<?= ($pagina_atual === 'perfil.php') ? 'ativo' : '' ?>">
+     <form id='verPerfil'>  
+
+    <a id='verPerfil'>
+        <i class='bx bx-user'></i>
+        <span>Clube</span>
       </a>
     </li>
-    <li class="{{ Route::is('admin-clubes') ? 'ativo' : '' }}">
-      <a href="{{ route('admin-clubes') }}">
-        <i class='bx bx-shield'></i>
-        <span>Clubes</span>
+  <li>
+    </form>
+    </li>
+    <li class="<?= ($pagina_atual === 'pesquisa.php') ? 'ativo' : '' ?>">
+      <a href="/clube/pesquisa">
+        <i class='bx bx-search'></i>
+        <span>Pesquisa</span>
       </a>
     </li>
-    <li class="{{ Route::is('admin-funcoes') ? 'ativo' : '' }}">
-      <a href="{{ route('admin-funcoes') }}">
-        <i class='bx bx-crown'></i>
-        <span>Funções</span>
-      </a>
-    </li>
-    <li class="{{ Route::is('admin-esportes') ? 'ativo' : '' }}">
-      <a href="{{ route('admin-esportes') }}">
-        <i class='bx bx-trophy'></i>
-        <span>Esportes</span>
-      </a>
-    </li>
-    <li class="{{ Route::is('admin-listas') ? 'ativo' : '' }}">
-      <a href="{{ route('admin-listas') }}">
-        <i class='bx bx-list-ul'></i>
-        <span>Lista</span>
-      </a>
-    </li>
-    <li class="{{ Route::is('admin-config-*') ? 'ativo' : '' }}">
-      <a href="{{ route('admin-config-perfil') }}">
+    <li class="<?= ($pagina_atual === 'configuracao.php') ? 'ativo' : '' ?>">
+      <a href="/clube/configuracoes">
         <i class='bx bx-cog'></i>
-        <span>Configurações</span>
+        <span>Configuração</span>
       </a>
     </li>
+  <li>
+  <form id='logout'>
+  <div class="spacer">
+      <div class="sair-link">
+        <button type="submit">
+      <a>
+      <i class='bx bx-log-out'></i>
+      <span class='sair'>Sair</span>
+      </a>
+      </button>
+  </div></form>
+</li>
   </ul>
 
-  <div class="spacer">
-    <form method="POST" action="{{ route('logout') }}" style="width: 100%;">
-      @csrf
-      <button type="submit" class="sair-link">
-        <i class='bx bx-log-out'></i>
-        <span>Sair</span>
-      </button>
-    </form>
-  </div>
+
+  <!-- Botão Sair como <button> -->
+    
 </nav>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    const token = localStorage.getItem('clube_token'); // o token salvo no login
+
+    if (!token) {
+        console.error("Token não encontrado!");
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/clube/perfil', {
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/json'
+            }
+        });
+        const data = await response.json();
+        
+        if (data.id) {
+            console.log("ID do Clube:", data.id);
+            localStorage.setItem('clube_id', data.id);
+        } else {
+            console.error("Erro ao buscar ID do clube:", data);
+        }
+    } catch (err) {
+        console.error("Falha na requisição:", err);
+    }
+});
+
+
+ const linkPerfil = document.getElementById('verPerfil');
+
+  // Adiciona o evento de clique
+  linkPerfil.addEventListener('click', function (event) {
+    event.preventDefault(); // impede o link de redirecionar imediatamente
+
+    // Pega o ID do clube do localStorage
+    const clubeId = localStorage.getItem('clube_id');
+
+    if (clubeId) {
+      // Redireciona para a URL desejada
+      window.location.href = `/clube/${clubeId}`;
+    } else {
+      alert('Nenhum clube_id encontrado no localStorage!');
+    }
+  });
+
+</script>

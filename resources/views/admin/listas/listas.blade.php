@@ -1,3 +1,8 @@
+
+
+@php
+    $pagina_atual = 'admin-listas';
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{{ asset('css/admin/sidebar/sidebar.css') }}">
+        <script>(function(){try{var t=localStorage.getItem('admin_theme')||'system';if(t&&t!=='system'){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.removeAttribute('data-theme');}}catch(e){} })();</script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/Admin/lista/lista.css') }}">
@@ -13,85 +19,11 @@
 </head>
 
 <body>
-    
+    <main id='totaltotal'>
+  @include('admin.sidebar.sidebar-adm')
 
-<main class="conteudo-principal">
-          <h1 class="titulo"></h1>
-          <section class="cards-topo">
-    <!--NAVBAR LT1-->
-    <nav class="barra-lateral" id="barra-lateral">
-
-        <!--ESPAÇO PRA LOGO LT1-->
-        <div class="logo-container">
-            <!-- LOGO PEQUENA-->
-            <img src="../img/logo-admin-reduzida.jpeg" alt="Logo" class="logo-pequena">
-            <!--LOGO GRANDE-->
-            <img src="../img/logo-admin-completa.jpeg" alt="Logo" class="logo-grande">
-            <!--ESPAÇO PRA LOGO LT1-->
-        </div>
-
-        <ul class="menu-navegacao">
-            <!-- <li >
-                <a href="{{route('admin-dashboard')}}">
-                    <i class='bx bx-home-alt'></i>
-                    <span>Dashboard</span>
-                </a>
-            </li> -->
-            <li>
-                <a href="{{route('admin-oportunidades')}}">
-                    <i class='bx bx-briefcase'></i>
-                    <span>Oportunidades</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('admin-usuarios')}}">
-                    <i class='bx bx-user'></i>
-                    <span>Usuários</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('admin-clubes')}}">
-                    <i class='bx bx-group'></i>
-                    <span>Clubes</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('admin-funcoes')}}">
-                    <i class='bx bx-extension'></i>
-                    <span>Funções</span>
-                </a>
-            </li>
-            <li> 
-                <a href="{{route('admin-esportes')}}">
-                    <i class='bx bx-football'></i>
-                    <span>Esportes</span>
-                </a>
-            </li>
-            <li  class="ativo">
-                <a href="{{route('admin-listas')}}">
-                    <i class='bx bx-list-ul'></i>
-                    <span>Listas</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('admin-config-layout')}}">
-                    <i class='bx bx-cog'></i>
-                    <span>Configurações</span>
-                </a>
-            </li>
-            <li>
-            <hr class="barra-vermelha">  
-            <li class="sair-link"> 
-                <form id="logout">
-                    <button class="logout" type="submit"><i class='bx bx-log-out'></i>
-                      <span>Sair</span>
-                  </button>
-                </form>
-            </li>
-        </ul>
-    </nav>
         <h1 class='titulo'>Listas</h1>
-    </main>
+        <br>
 
     <div class="modal" id="deleteModal">
     <div class="modal-content">
@@ -171,7 +103,10 @@
             </div>
         @endforeach
     </div>
+    
     </div>
+    </main>
+                    
 
     <div class="modal-backdrop hidden"></div>
 
@@ -189,7 +124,7 @@
 
                 <span>
                     Criada por: 
-                </span>
+                </span><br>
 
                 <span>
                     Descrição: 
@@ -240,5 +175,22 @@
     <script src="{{ asset('js/admin/listas/listas/api.js') }}"></script>
     <script src="{{ asset('js/admin/listas/listas/events.js') }}"></script>
     <script src="{{ asset('js/admin/listas/oportunidades/logout.js') }}"></script>
+
+<script>// Força o primeiro item (Dashboard) como ativo
+const dashboardItem = document.querySelector('.menu-navegacao li:nth-child(7)');
+if (dashboardItem) {
+    dashboardItem.classList.add('ativo');
+}
+
+// Alternativa: buscar especificamente pelo link do dashboard
+const dashboardLink = document.querySelector('a[href*="admin-listas"], a[href*="dashboard"]');
+if (dashboardLink && dashboardLink.closest('li')) {
+    // Remove ativo de todos primeiro
+    menuItems.forEach(item => item.classList.remove('ativo'));
+    // Adiciona no dashboard
+    dashboardLink.closest('li').classList.add('ativo');
+}
+
+</script>
 </body>
 </html>

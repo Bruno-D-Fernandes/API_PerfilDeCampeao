@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>(function(){try{var t=localStorage.getItem('clube_theme')||'system';if(t&&t!=='system'){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.removeAttribute('data-theme');}}catch(e){} })();</script>
+    <script>(function(){try{var t=localStorage.getItem('admin_theme')||'system';if(t&&t!=='system'){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.removeAttribute('data-theme');}}catch(e){} })();</script>
     <link rel="stylesheet" href="{{ asset('css/Clube/vars.css') }}">
     <meta charset="UTF-8" [data-theme="dark"]>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,15 +14,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/Admin/oportunidades/oportunidades.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-  @include('admin.sidebar.sidebar-adm')
+  
 </head>
 <body>
-    
+    <main id='totaltotal' >
+@include('admin.sidebar.sidebar-adm')
+
     <!--NAVBAR LT1-->
+
     <h1 class='titulo'>Oportunidades</h1><br>
 
 
-         <div class="modal" id="deleteModal">
+     <div class="modal" id="deleteModal">
     <div class="modal-content">
       <div class="success delete">Rejeitada com sucesso!</div>
     </div>
@@ -50,7 +53,6 @@
                 </div>
 
 
-        </div>
         </div>
 
         <div class='total'>
@@ -138,8 +140,9 @@
         @endforeach
     </div>
     </div>
+                </main>
 
-    <div class="modal-backdrop hidden"></div>
+    <div id='modalopor' class="modal-backdrop hidden"></div>
 
     <div id="oportunidade-modal" class="app-modal hidden">
         <div class="modal-header">
@@ -150,13 +153,13 @@
         <form class="modal-body detalhes" id="oportunidade-form">
             <div id="oportunidade-view">
                 <div class="modal-tabs">
-                    <button class="tab-button active" data-target-tab="detalhes-tab" type="button">
+                    <button class="tab-button active" id='detalhes' data-target-tab="detalhes-tab" type="button">
                         <span>
                             Detalhes
                         </span>
                     </button>
 
-                    <button class="tab-button" data-target-tab="inscritos-tab" type="button">
+                    <button class="tab-button" id='inscritos' data-target-tab="inscritos-tab" type="button">
                         <span>
                             Inscritos
                         </span>
@@ -293,7 +296,7 @@
             </button>
         </div>
     </div>
-
+    <script src="{{ asset('js/admin/listas/oportunidades/ativo.js') }}"></script>
     <script src="{{ asset('js/admin/listas/oportunidades/dom-elements.js') }}"></script>
     <script src="{{ asset('js/admin/listas/oportunidades/utils.js') }}"></script>
     <script src="{{ asset('js/admin/listas/oportunidades/modals.js') }}"></script>

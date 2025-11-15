@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{{ asset('css/admin/sidebar/sidebar.css') }}">
+    <script>(function(){try{var t=localStorage.getItem('admin_theme')||'system';if(t&&t!=='system'){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.removeAttribute('data-theme');}}catch(e){} })();</script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/Admin/usuarios/usuarios.css') }}">
@@ -15,83 +15,11 @@
 </head>
 <body>
 
-<main class="conteudo-principal">
-          <section class="cards-topo">
-    <!--NAVBAR LT1-->
-    <nav class="barra-lateral" id="barra-lateral">
+@include('admin.sidebar.sidebar-adm')
 
-        <!--ESPAÇO PRA LOGO LT1-->
-        <div class="logo-container">
-            <!-- LOGO PEQUENA-->
-            <img src="../img/logo-admin-reduzida.jpeg" alt="Logo" class="logo-pequena">
-            <!--LOGO GRANDE-->
-            <img src="../img/logo-admin-completa.jpeg" alt="Logo" class="logo-grande">
-            <!--ESPAÇO PRA LOGO LT1-->
-        </div>
-
-        <ul class="menu-navegacao">
-            <!-- <li >
-                <a href="/admin/dashboard">
-                    <i class='bx bx-home-alt'></i>
-                    <span>Dashboard</span>
-                </a>
-            </li> -->
-            <li>
-                <a href="/admin/oportunidades">
-                    <i class='bx bx-briefcase'></i>
-                    <span>Oportunidades</span>
-                </a>
-            </li>
-            <li class="ativo">
-                <a href="#">
-                    <i class='bx bx-user'></i>
-                    <span>Usuários</span>
-                </a>
-            </li>
-            <li>
-                <a href="/admin/clubes">
-                    <i class='bx bx-group'></i>
-                    <span>Clubes</span>
-                </a>
-            </li>
-            <li>
-                <a href="/admin/funcoes">
-                    <i class='bx bx-extension'></i>
-                    <span>Funções</span>
-                </a>
-            </li>
-            <li>
-                <a href="/admin/esportes">
-                    <i class='bx bx-football'></i>
-                    <span>Esportes</span>
-                </a>
-            </li>
-            <li>
-                <a href="/admin/listas">
-                    <i class='bx bx-list-ul'></i>
-                    <span>Lista</span>
-                </a>
-            </li>
-            <li>
-                <a href="/admin/configuracoes/perfil">
-                    <i class='bx bx-cog'></i>
-                    <span>Configurações</span>
-                </a>
-            </li>
-            <li>
-            <hr class="barra-vermelha">  
-            <li class="sair-link"> 
-                <form id="logout">
-                    <button class="logout" type="submit"><i class='bx bx-log-out'></i>
-                      <span>Sair</span>
-                  </button>
-                </form>
-            </li>
-        </ul>
-    </nav>
-    <!--NAVBAR LT1-->
                 <h1 class='titulo'>Usuários</h1>
-    </main>
+                <br>
+
                 
     <div class="modal" id="deleteModal">
     <div class="modal-content">
@@ -140,13 +68,6 @@
 
             <div class='usuarios-container' >
             
-<div class='header'>
-
-            
-            
-            </div>
-
-            
                
         <div class="list-header">
             <div class="header-col">
@@ -173,7 +94,6 @@
                 <span>Ações</span>
             </div>
         </div>
-        <br>
         
 
         @foreach($usuarios as $usuario)
@@ -218,7 +138,6 @@
                     </button>
                 </div>
             </div>
-            <br>
         @endforeach
     </div>
     </div>
@@ -368,5 +287,22 @@
     <script src="{{ asset('js/admin/listas/usuarios/api.js') }}"></script>
     <script src="{{ asset('js/admin/listas/usuarios/events.js') }}"></script>
     <script src="{{ asset('js/admin/listas/oportunidades/logout.js') }}"></script>
+
+    <script>// Força o primeiro item (Dashboard) como ativo
+const dashboardItem = document.querySelector('.menu-navegacao li:nth-child(3)');
+if (dashboardItem) {
+    dashboardItem.classList.add('ativo');
+}
+
+// Alternativa: buscar especificamente pelo link do dashboard
+const dashboardLink = document.querySelector('a[href*="admin-clubes"], a[href*="dashboard"]');
+if (dashboardLink && dashboardLink.closest('li')) {
+    // Remove ativo de todos primeiro
+    menuItems.forEach(item => item.classList.remove('ativo'));
+    // Adiciona no dashboard
+    dashboardLink.closest('li').classList.add('ativo');
+}
+
+</script>
 </body>
 </html> 

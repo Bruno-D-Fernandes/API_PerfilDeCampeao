@@ -20,17 +20,22 @@
 }
 
 [data-theme="dark"] {
-  --bg-body: #0f0f1b;
-  --bg-card: #1a1a2e;
-  --text-btn: #000000;
-  --text-primary: #e6e6ff;
-  --text-secondary: #b3b3d9;
-  --border-color: #2d2d44;
-  --accent: #4da6ff;
-  --accent-hover: #66b3ff;
-  --danger: #ff6b6b;
-  --danger-bg: #2a1a1a;
-  --input-bg: #222233;
+--bg-body: #0b0b0b;          /* preto profundo */
+  --bg-card: #141414;          /* preto carvão */
+  
+  --text-btn: #ffffff;         /* botão com texto branco (melhor em fundo escuro) */
+  --text-primary: #f2f2f2;     /* branco suave */
+  --text-secondary: #c7c7c7;   /* cinza claro */
+  
+  --border-color: #262626;     /* bordas discretas */
+  
+  --accent: #0078d4;
+  --accent-hover: #106ebe; /* hover mais claro */
+  
+  --danger: #cc4940;           /* vermelho mais natural, não tão saturado */
+  --danger-bg: #1a0f0f;        /* fundo danger escuro suave */
+  
+  --input-bg: #1c1c1c;         /* fundo neutro para inputs */
 }
 
 /* === ESTILOS GLOBAIS === */
@@ -43,7 +48,7 @@ body {
   overflow-x: hidden;
   transition: background-color 0.3s, color 0.3s;
 }
-
+ 
 /* === Título === */
 .titulo {
   font-size: 32pt;
@@ -270,8 +275,9 @@ body {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(3px);
+  background: rgba(0,0,0,0.6);
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
@@ -660,4 +666,12 @@ body {
 }
 #save-status-btn{
     background-color: var(--danger);
+}
+
+
+
+.hidden1{
+    position: absolute;
+    filter: blur(6px);
+    transition: filter 0.6s ease;
 }

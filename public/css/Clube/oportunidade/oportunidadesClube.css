@@ -68,7 +68,7 @@
   --status-rejected-color: #f87171;
 }
 body{
-  background-color: var(--bg-body);
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,7 +76,8 @@ body{
   font-family: 'Arial', sans-serif;
 }
 .container{
-  height: 70vh;
+margin-left: 120px;
+ background-color: white;
 
 }
 .boxDentro{
@@ -273,18 +274,22 @@ h4{
 .excluir{
   color: var(--muted);
 }
-
+.sumir4{
+  display: none;
+}
 /* Strong dark-theme overrides to catch remaining components with hardcoded backgrounds
    These use !important to override third-party rules (bootstrap or legacy styles). */
 [data-theme="dark"] .boxDentro,
 [data-theme="dark"] .box,
-[data-theme="dark"] .container,
 [data-theme="dark"] .itemOportunidade,
 [data-theme="dark"] .card,
 [data-theme="dark"] .list-group-item {
   background-color: var(--bg-card) !important;
   color: var(--text-primary) !important;
   border-color: var(--border-color) !important;
+}
+[data-theme="dark"] .container{
+  background-color: var(--bg-body);
 }
 
 [data-theme="dark"] body {

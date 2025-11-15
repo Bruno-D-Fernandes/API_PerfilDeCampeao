@@ -20,7 +20,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/clube/vars.css') }}">
   <link rel="stylesheet" href="{{ asset('/css/clube/oportunidade/oportunidadesClube.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -29,85 +28,7 @@
   <!-- =================== START: SIDEBAR =================== -->
  
 
-    <main class="conteudo-principal">
-    <!--NAVBAR LT1-->
-    <nav class="barra-lateral" id="barra-lateral">
-
-        <!--ESPAÇO PRA LOGO LT1-->
-        <div class="logo-container">
-            <!-- LOGO PEQUENA-->
-            <img src="../img/logo-clube-reduzida.png" alt="Logo" class="logo-pequena">
-            <!--LOGO GRANDE-->
-            <img src="../img/logo-clube-completa.jpeg" alt="Logo" class="logo-grande">
-            <!--ESPAÇO PRA LOGO LT1-->
-        </div>
-
-        <ul class="menu-navegacao">
-           <!--  <li class=".">
-                <a href="{{route('clube-dashboard')}}">
-                    <i class='bx bx-home-alt'></i>
-                    <span>Dashboard</span>
-                </a>
-            </li> -->
-            <li  class="ativo">
-                <a href="{{route('clube-oportunidades')}}">
-                    <i class='bx bx-briefcase'></i>
-                    <span>Oportunidades</span>
-                </a>
-            </li>
-            <!-- <li>
-                <a href="#">
-                    <i class='bx bx-list-ul'></i>
-                    <span>Listas</span>
-                </a>
-            </li> -->
-            <!-- <li>
-                <a href="#">
-                    <i class='bx bx-message-dots'></i>
-                    <span>Mensagens</span>
-                </a>
-            </li> -->
-           <!--  <li>
-                <a href="#">
-                    <i class='bx bx-bell'></i>
-                    <span>Notificações</span>
-                </a>
-            </li> -->
-            <li>
-                <a id='verPerfil' href="#">
-                    <i class='bx bx-user'></i>
-                    <span>Perfil</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('clube-pesquisa')}}">
-                    <i class='bx bx-search'></i>
-                    <span>Pesquisa</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('clube-configuracoes')}}">
-                    <i class='bx bx-cog'></i>
-                    <span>Configurações</span>
-                </a>
-            </li>
-            <li>
-                  <!-- ===== Barra vermelha antes de SAIR ===== -->
-            <hr class="barra-vermelha">   <!-- // ↓↓↓ ALTERADO -->
-
-            <li class="sair-link">        <!-- // ↓↓↓ ALTERADO -->
-                <form id="logout">
-                    <button class="logout" type="submit"><i class='bx bx-log-out'></i>
-                    <span>Sair</span>
-                  </button>
-                </form>
-            </li>
-        </ul>
-    </nav>
-    
-    <!--NAVBAR LT1-->
-
-    </main>
+   @include('clube.sidebar.sidebar')
 
       <div class="modala" id="addModal">
     <div class="modal-contenta">
@@ -115,13 +36,15 @@
     </div>
   </div>
 
- <div class="modal" id="deleteModal">
-    <div class="modal-contenta">
-      <div class="success delete">Excluído com sucesso!</div>
-    </div>
+<div class="modala" id="deleteModal">
+  <div class="modal-contenta">
+    <div class="success delete">Excluído com sucesso!</div>
+    <button class='sumir4' id="deleteOk">OK</button>
+    <button class='sumir4' id="deleteCancel">Cancelar</button>
   </div>
+</div>
 
-  <div class="modal" id="editModal">
+  <div class="modala" id="editModal">
     <div class="modal-contenta">
       <div class="success edit">Editado com sucesso!</div>
     </div>
@@ -402,5 +325,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   <!-- Bootstrap JS (apenas UM bundle) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>// Força o primeiro item (Dashboard) como ativo
+const dashboardItem = document.querySelector('.menu-navegacao li:nth-child(2)');
+if (dashboardItem) {
+    dashboardItem.classList.add('ativo');
+}
+
+// Alternativa: buscar especificamente pelo link do dashboard
+const dashboardLink = document.querySelector('a[href*="admin-clubes"], a[href*="dashboard"]');
+if (dashboardLink && dashboardLink.closest('li')) {
+    // Remove ativo de todos primeiro
+    menuItems.forEach(item => item.classList.remove('ativo'));
+    // Adiciona no dashboard
+    dashboardLink.closest('li').classList.add('ativo');
+}
+
+</script>
+
 </body>
 </html>
