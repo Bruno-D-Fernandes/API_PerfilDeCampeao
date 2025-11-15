@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,85 +10,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="stylesheet" href="{{asset('/css/clube/dashboard.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
+
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 
 <body>
-<nav class="barra-lateral" id="barra-lateral">
-
-        <!--ESPAÇO PRA LOGO LT1-->
-        <div class="logo-container">
-            <!-- LOGO PEQUENA-->
-            <img src="../img/logo-clube-reduzida.png" alt="Logo" class="logo-pequena">
-            <!--LOGO GRANDE-->
-            <img src="../img/logo-clube-completa.jpeg" alt="Logo" class="logo-grande">
-            <!--ESPAÇO PRA LOGO LT1-->
-        </div>
-
-        <ul class="menu-navegacao">
-            <li class="ativo">
-                <a href="{{route('clube-dashboard')}}">
-                    <i class='bx bx-home-alt'></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('clube-oportunidades')}}">
-                    <i class='bx bx-briefcase'></i>
-                    <span>Oportunidades</span>
-                </a>
-            </li>
-            <!-- <li>
-                <a href="#">
-                    <i class='bx bx-list-ul'></i>
-                    <span>Listas</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-message-dots'></i>
-                    <span>Mensagens</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-bell'></i>
-                    <span>Notificações</span>
-                </a>
-            </li> -->
-            <li>
-               <a id='verPerfil' href="#">
-                    <i class='bx bx-user'></i>
-                    <span>Perfil</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('clube-pesquisa')}}">
-                    <i class='bx bx-search'></i>
-                    <span>Pesquisa</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('clube-configuracoes')}}">
-                    <i class='bx bx-cog'></i>
-                    <span>Configurações</span>
-                </a>
-            </li>
-            <li>
-                  <!-- ===== Barra vermelha antes de SAIR ===== -->
-            <hr class="barra-vermelha">   <!-- // ↓↓↓ ALTERADO -->
-
-            <li class="sair-link">        <!-- // ↓↓↓ ALTERADO -->
-                <form id="logout">
-                    <button class="logout" type="submit"><i class='bx bx-log-out'></i>
-                      <span>Sair</span>
-                  </button>
-                </form>
-            </li>
-        </ul>
-    </nav>
+@include('clube.sidebar.sidebar')
 <h1>Dashboard</h1>
 
 <div class="dashContainer">

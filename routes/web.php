@@ -90,6 +90,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/tema', function () {
             return view('admin.configuracoes.tema');
         })->name('admin-config-tema');
+
+ Route::get('/sidebar', function () {
+            return view('admin.sidebar.sidebar-adm');
+        })->name('admin-config-tema');
     });
 
     Route::get('/esportes', [EsporteController::class, 'showWebPage'])->name('admin-esportes'); 

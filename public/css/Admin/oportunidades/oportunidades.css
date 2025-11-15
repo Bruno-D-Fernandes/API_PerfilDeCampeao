@@ -1,361 +1,428 @@
+/* === RESET UNIVERSAL === */
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
-
-body {
-    background-color: rgb(255, 255, 255);
-    margin: 0;
-    padding: 0;
-    font-family: Inter, Poppins, sans-serif;
-    overflow-x: hidden;
-}
+/* === VARIÁVEIS DE TEMA === */
 :root {
-  --container: #f7f7f7;
-  --border-color: #bdbdbd;
+  --bg-body: #f5f5f5;
+  --bg-card: #ffffff;
+  --text-primary: #333333;
+  --text-btn: #ffffff;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --accent: #003dadea;
+  --accent-hover: #2149ccea;
+  --danger: #e53935;
+  --danger-bg: #ffebee;
+  --input-bg: #ffffff;
 }
 
-/* dark theme overrides */
 [data-theme="dark"] {
-  --container:  #272727;
-  --border-color: #272727;
+  --bg-body: #0f0f1b;
+  --bg-card: #1a1a2e;
+  --text-btn: #000000;
+  --text-primary: #e6e6ff;
+  --text-secondary: #b3b3d9;
+  --border-color: #2d2d44;
+  --accent: #4da6ff;
+  --accent-hover: #66b3ff;
+  --danger: #ff6b6b;
+  --danger-bg: #2a1a1a;
+  --input-bg: #222233;
 }
 
+/* === ESTILOS GLOBAIS === */
+body {
+  background-color: var(--bg-body);
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-primary);
+  overflow-x: hidden;
+  transition: background-color 0.3s, color 0.3s;
+}
 
 /* === Título === */
-     .titulo {
-        font-size: 30pt;
-        color: #003dadea;
-        font-family: Inter,Poppins,sans-serif;
-        margin-top: 8px;
-        margin-left: 0%;
-    }
-
-
+.titulo {
+  font-size: 32pt;
+  color: var(--accent);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 25px;
+  margin-left: 110px;
+}
 
 @media (max-width: 768px) {
-    .titulo {
-        font-size: 24pt;
-        margin-left: 20px;
-    }
+  .titulo {
+    font-size: 24pt;
+    margin-left: 20px;
+  }
 }
 
 /* === Cabeçalho com pesquisa === */
 .oportunidades-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-    height: auto; /* remove altura fixa para melhor adaptação */
-    min-height: 70px;
-    margin-bottom: 20px;
-    background: var(--container);
-    margin-left: 100px;
-    margin-right: 30px;
-    padding: 5px 10px;
-    border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  min-height: 70px;
+  margin-bottom: 20px;
+  background: var(--bg-card);
+  margin-left: 100px;
+  margin-right: 30px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: px solid var(--border-color);
 }
 
 @media (max-width: 768px) {
-    .oportunidades-header {
-        margin-left: 20px;
-        margin-right: 20px;
-        flex-direction: column;
-        align-items: stretch;
-    }
+  .oportunidades-header {
+    margin-left: 20px;
+    margin-right: 20px;
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 .search-box {
-    flex: 1;
-    min-width: 250px;
-    position: relative;
+  flex: 1;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  min-width: 24px;
+  position: relative;
 }
 
 .search-box i {
-    position: absolute;
-    left: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #666;
-    font-size: 16px;
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 24px;
 }
 
 .search-box input {
-    width: 100%;
-    height: 50px;
-    padding: 10px 14px 10px 42px;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    background: #ffffff;
-    color: var(--text-primary);
-    font-size: 14px;
-    transition: border .2s, box-shadow .2s;
+  width: 100%;
+  height: 50px;
+  padding: 10px 14px 10px 42px;
+  border: none; /* ✅ BORDA REMOVIDA */
+  border-radius: 10px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 17px;
+  font-family: inherit;
+  font-weight: 700;
+  transition: box-shadow 0.2s;
+  outline: none;
 }
 
 .search-box input:focus {
-    outline: none;
-    border-color: var(--focus-color);
+  box-shadow: 0 0 0 2px var(--accent); /* Destaque sutil ao focar */
 }
 
-/* === Container principal === */
+/* === Container principal — SEM BORDA AZUL === */
 .total {
-    gap: 12px;
-    height: auto; /* remove altura fixa para melhor adaptação */
-    margin-bottom: 20px;
-    background: var(--container);
-    margin-left: 100px;
-    margin-right: 30px;
-    padding: 10px 20px;
-    border-radius: 20px;
+  gap: 12px;
+  margin-bottom: 20px;
+  background: var(--bg-card);
+  margin-left: 100px;
+  margin-right: 30px;
+  padding: 10px 20px;
+  border-radius: 20px;
 }
 
 @media (max-width: 768px) {
-    .total {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
+  .total {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 }
 
-/* === Cabeçalho da tabela === */
-.list-header,
+/* === Cabeçalho e linhas da lista — BORDAS MAIS CLARAS === */
+.list-header {
+  display: grid;
+  font-size: medium;
+  gap: 20px;
+  padding: 14px 0;
+  align-items: center;
+  grid-template-columns: 3.5fr 3fr 1.5fr 3fr 1fr 0.5fr minmax(250px, auto);
+  background: var(--bg-card);
+  border-bottom: 2px solid #dbdbdb; /* ✅ Borda mais clara */
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
 .oportunidade {
-    display: grid;
-    gap: 20px;
-    padding: 14px 0;
-    align-items: center;
-    border-bottom: 1px solid #e0e0e0;
-    grid-template-columns: 2fr 3fr 1fr 2.5fr 1.5fr 1fr minmax(250px, auto);
+  display: grid;
+  font-size: medium;
+  gap: 20px;
+  padding: 14px 0;
+  align-items: center;
+  grid-template-columns: 3.5fr 3fr 1.5fr 3fr 1fr 0.5fr minmax(250px, auto);
+  background: var(--bg-card);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04); /* ✅ Borda ainda mais sutil */
+  color: var(--text-primary);
+  transition: background 0.2s;
+}
+
+/* ✅ BORDAS MAIS CLARAS NO MODO ESCURO */
+[data-theme="dark"] .list-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .oportunidade {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.oportunidade:hover {
+  background: rgba(0, 61, 173, 0.03);
 }
 
 @media (max-width: 768px) {
-    .list-header,
-    .oportunidade {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        text-align: left;
-        padding: 12px 0;
-    }
+  .list-header,
+  .oportunidade {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    text-align: left;
+    padding: 12px 0;
+  }
 
-    .oportunidade > div {
-        justify-content: flex-start !important;
-        padding-left: 8px;
-    }
+  .oportunidade > div {
+    justify-content: flex-start !important;
+    padding-left: 8px;
+  }
 
-    .oportunidade-acoes {
-        display: flex;
-        gap: 8px;
-        justify-content: flex-start !important;
-        margin-top: 10px;
-    }
+  .oportunidade-acoes {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start !important;
+    margin-top: 10px;
+  }
 }
 
 .header-col {
-    display: flex;
-    justify-content: center;
-    color: #003dadea;
-    font-weight: bold;
+  display: flex;
+  justify-content: center;
+  color: var(--accent);
+  font-weight: bold;
 }
 
 .header-col > span {
-    font-size: 16px;
+  font-size: 17px;
+  font-weight: 900;
 }
 
 .oportunidade > div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-primary);
 }
 
 /* === Ações === */
 .oportunidade-acoes {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
 }
 
 .oportunidade-acoes button {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    white-space: nowrap;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+  font-weight: 600;
 }
 
-
-/* Botões específicos */
-
-
 .oportunidade-aprovar-btn {
-    background-color: #27ae60;
-    color: white;
+  background-color: #27ae60;
+  color: white;
 }
 
 .oportunidade-rejeitar-btn {
-    background-color: #e74c3c;
-    color: white;
+  background-color: var(--danger);
+  color: white;
 }
 
 .oportunidade-aprovar-btn:hover {
-    background-color: #219653;
+  background-color: #219653;
 }
 
 .oportunidade-rejeitar-btn:hover {
-    background-color: #c0392b;
+  background-color: #c0392b;
 }
 
-
+.oportunidade-ver-btn {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
 
 /* === Modais === */
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 
 .modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(3px);
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s, visibility 0.3s;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
 }
 
 .modal-backdrop.active {
-    opacity: 1;
-    visibility: visible;
+  opacity: 1;
+  visibility: visible;
 }
 
 .app-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    width: 90%;
-    max-width: 600px;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    z-index: 1001;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px;
-
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--bg-card);
+  width: 90%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  color: var(--text-primary);
 }
 
 .app-modal.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, -50%);
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%);
 }
 
-.app-modal.overlay {
-    z-index: 1002;
-}
-
-/* === Cabeçalho dos modais === */
 .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-    margin: -20px -20px 20px -20px;
-    border-radius: 12px 12px 0 0;
-    background-color: #003dadea;
-    color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  margin: -20px -20px 20px -20px;
+  border-radius: 12px 12px 0 0;
+  background-color: var(--accent);
+  color: white;
 }
-
+.confirmar-modal{
+    background-color: var(--danger);
+}
 
 
 .modal-title {
-    margin: 0;
-    font-size: 18pt;
-    font-weight: 600;
+  margin: 0;
+  font-size: 18pt;
+  font-weight: 600;
 }
 
 .close-modal-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24pt;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24pt;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
 }
 
 .close-modal-btn:hover {
-    color: #ffcccc;
+  color: #ffcccc;
 }
 
-/* === Corpo do modal === */
 .modal-body {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-group label {
-    font-weight: bold;
-    color: #003dadea;
-    margin-bottom: 6px;
+  font-weight: bold;
+  color: var(--danger);
+  margin-bottom: 6px;
 }
 
 #status-modal .form-group label {
-    color: #e74c3c;
+  color: var(--danger);
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
+  padding: 10px;
+  border: 1px solid var(--danger);
+  border-radius: 6px;
+  font-size: 14px;
+  background: var(--input-bg);
+  color: var(--text-primary);
 }
 
 .form-group textarea {
-    min-height: 100px;
-    resize: vertical;
+  min-height: 100px;
+  resize: none;
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
-    outline: none;
-    border-color: #003dadea;
-    box-shadow: 0 0 0 3px rgba(0, 61, 173, 0.2);
+  outline: none;
+  border-color: var(--danger);
 }
 
 #status-modal textarea:focus {
-    border-color: #e74c3c;
-    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+  border-color: var(--danger);
 }
 
-/* === Rodapé do modal === */
 .modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    padding: 15px 0 0 0;
-    margin-top: 16px;
-    border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 15px 0 0 0;
+  margin-top: 16px;
+  border-top: 1px solid var(--border-color);
 }
+.modal-footer1 {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 15px 0 0 0;
+  margin-top: 16px;
+  border-top: 1px solid var(--danger);
+}
+
+
+.modal-footer1 button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 
 .modal-footer button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 #esporte-cancelar-btn,
@@ -363,26 +430,32 @@ body {
 #caracteristica-cancelar-btn,
 #cancel-confirm-btn,
 #cancel-status-btn {
-    background-color: #ccc;
-    color: #333;
+  background-color: #ccc;
+  color: #333;
 }
 
 #esporte-salvar-btn,
 #posicao-salvar-btn,
 #caracteristica-salvar-btn,
 #save-status-btn {
-    background-color: #003dadea;
-    color: white;
+  background-color: var(--accent);
+  color: white;
 }
 
-#save-confirm-btn,
-#status-modal #save-status-btn {
-    background-color: #e74c3c;
-    color: white;
+#save-confirm-btn{
+    background-color: var(--accent);
+    color: var(--text-btn);
+}
+.save-confirm-btn #status-modal #save-status-btn {
+  background-color: var(--danger);
+  color: white;
+}
+#save-confirm-btn:hover{
+    background-color: var(--accent-hover);
 }
 
 .modal-footer button:hover {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
 #esporte-cancelar-btn:hover,
@@ -390,242 +463,201 @@ body {
 #caracteristica-cancelar-btn:hover,
 #cancel-confirm-btn:hover,
 #cancel-status-btn:hover {
-    background-color: #bbb;
+  background-color: #bbb;
 }
 
 #esporte-salvar-btn:hover,
 #posicao-salvar-btn:hover,
 #caracteristica-salvar-btn:hover {
-    background-color: #002a7d;
+  background-color: var(--accent-hover);
 }
 
-#save-confirm-btn:hover,
+
 #status-modal #save-status-btn:hover {
-    background-color: #c0392b;
+  background-color: #c0392b;
 }
 
-/* === Abas (tabs) === */
 .modal-tabs {
-    display: flex;
-    gap: 8px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 12px;
-    margin-bottom: 16px;
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .tab-button {
-    background: none;
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #666;
-    border-bottom: 2px solid transparent;
-    border-radius: 6px 6px 0 0;
-    
+  background: none;
+  border: none;
+  padding: 10px 18px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-weight: 900;
+  border-bottom: 2px solid transparent;
+  border-radius: 6px 6px 0 0;
 }
 
+.tab-button.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
 
 .tab-content {
-    display: none;
+  display: none;
 }
 
 .tab-content.active {
-    display: block;
+  display: block;
 }
 
-/* === Detalhes da oportunidade === */
 .detalhes-list-container {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .detalhe-group h4 {
-    color: #003dadea;
-    font-weight: 600;
-    margin: 0 0 4px 0;
-    font-size: 14px;
+  color: var(--accent);
+  font-weight: 900;
+  margin: 0 0 4px 0;
+  font-size: 14px;
 }
 
 .detalhe-group span {
-    background: #f9f9f9;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #eee;
-    font-size: 14px;
-    color: #333;
-    display: block;
-    min-height: 24px;
-    word-break: break-word;
+  background: var(--input-bg);
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  font-size: 14px;
+  color: var(--text-primary);
+  display: block;
+  min-height: 24px;
+  word-break: break-word;
 }
 
-/* === Inscritos === */
 .inscritos-list-container {
-    max-height: 200px;
-    overflow-y: auto;
-    border: 1px solid #eee;
-    border-radius: 6px;
-    padding: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px;
 }
 
 .inscrito-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    font-size: 14px;
-    border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
 }
 
 .inscrito-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .inscrito-nome {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .inscrito-data {
-    color: #666;
-    font-size: 12px;
+  color: var(--text-secondary);
+  font-size: 12px;
 }
 
-/* === Modal de confirmação === */
 #confirmar-modal .modal-body {
-    text-align: center;
+  text-align: center;
 }
 
 .modal-alert {
-    color: #333;
-    margin: 0;
-}
-
-/* === Mobile responsivo === */
-@media (max-width: 480px) {
-    .app-modal {
-        width: 95%;
-        padding: 15px;
-    }
-
-    .modal-header {
-        margin: -15px -15px 15px -15px;
-        padding: 12px 15px;
-    }
-
-    .modal-footer button {
-        padding: 8px 16px;
-        font-size: 14px;
-    }
-
-    .oportunidade-acoes {
-        flex-wrap: wrap;
-    }
-
-    .oportunidade-aprovar-btn,
-    .oportunidade-rejeitar-btn,
-    .oportunidade-ver-btn {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-/* === Ações === */
-.oportunidade-acoes {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-}
-
-.oportunidade-acoes button {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    white-space: nowrap;
-}
-
-
-
-
-
-.oportunidade-aprovar-btn button:hover {
-    background-color: #27ae60;
-    color: white;
-}
-
-.oportunidade-rejeitar-btn {
-    background-color: #e74c3c;
-    color: white;
-}
-
-.oportunidade-aprovar-btn:hover {
-    background-color: #00ff0d;
-}
-
-.oportunidade-rejeitar-btn:hover {
-    background-color: #ff0000;
-}
-
-.oportunidade-ver-btn {
-
-    color: rgb(0, 0, 0);
-
-}
-#status-modal .reject{
-    background-color: #ff0000ea;
-}
-#save-confirm-btn {
-background-color: #003dadea;
-}
-.tab-button span{
-    color: #003dadea;
-}
-.tab-header h3{
-color: #000000;
+  color: var(--text-primary);
+  margin: 0;
 }
 
 .modal {
-      display: none; /* começa escondido */
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-    }
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
 
+.modal-content {
+  z-index: 10001;
+  padding: 20px 30px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 250px;
+  animation: fadeIn 0.3s ease;
+  color: var(--text-primary);
+}
 
-    .modal-content {
-z-index: 10000;
-      padding: 20px 30px;
-      border-radius: 8px;
-      text-align: center;
-      min-width: 250px;
-      animation: fadeIn 0.3s ease;
-    }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
+.success {
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
 
-    .success {
-      color: white;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      font-weight: bold;
-      z-index: 10000;
-    }
+.delete {
+  background-color: var(--danger);
+}
 
-    .delete { background-color: #e74c3c; }   /* vermelho */
-    .edit { background-color: #27ae60; }     /* laranja */
-    .add { background-color: #27ae60; }      /* verde */
+.edit,
+.add {
+  background-color: #27ae60;
+}
 
+@media (max-width: 480px) {
+  .app-modal {
+    width: 95%;
+    padding: 15px;
+  }
 
+  .modal-header {
+    margin: -15px -15px 15px -15px;
+    padding: 12px 15px;
+  }
 
+  .modal-footer button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
 
+  .oportunidade-acoes {
+    flex-wrap: wrap;
+  }
+
+  .oportunidade-aprovar-btn,
+  .oportunidade-rejeitar-btn,
+  .oportunidade-ver-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+.reject{
+    background-color: var(--danger);
+}
+.rejeitar{
+    background-color: var(--danger);
+}
+#save-status-btn{
+    background-color: var(--danger);
+}
