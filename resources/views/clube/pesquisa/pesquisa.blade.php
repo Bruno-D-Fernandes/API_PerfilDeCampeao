@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Pesquisar perfis</title>
+    <script>(function(){try{var t=localStorage.getItem('clube_theme')||'system';if(t&&t!=='system'){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.removeAttribute('data-theme');}}catch(e){} })();</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" href="{{ asset('css/Clube/pesquisa/pesquisa.css') }}">
      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -18,7 +19,6 @@
       data-profile-url-base="{{ url('/usuario') }}"
 >
     <header class='titi'>
-        
         <h1 class='titulo'>Pesquisar perfis</h1>
 </div>
     </header>
@@ -165,6 +165,7 @@
     <script src="{{asset('js/clube/pesquisa/dom-elements.js')}}"></script>
     <script src="{{asset('js/clube/pesquisa/utils.js')}}"></script>
     <script src="{{asset('js/clube/pesquisa/models.js')}}"></script>
+    <script src="{{asset('js/clube/dashboard/logout.js')}}"></script>
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem('clube_token'); // o token salvo no login

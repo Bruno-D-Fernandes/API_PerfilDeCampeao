@@ -320,5 +320,19 @@ if (dashboardLink && dashboardLink.closest('li')) {
 }
 
 </script>
+
+<script>
+const searchInput = document.querySelector(".search-box input");
+const oportunidadesRows = document.querySelectorAll(".oportunidade");
+
+searchInput.addEventListener("input", () => {
+    const termo = searchInput.value.toLowerCase().trim();
+
+    oportunidadesRows.forEach(row => {
+        const texto = row.textContent.toLowerCase();
+        row.style.display = texto.includes(termo) ? "grid" : "none";
+    });
+});
+</script>
 </body>
 </html>

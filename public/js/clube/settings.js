@@ -268,7 +268,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       await del('/api/clube/delete', { current_password });
       localStorage.removeItem('clube_token');
-      alert('Conta excluída');
+        const excluir = document.getElementById('ecxModal')
+  excluir.style.display='flex'
+  setTimeout(() => {
+    excluir.style.display = 'none';
+  }, 2000);
+      /* alert('Conta excluída'); */
       window.location.href = '/clube/login';
       closeModal('modalExcluir');
     } catch (err) {
@@ -278,12 +283,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Documentos simples
   const openDoc = (title, body) => {
-    $('#modalDocsTitle').textContent = title;
-    $('#modalDocsBody').textContent  = body;
+    $('#modalDocsTitle').innerHTML = title;
+    $('#modalDocsBody').innerHTML  = body;
     openModal('modalDocs');
   };
 
-  $('#btnPolitica')?.addEventListener('click', () => openDoc('Política de Privacidade', 'Conteúdo da política...'));
-  $('#btnTermos')?.addEventListener('click',   () => openDoc('Termos e Condições', 'Conteúdo dos termos...'));
-  $('#btnSobre')?.addEventListener('click',    () => openDoc('Sobre', 'Informações do sistema...'));
+  $('#btnPolitica')?.addEventListener('click', () =>openDoc(
+    '<span class="titulo-termos">Termos e Condições </span>',
+    '<span class="termos">Coletamos apenas dados necessários  para <br> o funcionamento  do site e para melhorar sua experiência</span>'
+  )
+);
+  $('#btnTermos')?.addEventListener('click',   () => openDoc('<span class="titulo-termos">Termos e Condições </span>',
+    '<span class="termos">Ao usar este site, você concorda em não violar leis e utilizar <br> o conteúdo apenas para fins legais.</span>'
+  ));
+  $('#btnSobre')?.addEventListener('click',    () => openDoc('<span class="titulo-termos">Termos e Condições </span>',
+     '<span class="termos">Para informações completas sobre privacidade  consulte nossa Política de Privacidade. <br> Em caso de dúvida, entre em contato</span>'));
 });

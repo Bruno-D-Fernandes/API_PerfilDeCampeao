@@ -126,6 +126,7 @@ function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
         fecharModal(modalConfirmar);
         modalexc.style.display = 'flex';
         
+        
         setTimeout(() => {
             modalexc.style.display = "none";
         }, 2000);
@@ -154,6 +155,24 @@ function disableInputs() {
 
     document.querySelectorAll('.posicao-editar-btn, .posicao-excluir-btn, .caracteristica-editar-btn, .caracteristica-excluir-btn')
         .forEach(btn => btn.style.display = 'none');
+}
+
+function enablevInputs() {
+    modalEsporte.inputs[0].disabled = false;
+    modalEsporte.inputs[1].disabled = false;
+    salvarEsporteBtn.disabled = false;
+    cancelarEsporteBtn.disabled = false;
+
+    addPosicaoBtn.disabled = false;
+    addCaracteristicaBtn.disabled = false;
+
+    salvarEsporteBtn.style.display = 'none';
+    cancelarEsporteBtn.style.display = 'none';
+    addPosicaoBtn.style.display = 'none';
+    addCaracteristicaBtn.style.display = 'none';
+
+    document.querySelectorAll('.posicao-editar-btn, .posicao-excluir-btn, .caracteristica-editar-btn, .caracteristica-excluir-btn')
+        .forEach(btn => btn.disabled = false);
 }
 
 function enableInputs() {

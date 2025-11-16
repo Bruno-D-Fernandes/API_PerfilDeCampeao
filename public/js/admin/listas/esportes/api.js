@@ -138,12 +138,10 @@ async function saveCaracteristica(caracteristicaId = null) {
     const editMode = caracteristicaId !== null;
 
     try {
-        const url = editMode ? '../api/admin/caracteristica/' + caracteristicaId : "../api/admin/caracteristica/";
+        const url = editMode ? `../api/admin/caracteristica/${caracteristicaId}` : "../api/admin/caracteristica/";
 
         const formData = new FormData(document.querySelector('#caracteristica-form'));
-
         formData.append('esporte_id', esporteId);
-
         if (editMode) {
             formData.append('_method', 'PUT');
         }
@@ -164,41 +162,38 @@ async function saveCaracteristica(caracteristicaId = null) {
 
         const data = await response.json();
 
-                         const addModal = document.getElementById('addModal');
-        const editModal = document.getElementById('editModal');
-
-        if(!data.error || !data.errors) {
-             addModal.style.display = 'flex';
-    setTimeout(() => {
-        addModal.style.display = 'none';
-        
-    }, 2000);
-    setTimeout(() => {
-
-        }, 2000);
-
-
-            if (!editMode) {
-                document.querySelector('.caracteristicas-list-container').appendChild(createCaracteristicaRow(data));
-            } else {
-                const oldRow = document.querySelector('.caracteristicas-list-container').querySelector(`.caracteristicas-list-row[data-caracteristica-id="${caracteristicaId}"]`);
-                const newRow = createCaracteristicaRow(data);
-                document.querySelector('.caracteristicas-list-container').replaceChild(newRow, oldRow);
-            }
-
+        if (!data.error && !data.errors) {
+            // 1. Fecha TODOS os modais abertos (o de característica e o de esporte)
             fecharModal(modais['caracteristica-modal']);
-        }                
-    } catch (error) {
-        const caraModal = document.getElementById('caraModal');
-        console.error('Erro ao salvar caracteristica:', error);
-        caraModal.style.display = 'flex';
-    setTimeout(() => {
-        caraModal.style.display = 'none';
-        
-    }, 500);
-    setTimeout(() => {
+            fecharModal(modais['esporte-modal']);
 
-        }, 1000);
+            // 2. Determina qual modal de sucesso mostrar
+            const successModal = editMode ? document.getElementById('editModal') : document.getElementById('addModal');
+            
+            // 3. Mostra o modal de sucesso
+            successModal.style.display = 'flex';
+
+            // 4. Após 2 segundos, recarrega a página
+            setTimeout(() => {
+                window.location.reload(true);
+            }, 2000);
+
+        } else {
+             // Se houver erro na validação do backend, mostra o modal de erro
+            const caraModal = document.getElementById('caraModal');
+            caraModal.style.display = 'flex';
+            setTimeout(() => {
+                caraModal.style.display = 'none';
+            }, 2000);
+        }
+
+    } catch (error) {
+        console.error('Erro ao salvar caracteristica:', error);
+        const caraModal = document.getElementById('caraModal');
+        caraModal.style.display = 'flex';
+        setTimeout(() => {
+            caraModal.style.display = 'none';
+        }, 2000);
     }
 }
 
@@ -206,12 +201,10 @@ async function savePosicao(posicaoId = null) {
     const editMode = posicaoId !== null;
 
     try {
-        const url = editMode ? '../api/admin/posicao/' + posicaoId : "../api/admin/posicao/";
+        const url = editMode ? `../api/admin/posicao/${posicaoId}` : "../api/admin/posicao/";
 
         const formData = new FormData(document.querySelector('#posicao-form'));
-
         formData.append('idEsporte', esporteId);
-
         if (editMode) {
             formData.append('_method', 'PUT');
         }
@@ -232,41 +225,38 @@ async function savePosicao(posicaoId = null) {
 
         const data = await response.json();
 
-                 const addModal = document.getElementById('addModal');
-        const editModal = document.getElementById('editModal');
-
-        if(!data.error || !data.errors) {
-            addModal.style.display = 'flex';
-    setTimeout(() => {
-        modal.style.display = 'none';
-        
-    }, 2000);
-    setTimeout(() => {
-addModal.style.display = 'none';
-        }, 1000);
-
-
-            if (!editMode) {
-                document.querySelector('.posicoes-list-container').appendChild(createPosicaoRow(data));
-            } else {
-                const oldRow = document.querySelector('.posicoes-list-container').querySelector(`.posicoes-list-row[data-posicao-id="${posicaoId}"]`);
-                const newRow = createPosicaoRow(data);
-                document.querySelector('.posicoes-list-container').replaceChild(newRow, oldRow);
-            }
-
+        if (!data.error && !data.errors) {
+            // 1. Fecha TODOS os modais abertos (o de posição e o de esporte)
             fecharModal(modais['posicao-modal']);
-        }                
-    } catch (error) {
-        const addModal = document.getElementById('erroModal');
-        console.error('Erro ao salvar posição:', error);
-        addModal.style.display = 'flex';
-    setTimeout(() => {
-        modal.style.display = 'none';
-    }, 2000);
-    setTimeout(() => {
-addModal.style.display = 'none';
-        }, 1000);
+            fecharModal(modais['esporte-modal']);
 
+            // 2. Determina qual modal de sucesso mostrar
+            const successModal = editMode ? document.getElementById('editModal') : document.getElementById('addModal');
+            
+            // 3. Mostra o modal de sucesso
+            successModal.style.display = 'flex';
+
+            // 4. Após 2 segundos, recarrega a página
+            setTimeout(() => {
+                window.location.reload(true);
+            }, 2000);
+
+        } else {
+            // Se houver erro na validação do backend, mostra o modal de erro
+            const erroModal = document.getElementById('erroModal');
+            erroModal.style.display = 'flex';
+            setTimeout(() => {
+                erroModal.style.display = 'none';
+            }, 2000);
+        }
+
+    } catch (error) {
+        console.error('Erro ao salvar posição:', error);
+        const erroModal = document.getElementById('erroModal');
+        erroModal.style.display = 'flex';
+        setTimeout(() => {
+            erroModal.style.display = 'none';
+        }, 2000);
     }
 }
 
@@ -333,7 +323,7 @@ window.location.reload(true); // recarrega a página depois de 2s
             fecharModal(modais['esporte-modal']);
         }                
     } catch (error) {
-        const esporteModal = document.getElementById('esporteModal');
+        /* const esporteModal = document.getElementById('esporteModal');
         console.error('Erro ao salvar esporte:', error); 
         esporteModal.style.display = 'flex';
     setTimeout(() => {
@@ -342,8 +332,8 @@ window.location.reload(true); // recarrega a página depois de 2s
      setTimeout(() => {
         esporteModal.style.display = 'none'; // recarrega a página depois de 2s
         }, 2000);
-    }
-}
+    } */
+}}
 
 
 

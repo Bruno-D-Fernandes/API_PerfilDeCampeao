@@ -146,7 +146,7 @@
 
     <div id="usuario-modal" class="app-modal hidden">
         <div class="modal-header">
-            <h2 class="modal-title">Adicionar Usurio</h2>
+            <h2 class="modal-title">Adicionar Usuário</h2>
             <button class="close-modal-btn" data-modal-target="usuario-modal">&times;</button>
         </div>
 
@@ -304,5 +304,28 @@ if (dashboardLink && dashboardLink.closest('li')) {
 }
 
 </script>
+<script>
+const searchInput = document.querySelector(".search-box input");
+
+function getUserRows() {
+    return document.querySelectorAll(".usuario");
+}
+
+searchInput.addEventListener("input", () => {
+    const termo = searchInput.value.toLowerCase().trim();
+    const userRows = getUserRows(); // ← sempre atualizado
+
+    userRows.forEach(row => {
+        const nome = row.querySelector(".usuario-nome span")?.textContent.toLowerCase() || "";
+
+        if (nome.includes(termo)) {
+            row.style.display = "grid"; 
+        } else {
+            row.style.display = "none";
+        }
+    });
+});
+</script>
+
 </body>
 </html> 

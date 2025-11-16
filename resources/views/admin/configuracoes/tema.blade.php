@@ -21,7 +21,7 @@
 
     <label class="labelTemaSistema">
     <img src="{{asset('/img/iconTemaSis.png')}}" class="iconSis" alt=""><strong class="nomeSis">Tema do Sistema</strong>  
-    <input type="radio" name="theme" value="system" checked>
+    <input type="radio" name="theme" value="light" checked>
       <div class="imagemTema">
         <img src="{{asset('/img/imgTemaSis.png')}}" alt="referencia" class="tema">
       </div>

@@ -206,7 +206,6 @@ body {
 .iconCampe {
     width: 48px;
     height: 48px;
-    margin-bottom: 12px;
     opacity: 0.8;
     transition: opacity var(--transition-fast);
 }

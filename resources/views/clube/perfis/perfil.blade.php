@@ -617,6 +617,7 @@
     <script src="{{ asset('js/clube/perfis/perfil/events.js') }}"></script>
     <script src="{{ asset('js/clube/perfis/perfil/viacep.js') }}"></script>
     <script src="{{ asset('js/theme-init.js') }}"></script>
+      <script src="{{asset('js/clube/dashboard/logout.js')}}"></script>
 
 <script>// Força o primeiro item (Dashboard) como ativo
 const dashboardItem = document.querySelector('.menu-navegacao li:nth-child(3)');

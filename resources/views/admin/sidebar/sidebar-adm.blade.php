@@ -14,7 +14,7 @@
   /* === TEMA CLARO (PADRÃO) === */
   :root {
     --bg-primary: #ffffff;
-    --bg-secondary: #f0f8ff; /* Azul muito claro de fundo */
+    --bg-secondary: #ffffffff; /* Azul muito claro de fundo */
     --text-primary: #1a1a1a;
     --text-secondary: #333333;
     --border-color: #4b93ffff;
@@ -91,9 +91,9 @@
 
   .logo-grande {
     position: absolute;
-    width: 150px;
+    width: 56px;
     border-radius: 15px;
-    height: 70px;
+    height: 52px;
     opacity: 0;
     transition: opacity 0.2s;
   }
@@ -228,7 +228,7 @@ $pagina_atual = Route::currentRouteName();
 <nav class="barra-lateral" id="barra-lateral">
   <div class="logo-container">
     <img src="/img/logo-admin-reduzida.jpeg" alt="Logo Pequena" class="logo-pequena">
-    <img src="/img/logo-admin-completa.jpeg" alt="Logo Grande" class="logo-grande">
+    <img src="/img/logo-admin-reduzida.jpeg" alt="Logo Grande" class="logo-grande">
   </div>
 
   <ul class="menu-navegacao">

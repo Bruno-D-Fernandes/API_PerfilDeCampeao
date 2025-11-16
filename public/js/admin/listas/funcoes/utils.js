@@ -21,13 +21,13 @@ function createFuncaoRow(funcao) {
         </div>
         <div class="funcao-acoes">
             <button class="funcao-ver-btn">
-                <span>Ver</span>
+                <span><i class="fa-solid fa-eye"></i></span>
             </button>
             <button class="funcao-editar-btn">
-                <span>Editar</span>
+                <span><i class="fa-solid fa-pen"></i></span>
             </button>
             <button class="funcao-excluir-btn">
-                <span>Excluir</span>
+                <span><i class="fa-solid fa-trash"></i></span>
             </button>
         </div>
     `;

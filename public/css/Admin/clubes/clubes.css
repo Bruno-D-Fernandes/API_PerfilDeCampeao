@@ -22,19 +22,24 @@
 }
 
 [data-theme="dark"] {
-  --bg-body: #1e1e1e;
-  --bg-card: #2d2d2d;
+  --bg-body: #0b0b0b;
+  --bg-card: #141414;
+
   --text-btn: #ffffff;
   --text-primary: #ffffff;
   --text-secondary: #b0b0b0;
-  --border-color: #444444;
+
+  --border-color: #3a3a3a;
+
   --accent: #0078d4;
   --accent-hover: #106ebe;
+
   --danger: #e74c3c;
-  --danger-bg: #3a1f1f;
-  --input-bg: #3a3a3a;
-  --container: #2d2d2d;
-  --modal-footer-bg: #252525;
+  --danger-bg: #2a1414;
+
+  --input-bg: #2c2c2c;
+  --container: #1e1e1e;
+  --modal-footer-bg: #1e1e1e;
 }
 
 /* === ESTILOS GLOBAIS === */
@@ -153,11 +158,9 @@ body {
 }
 
 /* === TABELA === */
-
-
 .list-header,
 .clube {
-width: 100%;
+  width: 100%;
   display: grid;
   background-color: var(--bg-card);
   gap: 40px;
@@ -171,7 +174,7 @@ width: 100%;
   font-size: medium;
   gap: 20px;
   align-items: center;
-  border-bottom: 2px solid #dbdbdb; /* ✅ Borda mais clara */
+  border-bottom: 2px solid #dbdbdb;
   color: var(--text-secondary);
   font-weight: 900;
 }
@@ -260,21 +263,17 @@ width: 100%;
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(3px);
-  z-index: 1000;
+  z-index: 10000;
 }
 
 .app-modal {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   background-color: var(--bg-card);
   width: 90%;
   max-width: 600px;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   z-index: 1001;
   display: flex;
   flex-direction: column;
@@ -282,6 +281,8 @@ width: 100%;
   overflow: hidden;
   animation: modalFadeIn 0.3s ease-out;
   color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  z-index: 10000;
 }
 
 @keyframes modalFadeIn {
@@ -296,12 +297,12 @@ width: 100%;
 }
 
 .modal-header {
+  background-color: var(--accent);
+  color: var(--text-btn);
+  padding: 17px 21px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--accent);
-  color: white;
-  padding: 17px 21px;
 }
 
 .modal-title {
@@ -328,6 +329,8 @@ width: 100%;
   padding: 20px 25px;
   overflow-y: auto;
   max-height: calc(90vh - 140px);
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 .modal-footer {
@@ -386,6 +389,7 @@ width: 100%;
   margin-bottom: 16px;
   display: flex;
   flex-direction: column;
+  background: transparent !important;
 }
 
 .form-group label {
@@ -403,7 +407,6 @@ width: 100%;
   resize: none;
   border-radius: 6px;
   font-size: 14px;
-  box-sizing: border-box;
   background: var(--input-bg);
   color: var(--text-primary);
   transition: border 0.2s;
@@ -471,6 +474,7 @@ width: 100%;
   display: none !important;
 }
 
+/* === SEARCH BOX === */
 .search-box {
   flex: 1;
   border: 2px solid var(--accent);
@@ -492,9 +496,9 @@ width: 100%;
   width: 100%;
   height: 50px;
   padding: 10px 14px 10px 42px;
-  border: none; /* ✅ BORDA REMOVIDA */
+  border: none;
   border-radius: 10px;
-  background: var(--input-bg);
+  background: var(--bg-card);
   color: var(--text-primary);
   font-size: 17px;
   font-family: inherit;
@@ -507,6 +511,7 @@ width: 100%;
   box-shadow: 0 0 0 2px var(--accent);
 }
 
+/* === MODAIS DE NOTIFICAÇÃO === */
 .modal {
   display: none;
   position: fixed;
@@ -514,10 +519,11 @@ width: 100%;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(2px);
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 10000;
 }
 
 .excluir {
@@ -532,6 +538,7 @@ width: 100%;
   min-width: 250px;
   animation: fadeIn 0.3s ease;
   color: var(--text-primary);
+  z-index: 10000;
 }
 
 @keyframes fadeIn {
@@ -553,63 +560,59 @@ width: 100%;
 .erro { background-color: #ff0000; }
 
 #clube-form-banner {
-    display: none;
+  display: none;
 }
 
-/* Estilo do botão que substitui o input */
 #clube-form-banner + label {
-    display: inline-block;
-    padding: 10px 18px;
-    background: #003dadea;
-    color: var(--text-primary);
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.2s;
+  display: inline-block;
+  padding: 10px 18px;
+  background: #003dadea;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-/* Hover */
 #clube-form-banner + label:hover {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
-/* Quando um arquivo for selecionado */
 #clube-form-banner:valid + label {
-    background: var(--input-bg);
-    border: 1px solid var(--accent);
+  background: var(--input-bg);
+  border: 1px solid var(--accent);
 }
-
 
 #clube-form-foto {
-    display: none;
+  display: none;
 }
 
-/* Estilo do botão que substitui o input */
 #clube-form-foto + label {
-    display: inline-block;
-    padding: 10px 18px;
-    color: var(--text-primary);
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.2s;
+  display: inline-block;
+  padding: 10px 18px;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-/* Hover */
 #clube-form-foto + label:hover {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
-/* Quando um arquivo for selecionado */
 #clube-form-foto:valid + label {
-    background: var(--input-bg);
-    border: 1px solid var(--accent);
+  background: var(--input-bg);
+  border: 1px solid var(--accent);
 }
 
-.hidden1{
-    position: absolute;
-    filter: blur(6px);
-    transition: filter 0.6s ease;
+.hidden1 {
+  position: absolute;
+  filter: blur(6px);
+  transition: filter 0.6s ease;
+}
+.azul{
+  background-color: var(--accent);
 }

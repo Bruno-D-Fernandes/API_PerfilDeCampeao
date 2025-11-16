@@ -102,13 +102,7 @@ async function saveUsuario(usuarioId = null) {
                 }, 500);
             }
 
-            if (!editMode) {
-                usuarios.appendChild(createUsuarioRow(data));
-            } else {
-                const oldRow = usuarios.querySelector(`.usuario[data-usuario-id="${usuarioId}"]`);
-                const newRow = createUsuarioRow(data);
-                usuarios.replaceChild(newRow, oldRow);
-            }
+           
             
             fecharModal(modalUsuario);
         }                

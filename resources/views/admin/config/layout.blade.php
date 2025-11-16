@@ -15,7 +15,7 @@
 
 @include('admin.sidebar.sidebar-adm')
 
-  <h1>Configurações</h1>
+  <h1 class='titulo'>Configurações</h1>
 
   
 

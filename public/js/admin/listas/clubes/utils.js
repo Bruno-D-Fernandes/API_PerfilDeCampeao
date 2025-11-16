@@ -50,14 +50,14 @@ function createClubeRow(clube) {
             <span>${formatarDataPortugues(clube.created_at)}</span>
         </div>
         <div class="clube-acoes">
-            <button class="clube-ver-btn">
-                <span>Ver</span>
+            <button class="funcao-ver-btn">
+                <span><i class="fa-solid fa-eye"></i></span>
             </button>
-            <button class="clube-editar-btn">
-                <span>Editar</span>
+            <button class="funcao-editar-btn">
+                <span><i class="fa-solid fa-pen"></i></span>
             </button>
-            <button class="clube-excluir-btn">
-                <span>Excluir</span>
+            <button class="funcao-excluir-btn">
+                <span><i class="fa-solid fa-trash"></i></span>
             </button>
         </div>
     `;

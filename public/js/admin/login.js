@@ -21,22 +21,46 @@
         const dataToken = await response.json();
 
         if (!response.ok) {
-            alert(dataToken.message || 'Erro ao fazer login.');
-            return;
+              const login = document.getElementById('erroModal')
+         console.log('Token salvo:', dataToken.access_token);
+  login.style.display='flex'
+  setTimeout(() => {
+    login.style.display = 'none';
+return;
+  }, 2000);
+           /*  alert(dataToken.message || 'Erro ao fazer login.'); */
+            
         }
 
         if(!dataToken.access_token) {
-            alert('Login respondeu se token');
-            return;
+         console.log('Token salvo:', dataToken.access_token);
+  login.style.display='flex'
+  setTimeout(() => {
+    login.style.display = 'none';
+return;
+  }, 2000);
+            /* alert('Login respondeu se token'); */
         }
 
         localStorage.setItem('adm_token', dataToken.access_token);
 
-        alert('Login realizado com sucesso!');
+         const login = document.getElementById('loginModal')
+         console.log('Token salvo:', dataToken.access_token);
+  login.style.display='flex'
+  setTimeout(() => {
+    login.style.display = 'none';
+    window.location.href = '/admin/dashboard'; 
+  }, 2000);
         console.log('Token salvo:', dataToken.access_token);
-        window.location.href = '/admin/dashboard'; 
+        
     } catch (error) {
         console.error('Erro de rede:', error);
-        alert('Não foi possível conectar ao servidor.');
+          console.log('Token salvo:', dataToken.access_token);
+  login.style.display='flex'
+  setTimeout(() => {
+    login.style.display = 'none';
+return;
+  }, 2000);
+/*         alert('Não foi possível conectar ao servidor.'); */
     }
 });

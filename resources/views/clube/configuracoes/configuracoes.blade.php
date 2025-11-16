@@ -7,7 +7,6 @@
     <title>Configurações — Clube</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('css/Clube/config/config.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/sidebar/sidebar.css') }}">
      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -41,17 +40,24 @@
     </div>
   </div>
 
+  <div class="modal" id="ecxModal">
+    <div class="modal-content">
+      <div class="success delete">Falha ao Alterar Senha!</div>
+    </div>
+  </div>
+
     <div class="modal" id="sairModal">
     <div class="modal-content">
       <div class="success delete">Sessão encerrada!</div>
     </div>
   </div>
 
-<header class='titulo'>
-    <h1 id="page-title">Configuração</h1>
+
+    
 
 
 <main aria-labelledby="page-title" id='container'>
+  <h1 id="page-title" class='titulo'>Configuração</h1><br>
     <!-- Preferências -->
     <section aria-labelledby="prefs-title">
         <h2 id="prefs-title">Preferências</h2>
@@ -111,7 +117,7 @@
             <h3>Termos e condições</h3>
             <button id="btnTermos" type="button">Abrir</button>
         </article>
-        <article>
+        <article  id='saiba'>
             <h3>Saiba mais</h3>
             <button id="btnSobre" type="button">Abrir</button>
         </article>
@@ -139,10 +145,10 @@
   <div>
     <h3>Alterar e-mail</h3>
     <form id="formEmail">
-      <label>Novo e-mail
+      <span class='novoemail'>Novo e-mail </span><label> 
         <input type="email" name="emailClube" id='email' required>
-      </label><br>
-      <label>Senha atual
+      </label>
+      <span class='novoemail'>Senha atual </span><label>
         <input type="password" name="current_password" id='senha' required>
       </label><br>
       <div>
@@ -158,15 +164,15 @@
   <div>
     <h3>Alterar senha</h3>
     <form id="formSenha">
-      <label>Senha atual
+      <span class='novoemail'>Senha atual</span><label>
         <input type="password" name="current_password" required>
-      </label><br>
-      <label>Nova senha
+      </label>
+      <span class='novoemail'>Nova senha</span><label>
         <input type="password" name="senhaClube" required>
-      </label><br>
-      <label>Confirmar nova senha
+      </label>
+      <span class='novoemail'>Confirmar nova senha</span><label>
         <input type="password" name="senhaClube_confirmation" required>
-      </label><br>
+      </label>
       <div>
         <button type="submit" class='salvar'>Salvar</button>
         <button data-close="modalSenha" type="button" class='fechar'>Fechar</button>
@@ -191,11 +197,11 @@
 <div id="modalExcluir" hidden>
   <div>
     <h3>Excluir conta</h3>
-    <p>Esta ação é irreversível.</p>
+    <p style='color:red'>Esta ação é irreversível.</p>
     <form id="formExcluir">
-      <label>Digite sua senha
+      <span class="novoemail">Digite sua senha</span><label>
         <input type="password" name="current_password" required>
-      </label><br>
+      </label>
       <div>
         <button type="submit" id='excluir'>Excluir</button>
         <button data-close="modalExcluir" type="button">Cancelar</button>
@@ -210,7 +216,7 @@
     <h3 id="modalDocsTitle">Documento</h3>
     <br><br>
     <div id="modalDocsBody">Conteúdo...</div>
-    <button data-close="modalDocs" type="button">Fechadsa</button>
+    <button data-close="modalDocs" type="button">Fechar</button>
   </div>
 </div>
 <script src="{{ asset('js/clube/settings.js') }}"></script>
@@ -268,7 +274,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 </script>
 
 <script>// Força o primeiro item (Dashboard) como ativo
-const dashboardItem = document.querySelector('.menu-navegacao li:nth-child(6)');
+const dashboardItem = document.querySelector('.menu-navegacao li:nth-child(5)');
 if (dashboardItem) {
     dashboardItem.classList.add('ativo');
 }

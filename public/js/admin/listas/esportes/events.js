@@ -7,17 +7,28 @@ closeModalBtns.forEach(btn => {
 
 tabBtns.forEach(tabBtn => {
     tabBtn.addEventListener('click', () => {
+        // Primeiro, remove 'active' de todos os botões de aba
+        tabBtns.forEach(btn => btn.classList.remove('active'));
+        // Adiciona 'active' apenas no botão clicado
         tabBtn.classList.add('active');
+        
+        // Esconde todos os conteúdos de aba
         document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+        // Mostra apenas o conteúdo da aba correspondente
         document.querySelector(`#${tabBtn.dataset.targetTab}`).classList.add('active');
     });
 });
 
+
 addEsporteBtn.addEventListener('click', () => {
     esporteId = -1;
     readOnly = false;
-    disableInputs();
+    enableInputs();
     abrirModal(modalEsporte);
+    
+    // --- MINHA MODIFICAÇÃO ---
+    // Esconde as abas ao adicionar um novo esporte
+    document.querySelector('.pfvv').classList.add('hidden');
 });
 
 addPosicaoBtn.addEventListener('click', () => {
@@ -62,12 +73,22 @@ esportes.addEventListener('click', (e) => {
         esporteId = btnEditar.closest('.esporte').dataset.esporteId;
         fetchEsporteDetails(esporteId);
         abrirModal(modais['esporte-modal']);
+
+        // --- MINHA MODIFICAÇÃO ---
+        // Mostra as abas ao editar
+        document.querySelector('.pfvv').classList.remove('hidden');
+
     } else if (btnVer) {
         readOnly = true;
         disableInputs();
         esporteId = btnVer.closest('.esporte').dataset.esporteId;
         fetchEsporteDetails(esporteId);
         abrirModal(modais['esporte-modal']);
+
+        // --- MINHA MODIFICAÇÃO ---
+        // Mostra as abas ao visualizar
+        document.querySelector('.pfvv').classList.remove('hidden');
+
     } else if (btnExcluir) {
         readOnly = false;
         esporteId = btnExcluir.closest('.esporte').dataset.esporteId;

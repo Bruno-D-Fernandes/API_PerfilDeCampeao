@@ -1,4 +1,5 @@
 #container {
+
     max-width: 100%;
     margin-left: 70px; /* Alinha com a navbar fechada */
     padding: 40px 30px;
@@ -7,17 +8,13 @@
     transition: margin-left .3s ease;
 }
 
-.barra-lateral:hover ~ #container {
-    margin-left: 240px; /* Alinha com a navbar expandida */
-}
+
 
 /* Título da página */
 #page-title {
-    font-size: 24px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
+    font-size: 40px;
+    color: var(--accent);
+    font-weight: bold;
 }
 
 /* Seções gerais */
@@ -124,22 +121,7 @@ fieldset {
     flex-wrap: wrap;
 }
 
-label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: #fff;
-    font-size: 14px;
-}
 
-label:hover {
-    background: var(--border-color);
-}
 
 input[type="radio"] {
     appearance: none;
@@ -209,9 +191,8 @@ div[id^="modal"] > div {
     border-radius: 12px;
     max-width: 400px;
     width: 90%;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     animation: slideUp 0.3s ease;
-    border: none; /* Remove qualquer borda preta */
+    border: none; 
 }
 
 div[id^="modal"] h3 {
@@ -227,7 +208,7 @@ div[id^="modal"] h3 {
 
 div[id^="modal"] p {
     margin: 15px 0;
-    color: #555;
+    color: #ffffff;
     line-height: 1.5;
     z-index: 10000;
 }
@@ -244,8 +225,10 @@ div[id^="modal"] label {
     align-items: center;
     gap: 10px;
     font-size: 14px;
-    color: #333;
+    color: #ffffff;
     z-index: 10000;
+    border: var(--accent);
+    
 }
 
 div[id^="modal"] input {
@@ -254,13 +237,12 @@ div[id^="modal"] input {
     border-radius: 8px;
     font-size: 14px;
     width: 100%;
-    background: #fafafa;
+    
 }
 
 div[id^="modal"] input:focus {
     outline: none;
     border-color: #36B37E;
-    box-shadow: 0 0 0 2px rgba(54, 179, 126, 0.2);
 }
 
 div[id^="modal"] input[type="checkbox"] {
@@ -301,12 +283,12 @@ div[id^="modal"] button[data-close]:hover {
 }
 
 div[id^="modal"] button#btnConfirmLogout {
-    background: #e53935;
+    background: var(--danger);
     color: white;
 }
 
 div[id^="modal"] button#btnConfirmLogout:hover {
-    background: #d32f2f;
+    opacity: 0.5;
 }
 
 div[id^="modal"] button[type="submit"]#btnExcluirConta {
@@ -376,6 +358,9 @@ fieldset{
   --input-bg: #ffffff;
   --salvar-bg:#ffffff;
   --perigo:rgb(228, 7, 7);
+  --text-btn:#36B37E;
+  --text-btn-hover:white;
+  --txt:
 }
 
 /* Tema escuro */
@@ -387,12 +372,15 @@ fieldset{
   --border-color: #333333;
   --accent: #66bb6a; /* Verde mais claro para contraste */
   --accent-hover: #4caf50;
-  --danger: #ef9a9a;
+  --danger: #ec3535;
   --danger-bg: #2c1a1a;
   --input-bg: #a8a8a8;
   --salvar-bg:#ffffff;
   --perigo:rgb(212, 69, 69);
+  --text-btn:#2faa6d;
+  --text-btn-hover:white;
 }
+  
 
 /* Aplicar ao body e elementos */
 body {
@@ -412,8 +400,7 @@ div[id^="modal"] > div {
 }
 
 article h3,
-section h2,
-#page-title {
+section h2{
   color: var(--text-primary);
 }
 
@@ -446,17 +433,24 @@ button[type="submit"]:hover,
   background: var(--accent-hover);
 }
 
-
+#btnConfirmLogout{
+    background-color: var(--accent);
+}
 /* Botões perigosos */
-#btnConfirmLogout,
+
 button[type="submit"],#btnExcluirConta {
   background: var(--danger-bg);
   color: var(--danger);
 }
+#btnConfirmLogout{
+background-color: var(--accent);
+}
+#btnConfirmLogout:hover{
+opacity: 0.7;
+}
 
 article:nth-child(3) button:hover,
 article:nth-child(4) button:hover,
-#btnConfirmLogout:hover,
 button[type="submit"],#btnExcluirConta:hover {
   background: var(--danger);
   color: white;
@@ -478,14 +472,24 @@ fieldset label {
 input[type="checkbox"] {
   accent-color: var(--accent);
 }
-.conteudo-principal,.titulo,body{
+.conteudo-principal,body{
     background-color: var(--bg-body);
 }
-
+.novoemail{
+    color: var(--text-secondary);
+}
 #salvar{
     background-color: var(--accent);
+    margin-left: 180px;
+}
+.salvar{
+    background-color: var(--accent);
+    margin-left: 180px;
 }
 #salvar:hover{
+    background-color: var(--accent-hover);
+}
+.salvar:hover{
     background-color: var(--accent-hover);
 }
 
@@ -499,6 +503,7 @@ article:nth-child(4) button,
     background-color: var(--bg-body);
     color: var(--accent);
 }
+
 #modalDocs > div {
   max-height: 80vh;
   overflow-y: auto;
@@ -522,13 +527,23 @@ article:nth-child(4) button,
     
 }
 #formEmail input,#formSenha input, #formExcluir input{
-    background-color: var(--input-bg);
+    background-color: var(--bg-body);
+    border: 1px solid var(--accent);
 }
 #excluir{
     background-color: var(--perigo);
+    margin-left: 170px;
 }
 #btnExcluirConta:focus{
     outline: 2px solid var(--danger);
+}
+
+.termos{
+    display: block;
+    font-size: 11pt;
+}
+.titulo-termos{
+    font-size: 20pt;
 }
 
 .modal {
@@ -575,3 +590,30 @@ article:nth-child(4) button,
     .edit { background-color: #27ae60; }     /* laranja */
     .add { background-color: #27ae60; }
     .erro{ background-color: #ff0000; }      /* verde */
+
+    article:nth-child(4) button{
+        background-color: var(--danger-bg);
+        color: var(--danger);
+    }
+
+    article:nth-child(3) button,
+#senhalterar button{
+    background-color: var(--bg-body);
+    color: var(--accent);
+}
+article:nth-child(3) button:hover,
+#senhalterar button:hover{
+    background-color: #36B37E;
+    color: var(--text-btn-hover);
+}
+#saiba button{
+     background-color: var(--bg-body);
+    color: var(--accent);
+}
+#saiba button:hover{
+     background-color:#36B37E;
+    color: var(--text-btn-hover);
+}
+#email{
+    background-color: white;
+}

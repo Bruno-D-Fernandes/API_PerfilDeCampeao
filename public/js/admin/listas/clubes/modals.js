@@ -22,6 +22,7 @@ function limparModal(modal) {
     previewImagem.src = "";
     previewImagemBanner.src = "";
     hideFormImgs();
+    
 }
 
 

@@ -82,12 +82,13 @@ async function saveFuncao(funcaoId = null) {
 
             if (!editMode) {
                 funcoes.appendChild(createFuncaoRow(data));
+                 window.FontAwesome?.dom?.i2svg(); // AQUI
             } else {
                 const oldRow = funcoes.querySelector(`.funcao[data-funcao-id="${funcaoId}"]`);
                 const newRow = createFuncaoRow(data);
                 funcoes.replaceChild(newRow, oldRow);
             }
-            
+
             fecharModal(modalFuncao);
         }          
     } catch (error) {

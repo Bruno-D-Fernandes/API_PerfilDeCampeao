@@ -15,9 +15,6 @@
             display: none !important;
         }
 .clubes-header {
-
-
-
 }
 
 .clube, .list-header {
@@ -274,12 +271,14 @@
     <div class="modal-backdrop hidden"></div>
 
     <div id="clube-modal" class="app-modal hidden">
+        <div class='azul'>
         <div class="modal-header">
             <h2 class="modal-title">Adicionar clube</h2>
             <button class="close-modal-btn" data-modal-target="clube-modal">&times;</button>
         </div>
 
         <form class="modal-body" id="clube-form">
+            
             <div id="clube-view">
                 <div class="form-group img">
                     <label for="clube-form-foto">Foto:</label>
@@ -291,6 +290,7 @@
                     <input type="file" name="fotoPerfilClube" id="clube-form-foto" accept="image/*">
                     <label for="clube-form-foto" id="sele">Selecionar Foto</label>
                 </div>
+                
 
                 <div class="form-group img">
                     <label for="clube-form-banner">Banner:</label>
@@ -389,8 +389,10 @@
             </button>
         </div>
     </div>
+    </div>
 
     <div id="confirmar-modal" class="app-modal hidden">
+        <div>
         <div class="modal-header excluir">
             <h2 class="modal-title">Você deseja excluir este clube?</h3>
         </div>
@@ -400,6 +402,7 @@
                 Essa ação é irreversível.
             </p>
         </div>
+        
 
         <div class="modal-footer">
             <button id="cancel-confirm-btn">
@@ -438,6 +441,61 @@ if (dashboardLink && dashboardLink.closest('li')) {
     dashboardLink.closest('li').classList.add('ativo');
 }
 
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.querySelector('.search-box input');
+  const clubes = Array.from(document.querySelectorAll('.clube'));
+
+  if (!searchInput || clubes.length === 0) return; // nada a fazer
+
+  const normalize = (s) => (s || '').toString().toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // remove acentos
+    .trim();
+
+  const getRowText = (row) => {
+    const nome = row.querySelector('.clube-nome span')?.textContent || '';
+    const email = row.querySelector('.clube-email span')?.textContent || '';
+    const cnpj = row.querySelector('.clube-cnpj span')?.textContent || '';
+    // concatena os campos que quiser pesquisar
+    return normalize(`${nome} ${email} ${cnpj}`);
+  };
+
+  // opcional: mostrar "nenhum resultado" — cria um elemento apenas quando necessário
+  let noResultsEl = null;
+  const ensureNoResults = () => {
+    if (!noResultsEl) {
+      noResultsEl = document.createElement('div');
+      noResultsEl.className = 'no-results';
+      noResultsEl.style.padding = '16px';
+      noResultsEl.style.textAlign = 'center';
+
+      document.querySelector('.clubes')?.appendChild(noResultsEl);
+    }
+  };
+  const hideNoResults = () => { if (noResultsEl) noResultsEl.style.display = 'none'; };
+
+  searchInput.addEventListener('input', () => {
+    const termo = normalize(searchInput.value);
+    let anyVisible = false;
+
+    clubes.forEach(clube => {
+      const texto = getRowText(clube);
+      const matches = termo === '' || texto.includes(termo);
+
+      clube.style.display = matches ? '' : 'none'; // '' volta para o display definido no CSS (grid)
+      if (matches) anyVisible = true;
+    });
+
+    if (!anyVisible) {
+      ensureNoResults();
+      noResultsEl.style.display = 'block';
+    } else {
+      hideNoResults();
+    }
+  });
+});
 </script>
 
 </body>

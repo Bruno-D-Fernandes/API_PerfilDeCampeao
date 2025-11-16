@@ -147,7 +147,7 @@ Pesquisa.utils = {
         const alturaStr = alturaCm != null ? `${alturaCm} cm` : '';
         const pesoStr   = pesoKg   != null ? `${pesoKg} kg` : '';
 
-        const perfilUrl = profileBase ? `${profileBase}/${id}` : '#';
+        const perfilUrl = profileBase ? `/usuarios/${id}` : '#';
 
         return `
             <article class="result-row" data-user-id="${id}">

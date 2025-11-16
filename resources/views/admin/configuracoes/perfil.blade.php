@@ -132,7 +132,7 @@
                 <div class="form-group img">
                     <label for="perfil-form-foto">Foto:</label>
 
-                    <<div class="img-preview foto">
+                    <div class="img-preview foto">
                         <img 
                             src="{{ $admin->foto_perfil ? asset('storage/' . $admin->foto_perfil) : '' }}" 
                             alt="Preview" 

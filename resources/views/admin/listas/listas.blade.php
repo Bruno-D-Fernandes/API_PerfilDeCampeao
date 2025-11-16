@@ -192,5 +192,42 @@ if (dashboardLink && dashboardLink.closest('li')) {
 }
 
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('.search-box input');
+    const listas = Array.from(document.querySelectorAll('.lista'));
+
+    if (!searchInput || listas.length === 0) return;
+
+    // Remove acentos
+    const normalize = (texto) =>
+        texto.toLowerCase()
+             .normalize('NFD')
+             .replace(/[\u0300-\u036f]/g, '')
+             .trim();
+
+    // Retorna todos textos pesquisáveis da lista
+    const getListaTexto = (item) => {
+        const nome = item.querySelector('.lista-nome span')?.textContent || '';
+        const clube = item.querySelector('.lista-clube span')?.textContent || '';
+        const usuarios = item.querySelector('.lista-usuarios span')?.textContent || '';
+        const data = item.querySelector('.lista-data span')?.textContent || '';
+
+        return normalize(`${nome} ${clube} ${usuarios} ${data}`);
+    };
+
+    searchInput.addEventListener('input', () => {
+        const termo = normalize(searchInput.value);
+
+        listas.forEach(lista => {
+            const texto = getListaTexto(lista);
+            const match = termo === '' || texto.includes(termo);
+
+            lista.style.display = match ? 'grid' : 'none';
+        });
+    });
+});
+</script>
 </body>
 </html>

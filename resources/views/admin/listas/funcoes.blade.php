@@ -205,5 +205,42 @@ if (dashboardLink && dashboardLink.closest('li')) {
 
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('.search-box input');
+    const funcoes = Array.from(document.querySelectorAll('.funcao'));
+
+    if (!searchInput || funcoes.length === 0) return;
+
+    // Remove acentos
+    const normalize = (texto) => 
+        texto.toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .trim();
+
+    // Retorna todos os textos pesquisáveis da função
+    const getFuncaoTexto = (item) => {
+        const nome = item.querySelector('.funcao-nome span')?.textContent || '';
+        const descricao = item.querySelector('.funcao-descricao span')?.textContent || '';
+        const data = item.querySelector('.funcao-data span')?.textContent || '';
+
+        return normalize(`${nome} ${descricao} ${data}`);
+    };
+
+    searchInput.addEventListener('input', () => {
+        const termo = normalize(searchInput.value);
+
+        funcoes.forEach(f => {
+            const texto = getFuncaoTexto(f);
+            const match = termo === '' || texto.includes(termo);
+
+            // Retorna ao display normal do CSS
+            f.style.display = match ? "grid" : "none";
+        });
+    });
+});
+</script>
+
 </body>
 </html>

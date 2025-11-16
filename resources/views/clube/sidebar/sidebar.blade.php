@@ -20,10 +20,10 @@
     --border-color: #d1d1d1;
     --shadow: rgba(0, 0, 0, 0.1);
     --hover-bg: #e9ecef;
-    --active-bg: #28a745;      /* Verde ativo */
+    --active-bg: #36B37E;     /* Verde ativo */
     --active-text: #ffffff;
     --danger-color: #dc3545;
-    --icon-color: #28a745;     /* ÍCONES VERDES */
+    --icon-color: #36B37E;    /* ÍCONES VERDES */
   }
 
   /* === TEMA ESCURO === */
@@ -35,10 +35,10 @@
     --border-color: #404040;
     --shadow: rgba(0, 0, 0, 0.6);
     --hover-bg: #3a3a3a;
-    --active-bg: #67d600ff;    /* Verde escuro */
+    --active-bg: #36B37E;   /* Verde escuro */
     --active-text: #000000ff;
     --danger-color: #c14444;
-    --icon-color: #67d600;     /* ÍCONES VERDES NO MODO ESCURO */
+    --icon-color: #36B37E;    /* ÍCONES VERDES NO MODO ESCURO */
   }
 
   body {
@@ -95,9 +95,9 @@
 
   .logo-grande {
     position: absolute;
-    width: 150px;
+    width: 56px;
     border-radius: 15px;
-    height: 70px;
+    height: 52px;
     opacity: 0;
     transition: opacity 0.2s;
   }
@@ -218,7 +218,7 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
 <nav class="barra-lateral" id="barra-lateral">
   <div class="logo-container">
     <img src="/img/logo-reduzida1.png" alt="Logo Pequena" class="logo-pequena">
-    <img src="/img/logo-completa1.png" alt="Logo Grande" class="logo-grande">
+    <img src="/img/logo-reduzida1.png" alt="Logo Grande" class="logo-grande">
   </div>
 
   <ul class="menu-navegacao">
@@ -242,9 +242,8 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
         <span>Clube</span>
       </a>
     </li>
-  <li>
     </form>
-    </li>
+ 
     <li class="<?= ($pagina_atual === 'pesquisa.php') ? 'ativo' : '' ?>">
       <a href="/clube/pesquisa">
         <i class='bx bx-search'></i>

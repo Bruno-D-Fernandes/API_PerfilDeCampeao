@@ -16,6 +16,23 @@
     --salvar-bg: #ffffff; /* Fundo do botão salvar (não usado diretamente) */
     --perigo: rgb(228, 7, 7); /* Cor alternativa de perigo (não usada) */
 }
+/* ====================== */
+/*   DARK MODE VARIABLES  */
+/* ====================== */
+
+[data-theme="dark"] {
+    --bg-body: #121212;            /* Fundo principal escuro */
+    --bg-card: #1e1e1e;            /* Fundo dos cards */
+    --text-primary: #ffffff;       /* Texto principal branco */
+    --text-secondary: #bbbbbb; 
+     --accent: #66bb6a; /* Verde mais claro para contraste */
+  --accent-hover: #4caf50;    /* Texto secundário claro */
+    --border-color: #333333;       /* Bordas escuras */
+    --input-bg: #252525;           /* Fundo de inputs */
+    --salvar-bg: #252525;          /* Fundo do botão salvar */
+    --danger-bg: #2a1a1a;          /* Fundo de alerta de perigo */
+    --white-text: #ffffff;
+}
 
 /* ====================== */
 /*   ESTILO GLOBAL        */
@@ -218,21 +235,20 @@ body.sidebar-open #search-root {
 #btn-clear-filters {
     padding: 10px 18px; /* Espaçamento interno */
     height: 46px; /* Altura fixa */
-    background: var(--bg-card); /* Fundo branco */
-    color: var(--text-secondary); /* Texto cinza */
-    border: 1px solid var(--border-color); /* Borda cinza */
+    background: var(--accent); /* Fundo branco */
+    color: white; /* Texto cinza */
+    border: 2px solid var(--accent); /* Borda cinza */
     border-radius: 8px; /* Cantos arredondados */
     cursor: pointer; /* Cursor de clique */
     font-size: 14px; /* Tamanho da fonte */
-    font-weight: 500; /* Peso médio */
+    font-weight: 700; /* Peso médio */
     transition: all 0.2s; /* Animação suave */
     white-space: nowrap; /* Impede quebra de linha */
     flex-shrink: 0; /* Não encolhe */
 }
 
 #btn-clear-filters:hover {
-    background: var(--border-color); /* Fundo cinza claro */
-    color: var(--text-primary); /* Texto preto */
+    background: var(--accent-hover); /* Fundo cinza claro */
     border-color: var(--accent); /* Borda verde */
 }
 
@@ -397,19 +413,26 @@ body.sidebar-open #search-root {
 
 #order-wrapper label {
     font-size: 16px; /* Tamanho da fonte */
-    color: var(--text-secondary); /* Cor cinza */
+    font-weight: 700;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-primary); /* Cor cinza */
 }
 
 #order-wrapper select {
-    padding: 12px 25px; /* Espaçamento interno */
-    border: 1px solid var(--accent); /* Borda cinza */
+    padding: 12px 10px; /* Espaçamento interno */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+    border: 2px solid var(--accent); /* Borda cinza */
     border-radius: 8px; /* Cantos arredondados */
     background: var(--bg-card); /* Fundo branco */
     color: var(--text-primary); /* Cor do texto */
     cursor: pointer; /* Cursor de clique */
     font-family: 'Segoe UI', Arial, sans-serif; /* Fonte do texto */
 }
-
+#order-wrapper select:focus {
+    outline: none;
+    box-shadow: none;
+}
 /* ====================== */
 /*   CONTAINER DE RESULTADOS */
 /* ====================== */
@@ -422,7 +445,6 @@ body.sidebar-open #search-root {
     background: var(--bg-card); /* Fundo branco */
     border-radius: 12px; /* Cantos arredondados */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Sombra sutil */
-    border: 1px solid var(--border-color); /* Borda fina */
     min-height: 200px; /* Altura mínima para visualização */
     text-align: center; /* Centraliza texto */
     color: var(--text-secondary); /* Cor do texto */

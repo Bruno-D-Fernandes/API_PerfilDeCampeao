@@ -112,7 +112,7 @@ const addModal = document.getElementById('addModal');
         console.error('Erro ao salvar clube:', error);
         erroModal.style.display = 'flex';
                 setTimeout(() => {
-                    erroAModal.style.display = 'none';
+                    erroModal.style.display = 'none';
                 }, 1000);
 
     }

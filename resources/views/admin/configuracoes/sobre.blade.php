@@ -25,9 +25,9 @@
     <li>Maria Clara</li>
     <li>Vitor Augusto</li>
   </ul>
-</div>
-  <p>Política de privicidade</p>
-  <p>Termos e Condições</p>
-  <p>Relatar um problema</p>
+</div class='politica'>
+  <p class='nada'>Política de privicidade</p>
+  <p class='nada'>Termos e Condições</p>
+  <p class='nada'>Relatar um problema</p>
   </div>
 @endsection

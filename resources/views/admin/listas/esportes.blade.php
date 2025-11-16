@@ -18,6 +18,7 @@
 
 
         <h1 class='titulo'>Esportes</h1>
+        <br>
 
     <!--NAVBAR LT1-->
     
@@ -170,7 +171,7 @@
                     <input type="text" name="descricaoEsporte" id="esporte-form-descricao">
                 </div>
             </div>
-        
+        <div class='pfvv'>
             <div class="modal-tabs">
                 <button class="tab-button active" id='posicao' data-target-tab="posicoes-tab" type="button">
                     <span>
@@ -215,6 +216,7 @@
                 <div class="caracteristicas-list-container">
                     
                 </div>
+            </div>
             </div>
         </form>
 
@@ -341,6 +343,44 @@ if (dashboardLink && dashboardLink.closest('li')) {
     dashboardLink.closest('li').classList.add('ativo');
 }
 
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('.search-box input');
+    const esportes = Array.from(document.querySelectorAll('.esporte'));
+
+    if (!searchInput || esportes.length === 0) return;
+
+    // Remove acentos
+    const normalize = (texto) =>
+        texto.toLowerCase()
+             .normalize('NFD')
+             .replace(/[\u0300-\u036f]/g, '')
+             .trim();
+
+    // Junta todo o texto pesquisável do esporte
+    const getEsporteTexto = (item) => {
+        const nome = item.querySelector('.esporte-nome span')?.textContent || '';
+        const descricao = item.querySelector('.esporte-descricao span')?.textContent || '';
+        const posicoes = item.querySelector('.esporte-posicoes span')?.textContent || '';
+        const caracteristicas = item.querySelector('.esporte-caracteristicas span')?.textContent || '';
+        const data = item.querySelector('.esporte-data span')?.textContent || '';
+
+        return normalize(`${nome} ${descricao} ${posicoes} ${caracteristicas} ${data}`);
+    };
+
+    searchInput.addEventListener('input', () => {
+        const termo = normalize(searchInput.value);
+
+        esportes.forEach(esporte => {
+            const texto = getEsporteTexto(esporte);
+            const match = termo === '' || texto.includes(termo);
+
+            esporte.style.display = match ? 'grid' : 'none';
+        });
+    });
+});
 </script>
 
 </body>
