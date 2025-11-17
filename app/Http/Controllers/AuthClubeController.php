@@ -63,19 +63,45 @@ class AuthClubeController extends Controller
             'estadoClube' => 'sometimes|required|string|max:255',
             'anoCriacaoClube' => 'sometimes|required|date',
             'cnpjClube' => 'sometimes|required|string|max:20|unique:clubes,cnpjClube,' . $clube->id,
+            'email'            => 'sometimes|required|email|max:255|unique:clubes,email,' . $clube->id,
+
+            'current_password' => 'required_with:emailClube,senhaClube|string',
+
+
             'enderecoClube' => 'sometimes|required|string|max:255',
             'bioClube' => 'nullable|string',
             'senhaClube' => 'sometimes|required|string|min:6|confirmed',
         ]);
 
-        if (isset($validatedData['senhaClube'])) {
-            $validatedData['senhaClube'] = Hash::make($validatedData['senhaClube']);
-        }
-
-        $clube->update($validatedData);
-
-        return response()->json($clube, 200);
+        if ($request->filled('emailClube')) {
+            if (!Hash::check($request->input('current_password'), $clube->senhaClube)) {
+                return response()->json(['message' => 'A senha atual está incorreta.'], 422);
+            }
+        $clube->emailClube = $request->input('emailClube');
     }
+
+        if ($request->filled('senhaClube')) {
+            if (!Hash::check($request->input('current_password'), $clube->senhaClube)) {
+                return response()->json(['message' => 'A senha atual está incorreta.'], 422);
+            }
+        $clube->senhaClube = Hash::make($request->input('senhaClube'));
+    }
+
+        $data = $request->only([
+        'nomeClube','cidadeClube','estadoClube','anoCriacaoClube',
+        'cnpjClube','enderecoClube','bioClube','emailClube'
+    ]);
+
+    if ($request->filled('senhaClube')) {
+        $data['senhaClube'] = Hash::make($request->input('senhaClube'));
+    }
+
+    // Salve de uma vez só
+    $clube->fill($data)->save();
+
+    return response()->json($clube->fresh(), 200);
+}
+
     
     
     

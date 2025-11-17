@@ -95,6 +95,7 @@ class perfilController extends Controller
     public function show()
     {
         $usuario = Auth::user();
+        
         $usuario->load([
             'perfis.categoria',
             'perfis.posicoes',

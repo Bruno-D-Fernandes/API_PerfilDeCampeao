@@ -6,13 +6,43 @@ use Illuminate\Http\Request;
 use App\Models\Lista;
 use App\Models\Clube;
 use App\Models\Usuario;
+use App\Models\Admin;
+use Illuminate\Support\Facades\Auth;
 
 class ListaClubeController extends Controller
 {
+    public function showWebPage()
+    {
+        $listas = Lista::with('clube', 'usuarios')->get();
+
+        return view('admin.listas.listas')->with(['listas' => $listas]);
+    }
+
+    public function index()
+    {
+        try {
+            $clube = Auth::guard('club_sanctum')->user();
+
+            if (!$clube) {
+                return response()->json(['message' => 'Clube não autenticado'], 401);
+            }
+
+            $listas = $clube->listas->load('usuarios'); 
+
+            return response()->json($listas, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao buscar listas',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     // POST /api/clube/listas
     public function store(Request $request)
     {
         $clube = $request->user();
+
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Apenas clube autenticado'], 403);
         }
@@ -37,39 +67,33 @@ class ListaClubeController extends Controller
     }
 
     // POST /api/clube/listas/{listaId}/usuarios
-    public function addUsuarioToLista(Request $request, $listaId)
+    public function addUsuarioToLista(Request $request, $listaId, Usuario $usuario)
     {
         $clube = $request->user();
+
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Apenas clube autenticado'], 403);
         }
 
-        $data = $request->validate([
-            'usuario_id' => 'required|exists:usuarios,id',
-        ]);
-
         $lista = Lista::where('clube_id', $clube->id)->findOrFail($listaId);
 
         // evita duplicatas no pivot
-        $lista->usuarios()->syncWithoutDetaching([$data['usuario_id']]);
+        $lista->usuarios()->syncWithoutDetaching($usuario);
 
         return response()->json(['message' => 'Usuário adicionado à lista com sucesso'], 201);
     }
 
     // DELETE /api/clube/listas/{listaId}/usuarios
-    public function removeUsuarioFromLista(Request $request, $listaId)
+    public function removeUsuarioFromLista(Request $request, $listaId, Usuario $usuario)
     {
         $clube = $request->user();
+        
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Apenas clube autenticado'], 403);
         }
 
-        $data = $request->validate([
-            'usuario_id' => 'required|exists:usuarios,id',
-        ]);
-
         $lista = Lista::where('clube_id', $clube->id)->findOrFail($listaId);
-        $lista->usuarios()->detach($data['usuario_id']); // idempotente
+        $lista->usuarios()->detach($usuario);
 
         return response()->json(['message' => 'Usuário removido da lista com sucesso'], 200);
     }
@@ -77,15 +101,70 @@ class ListaClubeController extends Controller
     // GET /api/clube/listas/{id}
     public function show(Request $request, $id)
     {
-        $clube = $request->user();
-        if (!$clube instanceof Clube) {
-            return response()->json(['message' => 'Apenas clube autenticado'], 403);
+        $user = $request->user(); 
+
+        if (!$user) {
+            return response()->json(['message' => 'Não autenticado'], 401);
         }
 
-        $lista = Lista::where('clube_id', $clube->id)
-            ->with(['usuarios:id,nomeCompletoUsuario,emailUsuario,estadoUsuario,cidadeUsuario,alturaCm,pesoKg'])
-            ->findOrFail($id);
+        $lista = Lista::with([
+            'clube',
+            'usuarios:id,nomeCompletoUsuario,emailUsuario,estadoUsuario,cidadeUsuario,alturaCm,pesoKg'
+        ])
+        ->find($id);
+        if (!$lista) {
+            return response()->json(['message' => 'Lista não encontrada'], 404);
+        }
+        $podeVer = false;
+
+        if ($user instanceof Admin) {
+            $podeVer = true;
+        } elseif ($user instanceof Clube && $user->id == $lista->clube_id) {
+            $podeVer = true;
+        }
+
+        if (!$podeVer) {
+            return response()->json(['message' => 'Você não tem permissão para ver esta lista'], 403);
+        }
 
         return response()->json($lista);
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Não autenticado'], 401);
+        }
+        $lista = Lista::find($id);
+
+        if (!$lista) {
+            return response()->json(['message' => 'Lista não encontrada'], 404);
+        }
+        $podeExcluir = false;
+        
+        if ($user instanceof Admin) {
+            $podeExcluir = true;
+        } elseif ($user instanceof Clube && $user->id == $lista->clube_id) {
+            $podeExcluir = true;
+        }
+
+        if (!$podeExcluir) {
+            return response()->json(['message' => 'Você não tem permissão para excluir esta lista'], 403);
+        }
+
+        try {
+            $lista->usuarios()->detach();
+
+            $lista->delete();
+
+            return response()->json(['message' => 'Lista excluída com sucesso'], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro interno ao excluir a lista',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

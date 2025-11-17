@@ -1,0 +1,826 @@
+/* ====================== */
+/*   VARIÁVEIS DE CORES   */
+/* ====================== */
+
+:root {
+  --bg-body: #f5f5f5;
+  --bg-card: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --accent: #36B37E;
+  --accent-hover: #2faa6d;
+  --accent-weak: rgba(54, 179, 126, 0.15);
+  --danger: #e53935;
+  --danger-bg: #ffebee;
+  --input-bg: #ffffff;
+  --btn-light-bg: #f5f5f5;
+  --item-bg: #f8f9fa;
+  --perigo: rgb(228, 7, 7);
+  
+  /* Tags de status */
+  --tag-blue-color: #2563eb;
+  --tag-blue-border: #93c5fd;
+  --tag-blue-bg: #eff6ff;
+  --tag-green-color: #16a34a;
+  --tag-green-border: #86efac;
+  --tag-green-bg: #f0fdf4;
+  --tag-gray-color: #6b7280;
+  --tag-gray-border: #d1d5db;
+  --tag-gray-bg: #f9fafb;
+  
+  /* Status de oportunidades */
+  --status-approved-bg: rgba(119, 255, 160, 0.3);
+  --status-approved-color: #16a34a;
+  --status-pending-bg: rgba(255, 208, 120, 0.3);
+  --status-pending-color: #f59e0b;
+  --status-rejected-bg: rgba(239, 68, 68, 0.15);
+  --status-rejected-color: #dc2626;
+}
+
+/* ====================== */
+/*   DARK MODE VARIABLES  */
+/* ====================== */
+
+[data-theme="dark"] {
+  --bg-body: #121212;
+  --bg-card: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #bbbbbb;
+  --border-color: #333333;
+  --accent: #66bb6a;
+  --accent-hover: #4caf50;
+  --accent-weak: rgba(102, 187, 106, 0.15);
+  --danger: #ef9a9a;
+  --danger-bg: #2c1a1a;
+  --input-bg: #2a2a2a;
+  --btn-light-bg: #2a2a2a;
+  --item-bg: #252525;
+  --perigo: rgb(212, 69, 69);
+  
+  /* Tags dark mode */
+  --tag-blue-color: #93c5fd;
+  --tag-blue-border: #3b82f6;
+  --tag-blue-bg: #1e3a8a;
+  --tag-green-color: #86efac;
+  --tag-green-border: #22c55e;
+  --tag-green-bg: #14532d;
+  --tag-gray-color: #d1d5db;
+  --tag-gray-border: #6b7280;
+  --tag-gray-bg: #374151;
+  
+  /* Status dark mode */
+  --status-approved-bg: rgba(34, 197, 94, 0.2);
+  --status-approved-color: #4ade80;
+  --status-pending-bg: rgba(245, 158, 11, 0.2);
+  --status-pending-color: #fbbf24;
+  --status-rejected-bg: rgba(239, 68, 68, 0.2);
+  --status-rejected-color: #f87171;
+}
+
+/* ====================== */
+/*   RESET E BASE         */
+/* ====================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  font-family: 'Inter', 'Segoe UI', 'Poppins', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* ====================== */
+/*   CONTAINER PRINCIPAL  */
+/* ====================== */
+
+.container {
+  margin-left: 70px;
+  padding: 40px 30px;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+  background: var(--bg-body);
+}
+
+body.sidebar-open .container {
+  margin-left: 240px;
+}
+
+/* ====================== */
+/*   TÍTULO DA PÁGINA     */
+/* ====================== */
+
+.container > h1 {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ====================== */
+/*   BOX DE CONTEÚDO      */
+/* ====================== */
+
+.boxDentro {
+  background: var(--bg-card);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
+  margin-bottom: 30px;
+}
+
+/* ====================== */
+/*   HEADER DA SEÇÃO      */
+/* ====================== */
+
+.boxDentro > .d-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.boxDentro > .d-flex h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.boxDentro > .d-flex h3::before {
+  content: '';
+  width: 6px;
+  height: 28px;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+/* ====================== */
+/*   BOTÕES DO HEADER     */
+/* ====================== */
+
+.boxDentro .d-flex .gap-2 {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+#btnFiltrarAtivos {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent-weak);
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#btnFiltrarAtivos:hover {
+  background: var(--accent);
+  color: white;
+  transform: translateY(-2px);
+}
+
+#btnFiltrarAtivos #countAtivos {
+  background: var(--accent);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.btn-light {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-light:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.btn-light .me-1 {
+  font-size: 20px;
+  font-weight: 300;
+}
+
+/* ====================== */
+/*   LISTA DE OPORTUNIDADES */
+/* ====================== */
+
+#listaOportunidades {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.itemOportunidade {
+  background: var(--item-bg);
+  padding: 20px 24px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s;
+  position: relative;
+}
+
+.itemOportunidade:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ====================== */
+/*   CONTEÚDO DO ITEM     */
+/* ====================== */
+
+.itemOportunidade .d-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  flex: 1;
+}
+
+/* ====================== */
+/*   TAGS DENTRO DO ITEM  */
+/* ====================== */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.tagAzul {
+  color: var(--tag-blue-color);
+  border: 2px solid var(--tag-blue-border);
+  background-color: var(--tag-blue-bg);
+}
+
+.tagVerde {
+  color: var(--tag-green-color);
+  border: 2px solid var(--tag-green-border);
+  background-color: var(--tag-green-bg);
+}
+
+.tagCinza {
+  color: var(--tag-gray-color);
+  border: 2px solid var(--tag-gray-border);
+  background-color: var(--tag-gray-bg);
+}
+
+/* ====================== */
+/*   STATUS TAG           */
+/* ====================== */
+
+.statusTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  text-align: center;
+  white-space: nowrap;
+  border: none;
+}
+
+.statusAprovada {
+  background-color: var(--status-approved-bg);
+  color: var(--status-approved-color);
+}
+
+.statusPendente {
+  background-color: var(--status-pending-bg);
+  color: var(--status-pending-color);
+}
+
+.statusRejeitada {
+  background-color: var(--status-rejected-bg);
+  color: var(--status-rejected-color);
+}
+
+/* ====================== */
+/*   BOTÕES DE AÇÃO       */
+/* ====================== */
+
+.itemOportunidade .btn-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.itemOportunidade .btn-group button,
+.itemOportunidade .btn-group a {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inscritos {
+  background: var(--accent);
+  color: white;
+}
+
+.inscritos:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.editar {
+  background: var(--btn-light-bg);
+  color: var(--text-secondary);
+  border: 2px solid var(--border-color);
+}
+
+.editar:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.excluir {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 2px solid var(--danger);
+}
+
+.excluir:hover {
+  background: var(--danger);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* ====================== */
+/*   MODAIS - BACKDROP    */
+/* ====================== */
+
+.modal-backdrop {
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 16px;
+
+}
+
+/* ====================== */
+/*   MODAL HEADER         */
+/* ====================== */
+
+.modal-header {
+  border-bottom: 2px solid var(--border-color);
+  padding: 24px 30px;
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  opacity: 1;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.btn-close:hover {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+/* ====================== */
+/*   MODAL BODY           */
+/* ====================== */
+
+.modal-body {
+  padding: 30px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.modal-body .row {
+  display: flex;
+  gap: 20px;
+}
+
+.modal-body .col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* ====================== */
+/*   FORM CONTROLS        */
+/* ====================== */
+
+.modal-body .form-control,
+.modal-body .form-select {
+  width: 100%;
+  padding: 12px 10px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--input-bg);
+  color: var(--text-secondary);
+  font-size: 15px;
+  transition: all 0.2s;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.modal-body .form-control::placeholder  {
+  color: var(--text-secondary);
+}
+
+.modal-body .form-control:focus,
+.modal-body .form-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-weak);
+}
+
+.modal-body .form-control:hover,
+.modal-body .form-select:hover {
+  border-color: var(--accent);
+}
+
+.mb-3 {
+  margin-bottom: 15px;
+}
+
+/* ====================== */
+/*   BOTÃO ENVIAR         */
+/* ====================== */
+
+.botaoEnviar {
+  width: 100%;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+  margin-top: 10px;
+}
+
+.botaoEnviar:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.botaoEnviar:active {
+  transform: translateY(0);
+}
+
+/* ====================== */
+/*   MODAL DE INSCRITOS   */
+/* ====================== */
+
+#inscritosChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+#inscritosContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ====================== */
+/*   NOTIFICAÇÕES         */
+/* ====================== */
+
+.modala {
+      display: none; /* começa escondido */
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+}
+
+.modal-contenta {
+      padding: 20px 30px;
+      border-radius: 8px;
+      text-align: center;
+      min-width: 250px;
+      animation: fadeIn 0.3s ease;
+      z-index: 10000;
+}
+
+.success {
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.success.add {
+  background-color: var(--accent);
+}
+
+.success.delete {
+  background-color: var(--danger);
+}
+
+.success.edit {
+  background-color: var(--accent);
+}
+
+.success.erro {
+  background-color: var(--danger);
+}
+
+/* ====================== */
+/*   UTILITÁRIOS          */
+/* ====================== */
+
+.sumir4 {
+  display: none !important;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ====================== */
+/*   ANIMAÇÕES            */
+/* ====================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ====================== */
+/*   RESPONSIVIDADE       */
+/* ====================== */
+
+@media (max-width: 768px) {
+  .container {
+    margin-left: 0;
+    padding: 20px 15px;
+  }
+
+  .container > h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  .boxDentro {
+    padding: 20px;
+  }
+
+  .boxDentro > .d-flex {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .boxDentro > .d-flex h3 {
+    font-size: 20px;
+  }
+
+  .boxDentro .d-flex .gap-2 {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  #btnFiltrarAtivos,
+  .btn-light {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .itemOportunidade {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+    padding: 16px;
+  }
+
+  .itemOportunidade .d-flex {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .tag {
+    justify-content: center;
+  }
+
+  .itemOportunidade .btn-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .itemOportunidade .btn-group button,
+  .itemOportunidade .btn-group a {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .modal-body .row {
+    flex-direction: column;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container > h1 {
+    font-size: 24px;
+  }
+
+  .boxDentro > .d-flex h3 {
+    font-size: 18px;
+  }
+
+  .tag {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .modal-title {
+    font-size: 18px;
+  }
+
+  .botaoEnviar {
+    font-size: 15px;
+    padding: 10px 20px;
+  }
+}
+
+.status-pill {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    margin: 5px 0;
+    display: inline-block;
+    border: none;
+}
+
+/* Cor para status Aprovado (verde) */
+.status-aprovado {
+    background-color: #28a745; /* Verde sucesso */
+}
+
+/* Cor para status Rejeitado (vermelho) */
+.status-rejeitado {
+    background-color: #dc3545; /* Vermelho perigo */
+}
+
+/* Cor para status Pendente (cinza ou amarelo) */
+.status-pendente {
+    background-color: #6c757d; /* Cinza secundário */
+    /* Alternativa: background-color: #ffc107; (Amarelo aviso) */
+}
+
+/* Ajustes no layout do item do inscrito para melhor alinhamento */
+[data-insc]{
+    display: grid;
+    grid-template-columns: auto 1fr auto auto; /* Avatar, Info, Status, Ações */
+    gap: 15px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #444; /* Linha separadora */
+}
+
+[data-insc][data-role=\"actions\"] {
+    display: flex;
+    flex-direction: column; /* Coloca os botões um embaixo do outro */
+    gap: 5px;
+}
+.aprovar{
+  background-color: var(--accent);
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;}
+.rejeitar{
+    padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--danger);
+}

@@ -7,6 +7,13 @@ use App\Models\Esporte;
 
 class EsporteController extends Controller
 {
+    public function showWebPage()
+    {
+        $esportes = Esporte::with('posicoes', 'caracteristicas')->get();
+
+        return view('admin.listas.esportes')->with(['esportes' => $esportes]);
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -2,30 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewPendingOpportunityEvent;
 use Illuminate\Http\Request;
 use App\Models\Oportunidade;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Clube;
+use Carbon\Carbon;
 
 class OportunidadeController extends Controller
 {
+    public function showWebPage()
+    {
+        $oportunidades = Oportunidade::with('esporte', 'clube', 'posicao', 'inscricoes')->get();
+
+        return view('admin.listas.oportunidades')->with(['oportunidades' => $oportunidades]);
+    }
+
     /**
      * Cria uma nova oportunidade (somente clube autenticado)
      */
 
 
-
     //ALGUEM ME AJUDA PELO AMOR DE DEUS --ASS: Luan
-
 
     public function store(Request $request)
     {
 
+        $clube = $request->user();
+
+        if (!$clube || !($clube instanceof Clube)) {
+            return response()->json([
+                'message' => 'Apenas clubes autenticados podem criar oportunidades'
+            ], 403);
+        }
+
         $validatedData = $request->validate([
             'descricaoOportunidades'    => 'required|string|max:255',
-            'datapostagemOportunidades' => 'required|date',
             'esporte_id'                => 'required|exists:esportes,id',
             'posicoes_id'               => 'required|exists:posicoes,id',
             'idadeMinima'               => 'nullable|integer|min:0|max:120',
@@ -36,13 +50,11 @@ class OportunidadeController extends Controller
             'cepOportunidade'           => 'nullable|string|max:9',
         ]);
 
-        $clube = $request->user();
-
         try {
 
             $oportunidade = Oportunidade::create([
                 'descricaoOportunidades'    => $validatedData['descricaoOportunidades'],
-                'datapostagemOportunidades' => $validatedData['datapostagemOportunidades'],
+                'datapostagemOportunidades' => Carbon::now(),
                 'esporte_id'                => $validatedData['esporte_id'],
                 'posicoes_id'               => $validatedData['posicoes_id'],
                 'clube_id'                  => $clube->id,
@@ -55,8 +67,9 @@ class OportunidadeController extends Controller
                 'cepOportunidade'           => $validatedData['cepOportunidade']    ?? null,
             ]);
 
-            // 4. Sucesso!
-            return response()->json($oportunidade, 201);
+            event(new NewPendingOpportunityEvent($oportunidade, $clube));
+
+            return response()->json($oportunidade->load('posicao', 'esporte', 'candidatos'), 201);
         } catch (\Exception $e) {
 
             return response()->json([
@@ -124,9 +137,10 @@ class OportunidadeController extends Controller
         return response()->json($oportunidades, 200);
     }
 
+
     public function show($id)
     {
-        $oportunidade = Oportunidade::approved()->with(['esporte', 'posicao', 'clube'])->find($id);
+        $oportunidade = Oportunidade::with(['esporte', 'posicao', 'clube', 'inscricoes.usuario'])->find($id);
 
         if (!$oportunidade) {
             return response()->json(['message' => 'Oportunidade não encontrada'], 404);
@@ -144,13 +158,13 @@ class OportunidadeController extends Controller
         }
 
         $clube = $request->user();
+
         if (!$clube || !($clube instanceof Clube) || $oportunidade->clube_id !== $clube->id) {
             return response()->json(['message' => 'Apenas o clube que criou a oportunidade pode atualizá-la'], 403);
         }
 
         $validatedData = $request->validate([
             'descricaoOportunidades'    => 'sometimes|required|string|max:255',
-            'datapostagemOportunidades' => 'sometimes|required|date',
             'esporte_id'                => 'sometimes|required|exists:esportes,id',
             'posicoes_id'               => 'sometimes|required|exists:posicoes,id',
             'idadeMinima'               => 'sometimes|integer|min:0|max:120',
@@ -167,13 +181,14 @@ class OportunidadeController extends Controller
             $oportunidade->reviewed_at = null;
             $oportunidade->rejection_reason = null;
         }
+
         $oportunidade->fill($validatedData)->save();
 
         try {
             $oportunidade->update($validatedData);
             return response()->json([
                 'message' => 'Oportunidade atualizada',
-                'data'    => $oportunidade->load(['esporte', 'posicoes', 'clube']),
+                'data'    => $oportunidade->load(['esporte', 'posicao', 'clube', 'candidatos']),
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

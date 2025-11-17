@@ -118,7 +118,6 @@ class OportunidadeSeeder extends Seeder
 		$palmeiras = $clubesCriados[2];
 
 
-		// 🔥 Novas oportunidades bem descritas
 		$oportunidades = [
 			[
 				'descricaoOportunidades' => 'Processo seletivo para lateral-esquerdo sub-17 — foco em velocidade e recomposição defensiva.',
@@ -134,7 +133,6 @@ class OportunidadeSeeder extends Seeder
 				'cepOportunidade' => '22710-560',
 				'status' => 'approved'
 			],
-			// adicionais
 			[
 				'descricaoOportunidades' => 'Treino aberto para alas e laterais — ênfase em cruzamentos e apoio ofensivo.',
 				'datapostagemOportunidades' => $today,

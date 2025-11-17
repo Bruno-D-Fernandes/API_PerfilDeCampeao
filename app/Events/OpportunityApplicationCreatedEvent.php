@@ -14,16 +14,16 @@ class OpportunityApplicationCreatedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $userApplier, $opportunityApplied, $clubApplied;
+    public $applicant, $opportunity, $club;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($userApplier, $opportunityApplied, $clubApplied)
+    public function __construct($applicant, $opportunity, $club)
     {
-        $this->userApplier = $userApplier;
-        $this->opportunityApplied = $opportunityApplied;
-        $this->clubApplied = $clubApplied;
+        $this->applicant = $applicant;
+        $this->opportunity = $opportunity;
+        $this->club = $club;
     }
 
     /**
@@ -34,7 +34,7 @@ class OpportunityApplicationCreatedEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('notifications.club.' . $this->clubApplied->id),
+            new PrivateChannel('notifications.club.' . $this->club->id),
         ];
     }
 

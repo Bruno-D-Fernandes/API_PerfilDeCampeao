@@ -1,0 +1,292 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* Theme variables (local fallback). Prefer including a central vars.css in layout for global reuse. */
+/* Theme variables moved to css/Clube/vars.css (single source of truth). Remove duplicates here to avoid overrides. */
+body{
+  background-color: var(--bg-body);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-primary);
+}
+.container{
+  height: 100vh;
+}
+.boxDentro{
+  border: 0;
+  padding: 10px;
+  height: 70%;
+  border-radius: 10px;
+  background-color: var(--bg-card);
+}
+h1{
+  color: var(--accent);
+}
+h5{
+  position: absolute;
+  color: var(--muted);
+
+  left: 8%;
+  top: 12%;
+}
+h2{
+  position: absolute;
+  color: var(--accent);
+
+}
+h3 {
+  margin-top: 5vh;
+  color: var(--muted-opaque);
+  position: static;
+  margin-left: 17vh; 
+}
+h4{
+  color: var(--accent-weak);
+}
+.btn-light{
+  width: 100%;
+  margin: 7px auto 5px;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 7px;
+  background-color: var(--btn-light-bg);
+  font-weight: 400;
+  border-radius: 10px;
+  color: var(--accent);
+  border: 0;
+}
+.botaoAtivo{
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 2px 7px;
+  background-color: var(--accent-weak);
+  color: var(--accent);
+  font-weight: 400;
+  border: 0;
+  border-radius: 10px;
+}
+.box{
+  border-radius: 20px;
+  background-color: var(--bg-card);
+}
+.iconNovo{
+    position: absolute;
+    left: 10px;
+    top: 35%;
+    width: 17px;
+    height: 15px;
+}
+.form-select{
+  max-width: 50%;
+  margin-bottom: 10px;
+  border-width: 3px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+.form-select:hover{
+  border-color: var(--accent-weak);
+}
+.input-container {
+  position: relative; 
+  width: 100%;
+  border-width: 3px;
+}
+.modal-body .form-control{
+  width: 100%;
+  height: 20%;
+  margin: 0 auto 5px;
+  display: block;
+  text-align: left; 
+  padding: 8px 8px 8px 40px;
+  font-weight: 400;
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  background: var(--input-bg);
+}
+
+.modal-content{
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+.modal-body .form-control:hover{
+  border-color: #06cb5289;
+}
+.modal-body .botaoEnviar{
+    width: 95%;
+    margin: 0 auto 10px;
+    display: block;
+    padding: 5px 5px;
+  background-color: var(--accent);
+  font-weight: 600;
+  border-radius: 10px;
+  color: #ffffff;
+    border: 0;
+}
+#listaOportunidades {
+  margin-top: 5vh;
+  width: 100%;
+  max-width: 95%;
+  margin-left: 20px;
+}
+.itemOportunidade {
+  background-color: var(--item-bg);
+  border: 0;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  transition: 0.2s;
+}
+
+.statusItem {
+  font-weight: 300;
+  color: #555;
+}
+.tag {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-weight: 300;
+  font-size: 15px;
+  text-align: center;
+  margin: 4px;
+}
+.tagAzul {
+  color: var(--tag-blue-color);
+  border: 2px solid var(--tag-blue-border);
+  background-color: var(--tag-blue-bg);
+}
+.tagVerde {
+  color: var(--tag-green-color);
+  border: 2px solid var(--tag-green-border);
+  background-color: var(--tag-green-bg);
+}
+
+.tagCinza {
+  color: var(--tag-gray-color);
+  border: 2px solid var(--tag-gray-border);
+  background-color: var(--tag-gray-bg);
+}
+.statusTag {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-weight: 300;
+  font-size: 14px;
+  text-align: center;
+  margin-left: 6px;
+}
+
+.statusAprovada {
+  background-color: var(--status-approved-bg);
+  color: var(--status-approved-color);
+  border: 0;
+}
+
+.statusPendente {
+  background-color: var(--status-pending-bg);
+  color: var(--status-pending-color);
+  border: 0;
+}
+
+.statusRejeitada {
+  background-color: var(--status-rejected-bg);
+  color: var(--status-rejected-color);
+  border: 0;
+}
+.inscritos{
+  color: var(--accent);
+}
+.editar{
+  color: var(--muted);
+}
+.excluir{
+  color: var(--muted);
+}
+
+/* Strong dark-theme overrides to catch remaining components with hardcoded backgrounds
+   These use !important to override third-party rules (bootstrap or legacy styles). */
+[data-theme="dark"] .boxDentro,
+[data-theme="dark"] .box,
+[data-theme="dark"] .container,
+[data-theme="dark"] .itemOportunidade,
+[data-theme="dark"] .card,
+[data-theme="dark"] .list-group-item {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] body {
+  background-color: var(--bg-body) !important;
+}
+
+[data-theme="dark"] .modal-content,
+[data-theme="dark"] .modal-body .form-control,
+[data-theme="dark"] input.form-control,
+[data-theme="dark"] textarea.form-control,
+[data-theme="dark"] select.form-control {
+  background: var(--input-bg) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .btn-light,
+[data-theme="dark"] .botaoEnviar {
+  background-color: var(--btn-light-bg) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .tag,
+[data-theme="dark"] .tagAzul,
+[data-theme="dark"] .tagVerde,
+[data-theme="dark"] .tagCinza {
+  background-color: transparent !important;
+}
+
+[data-theme="dark"] .statusAprovada,
+[data-theme="dark"] .statusPendente,
+[data-theme="dark"] .statusRejeitada {
+  border: 0 !important;
+}
+
+[data-theme="dark"] .editar,
+[data-theme="dark"] .excluir,
+[data-theme="dark"] .inscritos {
+  color: var(--muted) !important;
+}
+
+/* Make Bootstrap dropdowns and menu items follow the club theme variables
+   (this styles the menu opened by the "..." button in each item) */
+.dropdown-menu {
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  min-width: 10rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+.dropdown-menu .dropdown-item {
+  color: var(--text-primary) !important;
+  background: transparent !important;
+}
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus,
+.dropdown-menu .dropdown-item.active {
+  background: var(--accent-weak) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Ensure modal backdrop/content follow variables (safety for other pages) */
+.modal-content {
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+.modal-backdrop {
+  background-color: rgba(0,0,0,0.5) !important;
+}

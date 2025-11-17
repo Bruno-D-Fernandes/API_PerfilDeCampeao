@@ -18,6 +18,7 @@ class Postagem extends Model
 
     protected $fillable = [
         'idUsuario',
+        'esporte_id',
         'textoPostagem',
         'localizacaoPostagem',
         'esporte_id'

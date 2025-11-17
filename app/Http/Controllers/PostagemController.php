@@ -31,7 +31,7 @@ class PostagemController extends Controller
 
             $validatedData = $request->validate([
                 'textoPostagem' => 'required|string|max:255',
-                'esporte_id' => 'required|string',
+                'esporte_id' => 'required|exists:esportes,id',
                 'localizacaoPostagem' => 'nullable|string',
                 'imagem' => 'nullable|image|max:2048',
             ]);
@@ -50,14 +50,12 @@ class PostagemController extends Controller
             ]);
 
 
-
             if (!empty($validatedData['imagem']) && $caminhoImagem) {
                 PostsImagem::create([
                     'idPostagem' => $postagem->id,
                     'caminhoImagem' => $caminhoImagem,
                 ]);
             }
-
 
             return response()->json($postagem, 201);
         } catch (\Exception $e) {

@@ -28,7 +28,6 @@ class Oportunidade extends Model
     public const STATUS_APPROVED = 'approved';
     public const STATUS_REJECTED = 'rejected';
 
-
     protected $fillable = [
         'descricaoOportunidades',
         'datapostagemOportunidades',
@@ -68,12 +67,12 @@ class Oportunidade extends Model
 
     public function reviewer()
     {
-        return $this->belongsTo(Adm::class, 'reviewed_by');
+        return $this->belongsTo(Admin::class, 'reviewed_by');
     }
 
     public function clube()
     {
-        // Certifique-se de que o caminho para o Model 'Clube' está correto
+        
         return $this->belongsTo(Clube::class, 'clube_id');
     }
 
@@ -90,7 +89,7 @@ class Oportunidade extends Model
      */
     public function posicao()
     {
-        // Usando 'posicoes' para corresponder ao nome do campo 'posicoes_id'
+        
         return $this->belongsTo(Posicao::class, 'posicoes_id');
     }
 
@@ -103,5 +102,16 @@ class Oportunidade extends Model
     {
         return $this->belongsToMany(Usuario::class, 'inscricoes', 'oportunidade_id', 'usuario_id')
             ->withPivot('status', 'mensagem')->withTimestamps();
+    }
+
+    public function showHTMLStatus()
+    {
+        if ($this->status == $this::STATUS_APPROVED) {
+            return 'Aprovada';
+        } else if ($this->status == $this::STATUS_REJECTED) {
+            return 'Rejeitada';
+        } else {
+            return 'Pendente';
+        }
     }
 }

@@ -22,6 +22,6 @@ class Categoria extends Model
 
     public function clubes()
     {
-        return $this->belongsToMany(Clube::class);
+        return $this->hasMany(Clube::class);
     }
 }

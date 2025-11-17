@@ -1,0 +1,71 @@
+function abrirModal(modal) {
+  const modalopor = document.getElementById('totaltotal')
+   modalopor.classList.add('hidden1');
+    modal.content.classList.remove('hidden');
+     modalBackdrop.classList.remove('hidden');
+}
+
+function fecharModal(modal) {
+    modal.content.classList.add('hidden');
+    const modalopor = document.getElementById('totaltotal')
+   modalopor.classList.remove('hidden1');
+
+    limparModal(modal);
+
+    const algumAberto = Object.values(modais).some(m => !m.content.classList.contains('hidden'));
+    
+    if (!algumAberto) modalBackdrop.classList.add('hidden');
+}
+
+function limparModal(modal) {
+    if (modal.inputs) {
+        modal.inputs.forEach(inp => inp.value = "");
+    }
+
+    if (modal === modalOportunidade) {
+        spanDataPostagem.textContent = '';
+        spanDescricao.textContent = '';
+        spanRequisitos.textContent = '';
+        spanLocalizacao.textContent = '';
+        spanContexto.textContent = '';
+        
+        inscritosListContainer.innerHTML = '';
+
+        oportunidadeModalTitle.textContent = 'Detalhes da Oportunidade';
+
+        tabDetalhes.classList.remove('active');
+        tabInscritos.classList.remove('active');
+        tabDetalhes.classList.add('active');
+    }
+
+    if (modal === modalStatus) {
+        statusModalTitle.textContent = 'Rejeitar oportunidade';
+    }
+}
+
+function criarConfirmacao(titulo, texto, funcaoSim, funcaoNao) {
+    confirmarModalTitle.textContent = titulo;
+    confirmarModalAlert.textContent = texto;
+
+    const saveBtn = modalConfirmar.content.querySelector('#save-confirm-btn');
+    const cancelBtn = modalConfirmar.content.querySelector('#cancel-confirm-btn');
+
+    const newSaveBtn = saveBtn.cloneNode(true);
+    saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
+
+    const newCancelBtn = cancelBtn.cloneNode(true);
+    cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+
+    abrirModal(modalConfirmar);
+
+    newSaveBtn.addEventListener('click', () => {
+        funcaoSim();
+        
+        fecharModal(modalConfirmar);
+    });
+
+    newCancelBtn.addEventListener('click', () => {
+        funcaoNao();
+        fecharModal(modalConfirmar);
+    });
+}

@@ -14,7 +14,6 @@ class Perfil extends Model
     protected $fillable = [
         'usuario_id',
         'categoria_id',
-        'posicao_id',
         'esporte_id',
     ];
 
@@ -36,7 +35,6 @@ class Perfil extends Model
             ->withPivot('perfil_id', 'posicao_id');
     }
 
-
     public function esporte()
     {
         return $this->belongsTo(Esporte::class, 'esporte_id');
@@ -46,5 +44,11 @@ class Perfil extends Model
     {
         return $this->belongsToMany(Caracteristica::class, 'perfil_caracteristicas')
             ->withPivot('valor');
+    }
+
+    public function postagens()
+    {
+        return $this->hasMany(Postagem::class, 'idUsuario', 'usuario_id')
+            ->where('postagens.esporte_id', $this->esporte_id);
     }
 }

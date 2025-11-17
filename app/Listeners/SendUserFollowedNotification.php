@@ -9,6 +9,8 @@ use App\Notifications\UserFollowedNotification;
 
 class SendUserFollowedNotification implements ShouldQueue
 {
+    public $afterCommit = true;
+    
     /**
      * Create the event listener.
      */
@@ -22,8 +24,8 @@ class SendUserFollowedNotification implements ShouldQueue
      */
     public function handle(UserFollowedEvent $event): void
     {
-        $userFollowed = $event->userFollowed;
+        $followed = $event->followed;
         $follower = $event->follower;
-        $userFollowed->notify(new UserFollowedNotification($follower, $userFollowed));
+        $followed->notify(new UserFollowedNotification($follower, $followed));
     }
 }

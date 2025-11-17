@@ -1,0 +1,474 @@
+.profile-container *,
+.profile-container *::before,
+.profile-container *::after {
+    box-sizing: border-box;
+}
+
+:root {
+  --bg-body: #f5f5f5;
+  --bg-card: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --accent: #36B37E;
+  --accent-hover: #2faa6d;
+  --accent-weak: rgba(54, 179, 126, 0.15);
+  --danger: #e53935;
+  --danger-bg: #ffebee;
+  --input-bg: #ffffff;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* ====================== */
+/*   DARK MODE VARIABLES  */
+/* ====================== */
+
+[data-theme="dark"] {
+  --bg-body: #121212;
+  --bg-card: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #bbbbbb;
+  --border-color: #333333;
+  --accent: #66bb6a;
+  --accent-hover: #4caf50;
+  --accent-weak: rgba(102, 187, 106, 0.15);
+  --danger: #d40000;
+  --danger-bg: #2c1a1a;
+  --input-bg: #2a2a2a;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+body{
+        overflow-x: hidden;
+}
+
+/* === CONTAINER PRINCIPAL DO PERFIL === */
+main {
+    display: flex;
+    padding-left: 260px; /* Largura da sidebar + margem */
+    padding-top: 20px;
+    padding-right: 20px;
+    background-color: #f5f7fa;
+}
+.profile-container {
+    flex: 1;
+    background-color: var(--bg-body);
+    border-radius: 12px;
+    padding: 24px;
+    width: 100%;
+    margin-left: 2%;
+    margin-top: -80px;
+}
+
+/* === Imagens de perfil e banner === */
+.profile-imgs {
+    width: 100%;
+    height: 228px;
+    position: relative;
+    border-radius: 12px;
+    background-color: #e0e0e0;
+}
+
+.profile-banner {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    background-image: cover;
+}
+
+.profile-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Corta o que não couber */
+    object-position: center; /* Centraliza a imagem */
+}
+
+.profile-picture {
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    border: 5px solid var(--accent);
+    position: absolute;
+    bottom: -60px;
+    left: 48px;
+    overflow: hidden;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* === Detalhes do perfil === */
+.profile-info {
+    margin-bottom: 24px;
+    padding-bottom: 70px; /* espaço para a foto que sobrepõe */
+    position: relative;
+}
+
+.profile-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 60px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-left: 20px;
+}
+
+#add-to-list-btn {
+    background-color: #003dadea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+#add-to-list-btn:hover {
+    background-color: #002a7d;
+}
+
+/* === Tabs de esporte === */
+.profile-tabs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 16px 0 24px;
+/*     border-bottom: 2px solid #eee; */
+    padding-bottom: 12px;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.2s;
+}
+
+.tab-btn:hover {
+    background-color: #f0f4ff;
+}
+
+/* === Conteúdo das tabs === */
+.tab-content {
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tab-content.active {
+    display: flex;
+}
+
+/* === Sub-tabs (Postagens / Informações) === */
+.sub-tabs {
+    display: flex;
+    gap: 12px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+.sub-tab-btn {
+    background: none;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #003dadea;
+    transition: all 0.2s;
+}
+
+.sub-tab-btn:hover {
+    background-color: #e6f0ff;
+}
+
+.sub-tab-content {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sub-tab-content.active {
+    display: flex;
+}
+
+/* === Informações (Estatísticas) === */
+.estatisticas-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.estatistica-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+}
+
+.estatistica-label {
+    font-size: 12px;
+    color: #666;
+    font-weight: 500;
+}
+
+.estatistica-value {
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* === Postagens === */
+.postagens {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.postagem-card {
+    width: 100%;
+    max-width: 600px;
+    background-color: #fafafa;
+    padding: 20px;
+    border-radius: 12px;
+
+}
+
+.postagem-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.post-profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.post-profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.postagem-text {
+    display: block;
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.postagem-localizacao {
+    font-size: 13px;
+    color: #666;
+}
+
+.carousel-container {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 8px 0;
+    margin-top: 12px;
+}
+
+.carousel-container img {
+    height: 120px;
+    min-width: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* === Modais === */
+.hidden {
+    display: none !important;
+}
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+}
+
+.app-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 12px;
+    padding: 20px;
+
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #003dadea;
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.close-modal-btn:hover {
+    color: #000;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+}
+
+.form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+}
+
+.modal-footer button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#criar-lista-cancelar-btn {
+    background-color: #ccc;
+    color: #333;
+}
+
+#criar-lista-salvar-btn {
+    background-color: #003dadea;
+    color: white;
+}
+
+#criar-lista-cancelar-btn:hover {
+    background-color: #bbb;
+}
+
+#criar-lista-salvar-btn:hover {
+    background-color: #002a7d;
+}
+
+/* === Responsividade === */
+@media (max-width: 900px) {
+    .estatisticas-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    main {
+        padding-left: 20px;
+        padding-right: 10px;
+    }
+
+    .profile-picture {
+        left: 16px;
+        height: 100px;
+        width: 100px;
+        bottom: -50px;
+    }
+
+    .profile-details {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .estatisticas-list {
+        grid-template-columns: 1fr;
+    }
+
+    .postagem-card {
+        padding: 16px;
+    }
+}
+#add-lista-btn {
+    background-color: #003dadea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+#add-lista-btn:hover {
+    background-color: #002a7d;
+}

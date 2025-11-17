@@ -15,25 +15,25 @@ class FuncaoSeeder extends Seeder
     {
         $funcoes = [
             // Funções de Atletas
-            ['nomeFuncao' => 'Jogador', 'descricaoFuncao' => 'Atleta que participa ativamente nos jogos.'],
+            ['nome' => 'Jogador', 'descricao' => 'Atleta que participa ativamente nos jogos.'],
 
             // Funções da Comissão Técnica
-            ['nomeFuncao' => 'Técnico', 'descricaoFuncao' => 'Responsável por treinar e gerir a equipa.'],
-            ['nomeFuncao' => 'Auxiliar Técnico', 'descricaoFuncao' => 'Assiste o técnico principal nas suas funções.'],
-            ['nomeFuncao' => 'Preparador Físico', 'descricaoFuncao' => 'Responsável pela condição física dos atletas.'],
-            ['nomeFuncao' => 'Fisioterapeuta', 'descricaoFuncao' => 'Trata e previne lesões dos atletas.'],
-            ['nomeFuncao' => 'Médico', 'descricaoFuncao' => 'Responsável pela saúde geral dos membros da equipe.'],
-            ['nomeFuncao' => 'Analista de Desempenho', 'descricaoFuncao' => 'Analisa vídeos e dados para melhorar a performance.'],
-            ['nomeFuncao' => 'Olheiro', 'descricaoFuncao' => 'Procura e avalia novos talentos para o clube.'],
+            ['nome' => 'Técnico', 'descricao' => 'Responsável por treinar e gerir a equipe.'],
+            ['nome' => 'Auxiliar Técnico', 'descricao' => 'Assiste o técnico principal nas suas funções.'],
+            ['nome' => 'Preparador Físico', 'descricao' => 'Responsável pela condição física dos atletas.'],
+            ['nome' => 'Fisioterapeuta', 'descricao' => 'Trata e previne lesões dos atletas.'],
+            ['nome' => 'Médico', 'descricao' => 'Responsável pela saúde geral dos membros da equipe.'],
+            ['nome' => 'Analista de Desempenho', 'descricao' => 'Analisa vídeos e dados para melhorar a performance.'],
+            ['nome' => 'Olheiro', 'descricao' => 'Procura e avalia novos talentos para o clube.'],
 
             // Funções Administrativas
-            ['nomeFuncao' => 'Diretor Desportivo', 'descricaoFuncao' => 'Responsável pelo planeamento e gestão do departamento de desporto.'],
-            ['nomeFuncao' => 'Presidente', 'descricaoFuncao' => 'Máximo representante legal e administrativo do clube.'],
-            ['nomeFuncao' => 'Roupeiro', 'descricaoFuncao' => 'Responsável pelos uniformes e equipamentos dos atletas.'],
+            ['nome' => 'Diretor Desportivo', 'descricao' => 'Responsável pelo planeamento e gestão do departamento de desporto.'],
+            ['nome' => 'Presidente', 'descricao' => 'Máximo representante legal e administrativo do clube.'],
+            ['nome' => 'Roupeiro', 'descricao' => 'Responsável pelos uniformes e equipamentos dos atletas.'],
         ];
 
         foreach ($funcoes as $funcao) {
-            Funcao::firstOrCreate(['nomeFuncao' => $funcao['nomeFuncao']], $funcao);
+            Funcao::firstOrCreate(['nome' => $funcao['nome']], $funcao);
         }
     }
 }

@@ -14,15 +14,15 @@ class ClubFollowedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $follower, $clubFollowed;
+    public $follower, $club;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($follower, $clubFollowed)
+    public function __construct($follower, $club)
     {
         $this->follower = $follower;
-        $this->clubFollowed = $clubFollowed;
+        $this->club = $club;
     }
 
     /**
@@ -33,7 +33,7 @@ class ClubFollowedEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('notifications.club.' . $this->clubFollowed->id),
+            new PrivateChannel('notifications.club.' . $this->club->id),
         ];
     }
 

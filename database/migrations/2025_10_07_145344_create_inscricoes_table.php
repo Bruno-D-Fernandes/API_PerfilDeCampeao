@@ -15,10 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('oportunidade_id')->constrained('oportunidades')->cascadeOnDelete();
             $table->foreignId('usuario_id')->constrained('usuarios')->cascadeOnDelete();
-            $table->string('status', 20)->default('pendente');
-            
+            $table->enum('status',['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
-
             $table->unique(['oportunidade_id','usuario_id']);
         });
     }
