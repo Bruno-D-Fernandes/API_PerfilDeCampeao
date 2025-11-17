@@ -32,9 +32,9 @@ class ApplicationStatusChangeNotification extends Notification
         $message = "O status da sua inscrição para a vaga '{$this->opportunity->name}' foi atualizado.";
         
         if ($this->status === Inscricao::STATUS_APPROVED) {
-            $message = "Parabéns! Sua candidatura para a vaga de ${$this->opportunity->posicao->nomePosicao} no {$this->club->nomeClube} foi ACEITA!";
+            $message = "Parabéns! Sua candidatura para a vaga de {$this->opportunity->posicao->nomePosicao} no {$this->club->nomeClube} foi ACEITA!";
         } elseif ($this->status === Inscricao::STATUS_REJECTED) {
-            $message = "Sua candidatura para a vaga de ${$this->opportunity->posicao->nomePosicao} no {$this->club->nomeClube} foi REJEITADA.";
+            $message = "Sua candidatura para a vaga de {$this->opportunity->posicao->nomePosicao} no {$this->club->nomeClube} foi REJEITADA.";
         }
 
         return [

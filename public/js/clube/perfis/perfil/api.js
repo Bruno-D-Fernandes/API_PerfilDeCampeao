@@ -410,11 +410,10 @@ async function deleteOportunidade(oportunidadeId) {
 
 async function deleteInscrito(oportunidadeId, usuarioId) {
     try {
-        const url = `../api/clube/oportunidade/${oportunidadeId}/inscritos/${usuarioId}`;
+        const url = `../api/clube/oportunidade/${oportunidadeId}/inscricoes/${usuarioId}/remover`;
 
         const formData = new FormData();
 
-        formData.append('_method', 'DELETE');
 
         const response = await fetch(url, {
             method: 'POST',
