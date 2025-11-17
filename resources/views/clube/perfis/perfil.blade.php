@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Perfil - Clube</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
      <link rel="stylesheet" href="{{ asset('css/Clube/perfil/perfil.css') }}">
      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -51,6 +51,13 @@
     </div>
   </div>
 
+    <div class="modal" id="clubesalvoModal">
+    <div class="modal-content">
+      <div class="success add">Clube Salvo Com Sucesso</div>
+    </div>
+  </div>
+
+
     
     <div class="container" data-storage-url="{{ asset('/storage') }}" data-clube-id="{{ $clube->id }}">
     
@@ -82,19 +89,19 @@
             </div>
 
             <div class="tabs">
-                <button data-target-tab="opportunities">
+                <button class='active'data-target-tab="opportunities" id='atoportunidade'>
                     <span>
                         Oportunidades
                     </span>
                 </button>
 
-                <button data-target-tab="members-list">
+                <button data-target-tab="members-list" id='atmembros'>
                     <span>
                         Membros
                     </span>
                 </button>
 
-                <button data-target-tab="about">
+                <button data-target-tab="about" id='atsobre'>
                     <span>
                         Sobre
                     </span>
@@ -108,7 +115,7 @@
                             Oportunidades
                         </h3>
 
-                        <button id="oportunidade-add-btn">
+                        <button class='hidden' id="oportunidade-add-btn">
                             <span>
                                 Adicionar oportunidade
                             </span>
@@ -174,8 +181,11 @@
                     </h3>
 
                     <div class="members-list-search">
+                        <div class="search-box">
+                    <i class='bx bx-search'></i>
+                    <input type="text" id="member-search-input" placeholder="Buscar membro">
+                </div>
                         
-                        <input type="text" id="member-search-input" placeholder="Buscar membro">
 
                         <button id="add-member-btn">
                             <span>
@@ -609,7 +619,7 @@
             </button>
         </div>
     </div>
-
+    <script src="{{ asset('js/clube/perfis/perfil/ativo.js') }}"></script>
     <script src="{{ asset('js/clube/perfis/perfil/dom-elements.js') }}"></script>
     <script src="{{ asset('js/clube/perfis/perfil/utils.js') }}"></script>
     <script src="{{ asset('js/clube/perfis/perfil/modals.js') }}"></script>

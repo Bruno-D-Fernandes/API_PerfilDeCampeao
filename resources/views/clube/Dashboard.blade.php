@@ -13,6 +13,7 @@
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -54,12 +55,14 @@
     </section>
   </div>
 
-  <div class="interessados">
+ 
+
+  <!-- <div class="interessados">
     <div class="cardInt">
       <h4>Interessados</h4>
     </div>
   </div>
-
+ -->
   <div class="recentes">
     <section class="cardAtiv" id="atividadesRecentes">
       <h2>Atividades recentes</h2>
@@ -89,6 +92,9 @@
     <script src="{{ asset('js/clube/dashboard/dom-elements.js') }}"></script>
     <script src="{{ asset('js/clube/dashboard/events.js') }}"></script>
     <script src="{{asset('js/clube/dashboard/logout.js')}}"></script>
+
+    <script src="{{ asset('js/clube/dashboard/dashboard-atividades.js') }}"></script>
+    <script src="{{ asset('js/clube/dashboard/grafico-oportunidades.js') }}"></script>
 
   
 

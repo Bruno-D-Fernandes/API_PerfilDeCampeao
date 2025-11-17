@@ -35,10 +35,10 @@
     --border-color: #404040;
     --shadow: rgba(0, 0, 0, 0.6);
     --hover-bg: #3a3a3a;
-    --active-bg: #36B37E;   /* Verde escuro */
+    --active-bg: #66bb6a;   /* Verde escuro */
     --active-text: #000000ff;
     --danger-color: #c14444;
-    --icon-color: #36B37E;    /* ÍCONES VERDES NO MODO ESCURO */
+    --icon-color: #66bb6a;   /* ÍCONES VERDES NO MODO ESCURO */
   }
 
   body {
@@ -209,6 +209,9 @@
   .spacer {
     flex: 1;
   }
+  #vaisim{
+    color: var(--danger-color)
+  }
 </style>
 
 <?php
@@ -217,8 +220,8 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
 
 <nav class="barra-lateral" id="barra-lateral">
   <div class="logo-container">
-    <img src="/img/logo-reduzida1.png" alt="Logo Pequena" class="logo-pequena">
-    <img src="/img/logo-reduzida1.png" alt="Logo Grande" class="logo-grande">
+    <img src="/img/logo-reduzida.png" alt="Logo Pequena" class="logo-pequena">
+    <img src="/img/logo-reduzida.png" alt="Logo Grande" class="logo-grande">
   </div>
 
   <ul class="menu-navegacao">
@@ -263,7 +266,7 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
         <button type="submit">
       <a>
       <i class='bx bx-log-out'></i>
-      <span class='sair'>Sair</span>
+      <span class='sair' id='vaisim'>Sair</span>
       </a>
       </button>
   </div></form>

@@ -28,8 +28,9 @@ section {
 }
 
 section h2 {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 700;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
     margin-bottom: 15px;
     display: flex;
@@ -65,7 +66,7 @@ article:hover {
 }
 
 article h3 {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     color: #333;
     margin: 0;
@@ -377,7 +378,7 @@ fieldset{
   --input-bg: #a8a8a8;
   --salvar-bg:#ffffff;
   --perigo:rgb(212, 69, 69);
-  --text-btn:#2faa6d;
+  --text-btn:#66bb6a;
   --text-btn-hover:white;
 }
   
@@ -595,6 +596,12 @@ article:nth-child(4) button,
         background-color: var(--danger-bg);
         color: var(--danger);
     }
+        article:nth-child(4) button:hover {
+opacity: 0.8;
+background-color: var(--danger-bg);
+        color: var(--danger);
+    }
+
 
     article:nth-child(3) button,
 #senhalterar button{
@@ -603,17 +610,50 @@ article:nth-child(4) button,
 }
 article:nth-child(3) button:hover,
 #senhalterar button:hover{
-    background-color: #36B37E;
-    color: var(--text-btn-hover);
+    opacity: 0.8;
+    color: var(--accent);
 }
 #saiba button{
      background-color: var(--bg-body);
     color: var(--accent);
 }
 #saiba button:hover{
-     background-color:#36B37E;
-    color: var(--text-btn-hover);
+     opacity: 0.8;
+    color: var(--accent);
 }
 #email{
     background-color: white;
+}
+#btnTermos #btnAlterarSenha{
+         background-color: var(--bg-body);
+    color: var(--accent);
+}
+#btnTermos:hover {
+    background-color: var(--bg-body);
+     opacity: 0.8;
+    color: var(--accent);
+}
+#btnPolitica{
+             background-color: var(--bg-body);
+    color: var(--accent);
+}
+#btnPolitica:hover{
+     opacity: 0.8;
+    color: var(--accent);
+}
+#btnExcluirConta:hover{
+    opacity: 0.8;
+background-color: var(--danger-bg);
+        color: var(--danger);
+}
+
+#btnAlterarSenha:hover{
+    background-color: var(--bg-body);
+     opacity: 0.8;
+    color: var(--accent);
+}
+#btnAlterarEmail:hover{
+    background-color: var(--bg-body);
+     opacity: 0.8;
+    color: var(--accent);
 }

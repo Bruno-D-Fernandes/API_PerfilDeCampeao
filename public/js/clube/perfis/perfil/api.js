@@ -160,8 +160,17 @@ async function saveClube(clubeId = null) {
         }
 
         updateClube(data.data || data);
+        const espModal = document.getElementById('clubesalvoModal');
 
-        alert('Informações do clube salvas com sucesso!');
+         espModal.style.display = 'flex';
+    setTimeout(() => {
+        espModal.style.display = 'none';
+        
+    }, 1000);
+    setTimeout(() => {
+
+        }, 1000);
+
 
         fecharModal(modalClube);
     } catch (error) {
