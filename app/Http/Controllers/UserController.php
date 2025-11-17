@@ -20,7 +20,7 @@ class UserController extends Controller
     {
         $usuario = Usuario::with([
             'perfis.esporte',
-            'perfis.posicao',
+            'perfis.posicoes',
             'perfis.caracteristicas',
         ])->findOrFail($id);
 
@@ -92,7 +92,6 @@ class UserController extends Controller
 
             $authController = new AuthUserController();
             return $authController->login($request);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
@@ -135,7 +134,6 @@ class UserController extends Controller
             ]);
 
             return response()->json($usuario, 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
@@ -143,7 +141,7 @@ class UserController extends Controller
         }
     }
 
-   public function update(Request $request, string $id)
+    public function update(Request $request, string $id)
     {
         try {
             $usuario = Usuario::find($id);
@@ -188,7 +186,6 @@ class UserController extends Controller
             $usuario->update($dataToUpdate);
 
             return response()->json($usuario, 200);
-
         } catch (ValidationException $e) {
             return response()->json([
                 'error' => 'Erro de validação',
@@ -229,7 +226,6 @@ class UserController extends Controller
             }
 
             return response()->json($usuarioArray, 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Ocorreu um erro ao buscar o usuário',
@@ -269,7 +265,6 @@ class UserController extends Controller
             $usuario->delete();
 
             return response()->json(['message' => 'Usuário deletado com sucesso'], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Ocorreu um erro ao deletar o usuário',

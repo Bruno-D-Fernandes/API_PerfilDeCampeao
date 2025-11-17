@@ -86,9 +86,10 @@ Route::prefix('usuario')->group(function () {
         Route::post('notificacao/{id}/ler', [NotificacoesController::class, 'markAsRead']);
         Route::post('notificacoes/ler', [NotificacoesController::class, 'markAllAsRead']);
 
-        Route::put('/{id}', [UserController::class, 'update']);
-        Route::get('/{id}', [UserController::class, 'show']);
-        Route::delete('/{id}', [UserController::class, 'destroy']);
+        Route::get('/show/{id}', [UserController::class, 'show']);
+        Route::put('/update/{id}', [UserController::class, 'update']);
+        Route::delete('/delete/{id}', [UserController::class, 'destroy']);
+        Route::post('/logout', [AuthUserController::class, 'logout']);
     });
 });
 

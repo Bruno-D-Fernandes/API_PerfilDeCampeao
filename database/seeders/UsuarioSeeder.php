@@ -40,7 +40,7 @@ class UsuarioSeeder extends Seeder
                 'alturaCm' => 182.0,
                 'pesoKg' => 68.0,
                 'peDominante' => 'Direito',
-                'maoDominante' => 'Destro',
+                'maoDonante' => 'Destro',
                 'generoUsuario' => 'Feminino',
                 'estadoUsuario' => 'Minas Gerais',
                 'cidadeUsuario' => 'Belo Horizonte',
