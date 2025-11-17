@@ -65,7 +65,7 @@
       <img src="{{asset('/img/oportuDashAdm.png')}}" class="iconOportuUm" alt="">
       <h4 style='font-size: 21px;'>Últimas oportunidades</h4> 
       <ul id="latestOpps"></ul>
-  <button id="moreOpps" type="button"><a class='ver-mais' href="/clube/oportunidades">Ver mais</a></button>
+  <button id="moreOpps" type="button"><a class='ver-mais' href="{{route('admin-oportunidades')}}">Ver mais</a></button>
     </section>
 
 <!--     <section class="cardOportuPen">

@@ -35,8 +35,8 @@
 
     <div class="cardCamp">
       <img src="/img/iconCampeDashClube.png" alt="" class="iconCampe">
-      <h4>Lista de Campeões</h4>
-      <a id="linkListaCampeoes" href="/clube/lista"><img src="/img/iconAbrirDashClube.png" alt="" class="iconAbrirLista"></a>
+      <h4>Lista de Usuarios</h4>
+      <a id="linkListaCampeoes" href="{{route('clube-pesquisa')}}"><img src="/img/iconAbrirDashClube.png" alt="" class="iconAbrirLista"></a>
     </div>
 
     <section class="cardSug" id="sugestoes">
