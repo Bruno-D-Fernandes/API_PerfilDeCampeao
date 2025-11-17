@@ -50,72 +50,150 @@
     margin-right: 7px;
   }
 
-#metrics .cardCima i.bx {
-  font-size: 48px;
+
+#metrics .grupoCardCima {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.cardCima {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.cardCima:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.cardCima i {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 24px;
   color: var(--accent);
-  margin-top: 12px;
-  opacity: 0.85;
-  transition: opacity 0.2s, transform 0.2s;
+  opacity: 0.8;
 }
 
-#metrics .cardCima:hover i.bx {
-  opacity: 1;
-  transform: scale(1.05);
+.cardCima h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-  /* Ajuste principal: todo o conteúdo principal fica ao lado da sidebar */
-  #search-root {
-    max-width: 100%;
-    margin-left: 70px; /* largura padrão da sidebar fechada */
-    padding: 30px;
+.cardCima .numUser,
+.cardCima .numClubes,
+.cardCima .numOportu {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: 'Segoe UI', sans-serif;
+}
 
-    box-sizing: border-box;
-    transition: margin-left 0.3s ease;
-  }
+/* ====================== */
+/*   SEÇÃO MEIO           */
+/* ====================== */
 
-  /* Cabeçalho principal */
-  h1 {
-    font-size: 32px;
-    color: var(--accent);
-    margin-bottom: 30px;
-  }
+.conteudo-principal {
+  margin-bottom: 32px;
+}
 
-  /* Seção de métricas (cards superiores) */
-  #metrics .grupoCardCima {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    margin-bottom: 30px;
-  }
+.grupoCardMeio {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
 
-  #metrics .cardCima {
-    background: var(--bg-card);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border: 1px solid var(--accent);
-    text-align: center;
-    position: relative;
-  }
+.cardUltiOpor,
+.cardOportuPen,
+.cardUltiDenun {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
 
-  #metrics .cardCima h4 {
-    font-size: 20px;
-    color: var(--text-secondary);
-    font-weight: 800;
-    margin-bottom: 12px;
-  }
+.cardUltiOpor img,
+.cardOportuPen img,
+.cardUltiDenun img {
+  height: 28px;
+  margin-bottom: 12px;
+  filter: brightness(0) saturate(100%) invert(30%) sepia(0%) saturate(0%) hue-rotate(184deg) brightness(95%) contrast(85%);
+}
 
-  #metrics .cardCima div[class^="num"] {
-    font-size: 28px;
-    font-weight: bold;
-    color: var(--text-primary);
-    margin-bottom: 10px;
-  }
-  #metrics .cardCima img {
-    width: 48px;
-    height: 48px;
-    margin-top: 10px;
-  }
+[data-theme="dark"] .cardUltiOpor img,
+[data-theme="dark"] .cardOportuPen img,
+[data-theme="dark"] .cardUltiDenun img {
+  filter: brightness(0) invert(1);
+}
+
+.cardUltiOpor h4,
+.cardOportuPen h4,
+.cardUltiDenun h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.cardUltiOpor ul,
+.cardOportuPen ul {
+  list-style: none;
+  margin-bottom: 16px;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 180px;
+  padding-right: 6px;
+}
+
+.cardUltiOpor ul::-webkit-scrollbar,
+.cardOportuPen ul::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cardUltiOpor ul::-webkit-scrollbar-thumb,
+.cardOportuPen ul::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+.cardUltiOpor ul li,
+.cardOportuPen ul li {
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cardUltiOpor ul li:last-child,
+.cardOportuPen ul li:last-child {
+  border-bottom: none;
+}
+
+
+
+.cardUltiOpor a,
+.cardOportuPen a {
+  text-decoration: none;
+  color: white;
+  display: block;
+}
 
   /* Conteúdo principal: blocos abaixo */
   .conteudo-principal .grupoCardMeio {

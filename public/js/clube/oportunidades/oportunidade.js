@@ -593,8 +593,8 @@ function renderInscritosLista(container, lista) {
           <div data-role="pill">${lbl.txt}</div>
 
           <div data-role="actions">
-            <button data-acao="aprovar">Aprovar</button>
-            <button data-acao="rejeitar">Rejeitar</button>
+            <button class='aprovar' data-acao="aprovar">Aprovar</button>
+            <button class='rejeitar' data-acao="rejeitar">Rejeitar</button>
           </div>
 
         </div>

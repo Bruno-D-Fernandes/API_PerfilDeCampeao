@@ -36,7 +36,7 @@
     <div class="cardCamp">
       <img src="/img/iconCampeDashClube.png" alt="" class="iconCampe">
       <h4>Lista de Campeões</h4>
-      <a id="linkListaCampeoes" href="/clube/lista"><img src="/img/iconAbrirDashClube.png" alt="" class="iconAbrirLista"></a>
+      <a id="linkListaCampeoes" href="/clube/pesquisa"><img src="/img/iconAbrirDashClube.png" alt="" class="iconAbrirLista"></a>
     </div>
 
     <section class="cardSug" id="sugestoes">

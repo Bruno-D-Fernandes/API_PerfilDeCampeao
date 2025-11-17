@@ -167,7 +167,7 @@ function renderInscritosList(inscritos) {
     inscritos.forEach(inscrito => {
         html += `
             <div class="inscrito-row" data-usuario-id="${inscrito.id}">
-                <span>${inscrito.nomeCompletoUsuario || inscrito.nome || 'Usuário'}</span>
+                <span>${inscrito.nomeCompletoUsuario || inscrito.nome || 'Usuário'}</span> <br><br>
                 <div class="members-btns">
                     <button class="inscrito-ver-btn" data-usuario-id="${inscrito.id}"><span>Ver perfil</span></button>
                     <button class="inscrito-remover-btn" data-usuario-id="${inscrito.id}"><span>Remover</span></button>

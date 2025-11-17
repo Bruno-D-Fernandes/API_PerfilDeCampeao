@@ -12,10 +12,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
-<body>
-<main id='totaltotal'>
-@include('admin.sidebar.sidebar-adm')
 
+<body>
+
+<main id='totaltotal'>
+
+ @include('admin.sidebar.sidebar-adm')
 
         <h1 class='titulo'>Esportes</h1>
         <br>

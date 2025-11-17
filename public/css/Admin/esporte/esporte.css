@@ -50,8 +50,9 @@ body {
 
 /* === Ajuste do conteúdo principal para conviver com a sidebar === */
 .conteudo-principal {
-  margin-left: 80px;
+  margin-left: 80px; /* Largura da sidebar fechada + um pouco de espaço */
   padding: 20px;
+  transition: margin-left 0.3s; /* Opcional: para animar a transição */
 }
 
 @media (max-width: 768px) {
@@ -298,10 +299,11 @@ body {
   inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(3px);
-  z-index: 1000;
+  z-index: 1000000;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s, visibility 0.3s;
+
 }
 
 .modal-backdrop.active {

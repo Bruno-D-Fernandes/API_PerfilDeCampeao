@@ -556,7 +556,6 @@ body.sidebar-open .container {
   gap: 10px;
   margin-bottom: 20px;
   padding-bottom: 20px;
-  border-bottom: 2px solid var(--border-color);
 }
 
 #inscritosContainer {
@@ -753,4 +752,75 @@ body.sidebar-open .container {
     font-size: 15px;
     padding: 10px 20px;
   }
+}
+
+.status-pill {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    margin: 5px 0;
+    display: inline-block;
+    border: none;
+}
+
+/* Cor para status Aprovado (verde) */
+.status-aprovado {
+    background-color: #28a745; /* Verde sucesso */
+}
+
+/* Cor para status Rejeitado (vermelho) */
+.status-rejeitado {
+    background-color: #dc3545; /* Vermelho perigo */
+}
+
+/* Cor para status Pendente (cinza ou amarelo) */
+.status-pendente {
+    background-color: #6c757d; /* Cinza secundário */
+    /* Alternativa: background-color: #ffc107; (Amarelo aviso) */
+}
+
+/* Ajustes no layout do item do inscrito para melhor alinhamento */
+[data-insc]{
+    display: grid;
+    grid-template-columns: auto 1fr auto auto; /* Avatar, Info, Status, Ações */
+    gap: 15px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #444; /* Linha separadora */
+}
+
+[data-insc][data-role=\"actions\"] {
+    display: flex;
+    flex-direction: column; /* Coloca os botões um embaixo do outro */
+    gap: 5px;
+}
+.aprovar{
+  background-color: var(--accent);
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;}
+.rejeitar{
+    padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--danger);
 }

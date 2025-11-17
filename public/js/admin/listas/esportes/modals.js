@@ -5,6 +5,7 @@ let modaisFechados = [];
 function abrirModal(modal) {
                   const modalopor = document.getElementById('totaltotal')
    modalopor.classList.add('hidden1');
+   document.body.style.overflow = "hidden";
     // Se está abrindo um modal de tipo 2 ou 3, fechar os outros modais primeiro e salvá-los na pilha
     if (modal.type === 2 || modal.type === 3) {
         modaisFechados = [];
@@ -21,7 +22,6 @@ function abrirModal(modal) {
         
         modalBackdrop.classList.add('hidden');
         modalBackdropSecond.classList.add('hidden');
-
     }
     
     modal.content.classList.remove('hidden');
@@ -44,6 +44,7 @@ function fecharModal(modal) {
     modal.content.classList.add('hidden');
     const modalopor = document.getElementById('totaltotal')
     modalopor.classList.remove('hidden1');
+    document.body.style.overflow = "auto";
     
     limparModal(modal);
 

@@ -7,6 +7,7 @@
   --accent: #36B37E;
   --accent-hover: #2faa6d;
   --danger: #e53935;
+  --danger-hover: #db2724;
   --danger-bg: #ffebee;
   --input-bg: #ffffff;
   --perigo: rgb(228, 7, 7);
@@ -21,6 +22,7 @@
   --accent: #66bb6a;
   --accent-hover: #4caf50;
   --danger: #ef9a9a;
+  --danger-hover: #b95e5c;
   --danger-bg: #2c1a1a;
   --input-bg: #2a2a2a;
   --perigo: rgb(212, 69, 69);
@@ -342,7 +344,7 @@ body.sidebar-open .container {
   top: 50%;
   right: 50px;
   transform: translateY(-50%);
-  z-index: 10000;
+
   background: var(--bg-card);
   border: 2px solid var(--border-color);
   border-radius: 10px;
@@ -1325,4 +1327,93 @@ body.sidebar-open .container {
   font-weight: 700;
   transition: box-shadow 0.2s;
   outline: none;
+}
+
+.inscrito-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 8px;
+    border-bottom: 1px solid #333; /* Linha separadora */
+}
+
+.inscrito-item:last-child {
+    border-bottom: none;
+}
+
+.inscrito-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.inscrito-nome {
+    flex-grow: 1; /* Ocupa o espaço restante */
+    font-size: 1rem;
+    color: #eee;
+}
+
+.inscrito-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-inscrito-action {
+    padding: 6px 12px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #3a3a3a;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-inscrito-action:hover {
+    background-color: #4a4a4a;
+}
+
+.btn-remover {
+    border-color: #802020;
+    background-color: #5c1a1a;
+}
+
+.btn-remover:hover {
+    background-color: #7d2525;
+}
+
+.no-data {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+}
+.inscrito-ver-btn{
+      padding: 6px 12px;
+    border: 1px solid var(--accent);
+    border-radius: 5px;
+    background-color: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.inscrito-ver-btn:hover{
+background-color: var(--accent-hover);
+}
+.inscrito-remover-btn{
+  padding: 6px 12px;
+    border: 1px solid var(--danger);
+    border-radius: 5px;
+    background-color: var(--danger);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.inscrito-remover-btn:hover{
+background-color: var(--danger-hover);
 }
