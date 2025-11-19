@@ -112,3 +112,16 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::get('/usuarios/{id}', [UserController::class, 'showProfilePage'])->name('usuarios');
+
+
+Route::get('/testes/topbar', function () {
+    return view('area-51.topbar');
+});
+
+Route::get('/testes/layout-clube', function () {
+    return view('area-51.layout-clube');
+});
+
+Route::get('/testes/layout-admin', function () {
+    return view('area-51.layout-admin');
+});
