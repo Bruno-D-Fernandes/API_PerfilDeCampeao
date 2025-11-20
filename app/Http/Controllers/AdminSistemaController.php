@@ -9,6 +9,7 @@ use App\Models\Oportunidade;
 use App\Models\Usuario;
 use App\Models\Clube;
 use App\Models\Categoria;
+use App\Models\Lista;
 use App\Models\Caracteristica;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -721,5 +722,22 @@ public function listarClubes(Request $request){
         $esporte->save();
         return response()->json(['message' => 'Esporte deletado com sucesso'], 200);
     }
-    
+    public function listaAtivar(Request $request, $id){
+        $lista = Lista::find($id);
+        if (!$lista) {
+            return response()->json(['message' => 'Lista não encontrada'], 404);
+        }
+        $lista->status = Lista::STATUS_ATIVO;
+        $lista->save();
+        return response()->json(['message' => 'Lista ativada com sucesso'], 200);
+    }
+    public function listaDeletar(Request $request, $id){
+        $lista = Lista::find($id);
+        if (!$lista) {
+            return response()->json(['message' => 'Lista não encontrada'], 404);
+        }
+        $lista->status = Lista::STATUS_DELETADO;
+        $lista->save();
+        return response()->json(['message' => 'Lista deletada com sucesso'], 200);
+    }
 }

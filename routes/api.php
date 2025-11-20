@@ -239,6 +239,12 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/usuario/list', [AdminSistemaController::class, 'listarUsuarios']);
         Route::get('/clube/list', [AdminSistemaController::class, 'listarClubes']);
+        Route::post('/esporte/{id}/ativar', [AdminSistemaController::class, 'esporteAtivar']);
+        Route::post('/esporte/{id}/deletar', [AdminSistemaController::class, 'esporteDeletar']);
+        Route::post('/lista/{id}/ativar', [AdminSistemaController::class, 'listaAtivar']);
+        Route::post('/lista/{id}/deletar', [AdminSistemaController::class, 'listaDeletar']);
+        Route::post('/funcoes/{id}/ativar', [AdminSistemaController::class, 'ativarFuncoes']);
+        Route::post('/funcoes/{id}/deletar', [AdminSistemaController::class, 'deletarFuncoes']);
 
         Route::get('/posicao/{id}', [AdminSistemaController::class, 'showPosicao']);
 
