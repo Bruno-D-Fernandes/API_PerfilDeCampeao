@@ -46,17 +46,55 @@ class AuthClubeController extends Controller
     }
 
     public function deleteAccount(Request $request)
-    {
+{
+    try {
         $clube = $request->user();
 
-        if (!$clube) {
+        if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Clube não encontrado'], 404);
         }
 
-        $clube->delete();
+        $fotoPerfilPath = $clube->getRawOriginal('fotoPerfilClube');
+        if ($fotoPerfilPath) {
+            Storage::disk('public')->delete($fotoPerfilPath);
+            $clube->fotoPerfilClube = null;
+        }
 
-        return response()->json(['message' => 'Conta do clube excluida com sucesso'], 200);
+        $fotoBannerPath = $clube->getRawOriginal('fotoBannerClube');
+        if ($fotoBannerPath) {
+            Storage::disk('public')->delete($fotoBannerPath);
+            $clube->fotoBannerClube = null;
+        }
+
+        $suffix = '#deleted#' . $clube->id . '#' . now()->timestamp;
+
+        $clube->nomeClube  = $clube->nomeClube  . $suffix;
+        $clube->cnpjClube  = $clube->cnpjClube  . $suffix;
+        $clube->emailClube = $clube->emailClube . $suffix;
+
+        if (defined(Clube::class . '::STATUS_DELETADO')) {
+            $clube->status = Clube::STATUS_DELETADO;
+        }
+
+        $clube->reviewed_by      = null;
+        $clube->reviewed_at      = null;
+        $clube->rejection_reason = null;
+
+        $clube->save();
+
+        if (method_exists($clube, 'tokens')) {
+            $clube->tokens()->delete();
+        }
+
+        return response()->json(['message' => 'Conta do clube excluída com sucesso'], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'error'   => 'Ocorreu um erro ao deletar a conta do clube',
+            'message' => $e->getMessage(),
+        ], 500);
     }
+}
     public function updateAccount(Request $request)
     {
         $clube = $request->user();

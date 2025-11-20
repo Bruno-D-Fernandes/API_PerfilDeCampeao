@@ -22,6 +22,7 @@ class Usuario extends Authenticatable
 
     const STATUS_ATIVO = 'ativo';
     const STATUS_BLOQUEADO = 'bloqueado';
+    const STATUS_DELETADO = 'deletado';
 
     /**
      * The attributes that are mass assignable.
@@ -83,6 +84,10 @@ class Usuario extends Authenticatable
     public function scopeBloqueados($query)
     {
         return $query->where('status', self::STATUS_BLOQUEADO);
+    }
+    public function scopeDeletados($query)
+    {
+        return $query->where('status', self::STATUS_DELETADO);
     }
 
     public function reviewer()

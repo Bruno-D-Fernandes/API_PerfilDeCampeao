@@ -249,7 +249,23 @@ public function bloquearClube(Request $request, $id){
     return response()->json(['message' => 'Clube bloqueado com sucesso'], 200);
 }
 
+public function listarUsuarios(Request $request){
+    $status = $request->query('status');
+    $q = Usuario::query();
+    if ($status) {
+        $q->where('status', $status);
+    }
+    return response()->json($q->get());
+}
 
+public function listarClubes(Request $request){
+    $status = $request->query('status');
+    $q = Clube::query();
+    if ($status) {
+        $q->where('status', $status);
+    }
+    return response()->json($q->get());
+}
 
 
     public function showEsporte(Request $request, $id)

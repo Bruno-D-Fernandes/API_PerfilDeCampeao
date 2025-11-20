@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('alturaCm')->nullable();
             $table->float('pesoKg')->nullable();
             $table->string('peDominante', 50)->nullable();
-            $table->enum('status', ['ativo','bloqueado'])->default('ativo');
+            $table->enum('status', ['ativo','bloqueado', 'deletado'])->default('ativo');
             $table->timestamp('reviewed_at')->nullable();
             $table->string('bloque_reason', 255)->nullable();
             $table->string('maoDominante', 50)->nullable();

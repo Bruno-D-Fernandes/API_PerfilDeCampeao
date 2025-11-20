@@ -237,6 +237,9 @@ Route::prefix('admin')->group(function () {
         Route::put('/posicao/{id}', [AdminSistemaController::class, 'Posicaoupdate']);
         Route::delete('/posicao/{id}', [AdminSistemaController::class, 'Posicaodestroy']);
 
+        Route::get('/usuario/list', [AdminSistemaController::class, 'listarUsuarios']);
+        Route::get('/clube/list', [AdminSistemaController::class, 'listarClubes']);
+
         Route::get('/posicao/{id}', [AdminSistemaController::class, 'showPosicao']);
 
         Route::get('/posicao', [AdminSistemaController::class, 'listarPosicoes']);

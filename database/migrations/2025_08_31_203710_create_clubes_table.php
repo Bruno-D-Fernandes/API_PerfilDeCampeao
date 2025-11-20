@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('fotoPerfilClube')->nullable();
             $table->string('fotoBannerClube')->nullable();
 
-            $table->enum('status', ['ativo', 'pendente','rejeitado', 'bloqueado'])->default('pendente');
+            $table->enum('status', ['ativo', 'pendente','rejeitado', 'bloqueado', 'deletado'])->default('pendente');
             $table->timestamp('reviewed_at')->nullable();
             $table->string('rejection_reason', 255)->nullable();
             $table->string('bloque_reason', 255)->nullable();

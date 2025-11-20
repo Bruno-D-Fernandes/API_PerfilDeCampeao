@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome', 100)->unique();
             $table->text('descricao', 255)->nullable();
+            $table->enum('status', ['ativo','pendente']);
             $table->timestamps();
         });
     }

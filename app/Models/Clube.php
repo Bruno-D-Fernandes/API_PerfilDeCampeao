@@ -18,6 +18,7 @@ class Clube extends Authenticatable
     const STATUS_PENDENTE = 'pendente';
     const STATUS_REJEITADO = 'rejeitado';
     const STATUS_BLOQUEADO = 'bloqueado';
+    const STATUS_DELETADO = 'deletado';
 
     protected $table = 'clubes';
 
@@ -57,6 +58,10 @@ class Clube extends Authenticatable
     public function reviewer()
     {
         return $this->belongsTo(Admin::class, 'reviewed_by');
+    }
+
+    public function scopeDeletados($query){
+        return $query->where('status', self::STATUS_DELETADO);
     }
 
     public function scopeAtivos($query)
