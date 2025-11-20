@@ -58,6 +58,115 @@ public function oportunidadeUpdateStatus(Request $request, Oportunidade $oportun
     );
 }
 
+public function clubeUpdateStatus(Request $request, Clube $clube)
+{
+    $admin = $request->user();
+    if (!$admin || !($admin instanceof Admin)) {
+        return response()->json(['message' => 'Somente admin autenticado'], 403);
+    }
+
+    $data = $request->validate([
+        'status' => [
+            'required',
+            Rule::in([
+                Clube::STATUS_ATIVO,
+                Clube::STATUS_REJEITADO,
+                Clube::STATUS_BLOQUEADO,
+            ]),
+        ],
+        'rejection_reason' => [
+            'nullable',
+            Rule::requiredIf(fn () => $request->status == Clube::STATUS_REJEITADO),
+            'string',
+            'max:255',
+        ],
+    ]);
+
+    $clube->status       = $data['status'];
+    $clube->reviewed_by  = $admin->id;
+    $clube->reviewed_at  = now();
+
+    if ($data['status'] == Clube::STATUS_REJEITADO) {
+        $clube->rejection_reason = $data['rejection_reason'];
+    } else {
+        $clube->rejection_reason = null;
+    }
+
+   $clube->save();
+
+    return response()->json(
+        $clube->fresh()->load('categoria', 'esporte')
+    );
+}
+
+public function ativarClube(Request $request, $id){
+    $admin = $request->user();
+    if (!$admin || !($admin instanceof Admin)) {
+        return response()->json(['message' => 'Somente admin autenticado'], 403);
+    }
+    $clube = Clube::find($id);
+    if (!$clube) return response()->json(['message' => 'Clube não encontrado'], 404);
+
+    $clube->update([
+        'status'         => Clube::STATUS_ATIVO,
+        'reviewed_by'    => $admin->id,
+        'reviewed_at'    => now(),
+        'rejection_reason' => null,
+        'bloque_reason' => null,
+    ]);
+
+    return response()->json(['message' => 'Clube ativado com sucesso'], 200);
+}
+
+public function rejeitarClube(Request $request, $id){
+    $admin = $request->user();
+    if (!$admin || !($admin instanceof Admin)) {
+        return response()->json(['message' => 'Somente admin autenticado'], 403);
+    }
+    $clube = Clube::find($id);
+    if (!$clube) return response()->json(['message' => 'Clube não encontrado'], 404);
+
+    $validatedData = $request->validate([
+        'rejection_reason' => 'required|string|max:1000',
+    ]);
+
+    $clube->update([
+        'status'         => Clube::STATUS_REJEITADO,
+        'reviewed_by'    => $admin->id,
+        'reviewed_at'    => now(),
+        'rejection_reason' => $validatedData['rejection_reason'],
+        'bloque_reason' => null,
+    ]);
+
+    return response()->json(['message' => 'Clube rejeitado com sucesso'], 200);
+}
+
+public function bloquearClube(Request $request, $id){
+    $admin = $request->user();
+    if (!$admin || !($admin instanceof Admin)) {
+        return response()->json(['message' => 'Somente admin autenticado'], 403);
+    }
+    $clube = Clube::find($id);
+    if (!$clube) return response()->json(['message' => 'Clube não encontrado'], 404);
+
+    
+    $validatedData = $request->validate([
+        'bloque_reason' => 'required|string|max:1000',
+    ]);
+
+    $clube->update([
+        'status'         => Clube::STATUS_BLOQUEADO,
+        'reviewed_by'    => $admin->id,
+        'reviewed_at'    => now(),
+        'rejection_reason' => null,
+        'bloque_reason' => $validatedData['bloque_reason'],
+    ]);
+    return response()->json(['message' => 'Clube bloqueado com sucesso'], 200);
+}
+
+
+
+
     public function showEsporte(Request $request, $id)
     {
         $esporte = Esporte::with('posicoes', 'caracteristicas')->findOrFail($id);

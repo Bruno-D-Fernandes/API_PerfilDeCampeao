@@ -100,6 +100,7 @@ class ClubeController extends Controller
                 'estadoClube' => $validatedData['estadoClube'],
                 'anoCriacaoClube' => $validatedData['anoCriacaoClube'],
                 'enderecoClube' => $validatedData['enderecoClube'],
+                'status' => Clube::STATUS_PENDENTE,
                 'bioClube' => $validatedData['bioClube'] ?? null,
                 'senhaClube' => Hash::make($validatedData['senhaClube']),
                 'fotoPerfilClube' => $caminhoFotoPerfil,
@@ -108,8 +109,9 @@ class ClubeController extends Controller
                 'esporte_id' => $validatedData['esporte_id'],
             ]);
 
-            $authController = new AuthClubeController();
-            return $authController->login($request);
+            return response()->json([
+                'message' => 'Clube cadastrado com sucesso e enviado para análise do administrador.',
+            ], 201);
 
         } catch(\Exception $e) {
             return response()->json([
@@ -145,6 +147,7 @@ class ClubeController extends Controller
                 'cidadeClube' => $validatedData['cidadeClube'],
                 'estadoClube' => $validatedData['estadoClube'],
                 'anoCriacaoClube' => $validatedData['anoCriacaoClube'],
+                'status' => Clube::STATUS_ATIVO,
                 'enderecoClube' => $validatedData['enderecoClube'],
                 'bioClube' => $validatedData['bioClube'] ?? null,
                 'senhaClube' => Hash::make($senhaTemporariaAleatoria),
@@ -237,6 +240,14 @@ class ClubeController extends Controller
                     Storage::disk('public')->delete($caminhoAntigo);
                 }
                 $clube->fotoBannerClube = $request->file('fotoBannerClube')->store('clubes/banners', 'public');
+            }
+
+            if($clube->status !== Clube::STATUS_PENDENTE){
+                $clube->status = Clube::STATUS_PENDENTE;
+                $clube->reviewed_by = null;
+                $clube->reviewed_at = null;
+                $clube->bloque_reason = null;
+                $clube->rejection_reason = null;
             }
 
             $clube->save();

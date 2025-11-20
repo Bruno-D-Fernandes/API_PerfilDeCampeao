@@ -198,6 +198,12 @@ Route::prefix('admin')->group(function () {
         Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 
 
+        Route::post('/clube/{id}/ativar', [AdminSistemaController::class, 'ativarClube']);
+        Route::post('/clube/{id}/rejeitar', [AdminSistemaController::class, 'rejeitarClube']);
+        Route::post('/clube/{id}/bloquear', [AdminSistemaController::class, 'bloquearClube']);
+
+        Route::post('/clube/{id}/update', [AdminSistemaController::class, 'clubeUpdateStatus']);
+
         Route::put('/perfil/identidade', [AdminProfileController::class, 'updateIdentidade']);
         Route::put('/perfil/informacoes', [AdminProfileController::class, 'updateInformacoes']);
 

@@ -18,6 +18,14 @@ class AuthClubeController extends Controller
             return response()->json(['message' => 'Credenciais inválidas'], 401);
         }
 
+        if($clube->status === Clube::STATUS_BLOQUEADO){
+            return response()->json(['message' => 'Conta do clube foi bloqueado pelo seguinte motivo: '. $clube->bloque_reason], 403);
+        }
+
+        if($clube->status !== Clube::STATUS_ATIVO){
+            return response()->json(['message' => 'Conta do clube não está ativa. Status atual: ' . $clube->status], 403);
+        }
+
         $token = $clube->createToken('auth_token', ['club'], null, 'club_sanctum')->plainTextToken;
 
         return response()->json([

@@ -28,6 +28,12 @@ return new class extends Migration
             $table->foreignId('esporte_id')->references('id')->on('esportes')->onDelete('cascade'); // ou 'idEsporte'
             $table->string('fotoPerfilClube')->nullable();
             $table->string('fotoBannerClube')->nullable();
+
+            $table->enum('status', ['ativo', 'pendente','rejeitado', 'bloqueado'])->default('pendente');
+            $table->timestamp('reviewed_at')->nullable();
+            $table->string('rejection_reason', 255)->nullable();
+            $table->string('bloque_reason', 255)->nullable();
+
             $table->timestamps();
         });
     }
