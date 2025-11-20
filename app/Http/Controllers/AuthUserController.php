@@ -19,6 +19,10 @@ class AuthUserController extends Controller
                 return response()->json(['message' => 'Credenciais inválidas'], 401);
             }
 
+            if ($user->status === Usuario::STATUS_BLOQUEADO) {
+                return response()->json(['message' => 'Conta bloqueada. Entre em contato com o suporte. Motivo: '. $user->bloque_reason], 403);
+            }
+
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([

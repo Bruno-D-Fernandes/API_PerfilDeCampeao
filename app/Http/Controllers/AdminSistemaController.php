@@ -58,6 +58,91 @@ public function oportunidadeUpdateStatus(Request $request, Oportunidade $oportun
     );
 }
 
+public function usuarioUpdateStatus(Request $request, Usuario $usuario)
+{
+    $admin = $request->user();
+    if (!$admin || !($admin instanceof Admin)) {
+        return response()->json(['message' => 'Somente admin autenticado'], 403);
+    }
+
+    $data = $request->validate([
+        'status' => [
+            'required',
+            Rule::in([
+                Usuario::STATUS_ATIVO,
+                Usuario::STATUS_BLOQUEADO,
+            ]),
+        ],
+        'bloque_reason' => [
+            'nullable',
+            Rule::requiredIf(fn () => $request->status == Usuario::STATUS_BLOQUEADO),
+            'string',
+            'max:255',
+        ],
+    ]);
+
+    $usuario->status       = $data['status'];
+    $usuario->reviewed_by  = $admin->id;
+    $usuario->reviewed_at  = now();
+
+    if ($data['status'] == Usuario::STATUS_BLOQUEADO) {
+        $usuario->bloque_reason = $data['bloque_reason'];
+    } else {
+        $usuario->bloque_reason = null;
+    }
+
+   $usuario->save();
+
+    return response()->json(
+        $usuario->fresh()
+    );
+}
+
+public function bloquearUsuario(Request $request, $id){
+    $admin = $request->user();
+    if (!$admin || !($admin instanceof Admin)) {
+        return response()->json(['message' => 'Somente admin autenticado'], 403);
+    }
+    $usuario = Usuario::find($id);
+
+    if (!$usuario){
+         return response()->json(['message' => 'Usuário não encontrado'], 404);
+    }
+
+    
+    $validatedData = $request->validate([
+        'bloque_reason' => 'required|string|max:1000',
+    ]);
+
+    $usuario->update([
+        'status'         => Usuario::STATUS_BLOQUEADO,
+        'reviewed_by'    => $admin->id,
+        'reviewed_at'    => now(),
+        'bloque_reason' => $validatedData['bloque_reason'],
+    ]);
+    return response()->json(['message' => 'Usuário bloqueado com sucesso'], 200);
+}
+
+public function ativarUsuario(Request $request, $id){
+    $admin = $request->user();
+    if (!$admin || !($admin instanceof Admin)) {
+        return response()->json(['message' => 'Somente admin autenticado'], 403);
+    }
+    $usuario = Usuario::find($id);
+    if (!$usuario){
+         return response()->json(['message' => 'Usuário não encontrado'], 404);
+    }
+
+    $usuario->update([
+        'status'         => Usuario::STATUS_ATIVO,
+        'reviewed_by'    => $admin->id,
+        'reviewed_at'    => now(),
+        'bloque_reason' => null,
+    ]);
+
+    return response()->json(['message' => 'Usuário ativado com sucesso'], 200);
+}
+
 public function clubeUpdateStatus(Request $request, Clube $clube)
 {
     $admin = $request->user();
