@@ -449,24 +449,81 @@ public function listarClubes(Request $request){
     }
 
     public function UsuarioDestroy(string $id)
-    {
-        $usuario = Usuario::find($id);
-        if (!$usuario instanceof Usuario) {
-            return response()->json(['message' => 'Usuário não encontrado'], 404);
-        }
-        $usuario->delete();
-        return response()->json(['message' => 'Usuário deletado com sucesso'], 200);
+{
+    $usuario = Usuario::find($id);
+
+    if (!$usuario instanceof Usuario) {
+        return response()->json(['message' => 'Usuário não encontrado'], 404);
     }
 
-    public function ClubeDestroy(string $id)
-    {
-        $clube = Clube::find($id);
-        if (!$clube instanceof Clube) {
-            return response()->json(['message' => 'Clube não encontrado'], 404);
-        }
-        $clube->delete();
-        return response()->json(['message' => 'Clube deletado com sucesso'], 200);
+  
+    $fotoPerfilPath = $usuario->getRawOriginal('fotoPerfilUsuario');
+    if ($fotoPerfilPath) {
+        Storage::disk('public')->delete($fotoPerfilPath);
+        $usuario->fotoPerfilUsuario = null;
     }
+
+    $fotoBannerPath = $usuario->getRawOriginal('fotoBannerUsuario');
+    if ($fotoBannerPath) {
+        Storage::disk('public')->delete($fotoBannerPath);
+        $usuario->fotoBannerUsuario = null;
+    }
+
+
+    $suffix = '#deleted#' . $usuario->id . '#' . now()->timestamp;
+
+    if ($usuario->emailUsuario) {
+        $usuario->emailUsuario = $usuario->emailUsuario . $suffix;
+    }
+
+  
+    if (defined(Usuario::class . '::STATUS_DELETADO')) {
+        $usuario->status = Usuario::STATUS_DELETADO;
+    }
+
+    $usuario->save();
+
+    return response()->json(['message' => 'Usuário marcado como deletado com sucesso'], 200);
+}
+
+
+    public function ClubeDestroy(string $id)
+{
+    $clube = Clube::find($id);
+
+    if (!$clube instanceof Clube) {
+        return response()->json(['message' => 'Clube não encontrado'], 404);
+    }
+
+    $fotoPerfilPath = $clube->getRawOriginal('fotoPerfilClube');
+    if ($fotoPerfilPath) {
+        Storage::disk('public')->delete($fotoPerfilPath);
+        $clube->fotoPerfilClube = null;
+    }
+
+    $fotoBannerPath = $clube->getRawOriginal('fotoBannerClube');
+    if ($fotoBannerPath) {
+        Storage::disk('public')->delete($fotoBannerPath);
+        $clube->fotoBannerClube = null;
+    }
+
+   
+    $suffix = '#deleted#' . $clube->id . '#' . now()->timestamp;
+
+    $clube->nomeClube  = $clube->nomeClube  . $suffix;
+    $clube->cnpjClube  = $clube->cnpjClube  . $suffix;
+    $clube->emailClube = $clube->emailClube . $suffix;
+
+    // 3) Marcar status como deletado
+    if (defined(Clube::class . '::STATUS_DELETADO')) {
+        $clube->status = Clube::STATUS_DELETADO;
+    }
+
+    $clube->save();
+
+    return response()->json(['message' => 'Clube marcado como deletado com sucesso'], 200);
+}
+
 
     public function OportunidadeDestroy(string $id){
         $oportunidade = Oportunidade::find($id);
