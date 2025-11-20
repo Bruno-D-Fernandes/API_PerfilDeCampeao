@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nomeEsporte', 100);
             $table->text('descricaoEsporte')->nullable();
+            $table->enum('status', ['ativo','deletado'])->default('ativo');
             $table->timestamps();
         });
     }

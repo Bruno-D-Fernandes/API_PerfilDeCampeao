@@ -702,4 +702,24 @@ public function listarClubes(Request $request){
         $funcao->save();
         return response()->json(['message' => 'Função ativada com sucesso'], 200);
     }
+
+    public function esporteAtivar(Request $request, $id){
+        $esporte = Esporte::find($id);
+        if (!$esporte) {
+            return response()->json(['message' => 'Esporte não encontrado'], 404);
+        }
+        $esporte->status = Esporte::STATUS_ATIVO;
+        $esporte->save();
+        return response()->json(['message' => 'Esporte ativado com sucesso'], 200);
+    }
+    public function esporteDeletar(Request $request, $id){
+        $esporte = Esporte::find($id);
+        if (!$esporte) {
+            return response()->json(['message' => 'Esporte não encontrado'], 404);
+        }
+        $esporte->status = Esporte::STATUS_DELETADO;
+        $esporte->save();
+        return response()->json(['message' => 'Esporte deletado com sucesso'], 200);
+    }
+    
 }

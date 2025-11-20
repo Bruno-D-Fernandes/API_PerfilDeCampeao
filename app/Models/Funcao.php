@@ -14,5 +14,18 @@ class Funcao extends Model
 
     protected $table = 'funcoes';
 
-    protected $fillable = ['nome', 'descricao'];
+    protected $fillable = [
+        'nome',
+        'descricao',
+        'status',
+    ];
+
+    public function scopeAtivos($query)
+    {
+        return $query->where('status', self::STATUS_ATIVO);
+    }
+    public function scopeDeletados($query)
+    {
+        return $query->where('status', self::STATUS_DELETADO);
+    }
 }
