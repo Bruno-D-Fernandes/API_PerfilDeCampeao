@@ -673,4 +673,33 @@ public function listarClubes(Request $request){
         $caracteristica->delete();
         return response()->json(['ok' => true]);
     }
+
+    public function deletarFuncoes(Request $request, $id){
+        $funcao = Funcao::find($id);
+        if (!$funcao) {
+            return response()->json(['message' => 'Função não encontrada'], 404);
+        }
+        $funcao->status = Funcao::STATUS_DELETADO;
+        $funcao->save();
+        return response()->json(['message' => 'Função deletada com sucesso'], 200);
+        }
+
+    public function listarFuncoes(Request $request){
+        $status = $request->query('status');
+        $q = Funcao::query();
+        if ($status) {
+            $q->where('status', $status);
+        }
+        return response()->json($q->get());
+    }
+
+    public function ativarFuncoes(Request $request, $id){
+        $funcao = Funcao::find($id);
+        if (!$funcao) {
+            return response()->json(['message' => 'Função não encontrada'], 404);
+        }
+        $funcao->status = Funcao::STATUS_ATIVO;
+        $funcao->save();
+        return response()->json(['message' => 'Função ativada com sucesso'], 200);
+    }
 }

@@ -9,6 +9,9 @@ class Funcao extends Model
 {
     use HasFactory;
 
+    const STATUS_ATIVO = 'ativo';
+    const STATUS_DELETADO = 'deletado';
+
     protected $table = 'funcoes';
 
     protected $fillable = ['nome', 'descricao'];
