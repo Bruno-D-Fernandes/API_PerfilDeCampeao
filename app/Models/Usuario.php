@@ -96,7 +96,7 @@ class Usuario extends Authenticatable
     }
 
     public function getAuthPassword()
-    {
+        {
         return $this->senhaUsuario;
     }
 

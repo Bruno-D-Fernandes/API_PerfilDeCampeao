@@ -39,6 +39,8 @@ class OportunidadeController extends Controller
         }
 
         $validatedData = $request->validate([
+            'limite_inscricoes' => 'nullable|integer|min:1',
+            'tituloOportunidades'       => 'required|string|max:100',
             'descricaoOportunidades'    => 'required|string|max:255',
             'esporte_id'                => 'required|exists:esportes,id',
             'posicoes_id'               => 'required|exists:posicoes,id',
@@ -48,11 +50,17 @@ class OportunidadeController extends Controller
             'cidadeOportunidade'        => 'nullable|string|max:100',
             'enderecoOportunidade'      => 'nullable|string|max:255',
             'cepOportunidade'           => 'nullable|string|max:9',
+            'alturaMinCm' => 'nullable|integer|min:50|max:300',
+            'alturaMaxCm' => 'nullable|integer|min:50|max:300|gte:alturaMinCm',
+            'pesoMinKg'   => 'nullable|integer|min:20|max:500',
+            'pesoMaxKg'   => 'nullable|integer|min:20|max:500|gte:pesoMinKg',
         ]);
 
         try {
 
             $oportunidade = Oportunidade::create([
+                'limite_inscricoes' => $validatedData['limite_inscricoes'],
+                'tituloOportunidades'       => $validatedData['tituloOportunidades'],
                 'descricaoOportunidades'    => $validatedData['descricaoOportunidades'],
                 'datapostagemOportunidades' => Carbon::now(),
                 'esporte_id'                => $validatedData['esporte_id'],
@@ -65,6 +73,10 @@ class OportunidadeController extends Controller
                 'cidadeOportunidade'        => $validatedData['cidadeOportunidade'] ?? null,
                 'enderecoOportunidade'      => $validatedData['enderecoOportunidade'] ?? null,
                 'cepOportunidade'           => $validatedData['cepOportunidade']    ?? null,
+                'alturaMinCm'               => $validatedData['alturaMinCm']        ?? null,
+                'alturaMaxCm'               => $validatedData['alturaMaxCm']        ?? null,
+                'pesoMinKg'                 => $validatedData['pesoMinKg']          ?? null,
+                'pesoMaxKg'                 => $validatedData['pesoMaxKg']          ?? null
             ]);
 
             event(new NewPendingOpportunityEvent($oportunidade, $clube));
@@ -164,6 +176,8 @@ class OportunidadeController extends Controller
         }
 
         $validatedData = $request->validate([
+            'limite_inscricoes'         => 'sometimes|nullable|integer|min:1',
+            'tituloOportunidades'      => 'sometimes|required|string|max:100',
             'descricaoOportunidades'    => 'sometimes|required|string|max:255',
             'esporte_id'                => 'sometimes|required|exists:esportes,id',
             'posicoes_id'               => 'sometimes|required|exists:posicoes,id',
@@ -173,6 +187,10 @@ class OportunidadeController extends Controller
             'cidadeOportunidade'        => 'sometimes|string|max:100',
             'enderecoOportunidade'      => 'sometimes|string|max:255',
             'cepOportunidade'           => 'sometimes|string|max:9',
+            'alturaMinCm' => 'sometimes|nullable|integer|min:50|max:300',
+            'alturaMaxCm' => 'sometimes|nullable|integer|min:50|max:300|gte:alturaMinCm',
+            'pesoMinKg'   => 'sometimes|nullable|integer|min:20|max:500',
+            'pesoMaxKg'   => 'sometimes|nullable|integer|min:20|max:500|gte:pesoMinKg',
         ]);
 
         if ($oportunidade->status === Oportunidade::STATUS_REJECTED || $oportunidade->status === Oportunidade::STATUS_APPROVED) {

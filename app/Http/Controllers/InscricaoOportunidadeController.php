@@ -16,34 +16,75 @@ class InscricaoOportunidadeController extends Controller
     /**
      * USUÁRIO: inscrever-se em uma oportunidade (status = PENDING).
      */
-    public function store(Request $request, $oportunidadeId)
-    {
-        $user = $request->user();
+ public function store(Request $request, $oportunidadeId)
+{
+    $user = $request->user();
 
-        if (!$user || !($user instanceof Usuario)) {
-            return response()->json(['message' => 'Somente usuário autenticado pode se inscrever'], 403);
-        }
-
-        $op = Oportunidade::findOrFail($oportunidadeId);
-
-        $jaExiste = Inscricao::where('oportunidade_id', $op->id)
-            ->where('usuario_id', $user->id)
-            ->exists();
-
-        if ($jaExiste) {
-            return response()->json(['message' => 'Já inscrito'], 409);
-        }
-
-        $insc = Inscricao::create([
-            'oportunidade_id' => $op->id,
-            'usuario_id'      => $user->id,
-            'status'          => Inscricao::STATUS_PENDING,
-        ]);
-
-        event(new OpportunityApplicationCreatedEvent($user, $op, $op->clube));
-
-        return response()->json($insc, 201);
+    if (!$user || !($user instanceof Usuario)) {
+        return response()->json(['message' => 'Somente usuário autenticado pode se inscrever'], 403);
     }
+
+    $op = Oportunidade::findOrFail($oportunidadeId);
+
+    if (!is_null($op->limite_inscricoes)) {
+        $totalInscritos = $op->inscricoes()
+            ->whereIn('status', [Inscricao::STATUS_PENDING, Inscricao::STATUS_APPROVED])
+            ->count();
+
+        if ($totalInscritos >= $op->limite_inscricoes) {
+            return response()->json(['message' => 'Esta oportunidade já atingiu o limite de inscrições.'], 422);
+        }
+    }
+
+    $jaExiste = Inscricao::where('oportunidade_id', $op->id)
+        ->where('usuario_id', $user->id)
+        ->exists();
+
+    if ($jaExiste) {
+        return response()->json(['message' => 'Você já está inscrito nesta oportunidade.'], 409);
+    }
+
+    if (!is_null($op->alturaMinCm) || !is_null($op->alturaMaxCm)) {
+        if (is_null($user->alturaCm)) {
+            return response()->json(['message' => 'Preencha sua altura (cm) no perfil para se inscrever nesta oportunidade.'], 422);
+        }
+
+        if (!is_null($op->alturaMinCm) && $user->alturaCm < $op->alturaMinCm) {
+            return response()->json(['message' => 'Altura abaixo do mínimo exigido.'], 422);
+        }
+
+        if (!is_null($op->alturaMaxCm) && $user->alturaCm > $op->alturaMaxCm) {
+            return response()->json(['message' => 'Altura acima do máximo exigido.'], 422);
+        }
+    }
+
+    if (!is_null($op->pesoMinKg) || !is_null($op->pesoMaxKg)) {
+        if (is_null($user->pesoKg)) {
+            return response()->json(['message' => 'Preencha seu peso (kg) no perfil para se inscrever nesta oportunidade.'], 422);
+        }
+
+        if (!is_null($op->pesoMinKg) && $user->pesoKg < $op->pesoMinKg) {
+            return response()->json(['message' => 'Peso abaixo do mínimo exigido.'], 422);
+        }
+
+        if (!is_null($op->pesoMaxKg) && $user->pesoKg > $op->pesoMaxKg) {
+            return response()->json(['message' => 'Peso acima do máximo exigido.'], 422);
+        }
+    }
+
+    $insc = Inscricao::create([
+        'oportunidade_id' => $op->id,
+        'usuario_id'      => $user->id,
+        'status'          => Inscricao::STATUS_PENDING,
+    ]);
+
+    event(new OpportunityApplicationCreatedEvent($user, $op, $op->clube));
+
+    return response()->json($insc, 201);
+}
+
+
+
 
     /**
      * USUÁRIO: minhas inscrições (com paginação configurável).

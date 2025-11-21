@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::table('oportunidades', function (Blueprint $table) {
              // Requisitos de idade (opcionais)
+            $table->unsignedInteger('alturaMinCm')->nullable();
+            $table->unsignedInteger('alturaMaxCm')->nullable();
+            $table->unsignedInteger('pesoMinKg')->nullable();
+            $table->unsignedInteger('pesoMaxKg')->nullable();
+
             $table->unsignedTinyInteger('idadeMinima')->nullable(); // 0–255
             $table->unsignedTinyInteger('idadeMaxima')->nullable();
 

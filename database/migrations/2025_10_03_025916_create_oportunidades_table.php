@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             
             // Campos de Dados
+            $table->string('tituloOportunidades',100);
             $table->string('descricaoOportunidades', 255);
             $table->date('datapostagemOportunidades');
 
