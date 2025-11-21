@@ -6,9 +6,9 @@ use Illuminate\View\Component;
 
 class Base extends Component
 {
-    public string $title;
+    public $title;
 
-    public function __construct(string $title = 'Sistema')
+    public function __construct($title = 'Sistema')
     {
         $this->title = $title;
     }

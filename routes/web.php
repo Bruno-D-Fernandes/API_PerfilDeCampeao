@@ -125,3 +125,11 @@ Route::get('/testes/layout-clube', function () {
 Route::get('/testes/layout-admin', function () {
     return view('area-51.layout-admin');
 });
+
+Route::get('/testes/login-clube', function () {
+    return view('area-51.login-clube');
+});
+
+Route::get('/testes/badges', function () {
+    return view('area-51.badges');
+});
