@@ -1,6 +1,6 @@
 async function fetchUsuarioDetails(usuarioId) {
     try {
-        const response = await fetch(`../api/usuario/${usuarioId}`, {
+        const response = await fetch(`../api/usuario/show/${usuarioId}`, {
             headers: {
                 'Authorization': BEARER,
                 'X-CSRF-TOKEN': csrfToken,
@@ -58,7 +58,7 @@ async function saveUsuario(usuarioId = null) {
     const editMode = usuarioId !== null;
 
     try {
-        const url = editMode ? '../api/usuario/' + usuarioId : "../api/admin/usuario/";
+        const url = editMode ? '../api/usuario/update/' + usuarioId : "../api/admin/usuario/";
 
         const formData = new FormData(document.querySelector('#usuario-form'));
 

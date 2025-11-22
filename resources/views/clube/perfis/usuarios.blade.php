@@ -37,12 +37,14 @@
                 <div class="profile-imgs">
                     <div class="profile-banner">
                         @if($usuario->fotoBannerUsuario)
-                        <img src="{{ asset('storage/' . $usuario->fotoBannerUsuario) }}" alt="Banner do usuário">
+                            <img src="{{ asset('storage/' . $usuario->fotoBannerUsuario) }}" alt="Banner do usuário">
                         @endif
                     </div>
                     <div class="profile-picture">
                         @if($usuario->fotoPerfilUsuario)
                         <img src="{{ asset('storage/' . $usuario->fotoPerfilUsuario) }}" alt="Foto de perfil do usuário">
+                        @else
+                            <img src="{{ asset('img/fotoUsuario.png') }}" alt="Banner do usuário">
                         @endif
                     </div>
                 </div>

@@ -15,7 +15,7 @@ class ClubeSeeder extends Seeder
     {
         // Clube exemplo que você já tinha
         Clube::firstOrCreate([
-            'nomeClube' => 'Clube Exemplo'
+            'nomeClube' => 'Club de Regatas Vasco da Gama'
         ], [
             'nomeClube' => 'Club de Regatas Vasco da Gama',
             'cnpjClube' => '00.000.000/0001-91',

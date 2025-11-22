@@ -91,6 +91,7 @@ Route::prefix('usuario')->group(function () {
         Route::put('/update/{id}', [UserController::class, 'update']);
         Route::delete('/delete/{id}', [UserController::class, 'destroy']);
         Route::post('/logout', [AuthUserController::class, 'logout']);
+
     });
 });
 

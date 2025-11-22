@@ -73,6 +73,8 @@
                     <div class="picture">
                         @if($clube->fotoPerfilClube)
                             <img src="{{ asset('storage/' . $clube->fotoPerfilClube) }}" alt="Foto de perfil do clube">
+                         @else
+                            <img src="{{ asset('img/fotoUsuario.png')}}" alt="Banner do clube">
                         @endif
                     </div>
                 </div>
