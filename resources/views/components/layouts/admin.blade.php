@@ -39,12 +39,10 @@
         </x-sidebar-section>
     </x-sidebar>
 
-    <div class="sm:ml-72 min-h-screen flex flex-col">  
-        <div class="p-8 pb-0">
-            <x-topbar :title="$title" :breadcrumb="$breadcrumb" context="admin" />
-        </div>
+    <div class="sm:ml-80 min-h-screen flex flex-col">  
+        <x-topbar :title="$title" :breadcrumb="$breadcrumb" context="admin" />
 
-        <main class="flex-1 p-8 pt-6">
+        <main class="sm:mt-[6.75rem] flex-1 p-8">
             {{ $slot }}
         </main>
     </div>

@@ -118,6 +118,14 @@ Route::get('/testes/topbar', function () {
     return view('area-51.topbar');
 });
 
+Route::get('/testes/empty-state', function () {
+    return view('area-51.empty-state');
+});
+
+Route::get('/testes/pagination', function () {
+    return view('area-51.pagination');
+});
+
 Route::get('/testes/layout-clube', function () {
     return view('area-51.layout-clube');
 });
@@ -128,6 +136,14 @@ Route::get('/testes/layout-admin', function () {
 
 Route::get('/testes/login-clube', function () {
     return view('area-51.login-clube');
+});
+
+Route::get('/testes/cadastro-clube', function () {
+    return view('area-51.cadastro-clube');
+});
+
+Route::get('/testes/login-admin', function () {
+    return view('area-51.login-admin');
 });
 
 Route::get('/testes/badges', function () {

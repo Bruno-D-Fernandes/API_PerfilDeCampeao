@@ -1,4 +1,4 @@
-<aside class="relative fixed top-0 left-0 z-40 w-80 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-white border-r border-gray-200 px-4">
+<aside class="fixed top-0 left-0 z-40 w-80 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-white border-r border-gray-200 px-4">
     <div class="h-36 w-full flex items-center justify-center border-b border-gray-100 shrink-0 relative">
         {{ $logo ?? 'LOGO' }}
 
