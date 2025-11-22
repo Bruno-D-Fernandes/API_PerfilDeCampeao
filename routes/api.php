@@ -22,6 +22,7 @@ use App\Http\Controllers\MembroClubeController;
 use App\Http\Controllers\SeguidorController;
 use App\Http\Controllers\perfilController;
 use App\Http\Controllers\EsporteController;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -162,6 +163,12 @@ Route::prefix('clube')->group(function () {
         Route::get('/{id}', [ClubeController::class, 'show']);
         Route::delete('/{id}', [ClubeController::class, 'destroy']);
     });
+
+    // Canal de chat privado entre usuário e clube
+    Broadcast::channel('chat.{receiverId}', function ($user, $receiverId) {
+        return (int) $user->id === (int) $receiverId;
+    });
+    Route::middleware('auth:sanctum')->post('/chat/send', [ChatController::class, 'sendMessage']);
 
     /*  Route::middleware('auth:sanctum')->group(function () {
             // Seguir e deixar de seguir clube protegidos
