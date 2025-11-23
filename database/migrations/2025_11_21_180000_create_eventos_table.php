@@ -13,11 +13,6 @@ return new class extends Migration
     {
         Schema::create('eventos', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo');
-            $table->text('descricao')->nullable();
-            $table->dateTime('data_evento');
-
-            $table->foreignId('clube_id')->references('id')->on('clubes')->onDelete('cascade');
             $table->timestamps();
         });
     }

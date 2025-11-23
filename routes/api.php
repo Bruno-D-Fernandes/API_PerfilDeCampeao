@@ -7,11 +7,14 @@ use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\AuthClubeController;
 use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\PostagemController;
-
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ConviteEventoController;
+use App\Http\Controllers\EventoClubeController;
 use App\Http\Controllers\AdmController;
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\FuncaoController;
 use App\Http\Controllers\AdminSistemaController;
+use App\Http\Controllers\AdminEventoController;
 use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\SearchUsuarioController;
@@ -22,7 +25,7 @@ use App\Http\Controllers\MembroClubeController;
 use App\Http\Controllers\SeguidorController;
 use App\Http\Controllers\perfilController;
 use App\Http\Controllers\EsporteController;
-use App\Http\Controllers\ChatController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -92,6 +95,19 @@ Route::prefix('usuario')->group(function () {
         Route::delete('/delete/{id}', [UserController::class, 'destroy']);
         Route::post('/logout', [AuthUserController::class, 'logout']);
 
+        // Convites de eventos (usuário)
+        Route::get('/convites/pendentes', [ConviteEventoController::class, 'pendentes']);
+        Route::get('/convites/aceitos', [ConviteEventoController::class, 'aceitos']);
+        Route::get('/convites/expirados', [ConviteEventoController::class, 'expirados']);
+        Route::get('/convites/cancelados-pelo-clube', [ConviteEventoController::class, 'canceladosPeloClube']);
+
+        // Calendário (agendamentos = convites aceitos)
+        Route::get('/agenda/calendar', [ConviteEventoController::class, 'calendar']);
+        Route::put('/convites/{conviteId}/cor', [ConviteEventoController::class, 'updateColor']);
+
+        // Usuário aceita um convite (usado pelo botão "Aceitar" no chat)
+        Route::post('/convites/{conviteId}/aceitar', [ChatController::class, 'aceitoInvite']);
+
     });
 });
 
@@ -154,7 +170,24 @@ Route::prefix('clube')->group(function () {
         Route::get('/{clubeId}/membros', [MembroClubeController::class, 'listarMembros']);
         Route::post('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'adicionarMembro']);
         Route::delete('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'removerMembro']);
-        // Fim Listas do Clube
+    
+
+         // Eventos do clube
+        // Eventos do clube
+        Route::get('/eventos', [EventoClubeController::class, 'listEventsClube']);
+        Route::post('/eventos', [EventoClubeController::class, 'criarEvento']);
+        Route::get('/eventos/{eventoId}', [EventoClubeController::class, 'detalhesEvento']);
+        Route::put('/eventos/{eventoId}', [EventoClubeController::class, 'atualizarEvento']);
+        Route::delete('/eventos/{eventoId}', [EventoClubeController::class, 'deletarEvento']);
+
+        // Convites de um evento específico (ver quem está pendente/aceito/expirado/cancelado)
+        Route::get('/eventos/{eventoId}/convites', [EventoClubeController::class, 'eventInvites']);
+
+        // Clube envia convite de evento pelo chat
+        Route::post('/chat/send-event-invite', [ChatController::class, 'sendEventInvite']);
+
+        // Clube cancela convite de um usuário para um evento
+        Route::post('/convites/{conviteId}/cancelar', [ChatController::class, 'clubeCancelInvite']);
 
         // Rotas para o clube gerenciar sua conta
         Route::put('/update', [AuthClubeController::class, 'updateAccount']);
@@ -163,6 +196,7 @@ Route::prefix('clube')->group(function () {
         Route::put('/{id}', [ClubeController::class, 'update']);
         Route::get('/{id}', [ClubeController::class, 'show']);
         Route::delete('/{id}', [ClubeController::class, 'destroy']);
+         // Fim Listas do Clube
     });
 
     // Canal de chat privado entre usuário e clube
@@ -255,6 +289,14 @@ Route::prefix('admin')->group(function () {
         Route::post('/caracteristica', [AdminSistemaController::class, 'storeCaracteristica']);
         Route::put('/caracteristica/{id}', [AdminSistemaController::class, 'updateCaracteristica']);
         Route::delete('/caracteristica/{id}', [AdminSistemaController::class, 'destroyCaracteristica']);
+
+        Route::get('/eventos', [AdminEventoController::class, 'listAllEvents']);
+        Route::get('/eventos/{eventoId}', [AdminEventoController::class, 'showEvent']);
+        Route::put('/eventos/{eventoId}', [AdminEventoController::class, 'updateEvent']);
+        Route::delete('/eventos/{eventoId}', [AdminEventoController::class, 'deleteEvent']);
+
+        // Convites / "inscritos" de um evento (Admin)
+        Route::get('/eventos/{eventoId}/convites', [AdminEventoController::class, 'eventInvitesAdmin']);
     });
 });
 
