@@ -1,4 +1,4 @@
-<nav class="fixed top-0 right-0 sm:left-80 left-0 z-30 p-6 border-b border-gray-200">
+<nav class="fixed top-0 right-0 sm:left-80 left-0 z-30 p-6 border-b border-gray-300">
     <div class="flex items-center justify-between">
         <div class="flex flex-col">            
             @if(!empty($breadcrumb))
@@ -9,7 +9,7 @@
                         @endif
 
                         @if($url)
-                            <a href="{{ $url }}" class="hover:text-{{ $color }} transition-colors">
+                            <a href="{{ $url }}" class="hover:text-{{$color}} transition-colors">
                                 {{ $label }}
                             </a>
                         @else
@@ -21,13 +21,19 @@
                 </nav>
             @endif
 
-            <h1 class="text-3xl font-semibold text-{{$color}} tracking-tight">
-                {{ $title }}
-            </h1>
+            <div class="flex items-center gap-x-4">
+                <h1 class="text-3xl font-semibold text-{{ $color }} tracking-tight">
+                    {{ $title }}
+                </h1>
+
+                @if(isset($action))
+                    {{ $action }}
+                @endif
+            </div>
         </div>
 
         <div class="flex items-center gap-4">
-            <button type="button" class="relative group p-2 bg-white rounded-full shadow-xs border border-gray-100 hover:bg-gray-50 hover:border-gray-200 transition-all duration-200 focus:outline-none focus:ring-0">
+            <button type="button" class="relative group p-2 bg-white rounded-full shadow-xs border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-0 cursor-pointer">
                 <span class="sr-only">Ver notificações</span>
                 
                 <svg class="w-6 h-6 text-{{ $color }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -42,7 +48,7 @@
             </button>
 
             <div class="relative">
-                <button data-dropdown-toggle="dropdown-user" type="button" class="flex items-center gap-3 p-2 bg-white rounded-xl shadow-xs border border-gray-100 hover:bg-gray-50 hover:border-gray-200 transition-all group duration-200 cursor-pointer focus:outline-none focus:ring-0">
+                <button data-dropdown-toggle="dropdown-user" type="button" class="flex items-center gap-3 p-2 bg-white rounded-xl shadow-xs border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all group duration-200 cursor-pointer focus:outline-none focus:ring-0">
                     <div class="h-9 w-9 rounded-full bg-{{$color}}/10 flex items-center justify-center text-{{ $color }} font-bold border-2 border-white shadow-sm uppercase">
                         {{ substr($user->name, 0, 2) }}
                     </div>

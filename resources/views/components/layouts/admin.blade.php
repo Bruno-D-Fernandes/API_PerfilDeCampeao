@@ -40,7 +40,13 @@
     </x-sidebar>
 
     <div class="sm:ml-80 min-h-screen flex flex-col">  
-        <x-topbar :title="$title" :breadcrumb="$breadcrumb" context="admin" />
+        <x-topbar :title="$title" :breadcrumb="$breadcrumb" context="admin">
+            @if(isset($action))
+                <x-slot:action>
+                    {{ $action }}
+                </x-slot:action>
+            @endif
+        </x-topbar>
 
         <main class="sm:mt-[6.75rem] flex-1 p-8">
             {{ $slot }}

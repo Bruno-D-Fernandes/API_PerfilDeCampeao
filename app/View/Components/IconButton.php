@@ -16,12 +16,9 @@ class IconButton extends Component
     public function colorClasses(): string
     {
         return match($this->color) {
-            'gray' => 'text-gray-600 hover:text-gray-700 focus:ring-gray-500',
-            'blue' => 'text-blue-600 hover:text-blue-700 focus:ring-blue-500',
+            'blue' => 'text-sky-600 hover:text-sky-700 focus:ring-sky-500',
             'red' => 'text-red-600 hover:text-red-700 focus:ring-red-500',
             'green' => 'text-green-600 hover:text-green-700 focus:ring-green-500',
-            'yellow' => 'text-yellow-600 hover:text-yellow-700 focus:ring-yellow-500',
-            'purple' => 'text-purple-600 hover:text-purple-700 focus:ring-purple-500',
             default => 'text-gray-600 hover:text-gray-700 focus:ring-gray-500',
         };
     }

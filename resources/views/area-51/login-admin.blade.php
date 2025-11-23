@@ -22,9 +22,9 @@
                     </div>
 
                     <x-slot:actions>
-                        <button type="submit" class="w-full bg-sky-500 text-white font-medium text-lg p-4 rounded-lg">
+                        <x-button type="submit" color="admin" size="xl" :full="true">
                             Entrar
-                        </button>
+                        </x-button>
                     </x-slot:actions>
 
                     <x-slot:link>

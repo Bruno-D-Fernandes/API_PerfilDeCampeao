@@ -10,11 +10,10 @@ class Badge extends Component
     public $dismissable;
     public $text;
 
-    public function __construct($color = 'gray', $dismissable = false, $text)
+    public function __construct($color = 'gray', $dismissable = false)
     {
         $this->color = $color;
         $this->dismissable = $dismissable;
-        $this->text = $text;
     }
 
     public function render()

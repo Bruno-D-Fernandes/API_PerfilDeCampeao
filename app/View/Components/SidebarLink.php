@@ -22,17 +22,13 @@ class SidebarLink extends Component
 
         $styles = match($context) {
             'admin' => [
-                'bg' => 'bg-adm-primary',
-                'hover' => 'hover:bg-adm-primary',
-            ],
-            'clube' => [
-                'bg' => 'bg-primary',
-                'hover' => 'hover:bg-primary',
+                'bg' => 'bg-sky-500',
+                'hover' => 'hover:bg-sky-500',
             ],
             default => [
-                'bg' => 'bg-primary',
-                'hover' => 'hover:bg-primary',
-            ]
+                'bg' => 'bg-emerald-500',
+                'hover' => 'hover:bg-emerald-500',
+            ],
         };
 
         $this->activeClass = "{$styles['bg']} text-white";

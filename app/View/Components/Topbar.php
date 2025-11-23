@@ -28,7 +28,7 @@ class Topbar extends Component
 
         $this->type = ($this->user instanceof Clube ? 'Clube' : ($this->user instanceof Admin ? 'Admin' : 'Visitante'));
 
-        $this->color = $context == 'admin' ? 'adm-primary' : 'primary';
+        $this->color = $context == 'admin' ? 'sky-500' : 'emerald-500';
     }
 
     public function render()

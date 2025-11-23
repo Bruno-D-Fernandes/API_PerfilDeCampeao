@@ -126,8 +126,20 @@ Route::get('/testes/pagination', function () {
     return view('area-51.pagination');
 });
 
+Route::get('/testes/tables', function () {
+    return view('area-51.tables');
+});
+
 Route::get('/testes/layout-clube', function () {
     return view('area-51.layout-clube');
+});
+
+Route::get('/testes/oportunidades-clube', function () {
+    return view('area-51.oportunidades-clube');
+});
+
+Route::get('/testes/oportunidade', function () {
+    return view('area-51.oportunidade');
 });
 
 Route::get('/testes/layout-admin', function () {

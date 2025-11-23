@@ -15,7 +15,7 @@
         'green' => [
             'textColor'   => 'text-emerald-400',
             'bgColor'     => 'bg-emerald-50',
-            'borderColor' => 'border-emerald-200',
+            'borderColor' => 'border-emerald-00',
             'dotColor'    => 'bg-emerald-400',
         ],
         default => [
@@ -27,17 +27,18 @@
     };
 @endphp
 
-<span class="inline-flex items-center rounded-lg p-1.5 text-xs font-medium ring-1 ring-inset {{ $style['bgColor'] }} {{ $style['textColor'] }} {{ $style['borderColor'] }}">
+<span {{ $attributes->class([
+        'inline-flex items-center rounded-2xl py-1.5 px-3.5 text-xs font-medium ring-1 ring-inset ' . $style['bgColor'] . ' ' . $style['textColor'] . ' ' . $style['borderColor']])
+    }}>
     @if(isset($icon) && $icon->isNotEmpty())
-        <span class="mr-1.5 flex h-4 w-4 shrink-0 items-center justify-center">
+        <span class="mr-1 flex h-4 w-4 shrink-0 items-center justify-center">
             {{ $icon }}
         </span>
     @else
-        {{-- Só mostra a bolinha se NÃO tiver ícone --}}
-        <span class="mr-1.5 h-1.5 w-1.5 rounded-full {{ $style['dotColor'] }}"></span>
+        <span class="mr-1 h-1 w-1 rounded-full {{ $style['dotColor'] }}"></span>
     @endif
 
-    {{ $text }}
+    {{ $slot }}
 
     @if($dismissable)
         <span class="ml-0.75 h-4 w-4 shrink-0 {{ $style['textColor'] }}">
