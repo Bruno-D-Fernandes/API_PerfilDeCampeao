@@ -6,9 +6,11 @@ use Illuminate\View\Component;
 
 class SearchInput extends Component
 {
-    public function __construct()
+    public $placeholder;
+
+    public function __construct($placeholder = 'Pesquisa')
     {
-        //
+        $this->placeholder = $placeholder;
     }
 
     public function render()

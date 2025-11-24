@@ -14,6 +14,7 @@ class RangeSlider extends Component
     public $step;
     public $unit;
     public $id;
+    public $color;
 
     public function __construct(
         $label, 
@@ -22,7 +23,8 @@ class RangeSlider extends Component
         $min = 0, 
         $max = 100, 
         $step = 1, 
-        $unit = ''
+        $unit = '',
+        $color = 'green'
     )
     {
         $this->label = $label;
@@ -33,6 +35,7 @@ class RangeSlider extends Component
         $this->step = $step;
         $this->unit = $unit;
         $this->id = 'range_' . uniqid();
+        $this->color = $color;
     }
 
     public function render()

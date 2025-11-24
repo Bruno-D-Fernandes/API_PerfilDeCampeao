@@ -1,17 +1,42 @@
-<div id="{{ $id }}" class="w-full mb-6 group">
-    <div class="flex justify-between items-center mb-4">
-        <label class="text-sm font-medium text-gray-900">{{ $label }}</label>
-        
-        <div class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-100">
-            <span class="display-min">{{ $min }}</span>{{ $unit }} - 
-            <span class="display-max">{{ $max }}</span>{{ $unit }}
-        </div>
-    </div>
+@php
+    $theme = match($color) {
+        'white' => [
+            'text'        => 'text-white',     
+            'track_bg'    => 'bg-white/30',      
+            'track_active'=> 'bg-white',              
+            'thumb_bg'    => 'bg-gray-100',         
+            'thumb_border'=> 'border-transparent', 
+        ],
+        default => [
+            'text'        => 'text-gray-700',    
+            'track_bg'    => 'bg-gray-200',     
+            'track_active'=> 'bg-emerald-500',     
+            'thumb_bg'    => 'bg-white',           
+            'thumb_border'=> 'border-emerald-500',    
+        ],
+    };
+@endphp
 
-    <div class="relative w-full h-2 mt-2">
-        <div class="absolute w-full h-2 bg-gray-200 rounded-full top-0 z-0"></div>
+<div 
+    id="{{ $id }}" 
+    class="w-full group range-slider-container flex flex-col gap-y-4"
+    data-min="{{ $min }}"
+    data-max="{{ $max }}"
+    data-step="{{ $step }}"
+>
+    <label class="text-sm font-medium {{ $theme['text'] }}">
+        {{ $label }} 
 
-        <div class="range-track absolute h-2 bg-emerald-500 rounded-full top-0 z-10"></div>
+        @if($unit) <span class="opacity-80 text-xs font-normal">({{ $unit }})</span> @endif
+    </label>
+
+    <div class="relative w-full h-2">
+        <div class="absolute w-full h-2 rounded-full top-0 z-0 {{ $theme['track_bg'] }}"></div>
+
+        <div class="range-track absolute h-2 rounded-full top-0 z-10 {{ $theme['track_active'] }}"></div>
+
+        <div class="thumb-min absolute h-5 w-5 rounded-full shadow top-1/2 -translate-y-1/2 -ml-2.5 z-20 pointer-events-none border-2 {{ $theme['thumb_bg'] }} {{ $theme['thumb_border'] }}"></div>
+        <div class="thumb-max absolute h-5 w-5 rounded-full shadow top-1/2 -translate-y-1/2 -ml-2.5 z-20 pointer-events-none border-2 {{ $theme['thumb_bg'] }} {{ $theme['thumb_border'] }}"></div>
 
         <input 
             type="range" 
@@ -20,7 +45,8 @@
             max="{{ $max }}" 
             step="{{ $step }}" 
             value="{{ $min }}"
-            class="input-min absolute w-full h-2 top-0 z-20 opacity-0 cursor-pointer pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-emerald-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-md hover:[&::-webkit-slider-thumb]:scale-110 transition-all"
+            oninput="updateRange('{{ $id }}')"
+            class="input-min absolute w-full h-2 top-0 z-30 opacity-0 cursor-pointer pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:appearance-none"
         >
 
         <input 
@@ -30,58 +56,77 @@
             max="{{ $max }}" 
             step="{{ $step }}" 
             value="{{ $max }}"
-            class="input-max absolute w-full h-2 top-0 z-20 opacity-0 cursor-pointer pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-emerald-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-md hover:[&::-webkit-slider-thumb]:scale-110 transition-all"
+            oninput="updateRange('{{ $id }}')"
+            class="input-max absolute w-full h-2 top-0 z-30 opacity-0 cursor-pointer pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:appearance-none"
         >
+    </div>
+
+    <div class="flex justify-between items-center text-xs font-medium {{ $theme['text'] }}">
+        <span class="display-min">{{ $min }}</span>
+        <span class="display-max">{{ $max }}</span>
     </div>
 </div>
 
+@once
 <script>
-    (function() {
-        const root = document.getElementById('{{ $id }}');
+    function updateRange(containerId) {
+        const root = document.getElementById(containerId);
+
         const minInput = root.querySelector('.input-min');
         const maxInput = root.querySelector('.input-max');
+
+        const thumbMin = root.querySelector('.thumb-min');
+        const thumbMax = root.querySelector('.thumb-max');
+
         const track = root.querySelector('.range-track');
+
         const displayMin = root.querySelector('.display-min');
         const displayMax = root.querySelector('.display-max');
-        
-        const min = {{ $min }};
-        const max = {{ $max }};
-        const step = {{ $step }};
-        
-        const minGap = step; 
 
-        function updateSlider() {
-            let val1 = parseFloat(minInput.value);
-            let val2 = parseFloat(maxInput.value);
+        const minLimit = parseFloat(root.dataset.min);
+        const maxLimit = parseFloat(root.dataset.max);
+        const step = parseFloat(root.dataset.step);
+        const minGap = step;
 
-            if (val2 - val1 < minGap) {
-                if (this === minInput) {
-                    minInput.value = val2 - minGap;
-                } else {
-                    maxInput.value = val1 + minGap;
-                }
+        let val1 = parseFloat(minInput.value);
+        let val2 = parseFloat(maxInput.value);
+
+        if (val2 - val1 < minGap) {
+            if (val1 > val2 - minGap) {
+                minInput.value = val2 - minGap;
+                val1 = parseFloat(minInput.value);
             }
-            
-            displayMin.textContent = minInput.value;
-            displayMax.textContent = maxInput.value;
-
-            fillColor();
+            if (val2 < val1 + minGap) {
+                maxInput.value = val1 + minGap;
+                val2 = parseFloat(maxInput.value);
+            }
         }
 
-        function fillColor() {
-            const val1 = parseFloat(minInput.value);
-            const val2 = parseFloat(maxInput.value);
-            
-            const percent1 = ((val1 - min) / (max - min)) * 100;
-            const percent2 = ((val2 - min) / (max - min)) * 100;
+        const percent1 = ((val1 - minLimit) / (maxLimit - minLimit)) * 100;
+        const percent2 = ((val2 - minLimit) / (maxLimit - minLimit)) * 100;
 
-            track.style.left = percent1 + "%";
-            track.style.width = (percent2 - percent1) + "%";
+        thumbMin.style.left = percent1 + "%";
+        thumbMax.style.left = percent2 + "%";
+
+        track.style.left = percent1 + "%";
+        track.style.width = (percent2 - percent1) + "%";
+
+        displayMin.textContent = step < 1 ? val1.toFixed(2) : val1;
+        displayMax.textContent = step < 1 ? val2.toFixed(2) : val2;
+
+        if (val1 > (maxLimit - minLimit) / 2) {
+            minInput.style.zIndex = 40;
+            maxInput.style.zIndex = 30;
+        } else {
+            minInput.style.zIndex = 30;
+            maxInput.style.zIndex = 40;
         }
+    }
 
-        minInput.addEventListener('input', updateSlider);
-        maxInput.addEventListener('input', updateSlider);
-
-        fillColor();
-    })();
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll('.range-slider-container').forEach(el => {
+            updateRange(el.id);
+        });
+    });
 </script>
+@endonce

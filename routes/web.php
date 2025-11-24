@@ -150,6 +150,10 @@ Route::get('/testes/oportunidade', function () {
     return view('area-51.oportunidade');
 });
 
+Route::get('/testes/pesquisa', function () {
+    return view('area-51.pesquisa');
+});
+
 Route::get('/testes/lista', function () {
     return view('area-51.lista');
 });
