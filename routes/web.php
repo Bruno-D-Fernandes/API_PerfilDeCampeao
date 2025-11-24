@@ -138,8 +138,20 @@ Route::get('/testes/oportunidades-clube', function () {
     return view('area-51.oportunidades-clube');
 });
 
+Route::get('/testes/listas-clube', function () {
+    return view('area-51.listas-clube');
+});
+
+Route::get('/testes/perfil-clube', function () {
+    return view('area-51.perfil-clube');
+});
+
 Route::get('/testes/oportunidade', function () {
     return view('area-51.oportunidade');
+});
+
+Route::get('/testes/lista', function () {
+    return view('area-51.lista');
 });
 
 Route::get('/testes/layout-admin', function () {

@@ -49,7 +49,7 @@
 
             <div class="relative">
                 <button data-dropdown-toggle="dropdown-user" type="button" class="flex items-center gap-3 p-2 bg-white rounded-xl shadow-xs border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all group duration-200 cursor-pointer focus:outline-none focus:ring-0">
-                    <div class="h-9 w-9 rounded-full bg-{{$color}}/10 flex items-center justify-center text-{{ $color }} font-bold border-2 border-white shadow-sm uppercase">
+                    <div class="h-9 w-9 rounded-full bg-{{$color}}/10 flex items-center justify-center text-{{ $color }} font-bold border-2 border-white shadow-xs uppercase">
                         {{ substr($user->name, 0, 2) }}
                     </div>
 

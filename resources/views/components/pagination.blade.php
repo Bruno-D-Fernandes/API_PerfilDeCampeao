@@ -62,7 +62,7 @@
         <select 
             id="per_page"
             onchange="handlePerPageChange(this.value)"
-            class="block w-full px-3 py-2.5 border border-gray-300 text-gray-700 font-medium text-sm rounded-lg focus:ring-1 focus:ring-gray-300 focus:border-gray-300 shadow-sm"
+            class="block w-full px-3 py-2.5 border border-gray-300 text-gray-700 font-medium text-sm rounded-lg focus:ring-1 focus:ring-gray-300 focus:border-gray-300 shadow-xs"
         >
             @foreach([10, 25, 50, 100] as $limit)
                 <option value="{{ $limit }}">

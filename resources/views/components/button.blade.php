@@ -16,7 +16,7 @@
         'xl' => 'px-8 py-4.5 text-md'
     ];
 
-    $baseClasses = 'cursor-pointer inline-flex items-center justify-center font-medium rounded-lg border shadow-sm focus:outline-none transition-transform hover:-translate-y-0.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
+    $baseClasses = 'cursor-pointer inline-flex items-center justify-center font-medium rounded-lg border shadow-xs focus:outline-none transition-transform hover:-translate-y-0.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
     
     $classes = $baseClasses . ' ' . 
                ($colors[$color] ?? $variants['primary']) . ' ' . 
