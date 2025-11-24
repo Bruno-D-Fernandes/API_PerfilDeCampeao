@@ -122,7 +122,6 @@ class EventoClubeController extends Controller
             'rua'         => 'nullable|string|max:150',
             'numero'      => 'nullable|string|max:20',
             'complemento' => 'nullable|string|max:150',
-            'localizacao' => 'nullable|string|max:255',
             'limite_participantes' => 'nullable|integer|min:1',
         ]);
 
@@ -177,5 +176,110 @@ class EventoClubeController extends Controller
         $evento->update($data);
 
         return response()->json(['evento' => $evento], 200);
+    }
+
+        public function calendar(Request $request)
+    {
+        $clube = $request->user();
+
+        if (! $clube instanceof Clube) {
+            return response()->json(['message' => 'Clube não encontrado'], 404);
+        }
+
+        $monthParam = $request->query('month');
+
+        if ($monthParam) {
+            try {
+                [$year, $month] = explode('-', $monthParam);
+                $start = Carbon::createFromDate((int) $year, (int) $month, 1)->startOfDay();
+            } catch (\Throwable $e) {
+                return response()->json([
+                    'message' => 'Parâmetro "month" inválido. Use o formato YYYY-MM, por exemplo: 2025-11.',
+                ], 422);
+            }
+        } else {
+            $start = now()->startOfMonth()->startOfDay();
+        }
+
+        $end = (clone $start)->endOfMonth()->endOfDay();
+
+        $eventos = Evento::where('clube_id', $clube->id)
+            ->whereBetween('data_hora_inicio', [$start, $end])
+            ->with('convites.usuario')
+            ->get();
+
+        $calendar = [];
+
+        foreach ($eventos as $evento) {
+            if (! $evento->data_hora_inicio) {
+                continue;
+            }
+
+            $dateKey = $evento->data_hora_inicio->toDateString();
+
+            $convites = $evento->convites;
+
+            $calendar[$dateKey][] = [
+                'evento_id'        => $evento->id,
+                'titulo'           => $evento->titulo,
+                'descricao'        => $evento->descricao,
+                'data_hora_inicio' => $evento->data_hora_inicio,
+                'data_hora_fim'    => $evento->data_hora_fim,
+
+                'cep'         => $evento->cep,
+                'cidade'      => $evento->cidade,
+                'estado'      => $evento->estado,
+                'bairro'      => $evento->bairro,
+                'rua'         => $evento->rua,
+                'numero'      => $evento->numero,
+                'complemento' => $evento->complemento,
+
+                'limite_participantes' => $evento->limite_participantes,
+
+                'total_convites'   => $convites->count(),
+                'total_aceitos'    => $convites->where('status', ConviteEvento::STATUS_ACEITO)->count(),
+                'total_pendentes'  => $convites->where('status', ConviteEvento::STATUS_PENDENTE)->count(),
+                'total_expirados'  => $convites->where('status', ConviteEvento::STATUS_EXPIRADO)->count(),
+                'total_cancelados' => $convites->where('status', ConviteEvento::STATUS_CANCELADO_PELO_CLUBE)->count(),
+
+                 'vagas_disponiveis' => $evento->limite_participantes
+                ? max($evento->limite_participantes - $convites->where('status', ConviteEvento::STATUS_ACEITO)->count(), 0)
+                : null,
+                'color'            => $evento->color,
+            ];
+        }
+
+        return response()->json([
+            'month'    => $start->format('Y-m'),
+            'calendar' => $calendar,
+        ]);
+    }
+    public function atualizarCorEvento(Request $request, $id)
+    {
+        $clube = $request->user();
+
+        if (! $clube instanceof Clube) {
+            return response()->json(['message' => 'Clube não encontrado'], 404);
+        }
+
+        $data = $request->validate([
+            'color' => 'nullable|string|max:20',
+        ]);
+
+        $evento = Evento::where('id', $id)
+            ->where('clube_id', $clube->id)
+            ->first();
+
+        if (! $evento) {
+            return response()->json(['message' => 'Evento não encontrado para este clube.'], 404);
+        }
+
+        $evento->color = $data['color'] ?? null;
+        $evento->save();
+
+        return response()->json([
+            'message' => 'Cor do evento atualizada com sucesso.',
+            'evento'  => $evento,
+        ], 200);
     }
 }

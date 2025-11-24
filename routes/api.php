@@ -170,10 +170,10 @@ Route::prefix('clube')->group(function () {
         Route::get('/{clubeId}/membros', [MembroClubeController::class, 'listarMembros']);
         Route::post('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'adicionarMembro']);
         Route::delete('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'removerMembro']);
-    
 
-         // Eventos do clube
         // Eventos do clube
+        Route::get('/agenda/calendar', [EventoClubeController::class, 'calendar']);
+        
         Route::get('/eventos', [EventoClubeController::class, 'listEventsClube']);
         Route::post('/eventos', [EventoClubeController::class, 'criarEvento']);
         Route::get('/eventos/{eventoId}', [EventoClubeController::class, 'detalhesEvento']);

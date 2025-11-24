@@ -25,6 +25,7 @@ class Evento extends Model
         'numero',
         'complemento',
         'limite_participantes',
+        'color',
     ];
 
     protected $casts = [
