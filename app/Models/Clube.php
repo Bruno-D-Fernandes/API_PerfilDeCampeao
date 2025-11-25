@@ -38,6 +38,7 @@ class Clube extends Authenticatable
         'cnpjClube',
     ];
 
+    protected $appends = ['name', 'avatar'];
 
     public function esporte()
     {
@@ -67,5 +68,26 @@ class Clube extends Authenticatable
     public function oportunidades()
     {
         return $this->hasMany(Oportunidade::class, 'clube_id');
+    }
+
+    public function conversations()
+    {
+        return Conversation::where(function ($query) {
+            $query->where('participant_one_id', $this->id)
+                ->where('participant_one_type', self::class);
+        })->orWhere(function ($query) {
+            $query->where('participant_two_id', $this->id)
+                ->where('participant_two_type', self::class);
+        });
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->nomeClube;
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->fotoPerfilClube;
     }
 }

@@ -4,6 +4,7 @@ use App\Models\Usuario;
 use App\Models\Clube;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Broadcast;
+use App\Models\Conversation;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,13 @@ Broadcast::channel('notifications.club.{id}', function ($model, $id) {
 // Canal de Admin
 Broadcast::channel('notifications.admin', function ($model) {
     return ($model instanceof Admin);
+});
+
+Broadcast::channel('chat.{conversationId}', function ($user, $conversationId) {
+    $conversation = App\Models\Conversation::find($conversationId);
+    if (!$conversation) {
+        return false;
+    }
+    return $user->id == $conversation->participant_one_id ||
+        $user->id == $conversation->participant_two_id;
 });

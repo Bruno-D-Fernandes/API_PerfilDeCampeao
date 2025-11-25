@@ -20,11 +20,6 @@ class Usuario extends Authenticatable
 
     protected $table = 'usuarios';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         "nomeCompletoUsuario",
         "dataNascimentoUsuario",
@@ -42,31 +37,17 @@ class Usuario extends Authenticatable
         "fotoBannerUsuario"
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'senhaUsuario',
         'created_at',
         'updated_at'
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
+    protected $appends = ['name', 'avatar'];
+
     protected $casts = [
         'dataNascimentoUsuario' => 'date',
     ];
-
-    /**
-     * Get the password for the user.
-     *
-     * @return string
-     */
 
     public function getAuthPassword()
     {
@@ -164,5 +145,26 @@ class Usuario extends Authenticatable
             ->select('id', 'nomeClube as nome', DB::raw("'clube' as tipo"));
 
         return $usuariosQuery->union($clubesQuery);
+    }
+
+    public function conversations()
+    {
+        return Conversation::where(function ($query) {
+            $query->where('participant_one_id', $this->id)
+                ->where('participant_one_type', self::class);
+        })->orWhere(function ($query) {
+            $query->where('participant_two_id', $this->id)
+                ->where('participant_two_type', self::class);
+        });
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->nomeCompletoUsuario;
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->fotoPerfilUsuario;
     }
 }

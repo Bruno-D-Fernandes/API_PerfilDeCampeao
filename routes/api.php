@@ -22,18 +22,11 @@ use App\Http\Controllers\MembroClubeController;
 use App\Http\Controllers\SeguidorController;
 use App\Http\Controllers\perfilController;
 use App\Http\Controllers\EsporteController;
+use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ChatController;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+use App\Models\Clube;
+use App\Models\Usuario;
+use Laravel\Sanctum\Sanctum;
 
 // Usuario
 Route::prefix('usuario')->group(function () {
@@ -91,7 +84,6 @@ Route::prefix('usuario')->group(function () {
         Route::put('/update/{id}', [UserController::class, 'update']);
         Route::delete('/delete/{id}', [UserController::class, 'destroy']);
         Route::post('/logout', [AuthUserController::class, 'logout']);
-
     });
 });
 
@@ -165,18 +157,68 @@ Route::prefix('clube')->group(function () {
         Route::delete('/{id}', [ClubeController::class, 'destroy']);
     });
 
-    // Canal de chat privado entre usuário e clube
-    Broadcast::channel('chat.{receiverId}', function ($user, $receiverId) {
-        return (int) $user->id === (int) $receiverId;
-    });
-    Route::middleware('auth:sanctum')->post('/chat/send', [ChatController::class, 'sendMessage']);
-
     /*  Route::middleware('auth:sanctum')->group(function () {
             // Seguir e deixar de seguir clube protegidos
             Route::post('/{id}/seguir', [SeguidorController::class, 'seguirClube']);
             Route::post('/{id}/deixar-de-seguir', [SeguidorController::class, 'deixarDeSeguirClube']);
         }); 
     */
+});
+
+// --- ROTAS DE CHAT ---
+Route::middleware('auth:sanctum,club_sanctum,adm_sanctum')->group(function () {
+    Broadcast::routes(['middleware' => ['auth:sanctum,club_sanctum,adm_sanctum']]);
+
+    Route::post('/chat/send', [ChatController::class, 'sendMessage']);
+    Route::get('/conversations', [ConversationController::class, 'index']);
+    Route::get('/conversations/{id}/messages', [ConversationController::class, 'getMessages']);
+});
+
+
+Route::get('/teste-chat', function () {
+    $remetente = Clube::find(1); // Altere o ID conforme necessário
+    if (!$remetente) {
+        return "Erro: Clube remetente com ID 1 não encontrado.";
+    }
+
+    Sanctum::actingAs(
+        $remetente,
+        ['*'],
+        'club_sanctum' // Chat isso aqui em --Bruno 
+    );
+
+    $requestFalso = new \Illuminate\Http\Request();
+    $requestFalso->replace([
+        'receiver_id'   => 1,
+        'receiver_type' => 'usuario', // usuario ou clube
+        'message'       => 'Mensagem de teste de um Clube para um Usuário!'
+    ]);
+
+    $chatController = new ChatController();
+    return $chatController->sendMessage($requestFalso);
+});
+
+Route::get('/teste-chat-usuario', function () {
+    $remetente = Usuario::find(2);
+    if (!$remetente) {
+        return "Erro: Usuário remetente com ID 2 não encontrado.";
+    }
+
+    Sanctum::actingAs(
+        $remetente,
+        ['*'],
+        'sanctum'
+    );
+
+    $requestFalso = new \Illuminate\Http\Request();
+    $requestFalso->replace([
+        'receiver_id'   => 1,
+        'receiver_type' => 'usuario',  // usuario ou clube
+        'message'       => 'Mensagem de teste de um Usuário para um Clube!'
+    ]);
+
+    $chatController = new ChatController();
+    return $chatController->sendMessage($requestFalso);
 });
 
 //Admin
