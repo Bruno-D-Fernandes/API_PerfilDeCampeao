@@ -13,9 +13,11 @@
     $hasIcon = isset($icon);
 @endphp
 <div class="w-full flex flex-col gap-2">
-    <label for="{{ $id }}" class="block text-md font-medium {{ $theme['label'] }}">
-        {{ $label }}      
-    </label>
+    @if($label)
+        <label for="{{ $id }}" class="block text-md font-medium {{ $theme['label'] }}">
+            {{ $label }}      
+        </label>
+    @endif
 
     <div class="relative w-full">
         <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-gray-500 z-10">
@@ -34,9 +36,11 @@
 
         @if($isSelect)
             <x-select 
-                :id="$id" 
-                :name="$name"
-                class="{{ $theme['input'] }} {{ $hasIcon ? 'ps-10' : '' }}"
+                {{ $attributes->merge([
+                    'id' => $id, 
+                    'name' => $name,
+                    'class' => $theme['input'] . ' ' . ($hasIcon ? 'ps-10' : ''),
+                ]) }}
             >
                 {{ $slot }}
             </x-select>

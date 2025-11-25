@@ -15,7 +15,7 @@
         'green' => [
             'textColor'   => 'text-emerald-400',
             'bgColor'     => 'bg-emerald-50',
-            'borderColor' => 'border-emerald-00',
+            'borderColor' => 'border-emerald-200',
             'dotColor'    => 'bg-emerald-400',
         ],
         default => [
@@ -25,12 +25,17 @@
             'dotColor'    => 'bg-gray-400',
         ]
     };
+
+    $hasIcon = isset($icon);
 @endphp
 
 <span {{ $attributes->class([
-        'inline-flex items-center rounded-2xl py-1.5 px-3.5 text-xs font-medium ring-1 ring-inset ' . $style['bgColor'] . ' ' . $style['textColor'] . ' ' . $style['borderColor']])
-    }}>
-    @if(isset($icon) && $icon->isNotEmpty())
+    'inline-flex items-center rounded-2xl py-1.5 px-' . ($hasIcon ? '2' : '3.5') . ' text-xs font-medium',
+    $style['bgColor'],
+    $style['textColor'],
+    $style['borderColor'] . ' ring-1 ring-inset' => $border, 
+]) }}>
+    @if($hasIcon)
         <span class="mr-1 flex h-4 w-4 shrink-0 items-center justify-center">
             {{ $icon }}
         </span>

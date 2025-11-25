@@ -12,7 +12,7 @@
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased h-screen">
+<body class="font-sans antialiased h-screen relative">
     {{ $slot }}
 
     <script>
@@ -82,6 +82,12 @@
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function closeModal(drawerId) {
+            document.getElementById(`${drawerId}-overlay`).classList.add('hidden');
+            document.getElementById(`${drawerId}-panel`).classList.add('hidden');
             document.body.classList.remove('overflow-hidden');
         }
         

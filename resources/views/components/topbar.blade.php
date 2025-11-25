@@ -1,4 +1,4 @@
-<nav class="fixed top-0 right-0 sm:left-80 left-0 z-30 p-6 border-b border-gray-300">
+<nav class="absolute top-0 right-0 sm:left-80 left-0 z-30 p-6 border-b border-gray-300">
     <div class="flex items-center justify-between">
         <div class="flex flex-col">            
             @if(!empty($breadcrumb))

@@ -138,6 +138,18 @@ Route::get('/testes/oportunidades-clube', function () {
     return view('area-51.oportunidades-clube');
 });
 
+Route::get('/testes/agenda', function () {
+    return view('area-51.agenda');
+});
+
+Route::get('/testes/dashboard-clube', function () {
+    return view('area-51.dashboard-clube');
+});
+
+Route::get('/testes/dashboard-admin', function () {
+    return view('area-51.dashboard-admin');
+});
+
 Route::get('/testes/listas-clube', function () {
     return view('area-51.listas-clube');
 });
