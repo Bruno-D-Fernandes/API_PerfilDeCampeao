@@ -53,6 +53,10 @@ Route::prefix('clube')->name('clube.')->group(function () {
     Route::get('/lista', function () {
         return view('clube.listas.show');
     })->name('lista');
+
+    Route::get('/perfil', function () {
+        return view('clube.profile');
+    })->name('perfil');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -64,3 +68,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         return view('admin.dashboard');
     })->name('dashboard');
 });
+
+Route::get('/usuario/perfil', function () {
+    return view('clube.usuarios.show');
+})->name('usuario.perfil');
