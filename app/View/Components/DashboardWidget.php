@@ -11,6 +11,7 @@ class DashboardWidget extends Component
     public $trend;
     public $iconColor;
     public $trendColor;
+    public $borderColor;
 
     public function __construct($title, $value, $trend = null, $iconColor = 'text-emerald-500/70')
     {
@@ -25,6 +26,8 @@ class DashboardWidget extends Component
         } else {
             $this->trendColor = 'text-gray-500';
         }
+
+        $this->borderColor = ($iconColor == 'text-emerald-500/70' ? 'emerald' : 'sky');
     }
 
     public function render()

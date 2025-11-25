@@ -85,7 +85,7 @@
             document.body.classList.remove('overflow-hidden');
         }
 
-        function closeModal(drawerId) {
+        function closeDrawer(drawerId) {
             document.getElementById(`${drawerId}-overlay`).classList.add('hidden');
             document.getElementById(`${drawerId}-panel`).classList.add('hidden');
             document.body.classList.remove('overflow-hidden');

@@ -11,14 +11,16 @@ class FormGroup extends Component
     public $type;
     public $id;
     public $labelColor;
+    public $textSize;
 
-    public function __construct($label = null, $name, $type = 'text', $id = null, $labelColor = 'gray')
+    public function __construct($label = null, $name, $type = 'text', $id = null, $labelColor = 'gray', $textSize = 'md')
     {
         $this->label = $label;
         $this->name = $name;
         $this->type = $type;
         $this->id = $id ?? $name;
         $this->labelColor = $labelColor;
+        $this->textSize = $textSize;
     }
 
     public function render()

@@ -8,6 +8,10 @@
 @endphp
 
 <div {{ $attributes->merge(['class' => 'p-8 w-4/6 rounded-2xl bg-white flex flex-col items-start gap-4']) }}>
+    @if(isset($logo))
+        {{ $logo }}
+    @endif
+
     <h1 class="text-4xl {{ $theme['title'] }} font-semibold tracking-tight">
         {{ $title }}
     </h1>

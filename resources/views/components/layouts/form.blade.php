@@ -5,7 +5,7 @@
                 {{ $left }}
             </div>
 
-            <div class="hidden md:block relative h-full w-full bg-gray-50">
+            <div class="hidden md:block relative h-full w-full">
                 <div class="absolute inset-4 rounded-3xl overflow-hidden">
                     {{ $right }}
                 </div>  

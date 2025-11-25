@@ -1,5 +1,5 @@
 @php
-    $maxWidthClass = match ($maxWidth) {
+    $maxWidthClass = match($maxWidth) {
         'sm' => 'sm:max-w-sm',
         'md' => 'sm:max-w-md',
         'lg' => 'sm:max-w-lg',
@@ -7,9 +7,26 @@
         '2xl' => 'sm:max-w-2xl',
         default => 'sm:max-w-2xl',
     };
+
+    $titleSizeClass = match($titleSize) {
+        'sm' => 'text-sm',
+        'md' => 'text-md',
+        'lg' => 'text-lg',
+        'xl' => 'text-xl',
+        '2xl' => 'text-2xl',
+        '3xl' => 'text-3xl',
+        '4xl' => 'text-4xl',
+        '5xl' => 'text-5xl',
+        default => 'sm:text-xl',
+    };
+
+    $titleColorClass = match($titleColor) {
+        'blue' => 'text-sky-600',
+        'gray' => 'text-gray-900',
+        default => 'text-emerald-600'
+    }
 @endphp
 
-{{-- 1. WRAPPER GERAL (Escondido por padrão) --}}
 <div 
     id="{{ $name }}" 
     class="fixed inset-0 z-50 hidden overflow-y-auto overflow-x-hidden"
@@ -26,25 +43,25 @@
 
         <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
 
-        <div class="relative inline-block transform overflow-hidden rounded-xl bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:align-middle {{ $maxWidthClass }}">
-            <div class="flex items-center justify-between p-4 border-b border-gray-300 bg-gray-50/50">
-                <h3 class="text-2xl font-semibold text-gray-900 tracking-tight" id="modal-title">
+        <div class="relative inline-block transform overflow-hidden rounded-xl bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:align-middle {{ $maxWidthClass }} p-4">
+            <div class="flex items-center justify-between pb-2 border-b border-gray-300">
+                <h3 class="{{ $titleSizeClass }} font-semibold {{ $titleColorClass }} tracking-tight" id="modal-title">
                     {{ $title }}
                 </h3>
 
-                <button type="button" onclick="closeModal('{{ $name }}')" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                <button type="button" onclick="closeModal('{{ $name }}')" class="cursor-pointer text-gray-400 hover:text-gray-500 focus:outline-none">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
 
-            <div class="px-6 py-6">
+            <div class="pt-2.5 pb-2.5">
                 {{ $slot }}
             </div>
 
             @if(isset($footer))
-                <div class="bg-gray-50 px-6 py-4 flex gap-2 justify-end border-t border-gray-300">
+                <div class="flex pt-3 justify-end border-t border-gray-300">
                     {{ $footer }}
                 </div>
             @endif

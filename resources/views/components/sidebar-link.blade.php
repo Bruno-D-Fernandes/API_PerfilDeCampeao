@@ -1,6 +1,6 @@
 @php
     $classes = $active
-        ? "w-full flex items-center p-3 rounded-md group shadow-md {$activeClass}"
+        ? "w-full flex items-center p-3 rounded-md group {$activeClass}"
         : "w-full flex items-center p-3 rounded-md group transition-colors {$inactiveClass}";
 @endphp
 

@@ -2,9 +2,19 @@
     $theme = match($labelColor) {
         'red'   => ['label' => 'text-red-600',     'input' => 'focus:ring-red-500 focus:border-red-500'],
         'blue'  => ['label' => 'text-sky-600',     'input' => 'focus:ring-sky-500 focus:border-sky-500'],
-        'green' => ['label' => 'text-emerald-600', 'input' => 'focus:ring-emerald-500 focus:border-emerald-500'],
+        'green' => ['label' => 'text-emerald-500', 'input' => 'focus:ring-emerald-500 focus:border-emerald-500'],
         'white' => ['label' => 'text-white',       'input' => 'focus:ring-0 focus:ring-offset-0'],
         default => ['label' => 'text-gray-900',    'input' => 'focus:ring-gray-500 focus:border-gray-500'],
+    };
+
+    $sizeClass = match($textSize) {
+        'xs' => 'text-xs',
+        'sm' => 'text-sm',
+        'md' => 'text-base',
+        'lg' => 'text-lg',
+        'xl' => 'text-xl',
+        '2xl' => 'text-2xl',
+        default => $textSize,
     };
 
     $isPassword = ($type === 'password');
@@ -14,7 +24,7 @@
 @endphp
 <div class="w-full flex flex-col gap-2">
     @if($label)
-        <label for="{{ $id }}" class="block text-md font-medium {{ $theme['label'] }}">
+        <label for="{{ $id }}" class="block {{ $sizeClass }} font-medium {{ $theme['label'] }}">
             {{ $label }}      
         </label>
     @endif

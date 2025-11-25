@@ -18,7 +18,14 @@ class SidebarLink extends Component
         $this->href = $href;
         $this->label = $label;
         
-        $this->active = $active ?: (request()->fullUrl() == $href || request()->is(trim(parse_url($href, PHP_URL_PATH), '/') . '*'));
+        if ($this->href) {
+            $path = parse_url($href, PHP_URL_PATH);
+            $pattern = trim($path ?? '', '/') . '*';
+
+            $this->active = $active ?: (request()->fullUrl() == $href || request()->is($pattern));
+        } else {
+            $this->active = $active;
+        }
 
         $styles = match($context) {
             'admin' => [

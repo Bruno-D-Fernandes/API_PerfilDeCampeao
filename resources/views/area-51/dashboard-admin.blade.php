@@ -101,7 +101,7 @@
                                                 Vasco da Gama
                                             </span>
 
-                                            <a href="" class="text-sm font-semibold tracking-tight text-emerald-500 hover:text-emerald-600 underline transition-colors">
+                                            <a href="" class="text-sm font-semibold tracking-tight text-sky-500 hover:text-sky-600 underline transition-colors">
                                                 Oportunidade
                                             </a>
                                         </div>
