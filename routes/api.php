@@ -25,7 +25,6 @@ use App\Http\Controllers\MembroClubeController;
 use App\Http\Controllers\SeguidorController;
 use App\Http\Controllers\perfilController;
 use App\Http\Controllers\ConversationController;
-use App\Http\Controllers\ChatController;
 use App\Models\Clube;
 use App\Models\Usuario;
 use Laravel\Sanctum\Sanctum;
