@@ -12,20 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('oportunidades', function (Blueprint $table) {
-             // Requisitos de idade (opcionais)
-            $table->unsignedInteger('alturaMinCm')->nullable();
-            $table->unsignedInteger('alturaMaxCm')->nullable();
-            $table->unsignedInteger('pesoMinKg')->nullable();
-            $table->unsignedInteger('pesoMaxKg')->nullable();
 
             $table->unsignedTinyInteger('idadeMinima')->nullable(); // 0–255
             $table->unsignedTinyInteger('idadeMaxima')->nullable();
-
-            // Local da oportunidade
-            $table->string('estadoOportunidade', 2)->nullable();     // Ex: 'SP'
-            $table->string('cidadeOportunidade', 100)->nullable();   // Ex: 'São Paulo'
-            $table->string('enderecoOportunidade', 255)->nullable(); // Rua/Av, nº, etc
-            $table->string('cepOportunidade', 9)->nullable();        // Ex: 01311-000
 
             $table->index(['esporte_id', 'posicoes_id']);
         });
@@ -39,8 +28,6 @@ return new class extends Migration
         Schema::table('oportunidades', function (Blueprint $table) {
         $table->dropColumn([
             'idadeMinima','idadeMaxima',
-            'estadoOportunidade','cidadeOportunidade',
-            'enderecoOportunidade','cepOportunidade',
         ]);
     });
     }

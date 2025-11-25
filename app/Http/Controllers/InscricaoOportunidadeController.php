@@ -99,7 +99,7 @@ class InscricaoOportunidadeController extends Controller
         }
 
         $lista = Inscricao::with([
-            'oportunidade:id,descricaoOportunidades,datapostagemOportunidades,clube_id,posicoes_id,esporte_id,idadeMinima,idadeMaxima,estadoOportunidade,cidadeOportunidade,enderecoOportunidade,cepOportunidade,status',
+            'oportunidade:id,descricaoOportunidades,datapostagemOportunidades,clube_id,posicoes_id,esporte_id,idadeMinima,idadeMaxima,status',
             'oportunidade.esporte:id,nomeEsporte',
             'oportunidade.posicao:id,nomePosicao',
             'oportunidade.clube'

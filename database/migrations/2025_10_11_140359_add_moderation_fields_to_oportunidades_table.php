@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void {
         Schema::table('oportunidades', function (Blueprint $table) {
-            $table->enum('status', ['pending','approved','rejected'])->default('pending')->after('cepOportunidade');
+            $table->enum('status', ['pending','approved','rejected'])->default('pending')->after('idadeMaxima');
             $table->foreignId('reviewed_by')->nullable()->constrained('tbadm')->nullOnDelete();
             $table->timestamp('reviewed_at')->nullable();
             $table->string('rejection_reason', 255)->nullable();
