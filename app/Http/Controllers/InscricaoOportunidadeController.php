@@ -44,33 +44,6 @@ class InscricaoOportunidadeController extends Controller
         return response()->json(['message' => 'Você já está inscrito nesta oportunidade.'], 409);
     }
 
-    if (!is_null($op->alturaMinCm) || !is_null($op->alturaMaxCm)) {
-        if (is_null($user->alturaCm)) {
-            return response()->json(['message' => 'Preencha sua altura (cm) no perfil para se inscrever nesta oportunidade.'], 422);
-        }
-
-        if (!is_null($op->alturaMinCm) && $user->alturaCm < $op->alturaMinCm) {
-            return response()->json(['message' => 'Altura abaixo do mínimo exigido.'], 422);
-        }
-
-        if (!is_null($op->alturaMaxCm) && $user->alturaCm > $op->alturaMaxCm) {
-            return response()->json(['message' => 'Altura acima do máximo exigido.'], 422);
-        }
-    }
-
-    if (!is_null($op->pesoMinKg) || !is_null($op->pesoMaxKg)) {
-        if (is_null($user->pesoKg)) {
-            return response()->json(['message' => 'Preencha seu peso (kg) no perfil para se inscrever nesta oportunidade.'], 422);
-        }
-
-        if (!is_null($op->pesoMinKg) && $user->pesoKg < $op->pesoMinKg) {
-            return response()->json(['message' => 'Peso abaixo do mínimo exigido.'], 422);
-        }
-
-        if (!is_null($op->pesoMaxKg) && $user->pesoKg > $op->pesoMaxKg) {
-            return response()->json(['message' => 'Peso acima do máximo exigido.'], 422);
-        }
-    }
 
     $insc = Inscricao::create([
         'oportunidade_id' => $op->id,

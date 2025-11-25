@@ -7,7 +7,8 @@ use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\AuthClubeController;
 use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\PostagemController;
-
+use App\Http\Controllers\DashAdminController;
+use App\Http\Controllers\DashClubeController;
 use App\Http\Controllers\AdmController;
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\FuncaoController;
@@ -153,6 +154,23 @@ Route::prefix('clube')->group(function () {
         Route::get('/{clubeId}/membros', [MembroClubeController::class, 'listarMembros']);
         Route::post('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'adicionarMembro']);
         Route::delete('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'removerMembro']);
+
+        // Dashboard Clube - resumo geral
+        Route::get('/dashboard/resumo-geral', [DashClubeController::class, 'resumoGeral']);
+
+        // Dashboard Clube - distribuição por posições (filtra por ?esporte_id=)
+        Route::get('/dashboard/distribuicao-posicoes', [DashClubeController::class, 'distribuicaoPosicoes']);
+
+        // Dashboard Clube - evolução mensal de inscrições (filtra por ?esporte_id= & ?months=)
+        Route::get('/dashboard/inscricoes-mensais', [DashClubeController::class, 'inscricoesMensais']);
+
+        // Dashboard Clube - top 5 estados com mais inscritos (filtra por ?esporte_id=)
+        Route::get('/dashboard/top-estados-inscricoes', [DashClubeController::class, 'topEstadosInscricoes']);
+
+        // Dashboard Clube - atividades recentes (oportunidades + inscrições)
+        Route::get('/dashboard/atividades-recentes', [DashClubeController::class, 'atividadesRecentes']);
+
+        //Seja feliz João --Luan
         // Fim Listas do Clube
 
         // Rotas para o clube gerenciar sua conta
@@ -267,6 +285,32 @@ Route::prefix('admin')->group(function () {
         Route::post('/caracteristica', [AdminSistemaController::class, 'storeCaracteristica']);
         Route::put('/caracteristica/{id}', [AdminSistemaController::class, 'updateCaracteristica']);
         Route::delete('/caracteristica/{id}', [AdminSistemaController::class, 'destroyCaracteristica']);
+
+        // Dashboard Admin - últimos cadastros de usuários
+        Route::get('/dashboard/ultimos-cadastros', [DashAdminController::class, 'ultimosCadastros']);
+
+        // Dashboard Admin - 5 oportunidades com mais inscrições
+        Route::get('/dashboard/oportunidades-inscricoes', [DashAdminController::class, 'oportunidadesInscricoes']);
+
+        // Dashboard Admin - 5 clubes mais ativos
+        Route::get('/dashboard/clubes-mais-ativos', [DashAdminController::class, 'clubesMaisAtivos']);
+
+        // Dashboard Admin - atividades recentes (oportunidades + inscrições)
+        Route::get('/dashboard/atividades-recentes', [DashAdminController::class, 'atividadesRecentes']);
+
+        // Dashboard Admin - cards gerais (atletas mês, clubes ativos, oportunidades ativas, inscrições totais)
+        Route::get('/dashboard/resumo-geral', [DashAdminController::class, 'resumoGeral']);
+
+        // Dashboard Admin - crescimento de usuários mensal
+        Route::get('/dashboard/crescimento-usuarios-mensal', [DashAdminController::class, 'crescimentoUsuariosMensal']);
+
+        // Dashboard Admin - inscrições mensais
+        Route::get('/dashboard/inscricoes-mensais', [DashAdminController::class, 'inscricoesMensais']);
+
+        // Dashboard Admin - distribuição de oportunidades entre esportes
+        Route::get('/dashboard/distribuicao-oportunidades-esporte', [DashAdminController::class, 'distribuicaoOportunidadesPorEsporte']);
+
+        //SEJA FELIZ JOAO --LUAN
     });
 });
 
