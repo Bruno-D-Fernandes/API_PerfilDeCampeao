@@ -25,7 +25,6 @@ use App\Http\Controllers\MembroClubeController;
 use App\Http\Controllers\SeguidorController;
 use App\Http\Controllers\perfilController;
 use App\Http\Controllers\ConversationController;
-use App\Http\Controllers\ChatController;
 use App\Models\Clube;
 use App\Models\Usuario;
 use Laravel\Sanctum\Sanctum;
@@ -202,6 +201,7 @@ Route::prefix('clube')->group(function () {
 Route::middleware('auth:sanctum,club_sanctum,adm_sanctum')->group(function () {
     Broadcast::routes(['middleware' => ['auth:sanctum,club_sanctum,adm_sanctum']]);
 
+    Route::post('/chat/invite', [ChatController::class, 'sendEventInvite']);
     Route::post('/chat/send', [ChatController::class, 'sendMessage']);
     Route::get('/conversations', [ConversationController::class, 'index']);
     Route::get('/conversations/{id}/messages', [ConversationController::class, 'getMessages']);

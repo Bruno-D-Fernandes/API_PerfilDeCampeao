@@ -32,11 +32,22 @@ Broadcast::channel('notifications.admin', function ($model) {
     return ($model instanceof Admin);
 });
 
+// routes/channels.php
+
 Broadcast::channel('chat.{conversationId}', function ($user, $conversationId) {
     $conversation = App\Models\Conversation::find($conversationId);
+
     if (!$conversation) {
         return false;
     }
-    return $user->id == $conversation->participant_one_id ||
-        $user->id == $conversation->participant_two_id;
+
+    $userType = $user->getMorphClass();
+
+    $isParticipantOne = $user->id == $conversation->participant_one_id &&
+        $userType == $conversation->participant_one_type;
+
+    $isParticipantTwo = $user->id == $conversation->participant_two_id &&
+        $userType == $conversation->participant_two_type;
+
+    return $isParticipantOne || $isParticipantTwo;
 });

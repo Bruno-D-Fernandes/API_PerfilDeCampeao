@@ -83,7 +83,7 @@ class OportunidadeController extends Controller
     {
         $perPage = $request->query('per_page', 10);
         $usuario = Auth::guard('sanctum')->user();
-        $query = Oportunidade::approved()->with(['esporte', 'posicao', 'clube']);
+        $query = Oportunidade::approved()->with(['esporte', 'posicao', 'clube'])->orderBy('created_at', 'asc');
 
         if ($usuario) {
             $query->whereDoesntHave('inscricoes', function ($q) use ($usuario) {

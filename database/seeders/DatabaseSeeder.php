@@ -14,6 +14,7 @@ use \Database\Seeders\ClubeSeeder;
 use \Database\Seeders\AtletaSeeder;
 use \Database\Seeders\OportunidadeSeeder;
 use \Database\Seeders\InscricaoSeeder;
+use \Database\Seeders\EventoSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,16 +31,18 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-        AdminSeeder::class,
-        UsuarioSeeder::class,
-        EsporteSeeder::class,
-        PosicaoSeeder::class,
-        CategoriaSeeder::class,
-        CaracteristicaSeeder::class,
-        ClubeSeeder::class,
-        OportunidadeSeeder::class,
-        InscricaoSeeder::class,
-        FuncaoSeeder::class,
+            AdminSeeder::class,
+            UsuarioSeeder::class,
+            EsporteSeeder::class,
+            PosicaoSeeder::class,
+            CategoriaSeeder::class,
+            CaracteristicaSeeder::class,
+            ClubeSeeder::class,
+            OportunidadeSeeder::class,
+            InscricaoSeeder::class,
+            FuncaoSeeder::class,
+            EventoSeeder::class,
+
         ]);
     }
 }
