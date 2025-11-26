@@ -18,10 +18,15 @@
     };
 
     $isPassword = ($type === 'password');
-    $isSelect = ($type === 'select');
+    $isSelect   = ($type === 'select');
+    $isDate     = ($type === 'date');
+    $isTime     = ($type === 'time');
 
-    $hasIcon = isset($icon);
+    $hasSlotIcon = isset($icon);
+
+    $showIconColumn = $hasSlotIcon || $isDate || $isTime || $isPassword || (!$isSelect && !$hasSlotIcon);
 @endphp
+
 <div class="w-full flex flex-col gap-2">
     @if($label)
         <label for="{{ $id }}" class="block {{ $sizeClass }} font-medium {{ $theme['label'] }}">
@@ -31,16 +36,18 @@
 
     <div class="relative w-full">
         <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-gray-500 z-10">
-            @if($hasIcon)
+            @if($hasSlotIcon)
                 <div class="w-5 h-5 flex items-center justify-center">
                     {{ $icon }}
                 </div>
-            @else
-                @if($isPassword)
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                @elseif(!$isSelect) 
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/></svg>
-                @endif
+            @elseif($isDate)
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 lucide lucide-calendar-days-icon lucide-calendar-days"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
+            @elseif($isTime)
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 lucide lucide-clock-icon lucide-clock"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+            @elseif($isPassword)
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            @elseif(!$isSelect) 
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/></svg>
             @endif
         </div>
 
@@ -49,7 +56,7 @@
                 {{ $attributes->merge([
                     'id' => $id, 
                     'name' => $name,
-                    'class' => $theme['input'] . ' ' . ($hasIcon ? 'ps-10' : ''),
+                    'class' => $theme['input'] . ' ' . ($hasSlotIcon ? 'ps-10' : ''),
                 ]) }}
             >
                 {{ $slot }}
@@ -59,10 +66,13 @@
                 type="{{ $type }}" 
                 id="{{ $id }}" 
                 name="{{ $name }}"
+                {{-- Adiciona onclick para abrir o calendário ao clicar no input inteiro (UX) --}}
+                @if($isDate || $isTime) onclick="try { this.showPicker() } catch(e){}" @endif
                 {{ $attributes->merge([
                     'class' => 'block w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:border-1 ' . 
                     $theme['input'] . 
-                    ($hasIcon || $isPassword ? ' ps-10' : '') . ($isPassword ? ' pe-10' : '')
+                    ($showIconColumn ? ' ps-10' : '') . 
+                    ($isPassword ? ' pe-10' : '')
                 ]) }}
             >
         @endif

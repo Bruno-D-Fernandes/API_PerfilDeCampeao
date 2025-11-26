@@ -32,6 +32,10 @@ class SidebarLink extends Component
                 'bg' => 'bg-sky-500',
                 'hover' => 'hover:bg-sky-500',
             ],
+            'logout' => [
+                'bg' => 'bg-red-500',
+                'hover' => 'hover:bg-red-500'
+            ],
             default => [
                 'bg' => 'bg-emerald-500',
                 'hover' => 'hover:bg-emerald-500',

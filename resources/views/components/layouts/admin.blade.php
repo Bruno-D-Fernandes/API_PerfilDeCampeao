@@ -1,5 +1,15 @@
 <x-layouts.base :title="$title">
-    <x-sidebar>  
+    <x-sidebar>
+        <x-slot:logo>
+            <div class="h-full flex flex-col gap-y-1 items-center p-3">
+                <img src="{{ asset('img/logo-admin.png') }}" alt="" class="h-24 object-contain aspect-square">
+
+                <span class="text-xl font-semibold text-sky-500 tracking-tight">
+                    Perfil de Campeão
+                </span>
+            </div>
+        </x-slot:logo>
+
         <x-sidebar-section title="geral">
             <x-sidebar-link :href="route('admin.dashboard')" label="Dashboard" context="admin">
                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard-icon lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
@@ -33,7 +43,7 @@
                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bolt-icon lucide-bolt"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><circle cx="12" cy="12" r="4"/></svg>
             </x-sidebar-link>
 
-            <x-sidebar-link :href="null" label="Sair" context="admin">
+            <x-sidebar-link :href="null" label="Sair" context="logout">
                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-door-open-icon lucide-door-open"><path d="M11 20H2"/><path d="M11 4.562v16.157a1 1 0 0 0 1.242.97L19 20V5.562a2 2 0 0 0-1.515-1.94l-4-1A2 2 0 0 0 11 4.561z"/><path d="M11 4H8a2 2 0 0 0-2 2v14"/><path d="M14 12h.01"/><path d="M22 20h-3"/></svg>
             </x-sidebar-link>
         </x-sidebar-section>

@@ -4,7 +4,7 @@
             <x-form-card title="Bem vindo de volta" description="Informe seu CNPJ e Senha para acessar a plataforma" color="green">
                 <x-slot:logo>
                     <div class="flex items-center gap-x-2 h-16">
-                        <img src="{{ asset('img/logo-clube.png') }}" alt="" class="h-full object-fit">
+                        <img src="{{ asset('img/logo-clube.png') }}" alt="" class="h-full object-contain">
 
                         <span class="text-2xl font-semibold text-emerald-600 tracking-tight">
                             Perfil de Campeão

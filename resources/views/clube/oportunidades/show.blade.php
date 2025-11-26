@@ -25,7 +25,7 @@
                         Peneira Sub-17
                     </p>
 
-                    <x-badge color="green" :border="false">
+                    <x-badge color="green" :border="false" class="px-2.5">
                         Ativa
                     </x-badge>
                 </div>
@@ -69,7 +69,7 @@
                 </x-slot>
 
                 <x-slot name="icon_detalhes">
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info-icon lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                 </x-slot>
 
                 <x-slot name="candidatos">

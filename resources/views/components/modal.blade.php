@@ -23,6 +23,7 @@
     $titleColorClass = match($titleColor) {
         'blue' => 'text-sky-600',
         'gray' => 'text-gray-900',
+        'red' => 'text-red-600',
         default => 'text-emerald-600'
     }
 @endphp

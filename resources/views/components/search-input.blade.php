@@ -9,7 +9,7 @@
         {{ $attributes->merge([
             'type' => 'text', 
             'id' => 'input-group-1',
-            'class' => 'block w-full max-w-96 ps-9 pe-3 py-3 bg-gray-50 text-heading text-sm rounded-lg border-none shadow-xs placeholder:text-body'
+            'class' => 'block w-full ps-9 pe-3 py-3 bg-gray-50 text-heading text-sm rounded-lg border-none shadow-xs placeholder:text-body'
         ]) }}
         placeholder="{{ $placeholder }}"
     >

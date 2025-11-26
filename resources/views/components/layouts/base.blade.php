@@ -15,6 +15,7 @@
 <body class="font-sans antialiased h-screen relative">
     {{ $slot }}
 
+    @stack('scripts')
     <script>
         let currentSortCol = null;
         let currentSortDir = 'neutral';
