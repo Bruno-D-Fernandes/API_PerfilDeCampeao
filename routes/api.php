@@ -51,8 +51,8 @@ Route::prefix('usuario')->group(function () {
         Route::get('/perfilForm/{id}', [perfilController::class, 'formInfo']);
         Route::get('/loadPerfilAll', [perfilController::class, 'show']);
         Route::get('/optionsEsportes', [perfilController::class, 'esportesFiltro']);
-        Route::put('/perfil/{id}', [PerfilController::class, 'update']);
-        Route::delete('/perfil/excluir/{id}', [PerfilController::class, 'destroy']);
+        Route::put('/perfil/{id}', [perfilController::class, 'update']);
+        Route::delete('/perfil/excluir/{id}', [perfilController::class, 'destroy']);
         // Fim multilpos perfis
 
 
