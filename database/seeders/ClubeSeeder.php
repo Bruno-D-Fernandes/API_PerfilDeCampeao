@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Clube;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ClubeSeeder extends Seeder
 {
@@ -15,7 +16,7 @@ class ClubeSeeder extends Seeder
     {
         // Clube exemplo que você já tinha
         Clube::firstOrCreate([
-            'nomeClube' => 'Clube Exemplo'
+            'nomeClube' => 'Club de Regatas Vasco da Gama'
         ], [
             'nomeClube' => 'Club de Regatas Vasco da Gama',
             'cnpjClube' => '00.000.000/0001-91',
@@ -28,6 +29,7 @@ class ClubeSeeder extends Seeder
             'senhaClube' => Hash::make('vasco123'),
             'categoria_id' => 2,
             'esporte_id' => 1,
+            'fotoPerfilClube' => 'imagens_seeder/vasco_perfil.png'
         ]);
 
         // Flamengo
@@ -45,6 +47,7 @@ class ClubeSeeder extends Seeder
             'senhaClube' => Hash::make('mengao123'),
             'categoria_id' => 2,
             'esporte_id' => 1,
+            'fotoPerfilClube' => 'imagens_seeder/flamengo_perfil.png'
         ]);
 
         // São Paulo FC
@@ -62,6 +65,7 @@ class ClubeSeeder extends Seeder
             'senhaClube' => Hash::make('spfc123'),
             'categoria_id' => 2,
             'esporte_id' => 1,
+            'fotoPerfilClube' => 'imagens_seeder/saopaulo_perfil.png'
         ]);
 
         // Palmeiras
@@ -79,6 +83,8 @@ class ClubeSeeder extends Seeder
             'senhaClube' => Hash::make('porco123'),
             'categoria_id' => 2,
             'esporte_id' => 1,
+            'fotoPerfilClube' => 'imagens_seeder/palmeiras_perfil.png'
+
         ]);
 
         // Grêmio
@@ -96,6 +102,7 @@ class ClubeSeeder extends Seeder
             'senhaClube' => Hash::make('gremio123'),
             'categoria_id' => 2,
             'esporte_id' => 1,
+            'fotoPerfilClube' => 'imagens_seeder/gremio_perfil.png'
         ]);
 
         // Santos
@@ -113,6 +120,7 @@ class ClubeSeeder extends Seeder
             'senhaClube' => Hash::make('santos123'),
             'categoria_id' => 2,
             'esporte_id' => 1,
+            'fotoPerfilClube' => 'imagens_seeder/santos_perfil.png'
         ]);
     }
 }

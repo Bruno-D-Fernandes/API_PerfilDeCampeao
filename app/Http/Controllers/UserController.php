@@ -59,8 +59,8 @@ class UserController extends Controller
                 'pesoKg' => 'nullable|numeric|min:20|max:500',
                 'peDominante' => 'nullable|in:Direito,Esquerdo',
                 'maoDominante' => 'nullable|in:Destro,Canhoto',
-                'fotoPerfilUsuario' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048',
-                'fotoBannerUsuario' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048'
+                'fotoPerfilUsuario' => 'nullable|image|max:2048',
+                'fotoBannerUsuario' => 'nullable|image|max:2048'
             ]);
 
             $caminhoFotoPerfil = null;
@@ -114,8 +114,8 @@ class UserController extends Controller
                 'pesoKg' => 'nullable|numeric|min:20|max:500',
                 'peDominante' => 'nullable|in:Direito,Esquerdo',
                 'maoDominante' => 'nullable|in:Destro,Canhoto',
-                'fotoPerfilUsuario' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048',
-                'fotoBannerUsuario' => 'nullable|image|mimes:jpg,png,jpeg,webp,gif,svg|max:2048'
+                'fotoPerfilUsuario' => 'nullable|image|max:2048',
+                'fotoBannerUsuario' => 'nullable|image|max:2048'
             ]);
 
             $senhaTemporariaAleatoria = Str::random(16);
@@ -163,8 +163,8 @@ class UserController extends Controller
                 'peDominante' => 'nullable|in:Direito,Esquerdo',
                 'maoDominante' => 'nullable|in:Destro,Canhoto',
 
-                'fotoPerfilUsuario' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg',
-                'fotoBannerUsuario' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg',
+                'fotoPerfilUsuario' => 'nullable|file|image',
+                'fotoBannerUsuario' => 'nullable|file|image',
             ]);
 
             $dataToUpdate = $validatedData;
