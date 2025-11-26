@@ -57,7 +57,7 @@ Route::prefix('clube')->name('clube.')->group(function () {
     })->name('lista');
 
     Route::get('/perfil', function () {
-        return view('clube.profile');
+        return view('clube.perfil');
     })->name('perfil');
 
     Route::get('/mensagens', function () {
@@ -71,6 +71,10 @@ Route::prefix('clube')->name('clube.')->group(function () {
     Route::get('/pesquisa', function () {
         return view('clube.pesquisa');
     })->name('pesquisa');
+
+    Route::get('/configuracoes', function () {
+        return view('clube.configuracoes');
+    })->name('configuracoes');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {

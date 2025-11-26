@@ -2,7 +2,7 @@
     'Dashboard' => route('clube.dashboard'),
     'Pesquisa' => null,
 ]">
-    <div class="flex gap-6 w-full h-[calc(100vh-11rem)]">
+    <div class="flex justify-center gap-6 w-full h-full">
         <div class="flex flex-col justify-between gap-2 bg-emerald-500 h-full w-1/4 rounded-lg p-6">
             <x-search-input placeholder="Buscar por nome" />
 
@@ -121,7 +121,7 @@
             <div class="w-full border border-t border-white/20 mt-0.5"></div>
 
             <div class="flex gap-x-4 mt-1">
-                <x-button color="none" :full="true" class="border-none bg-transparent    text-emerald-800">
+                <x-button color="none" :full="true" class="border-none bg-transparent text-emerald-800">
                     Limpar
                 </x-button>
 
@@ -133,13 +133,13 @@
 
         <div class="flex flex-col gap-2 bg-white h-full w-3/4">
             <div class="flex items-center justify-between">
-                <h3 class="text-2xl font-medium text-gray-800">
+                <h3 class="text-xl font-medium text-gray-700">
                     30 atletas encontrados
                 </h3>
 
                 <div>
                     <x-select name="itpii" id="ibiz" class="pr-8">
-                        <option disabled>
+                        <option>
                             Ordenar por
                         </option>
 
@@ -162,7 +162,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid grid-cols-3 gap-6">
                 <x-athlete-card :athlete="null" />
             </div>
         </div>

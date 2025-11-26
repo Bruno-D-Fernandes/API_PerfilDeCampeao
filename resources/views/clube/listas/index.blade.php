@@ -2,66 +2,6 @@
     'Dashboard' => route('clube.dashboard'),
     'Minhas Listas' => null
 ]">
-    <x-drawer id="notifications" width="max-w-lg">
-        <div class="flex flex-col gap-y-2">
-            <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-semibold text-emerald-700 tracking-tight">
-                    Notificações
-                </h1>
-
-                <x-icon-button color="green">
-                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                </x-icon-button>
-            </div>
-            
-            <div class="w-full h-10 bg-gray-50 rounded-lg flex items-center justify-between">
-                <div class="flex items-center gap-x-2 p-2">
-                    <x-button color="none" class="pl-0 pr-0 border-none font-semibold bg-transparent text-emerald-600">
-                        Todas
-                    </x-button>
-
-                    <x-button color="none" class="pl-0 pr-0 border-none font-medium bg-transparent text-emerald-800">
-                        Não lidas (10)
-                    </x-button>
-                </div>
-
-                <x-button color="none" class="pl-0 pr-2 border-none text-sm font-medium bg-transparent text-emerald-500">
-                    <x-slot:icon>
-                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-check-icon lucide-check-check"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></svg>
-                    </x-slot:icon>
-
-                    Marcar todas como lidas
-                </x-button>
-            </div>
-
-            <div class="flex flex-col gap-y-2">
-                <span class="text-sm text-gray-900 uppercase tracking-tight font-semibold">
-                    Hoje
-                </span>
-
-                {{-- O de baixo pode ser tornar um componente de notificação --}}
-
-                <div class="flex flex-col gap-y-2">
-                    <div class="flex items-center gap-x-2">
-                        <div class="h-14 w-14 aspect-square rounded-md bg-gray-100 flex items-center justify-center">
-                            <svg class="h-6 w-6 text-emerald-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone-icon lucide-megaphone"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></svg>
-                        </div>
-
-                        <div class="h-full w-full flex flex-col justify-between">
-                            <h3 class="text-sm font-medium text-emerald-700">
-                                Um administrador do sistema recusou a sua oportunidade.
-                            </h3>
-
-                            <h4 class="text-xs font-normal text-emerald-900">
-                                11 de Outubro às 9:30h
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </x-drawer>
-
     <x-slot:action>
         <x-button onclick="openModal('create-list')" color="clube">
             <x-slot:icon>

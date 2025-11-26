@@ -86,6 +86,12 @@
             document.body.classList.remove('overflow-hidden');
         }
 
+        function openDrawer(drawerId) {
+            document.getElementById(`${drawerId}-overlay`).classList.remove('hidden');
+            document.getElementById(`${drawerId}-panel`).classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
         function closeDrawer(drawerId) {
             document.getElementById(`${drawerId}-overlay`).classList.add('hidden');
             document.getElementById(`${drawerId}-panel`).classList.add('hidden');

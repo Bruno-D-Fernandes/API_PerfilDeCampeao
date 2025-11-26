@@ -1,4 +1,4 @@
-<a href="" class="flex flex-col gap-4 p-5 bg-white border border-2 border-gray-300/80 hover:border-emerald-400 transition-colors rounded-lg group">
+<a href="" class="flex flex-col gap-2 p-4 bg-white border border-2 border-gray-300/80 hover:border-emerald-400 transition-colors rounded-lg group">
     <div class="relative w-full">
         <x-avatar :src="null" alt="Joseias" size="xl" />
 

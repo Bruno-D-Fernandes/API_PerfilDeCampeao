@@ -186,6 +186,7 @@
     </x-slot>
 </x-layouts.form>
 
+@once
 <script>
     let currentStep = 1;
     const totalSteps = 3;
@@ -266,3 +267,4 @@
         }
     }
 </script>
+@endonce
