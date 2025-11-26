@@ -29,7 +29,8 @@ class ClubeSeeder extends Seeder
             'senhaClube' => Hash::make('vasco123'),
             'categoria_id' => 2,
             'esporte_id' => 1,
-            'fotoPerfilClube' => 'imagens_seeder/vasco_perfil.png'
+            'fotoPerfilClube' => 'imagens_seeder/vasco_perfil.png',
+            'status' => 'ativo'
         ]);
 
         // Flamengo

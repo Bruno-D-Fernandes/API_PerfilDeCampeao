@@ -17,6 +17,11 @@ return [
             'provider' => 'users',
         ],
 
+        'club' => [
+            'driver' => 'session',
+            'provider' => 'clubs',
+        ],
+
         'club_sanctum' => [ 
             'driver' => 'sanctum',
             'provider' => 'clubs',

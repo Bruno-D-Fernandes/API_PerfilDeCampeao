@@ -96,3 +96,25 @@
 
     <p id="{{ $id }}-error" class="text-sm text-red-600 hidden"></p>
 </div>
+
+@once
+<script>
+    function togglePasswordVisibility(id) {
+        const input = document.getElementById(id);
+        const eyeOpen = document.getElementById(id + "-eye-open");
+        const eyeClosed = document.getElementById(id + "-eye-closed");
+
+        if (!input) return;
+
+        if (input.type === "password") {
+            input.type = "text";
+            eyeOpen.classList.add("hidden");
+            eyeClosed.classList.remove("hidden");
+        } else {
+            input.type = "password";
+            eyeClosed.classList.add("hidden");
+            eyeOpen.classList.remove("hidden");
+        }
+    }
+</script>
+@endonce

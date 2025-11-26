@@ -88,7 +88,7 @@
                     Cancelar
                 </x-button>
 
-                <form method="POST" action="">
+                <form method="POST" action="{{ route('clube.logout') }}">
                     @csrf
                     <x-button type="submit" color="red" size="md">
                         Sim, sair

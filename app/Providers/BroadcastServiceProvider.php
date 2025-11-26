@@ -12,7 +12,7 @@ class BroadcastServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Broadcast::routes(['middleware' => ['auth:sanctum,club_sanctum']]);
+        Broadcast::routes(['middleware' => ['auth:sanctum,club_sanctum']]); // tive de comentar essa linha para funcionar o broadcast com sanctum personalizado
 
         require base_path('routes/channels.php');
     }

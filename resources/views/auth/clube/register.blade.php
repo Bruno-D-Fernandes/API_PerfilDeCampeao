@@ -1,5 +1,7 @@
 <x-layouts.form title="Cadastro" class="p-8">
     <x-slot name="left">
+        <div id="toast-container" class="fixed top-4 left-4 z-[9999] flex flex-col gap-3 pointer-events-auto"></div>
+
         <div class="w-full h-full flex items-center justify-center">
             <x-form-card title="O Futuro Começa Hoje" description="Informe seus dados e acesse o Perfil de Campeão hoje mesmo!  " color="green">
                 <x-slot:logo>
@@ -44,7 +46,7 @@
                     </li>
                 </ol>
 
-                <x-form class="w-full flex flex-col gap-4">
+                <x-form method="POST" id="signup-form" action="{{ route('clube.cadastro.submit') }}" class="w-full flex flex-col gap-4">
                     <div id="step-1" class="form-step flex flex-col gap-4">
                         <h3 class="text-lg font-semibold text-emerald-700/80">Dados de Acesso</h3>
                         
@@ -84,43 +86,64 @@
                             <x-slot:icon>
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon lucide-trophy"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"/><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/></svg>
                             </x-slot:icon>
+
+                            @foreach($esportes as $esporte)
+                                <option value="{{ $esporte->id }}">
+                                    {{ $esporte->nomeEsporte }}
+                                </option>
+                            @endforeach
                         </x-form-group>
 
                         <x-form-group label="Categoria" name="categoria_id" type="select" labelColor="green">
                             <x-slot:icon>
                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag-icon lucide-tag"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg>
                             </x-slot:icon>
+
+                            @foreach($categorias as $categoria)
+                                <option value="{{ $categoria->id }}">
+                                    {{ $categoria->nomeCategoria }}
+                                </option>
+                            @endforeach
                         </x-form-group>
                     </div>
 
                     <div id="step-3" class="hidden form-step flex flex-col gap-4">
                         <h3 class="text-lg font-semibold text-emerald-700/80">Localização do Clube</h3>
                         
-                        <x-form-group label="Cep" name="nomeClube" type="text" labelColor="green">
+                        <x-form-group label="Cep" name="cepClube" type="text" labelColor="green">
                             <x-slot:icon>
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pinned-icon lucide-map-pinned"><path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/></svg>
                             </x-slot:icon>
                         </x-form-group>
 
-                        <x-form-group label="Cidade" name="nomeClube" type="text" labelColor="green">
+                        <x-form-group label="Cidade" name="cidadeClube" type="text" labelColor="green">
                             <x-slot:icon>
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-icon lucide-building"><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
                             </x-slot:icon>
                         </x-form-group>
 
-                        <x-form-group label="Estado" name="categoria_id" type="select" labelColor="green">
+                        <x-form-group label="Estado" name="estadoClube" type="select" labelColor="green">
                             <x-slot:icon>
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-icon lucide-map"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg>
                             </x-slot:icon>
+
+                            @foreach(['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES',
+                            'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR',
+                            'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC',
+                            'SP', 'SE', 'TO'] as $estado)
+                                <option value="{{ $estado }}">
+                                    {{ $estado }}
+                                </option>
+                            @endforeach
                         </x-form-group>
 
-                        <x-form-group label="Endereço" name="nomeClube" type="text" labelColor="green">
+                        <x-form-group label="Endereço" name="enderecoClube" type="text" labelColor="green">
                             <x-slot:icon>
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
                             </x-slot:icon>
                         </x-form-group>
 
-                        <x-checkbox color="green">
+                        <x-checkbox color="green" name="accepted">
                             <x-slot:link>
                                 <span class="inline-flex gap-x-1 text-md text-gray-500 font-medium">
                                     Eu concordo com os

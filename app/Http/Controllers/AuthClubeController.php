@@ -3,207 +3,125 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Clube;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
+use App\Models\Clube;
+use App\Models\Esporte;
+use App\Models\Categoria;
 
 class AuthClubeController extends Controller
 {
-    
+    public function showLoginForm()
+    {
+        if (Auth::guard('club')->check()) {
+            return redirect()->route('clube.dashboard');
+        }
+        return view('auth.clube.login');
+    }
+
     public function login(Request $request)
     {
+        $request->validate([
+            'cnpjClube'  => ['required'],
+            'senhaClube' => ['required'],
+        ]);
+
         $clube = Clube::where('cnpjClube', $request->cnpjClube)->first();
 
         if (! $clube || ! Hash::check($request->senhaClube, $clube->senhaClube)) {
-            return response()->json(['message' => 'Credenciais inválidas'], 401);
+            $response = ['message' => 'Credenciais inválidas.'];
+            return $request->wantsJson() ? response()->json($response, 401) : back()->withErrors(['cnpjClube' => $response['message']])->withInput();
+        }
+        
+        if ($clube->status === Clube::STATUS_BLOQUEADO) {
+            $response = ['message' => 'Conta bloqueada: ' . $clube->bloque_reason];
+            return $request->wantsJson() ? response()->json($response, 403) : back()->withErrors(['cnpjClube' => $response['message']])->withInput();
         }
 
-        if($clube->status === Clube::STATUS_BLOQUEADO){
-            return response()->json(['message' => 'Conta do clube foi bloqueado pelo seguinte motivo: '. $clube->bloque_reason], 403);
+        if ($clube->status !== Clube::STATUS_ATIVO) {
+            $response = ['message' => 'Conta inativa. Status: ' . $clube->status];
+            return $request->wantsJson() ? response()->json($response, 403) : back()->withErrors(['cnpjClube' => $response['message']])->withInput();
         }
 
-        if($clube->status !== Clube::STATUS_ATIVO){
-            return response()->json(['message' => 'Conta do clube não está ativa. Status atual: ' . $clube->status], 403);
+        $token = $clube->createToken('web_dashboard_token', ['club'])->plainTextToken;
+        
+        if ($request->wantsJson()) {
+            return response()->json([
+                'access_token' => "Bearer $token",
+                'clube' => $clube
+            ], 200);
+        } else {
+            Auth::guard('club')->login($clube);
+            $request->session()->regenerate();
+            
+            session(['clube_api_token' => $token]);
+            
+            return redirect()->intended(route('clube.dashboard'));
         }
-
-        $token = $clube->createToken('auth_token', ['club'], null, 'club_sanctum')->plainTextToken;
-
-        return response()->json([
-           'access_token' => "Bearer $token"
-        ]);
-    }
-
-    public function perfil(Request $request)
-    {
-        return response()->json($request->user(), 200);
     }
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        $user = Auth::guard('club')->user();
+        if ($user) {
+            $user->tokens()->where('name', 'web_dashboard_token')->delete();
+        }
         
-        return response()->json(['message' => 'Logout realizado com sucesso']);
+        Auth::guard('club')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        return redirect()->route('clube.login');
     }
 
-    public function deleteAccount(Request $request)
-{
-    try {
-        $clube = $request->user();
-
-        if (!$clube instanceof Clube) {
-            return response()->json(['message' => 'Clube não encontrado'], 404);
-        }
-
-        $fotoPerfilPath = $clube->getRawOriginal('fotoPerfilClube');
-        if ($fotoPerfilPath) {
-            Storage::disk('public')->delete($fotoPerfilPath);
-            $clube->fotoPerfilClube = null;
-        }
-
-        $fotoBannerPath = $clube->getRawOriginal('fotoBannerClube');
-        if ($fotoBannerPath) {
-            Storage::disk('public')->delete($fotoBannerPath);
-            $clube->fotoBannerClube = null;
-        }
-
-        $suffix = '#deleted#' . $clube->id . '#' . now()->timestamp;
-
-        $clube->nomeClube  = $clube->nomeClube  . $suffix;
-        $clube->cnpjClube  = $clube->cnpjClube  . $suffix;
-        $clube->emailClube = $clube->emailClube . $suffix;
-
-        if (defined(Clube::class . '::STATUS_DELETADO')) {
-            $clube->status = Clube::STATUS_DELETADO;
-        }
-
-        $clube->reviewed_by      = null;
-        $clube->reviewed_at      = null;
-        $clube->rejection_reason = null;
-
-        $clube->save();
-
-        if (method_exists($clube, 'tokens')) {
-            $clube->tokens()->delete();
-        }
-
-        return response()->json(['message' => 'Conta do clube excluída com sucesso'], 200);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'error'   => 'Ocorreu um erro ao deletar a conta do clube',
-            'message' => $e->getMessage(),
-        ], 500);
-    }
-}
-    public function updateAccount(Request $request)
+    public function showRegisterForm()
     {
-        $clube = $request->user();
-
-        if (!$clube instanceof Clube) {
-            return response()->json(['message' => 'Clube não encontrado'], 404);
+        if (Auth::guard('club')->check()) {
+            return redirect()->route('clube.dashboard');
         }
+        return view('auth.clube.register')->with(['esportes' => Esporte::all(), 'categorias' => Categoria::all()]);
+    }
 
-        $validatedData = $request->validate([
-            'nomeClube' => 'sometimes|required|string|max:255',
-            'cidadeClube' => 'sometimes|required|string|max:255',
-            'estadoClube' => 'sometimes|required|string|max:255',
-            'anoCriacaoClube' => 'sometimes|required|date',
-            'cnpjClube' => 'sometimes|required|string|max:20|unique:clubes,cnpjClube,' . $clube->id,
-            'email'            => 'sometimes|required|email|max:255|unique:clubes,email,' . $clube->id,
-
-            'current_password' => 'required_with:emailClube,senhaClube|string',
-
-
-            'enderecoClube' => 'sometimes|required|string|max:255',
-            'bioClube' => 'nullable|string',
-            'senhaClube' => 'sometimes|required|string|min:6|confirmed',
+    public function register(Request $request)
+    {
+        $request->validate([
+            'cnpjClube'                 => ['required', 'string', 'unique:clubes,cnpjClube'],
+            'emailClube'                => ['nullable', 'email', 'unique:clubes,emailClube'],
+            'senhaClube'                => ['required', 'string', 'min:6', 'confirmed'],
+            'nomeClube'                 => ['required', 'string', 'max:255'],
+            'esporte_id'                => ['required', 'exists:esportes,id'],
+            'categoria_id'              => ['required', 'exists:categorias,id'],
+            'bioClube'                  => ['nullable', 'string', 'max:1000'],
+            'anoCriacaoClube'           => ['nullable', 'date'],
+            'cidadeClube'               => ['required', 'string', 'max:100'],
+            'estadoClube'               => ['required', 'string', 'max:50'],
+            'enderecoClube'             => ['required', 'string', 'max:255'],
+            'termos'                    => ['accepted'],
         ]);
 
-        if ($request->filled('emailClube')) {
-            if (!Hash::check($request->input('current_password'), $clube->senhaClube)) {
-                return response()->json(['message' => 'A senha atual está incorreta.'], 422);
-            }
-        $clube->emailClube = $request->input('emailClube');
-    }
+        $clube = Clube::create([
+            'cnpjClube'   => $request->cnpjClube,
+            'emailClube'  => $request->emailClube,
+            'senhaClube'  => Hash::make($request->senhaClube),
+            'nomeClube'   => $request->nomeClube,
+            'esporte_id'  => $request->esporte_id,
+            'categoria_id'=> $request->categoria_id,
+            'bioClube'    => $request->bioClube,
+            'anoCriacaoClube' => $request->anoCriacaoClube,
+            'cidadeClube' => $request->cidadeClube,
+            'estadoClube' => $request->estadoClube,
+            'enderecoClube'=> $request->enderecoClube,
+            'status'      => Clube::STATUS_PENDENTE,
+        ]);
 
-        if ($request->filled('senhaClube')) {
-            if (!Hash::check($request->input('current_password'), $clube->senhaClube)) {
-                return response()->json(['message' => 'A senha atual está incorreta.'], 422);
-            }
-        $clube->senhaClube = Hash::make($request->input('senhaClube'));
-    }
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Cadastro realizado com sucesso! Um administrador verificará suas informações antes de liberar o acesso.',
+                'clube'   => $clube,
+            ], 201);
+        }
 
-        $data = $request->only([
-        'nomeClube','cidadeClube','estadoClube','anoCriacaoClube',
-        'cnpjClube','enderecoClube','bioClube','emailClube'
-    ]);
-
-    if ($request->filled('senhaClube')) {
-        $data['senhaClube'] = Hash::make($request->input('senhaClube'));
-    }
-
-    // Salve de uma vez só
-    $clube->fill($data)->save();
-
-    return response()->json($clube->fresh(), 200);
-}
-
-    
-    
-    
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('clube.login')
+            ->with('success', 'Cadastro realizado com sucesso! Um administrador verificará suas informações antes de liberar o acesso.');
     }
 }

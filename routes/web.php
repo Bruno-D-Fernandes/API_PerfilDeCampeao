@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdmController;
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\ClubeController;
@@ -11,76 +11,74 @@ use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminSistemaController;
 use App\Http\Controllers\EsporteController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashClubeController;
+use App\Http\Controllers\AuthClubeController;
 use App\Mail\ClubWelcomeEmail;
 use App\Mail\UserWelcomeEmail;
 use App\Models\Categoria;
 use App\Models\Esporte;
-
-/*
-|--------------------------------------------------------------------------
-| Rotas Web
-|--------------------------------------------------------------------------
-*/
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::prefix('clube')->name('clube.')->group(function () {
-    Route::get('/login', function () {
-        return view('auth.clube.login');
-    })->name('login');
+    Route::get('/login', [AuthClubeController::class, 'showLoginForm'])->name('login');
 
-    Route::get('/cadastro', function () {
-        return view('auth.clube.register');
-    })->name('cadastro');
+    Route::post('/login', [AuthClubeController::class, 'login'])->name('login.submit');
+    
+    Route::get('/cadastro', [AuthClubeController::class, 'showRegisterForm'])->name('cadastro');
+    
+    Route::post('/cadastro', [AuthClubeController::class, 'register'])->name('cadastro.submit');
 
-    Route::get('/dashboard', function () {
-        return view('clube.dashboard');
-    })->name('dashboard');
 
-    Route::get('/oportunidades', function () {
-        return view('clube.oportunidades.index');
-    })->name('oportunidades');
+    Route::middleware(['auth:club'])->group(function () {
+        Route::post('/logout', [AuthClubeController::class, 'logout'])->name('logout');
+        
+        Route::get('/dashboard', [DashClubeController::class, 'dashboardData'])->name('dashboard');
 
-    Route::get('/oportunidade', function () {
-        return view('clube.oportunidades.show');
-    })->name('oportunidade');
+        Route::get('/oportunidades', function () {
+            return view('clube.oportunidades.index');
+        })->name('oportunidades');
 
-    Route::get('/listas', function () {
-        return view('clube.listas.index');
-    })->name('listas');
+        Route::get('/oportunidade', function () {
+            return view('clube.oportunidades.show');
+        })->name('oportunidade');
 
-    Route::get('/lista', function () {
-        return view('clube.listas.show');
-    })->name('lista');
+        Route::get('/listas', function () {
+            return view('clube.listas.index');
+        })->name('listas');
 
-    Route::get('/perfil', function () {
-        return view('clube.perfil');
-    })->name('perfil');
+        Route::get('/lista', function () {
+            return view('clube.listas.show');
+        })->name('lista');
 
-    Route::get('/mensagens', function () {
-        return view('clube.mensagens');
-    })->name('mensagens');
+        Route::get('/perfil', function () {
+            return view('clube.perfil');
+        })->name('perfil');
 
-    Route::get('/agenda', function () {
-        return view('clube.agenda');
-    })->name('agenda');
+        Route::get('/mensagens', function () {
+            return view('clube.mensagens');
+        })->name('mensagens');
 
-    Route::get('/pesquisa', function () {
-        return view('clube.pesquisa');
-    })->name('pesquisa');
+        Route::get('/agenda', function () {
+            return view('clube.agenda');
+        })->name('agenda');
 
-    Route::get('/configuracoes', function () {
-        return view('clube.configuracoes');
-    })->name('configuracoes');
+        Route::get('/pesquisa', function () {
+            return view('clube.pesquisa');
+        })->name('pesquisa');
+
+        Route::get('/configuracoes', function () {
+            return view('clube.configuracoes');
+        })->name('configuracoes');
+    });
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', function () {
         return view('auth.admin.login');
-    });
+    })->name('login');
 
     Route::get('/dashboard', function () {
         return view('admin.dashboard');

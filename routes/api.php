@@ -9,10 +9,14 @@ use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\PostagemController;
 use App\Http\Controllers\DashAdminController;
 use App\Http\Controllers\DashClubeController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ConviteEventoController;
+use App\Http\Controllers\EventoClubeController;
 use App\Http\Controllers\AdmController;
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\FuncaoController;
 use App\Http\Controllers\AdminSistemaController;
+use App\Http\Controllers\AdminEventoController;
 use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\SearchUsuarioController;
@@ -22,19 +26,10 @@ use App\Http\Controllers\ListaClubeController;
 use App\Http\Controllers\MembroClubeController;
 use App\Http\Controllers\SeguidorController;
 use App\Http\Controllers\perfilController;
-use App\Http\Controllers\EsporteController;
-use App\Http\Controllers\ChatController;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\ConversationController;
+use App\Models\Clube;
+use App\Models\Usuario;
+use Laravel\Sanctum\Sanctum;
 
 // Usuario
 Route::prefix('usuario')->group(function () {
@@ -91,8 +86,19 @@ Route::prefix('usuario')->group(function () {
         Route::get('/show/{id}', [UserController::class, 'show']);
         Route::put('/update/{id}', [UserController::class, 'update']);
         Route::delete('/delete/{id}', [UserController::class, 'destroy']);
-        Route::post('/logout', [AuthUserController::class, 'logout']);
 
+        // Convites de eventos (usuário)
+        Route::get('/convites/pendentes', [ConviteEventoController::class, 'pendentes']);
+        Route::get('/convites/aceitos', [ConviteEventoController::class, 'aceitos']);
+        Route::get('/convites/expirados', [ConviteEventoController::class, 'expirados']);
+        Route::get('/convites/cancelados-pelo-clube', [ConviteEventoController::class, 'canceladosPeloClube']);
+
+        // Calendário (agendamentos = convites aceitos)
+        Route::get('/agenda/calendar', [ConviteEventoController::class, 'calendar']);
+        Route::put('/convites/{conviteId}/cor', [ConviteEventoController::class, 'updateColor']);
+
+        // Usuário aceita um convite (usado pelo botão "Aceitar" no chat)
+        Route::post('/convites/{conviteId}/aceitar', [ChatController::class, 'aceitoInvite']);
     });
 });
 
@@ -173,6 +179,23 @@ Route::prefix('clube')->group(function () {
 
         //Seja feliz João --Luan
         // Fim Listas do Clube
+        // Eventos do clube
+        Route::get('/agenda/calendar', [EventoClubeController::class, 'calendar']);
+
+        Route::get('/eventos', [EventoClubeController::class, 'listEventsClube']);
+        Route::post('/eventos', [EventoClubeController::class, 'criarEvento']);
+        Route::get('/eventos/{eventoId}', [EventoClubeController::class, 'detalhesEvento']);
+        Route::put('/eventos/{eventoId}', [EventoClubeController::class, 'atualizarEvento']);
+        Route::delete('/eventos/{eventoId}', [EventoClubeController::class, 'deletarEvento']);
+
+        // Convites de um evento específico (ver quem está pendente/aceito/expirado/cancelado)
+        Route::get('/eventos/{eventoId}/convites', [EventoClubeController::class, 'eventInvites']);
+
+        // Clube envia convite de evento pelo chat
+        Route::post('/chat/send-event-invite', [ChatController::class, 'sendEventInvite']);
+
+        // Clube cancela convite de um usuário para um evento
+        Route::post('/convites/{conviteId}/cancelar', [ChatController::class, 'clubeCancelInvite']);
 
         // Rotas para o clube gerenciar sua conta
         Route::put('/update', [AuthClubeController::class, 'updateAccount']);
@@ -181,13 +204,8 @@ Route::prefix('clube')->group(function () {
         Route::put('/{id}', [ClubeController::class, 'update']);
         Route::get('/{id}', [ClubeController::class, 'show']);
         Route::delete('/{id}', [ClubeController::class, 'destroy']);
+        // Fim Listas do Clube
     });
-
-    // Canal de chat privado entre usuário e clube
-    Broadcast::channel('chat.{receiverId}', function ($user, $receiverId) {
-        return (int) $user->id === (int) $receiverId;
-    });
-    Route::middleware('auth:sanctum')->post('/chat/send', [ChatController::class, 'sendMessage']);
 
     /*  Route::middleware('auth:sanctum')->group(function () {
             // Seguir e deixar de seguir clube protegidos
@@ -195,6 +213,62 @@ Route::prefix('clube')->group(function () {
             Route::post('/{id}/deixar-de-seguir', [SeguidorController::class, 'deixarDeSeguirClube']);
         }); 
     */
+});
+
+// --- ROTAS DE CHAT ---
+Route::middleware('auth:sanctum,club_sanctum,adm_sanctum')->group(function () {
+    Broadcast::routes(['middleware' => ['auth:sanctum,club_sanctum,adm_sanctum']]);
+
+    Route::post('/chat/send', [ChatController::class, 'sendMessage']);
+    Route::get('/conversations', [ConversationController::class, 'index']);
+    Route::get('/conversations/{id}/messages', [ConversationController::class, 'getMessages']);
+});
+
+
+Route::get('/teste-chat', function () {
+    $remetente = Clube::find(1); // Altere o ID conforme necessário
+    if (!$remetente) {
+        return "Erro: Clube remetente com ID 1 não encontrado.";
+    }
+
+    Sanctum::actingAs(
+        $remetente,
+        ['*'],
+        'club_sanctum' // Chat isso aqui em --Bruno 
+    );
+
+    $requestFalso = new \Illuminate\Http\Request();
+    $requestFalso->replace([
+        'receiver_id'   => 1,
+        'receiver_type' => 'usuario', // usuario ou clube
+        'message'       => 'Mensagem de teste de um Clube para um Usuário!'
+    ]);
+
+    $chatController = new ChatController();
+    return $chatController->sendMessage($requestFalso);
+});
+
+Route::get('/teste-chat-usuario', function () {
+    $remetente = Usuario::find(2);
+    if (!$remetente) {
+        return "Erro: Usuário remetente com ID 2 não encontrado.";
+    }
+
+    Sanctum::actingAs(
+        $remetente,
+        ['*'],
+        'sanctum'
+    );
+
+    $requestFalso = new \Illuminate\Http\Request();
+    $requestFalso->replace([
+        'receiver_id'   => 1,
+        'receiver_type' => 'usuario',  // usuario ou clube
+        'message'       => 'Mensagem de teste de um Usuário para um Clube!'
+    ]);
+
+    $chatController = new ChatController();
+    return $chatController->sendMessage($requestFalso);
 });
 
 //Admin
@@ -215,10 +289,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/usuarios', [UserController::class, 'index']);
         Route::get('/clubes', [ClubeController::class, 'index']);
 
-        Route::put(
-            '/oportunidade/{oportunidade}/status',
-            [AdminSistemaController::class, 'oportunidadeUpdateStatus']
-        );
+        Route::put('/oportunidade/{oportunidade}/status',[AdminSistemaController::class, 'oportunidadeUpdateStatus']);
 
         Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 
@@ -318,6 +389,13 @@ Route::prefix('admin')->group(function () {
         Route::get('/dashboard/distribuicao-oportunidades-esporte', [DashAdminController::class, 'distribuicaoOportunidadesPorEsporte']);
 
         //SEJA FELIZ JOAO --LUAN
+        Route::get('/eventos', [AdminEventoController::class, 'listAllEvents']);
+        Route::get('/eventos/{eventoId}', [AdminEventoController::class, 'showEvent']);
+        Route::put('/eventos/{eventoId}', [AdminEventoController::class, 'updateEvent']);
+        Route::delete('/eventos/{eventoId}', [AdminEventoController::class, 'deleteEvent']);
+
+        // Convites / "inscritos" de um evento (Admin)
+        Route::get('/eventos/{eventoId}/convites', [AdminEventoController::class, 'eventInvitesAdmin']);
     });
 });
 
