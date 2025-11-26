@@ -20,7 +20,7 @@ class AdmController extends Controller
 {
 
     public function showProfilePage(Request $request) {
-        $admin = Admin::findOrFail(1); // Tem que arrumar depois do login isso aqui, deveria pegar da autenticação
+        $admin = Admin::findOrFail(1);
 
         return view('admin.configuracoes.perfil')->with(
             ['admin' => $admin]

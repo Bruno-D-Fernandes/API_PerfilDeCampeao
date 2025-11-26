@@ -250,22 +250,60 @@ public function bloquearClube(Request $request, $id){
     return response()->json(['message' => 'Clube bloqueado com sucesso'], 200);
 }
 
-public function listarUsuarios(Request $request){
-    $status = $request->query('status');
+public function listarUsuarios(Request $request)
+{
+    $status  = $request->query('status');
+    $search  = $request->query('search');
+    $perPage = (int) $request->query('per_page', 15);
+
     $q = Usuario::query();
+
     if ($status) {
         $q->where('status', $status);
     }
-    return response()->json($q->get());
+
+    if ($search) {
+        $q->where(function ($w) use ($search) {
+            $w->where('nomeCompletoUsuario', 'like', "%{$search}%")
+              ->orWhere('emailUsuario', 'like', "%{$search}%")
+              ->orWhere('cidadeUsuario', 'like', "%{$search}%")
+              ->orWhere('estadoUsuario', 'like', "%{$search}%");
+        });
+    }
+
+    $usuarios = $q
+        ->orderByDesc('created_at')
+        ->paginate($perPage);
+
+    return response()->json($usuarios, 200);
 }
 
-public function listarClubes(Request $request){
-    $status = $request->query('status');
+public function listarClubes(Request $request)
+{
+    $status  = $request->query('status');
+    $search  = $request->query('search');
+    $perPage = (int) $request->query('per_page', 15);
+
     $q = Clube::query();
+
     if ($status) {
         $q->where('status', $status);
     }
-    return response()->json($q->get());
+
+    if ($search) {
+        $q->where(function ($w) use ($search) {
+            $w->where('nomeClube', 'like', "%{$search}%")
+              ->orWhere('emailClube', 'like', "%{$search}%")
+              ->orWhere('cidadeClube', 'like', "%{$search}%")
+              ->orWhere('estadoClube', 'like', "%{$search}%");
+        });
+    }
+
+    $clubes = $q
+        ->orderByDesc('created_at')
+        ->paginate($perPage);
+
+    return response()->json($clubes, 200);
 }
 
 
@@ -276,15 +314,31 @@ public function listarClubes(Request $request){
         return response()->json($esporte, 200);
     }
 
-    public function ListarEsportes()
+    public function ListarEsportes(Request $request)
     {
         try {
-            $esportes = Esporte::all();
+            $search  = $request->query('search');
+            $perPage = (int) $request->query('per_page', 15);
+
+            $q = Esporte::query();
+
+            if ($search) {
+                $q->where(function ($w) use ($search) {
+                    $w->where('nomeEsporte', 'like', "%{$search}%")
+                    ->orWhere('descricaoEsporte', 'like', "%{$search}%")
+                    ->orWhere('status', 'like', "%{$search}%");
+                });
+            }
+
+            $esportes = $q
+                ->orderBy('nomeEsporte')
+                ->paginate($perPage);
+
             return response()->json($esportes, 200);
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'Erro ao listar esportes',
-                'message' => $e->getMessage()
+                'error'   => 'Erro ao listar esportes',
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
@@ -329,15 +383,30 @@ public function listarClubes(Request $request){
         return response()->json($categoria, 201);
     }
 
-    public function listarCategorias()
+    public function listarCategorias(Request $request)
     {
         try {
-            $categorias = Categoria::all();
+            $search  = $request->query('search');
+            $perPage = (int) $request->query('per_page', 15);
+
+            $q = Categoria::query();
+
+            if ($search) {
+                $q->where(function ($w) use ($search) {
+                    $w->where('nomeCategoria', 'like', "%{$search}%")
+                    ->orWhere('descricaoCategoria', 'like', "%{$search}%");
+                });
+            }
+
+            $categorias = $q
+                ->orderBy('nomeCategoria')
+                ->paginate($perPage);
+
             return response()->json($categorias, 200);
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'Erro ao listar categorias',
-                'message' => $e->getMessage()
+                'error'   => 'Erro ao listar categorias',
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
@@ -412,14 +481,30 @@ public function listarClubes(Request $request){
     }
 }
 
-    public function listarPosicoes(Request $request){
-        $idEsporte = $request->query('idEsporte');
-        $q = Posicao::with('esporte:id,nomeEsporte')
-            ->when($idEsporte, fn($w) => $w->where('idEsporte', $idEsporte))
-            ->orderByDesc('id');
+    public function listarPosicoes(Request $request)
+{
+    $idEsporte = $request->query('idEsporte');
+    $search    = $request->query('search');
+    $perPage   = (int) $request->query('per_page', 15);
 
-        return response()->json($q->get());
+    $q = Posicao::with('esporte:id,nomeEsporte')
+        ->when($idEsporte, fn ($w) => $w->where('idEsporte', $idEsporte));
+
+    if ($search) {
+        $q->where(function ($w) use ($search) {
+            $w->where('nomePosicao', 'like', "%{$search}%")
+              ->orWhereHas('esporte', function ($qq) use ($search) {
+                  $qq->where('nomeEsporte', 'like', "%{$search}%");
+              });
+        });
     }
+
+    $posicoes = $q
+        ->orderByDesc('id')
+        ->paginate($perPage);
+
+    return response()->json($posicoes, 200);
+}
 
     public function storePosicao(Request $request)
     {
@@ -565,13 +650,30 @@ public function listarClubes(Request $request){
         return response()->json($oportunidade, 200);
     }
 
-    public function listPending(Request $request){
-        $perPage = $request->query('per_page', 15);
-        $oportunidades = Oportunidade::pending()
-        ->with(['esporte', 'posicao', 'clube'])
-        ->orderBy('created_at')
-        ->paginate($perPage);
-        
+    public function listPending(Request $request)
+    {
+        $perPage = (int) $request->query('per_page', 15);
+        $search  = $request->query('search');
+
+        $q = Oportunidade::pending()
+            ->with(['esporte', 'posicao', 'clube']);
+
+        if ($search) {
+            $q->where(function ($w) use ($search) {
+                $w->where('tituloOportunidades', 'like', "%{$search}%")
+                ->orWhereHas('clube', function ($qq) use ($search) {
+                    $qq->where('nomeClube', 'like', "%{$search}%");
+                })
+                ->orWhereHas('esporte', function ($qq) use ($search) {
+                    $qq->where('nomeEsporte', 'like', "%{$search}%");
+                });
+            });
+        }
+
+        $oportunidades = $q
+            ->orderByDesc('created_at')
+            ->paginate($perPage);
+
         return response()->json($oportunidades, 200);
     }
 
@@ -597,12 +699,29 @@ public function listarClubes(Request $request){
     
     public function ListOportunidades(Request $request)
     {
-        $perPage = $request->query('per_page', 15);
+        $perPage = (int) $request->query('per_page', 15);
+        $search  = $request->query('search');
 
-        $oportunidadesAdm = Oportunidade::rejected()->orWhere('status', Oportunidade::STATUS_APPROVED)
-            ->with(['esporte', 'posicao', 'clube'])
+        $q = Oportunidade::rejected()
+            ->orWhere('status', Oportunidade::STATUS_APPROVED)
+            ->with(['esporte', 'posicao', 'clube']);
+
+        if ($search) {
+            $q->where(function ($w) use ($search) {
+                $w->where('tituloOportunidades', 'like', "%{$search}%")
+                ->orWhereHas('clube', function ($qq) use ($search) {
+                    $qq->where('nomeClube', 'like', "%{$search}%");
+                })
+                ->orWhereHas('esporte', function ($qq) use ($search) {
+                    $qq->where('nomeEsporte', 'like', "%{$search}%");
+                });
+            });
+        }
+
+        $oportunidadesAdm = $q
+            ->orderByDesc('created_at')
             ->paginate($perPage);
-        
+
         return response()->json($oportunidadesAdm, 200);
     }
 
@@ -685,14 +804,31 @@ public function listarClubes(Request $request){
         return response()->json(['message' => 'Função deletada com sucesso'], 200);
         }
 
-    public function listarFuncoes(Request $request){
-        $status = $request->query('status');
-        $q = Funcao::query();
-        if ($status) {
-            $q->where('status', $status);
-        }
-        return response()->json($q->get());
+    public function listarFuncoes(Request $request)
+{
+    $status  = $request->query('status');
+    $search  = $request->query('search');
+    $perPage = (int) $request->query('per_page', 15);
+
+    $q = Funcao::query();
+
+    if ($status) {
+        $q->where('status', $status);
     }
+
+    if ($search) {
+        $q->where(function ($w) use ($search) {
+            $w->where('nome', 'like', "%{$search}%")
+              ->orWhere('descricao', 'like', "%{$search}%");
+        });
+    }
+
+    $funcoes = $q
+        ->orderBy('id')
+        ->paginate($perPage);
+
+    return response()->json($funcoes, 200);
+}
 
     public function ativarFuncoes(Request $request, $id){
         $funcao = Funcao::find($id);
