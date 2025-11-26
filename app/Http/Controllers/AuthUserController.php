@@ -19,6 +19,10 @@ class AuthUserController extends Controller
                 return response()->json(['message' => 'Credenciais inválidas'], 401);
             }
 
+            if ($user->status === Usuario::STATUS_BLOQUEADO) {
+                return response()->json(['message' => 'Conta bloqueada. Entre em contato com o suporte. Motivo: '. $user->bloque_reason], 403);
+            }
+
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
@@ -59,22 +63,52 @@ class AuthUserController extends Controller
         }
     }
 
-    public function deleteAccount(Request $request)
-    {
-        try {
-            $user = $request->user();
-            if (!$user instanceof Usuario) {
-                return response()->json(['message' => 'Usuário não encontrado'], 404);
-            }
-            $user->delete();
-            return response()->json(['message' => 'Conta do usuário excluida com sucesso'], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Ocorreu um erro ao deletar a conta',
-                'message' => $e->getMessage()
-            ], 500);
+   public function deleteAccount(Request $request)
+{
+    try {
+        $user = $request->user();
+
+        if (!$user instanceof Usuario) {
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
         }
+
+        $fotoPerfilPath = $user->getRawOriginal('fotoPerfilUsuario');
+        if ($fotoPerfilPath) {
+            Storage::disk('public')->delete($fotoPerfilPath);
+            $user->fotoPerfilUsuario = null;
+        }
+
+        $fotoBannerPath = $user->getRawOriginal('fotoBannerUsuario');
+        if ($fotoBannerPath) {
+            Storage::disk('public')->delete($fotoBannerPath);
+            $user->fotoBannerUsuario = null;
+        }
+
+        $suffix = '#deleted#' . $user->id . '#' . now()->timestamp;
+
+        if ($user->emailUsuario) {
+            $user->emailUsuario = $user->emailUsuario . $suffix;
+        }
+
+        if (defined(Usuario::class . '::STATUS_DELETADO')) {
+            $user->status = Usuario::STATUS_DELETADO;
+        }
+
+        $user->save();
+
+        if (method_exists($user, 'tokens')) {
+            $user->tokens()->delete();
+        }
+
+        return response()->json(['message' => 'Conta do usuário excluída com sucesso'], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'error'   => 'Ocorreu um erro ao deletar a conta',
+            'message' => $e->getMessage(),
+        ], 500);
     }
+}
 
     public function updateAccount(Request $request)
     {

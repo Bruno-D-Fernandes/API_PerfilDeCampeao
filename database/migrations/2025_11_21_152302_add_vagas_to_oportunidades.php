@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('esportes', function (Blueprint $table) {
-            $table->id();
-            $table->string('nomeEsporte', 100);
-            $table->text('descricaoEsporte')->nullable();
-            $table->enum('status', ['ativo','deletado'])->default('ativo');
-            $table->timestamps();
+        Schema::table('oportunidades', function (Blueprint $table) {
+            $table->unsignedInteger('limite_inscricoes')->nullable()->after('status');
         });
+
     }
 
     /**
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('esportes');
+        Schema::table('oportunidades', function (Blueprint $table) {
+            //
+        });
     }
 };

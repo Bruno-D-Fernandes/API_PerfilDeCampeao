@@ -20,6 +20,10 @@ class Usuario extends Authenticatable
 
     protected $table = 'usuarios';
 
+    const STATUS_ATIVO = 'ativo';
+    const STATUS_BLOQUEADO = 'bloqueado';
+    const STATUS_DELETADO = 'deletado';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -39,7 +43,11 @@ class Usuario extends Authenticatable
         "peDominante",
         "maoDominante",
         "fotoPerfilUsuario",
-        "fotoBannerUsuario"
+        "fotoBannerUsuario",
+        "status",
+        "reviewed_at",
+        "reviewed_by",
+        "bloque_reason",
     ];
 
     /**
@@ -60,6 +68,7 @@ class Usuario extends Authenticatable
      */
     protected $casts = [
         'dataNascimentoUsuario' => 'date',
+        'reviewed_at' => 'datetime',
     ];
 
     /**
@@ -68,8 +77,26 @@ class Usuario extends Authenticatable
      * @return string
      */
 
-    public function getAuthPassword()
+    public function scopeAtivos($query)
     {
+        return $query->where('status', self::STATUS_ATIVO);
+    }
+    public function scopeBloqueados($query)
+    {
+        return $query->where('status', self::STATUS_BLOQUEADO);
+    }
+    public function scopeDeletados($query)
+    {
+        return $query->where('status', self::STATUS_DELETADO);
+    }
+
+    public function reviewer()
+    {
+        return $this->belongsTo(Admin::class, 'reviewed_by');
+    }
+
+    public function getAuthPassword()
+        {
         return $this->senhaUsuario;
     }
 

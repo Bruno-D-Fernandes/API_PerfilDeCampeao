@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->foreignId('clube_id')->constrained('clubes')->cascadeOnDelete();
             $table->string('nome', 100);
             $table->string('descricao', 255)->nullable();
+            $table->enum('status', ['ativo','deletado'])->default('ativo');
             $table->timestamps();
 
             $table->unique(['clube_id','nome']); // evita duas listas com o mesmo nome no mesmo clube

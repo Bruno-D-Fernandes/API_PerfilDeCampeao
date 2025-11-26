@@ -8,7 +8,7 @@ use App\Models\Clube;
 use App\Models\Esporte;
 use App\Models\Posicao;
 use App\Models\Inscricao;
-use App\Models\Adm;
+use App\Models\Admin;
 use App\Models\Usuario;
 
 // Não é necessário herdar de Authenticatable ou usar HasApiTokens neste Model,
@@ -29,6 +29,7 @@ class Oportunidade extends Model
     public const STATUS_REJECTED = 'rejected';
 
     protected $fillable = [
+        'tituloOportunidades',
         'descricaoOportunidades',
         'datapostagemOportunidades',
         'esporte_id',
@@ -36,10 +37,7 @@ class Oportunidade extends Model
         'clube_id',
         'idadeMinima',
         'idadeMaxima',
-        'estadoOportunidade',
-        'cidadeOportunidade',
-        'enderecoOportunidade',
-        'cepOportunidade',
+        'limite_inscricoes',
         "status",
         "reviewed_by",
         "reviewed_at",
@@ -92,6 +90,13 @@ class Oportunidade extends Model
         
         return $this->belongsTo(Posicao::class, 'posicoes_id');
     }
+
+    //public function caracteristicasRequeridas()
+    //{
+      //  return $this->belongsToMany(Caracteristica::class, 'oportunidade_caracteristicas')
+        //    ->withPivot('valor_min', 'valor_max')
+          //  ->withTimestamps();
+   // }
 
     public function inscricoes()
     {

@@ -14,6 +14,12 @@ class Clube extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const STATUS_ATIVO = 'ativo';
+    const STATUS_PENDENTE = 'pendente';
+    const STATUS_REJEITADO = 'rejeitado';
+    const STATUS_BLOQUEADO = 'bloqueado';
+    const STATUS_DELETADO = 'deletado';
+
     protected $table = 'clubes';
 
     protected $fillable = [
@@ -29,7 +35,17 @@ class Clube extends Authenticatable
         'fotoPerfilClube',
         'fotoBannerClube',
         'categoria_id',
-        'esporte_id'
+        'esporte_id',
+        'status',
+        'reviewed_by',
+        'reviewed_at',
+        'rejection_reason',
+        'bloque_reason',
+    ];
+
+    protected $casts = [
+        'anoCriacaoClube' => 'date:Y-m-d',
+        'reviewed_at' => 'datetime',
     ];
 
     protected $hidden = [
@@ -38,6 +54,30 @@ class Clube extends Authenticatable
         'cnpjClube',
     ];
 
+
+    public function reviewer()
+    {
+        return $this->belongsTo(Admin::class, 'reviewed_by');
+    }
+
+    public function scopeDeletados($query){
+        return $query->where('status', self::STATUS_DELETADO);
+    }
+
+    public function scopeAtivos($query)
+    {
+        return $query->where('status', self::STATUS_ATIVO);
+    }
+    public function scopePendentes($query)
+    {
+        return $query->where('status', self::STATUS_PENDENTE);
+    }
+    public function scopeRejeitados($query){
+        return $query->where('status', self::STATUS_REJEITADO);
+    }
+    public function scopeBloqueados($query){
+        return $query->where('status', self::STATUS_BLOQUEADO);
+    }
 
     public function esporte()
     {

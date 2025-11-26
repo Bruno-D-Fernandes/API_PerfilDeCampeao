@@ -50,7 +50,11 @@ class FuncaoController extends Controller
             'descricao'   => 'required|string|max:255',
         ]);
 
-        $funcao = Funcao::create($data);
+        $funcao = Funcao::create([
+            'nome' => $data['nome'],
+            'descricao' => $data['descricao'],
+            'status' => Funcao::STATUS_ATIVO,
+        ]);
 
         return response()->json($funcao, 201);
     }

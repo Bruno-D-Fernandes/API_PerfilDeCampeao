@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('esportes', function (Blueprint $table) {
-            $table->id();
-            $table->string('nomeEsporte', 100);
-            $table->text('descricaoEsporte')->nullable();
-            $table->enum('status', ['ativo','deletado'])->default('ativo');
-            $table->timestamps();
+        Schema::table('clubes', function (Blueprint $table) {
+            $table->foreignId('reviewed_by')
+            ->nullable()
+            ->constrained('tbadm')
+            ->nullOnDelete()
+            ->after('bloque_reason');
         });
     }
 
@@ -25,6 +25,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('esportes');
+        Schema::table('clubes', function (Blueprint $table) {
+            //
+        });
     }
 };
