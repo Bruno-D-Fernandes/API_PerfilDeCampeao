@@ -205,7 +205,7 @@ class ChatController extends Controller
 
     public function aceitoInvite(Request $request, $conviteId)
     {
-        $convite = ConviteEvento::with('evento')->findOrFail($conviteId);
+        $convite = ConviteEvento::with('evento.clube')->findOrFail($conviteId);
 
         $user = $request->user();
         if (!$user instanceof Usuario) {
@@ -245,6 +245,8 @@ class ChatController extends Controller
         $convite->status       = ConviteEvento::STATUS_ACEITO;
         $convite->responded_at = now();
         $convite->save();
+
+        $convite->evento->clube->notify(new AceitarEventoUsuario($convite));
 
         return response()->json([
             'message' => 'Convite aceito com sucesso.',
