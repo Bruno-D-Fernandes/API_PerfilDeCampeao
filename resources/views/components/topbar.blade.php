@@ -1,4 +1,4 @@
-<nav class="absolute top-0 right-0 sm:left-80 left-0 z-30 p-6 border-b border-gray-300">
+<nav class="absolute top-0 right-0 md:left-60 left-0 z-30 p-6 md:p-4 border-b border-gray-300">
     <div class="flex items-center justify-between">
         <div class="flex flex-col">            
             @if(!empty($breadcrumb))
@@ -22,7 +22,7 @@
             @endif
 
             <div class="flex items-center gap-x-4">
-                <h1 class="text-3xl font-semibold text-{{ $color }} tracking-tight">
+                <h1 class="text-3xl md:text-xl font-semibold text-{{ $color }} tracking-tight">
                     {{ $title }}
                 </h1>
 
@@ -33,8 +33,8 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <button type="button" onclick="openDrawer('notifications')" class="relative group p-2 bg-white rounded-full shadow-xs border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-0 cursor-pointer">
-                <svg class="w-6 h-6 text-{{ $color }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <button type="button" onclick="openDrawer('notifications')" class="relative group p-2 bg-white rounded-full border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-0 cursor-pointer">
+                <svg class="md:w-4 w-6 md:h-4 h-6 text-{{ $color }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z" clip-rule="evenodd" />
                 </svg>
 
@@ -46,17 +46,17 @@
             </button>
 
             <div class="relative">
-                <button data-dropdown-toggle="dropdown-user" type="button" class="flex items-center gap-3 p-2 bg-white rounded-xl shadow-xs border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all group duration-200 cursor-pointer focus:outline-none focus:ring-0">
-                    <div class="h-9 w-9 rounded-full bg-{{$color}}/10 flex items-center justify-center text-{{ $color }} font-bold border-2 border-white shadow-xs uppercase">
+                <button data-dropdown-toggle="dropdown-user" type="button" class="flex items-center gap-3 md:gap-2 p-2 bg-white rounded-xl ml:rounded-md border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all group duration-200 cursor-pointer focus:outline-none focus:ring-0">
+                    <div class="md:h-7 h-9 md:w-7 w-9 rounded-full bg-{{$color}}/10 flex items-center justify-center text-{{ $color }} font-bold border-2 border-white uppercase">
                         {{ substr($user->name, 0, 2) }}
                     </div>
 
                     <div class="text-left hidden md:block">
-                        <p class="text-sm font-semibold text-gray-700 leading-none">
+                        <p class="text-sm md:text-xs font-semibold text-gray-700 leading-none">
                             {{ $user->name }}
                         </p>
                         
-                        <p class="text-xs font-medium text-gray-400 mt-0.5">
+                        <p class="text-xs md:text-[7.5px] font-medium text-gray-400 mt-0.5">
                             {{ $type }} 
                         </p>
                     </div>

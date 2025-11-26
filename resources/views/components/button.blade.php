@@ -10,7 +10,7 @@
     ];
 
     $sizes = [
-        'sq' => 'p-2',
+        'xs' => 'px-2 py-0.5 text-[8px]',
         'sm' => 'px-3 py-1.5 text-xs',
         'md' => 'px-4 py-2.5 text-sm',
         'lg' => 'px-6 py-3.5 text-base',
@@ -21,7 +21,7 @@
     
     $classes = $baseClasses . ' ' . 
                ($colors[$color] ?? $variants['primary']) . ' ' . 
-               ($sizes[$size] ?? $sizes['md']) . ' ' . 
+               ($sizes[$size]) . ' ' . 
                ($full ? 'w-full' : '');
 @endphp
 

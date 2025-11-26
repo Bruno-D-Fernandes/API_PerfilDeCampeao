@@ -2,38 +2,35 @@
     'Dashboard' => route('clube.dashboard'),
     'Mensagens' => null,
 ]">
-    <div class="h-full w-full flex gap-x-8">
-        <div class="h-full bg-white w-1/3 border border-gray-300 rounded-xl p-4 flex flex-col gap-4">
+    <div class="flex w-full gap-x-8 md:gap-x-6 min-h-0 flex-1 **h-full**">
+        <div class="flex-1 min-h-0 bg-white w-1/3 border border-gray-300 rounded-xl p-4 md:p-3 flex flex-col gap-4 md:gap-3">
             <div class="w-full">
                 <x-search-input placeholder="Pesquisar por conversas..." ></x-search-input>
 
-                <div class="w-full border-t border-gray-200 mt-4"></div>
+                <div class="w-full border-t border-gray-200 mt-4 md:mt-3"></div>
             </div>
 
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-2 md:gap-1.5">
                 <x-conversation-item :chat="null">
 
                 </x-conversation-item>
             </div>
         </div>
 
-        <div class="h-full bg-white w-full border border-gray-300 rounded-xl p-4 flex flex-col gap-4">
+        <div class="flex-[3] flex flex-col min-h-0 bg-white w-full border border-gray-300 rounded-xl p-4 md:p-3 gap-4 md:gap-3">
             <div class="flex items-center gap-x-2">
-                <div class="w-12 h-12 rounded-full bg-gray-200"></div>
-
-                <span class="text-lg font-semibold">
-                    João Pedro Insano
-                </span>
+                <div class="w-12 md:w-10 h-12 md:h-10 rounded-full bg-gray-200"></div>
+                <span class="text-lg md:text-sm font-semibold">João Pedro Insano</span>
             </div>
 
             <div class="w-full border-t border-gray-200"></div>
 
-            <div class="flex flex-col gap-y-4 flex-grow overflow-y-auto"> 
-                <x-message-item :message="null" :isMe="false"></x-message-item>
-
-                <x-message-item :message="null" :isMe="true"></x-message-item>
-
-                <x-event-bubble :event="null"></x-event-bubble>
+            <div class="flex-1 h-0 max-h-[21.5rem] overflow-y-auto custom-scrollbar">
+                <div class="flex flex-col gap-y-4 md:gap-y-3 flex-grow"> 
+                    <x-message-item :message="null" :isMe="false"></x-message-item>
+                    <x-message-item :message="null" :isMe="true"></x-message-item>
+                    <x-event-bubble :event="null"></x-event-bubble>
+                </div>
             </div>
 
             <div class="w-full border-t border-gray-200"></div>

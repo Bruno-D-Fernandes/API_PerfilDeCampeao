@@ -9,7 +9,7 @@
 
     $bubbleClass = $isMe 
         ? 'bg-emerald-500 rounded-s-xl rounded-ee-xl' 
-        : 'bg-gray-50 rounded-e-xl rounded-es-xl';
+        : 'bg-gray-100 rounded-e-xl rounded-es-xl';
 
     $textAlignment = $isMe ? 'text-right' : 'text-left';
     $headerDirection = $isMe ? 'flex-row-reverse' : '';
@@ -23,26 +23,26 @@
 
 <div class="flex items-start gap-2 {{ $containerClass }}">
     
-    <div class="w-8 h-8 rounded-full flex-shrink-0 {{ $avatarClass }}">
+    <div class="w-8 md:w-7 h-8 md:h-7 rounded-full flex-shrink-0 {{ $avatarClass }}">
         </div>
 
-    <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-3 {{ $bubbleClass }}">
+    <div class="flex flex-col w-full max-w-[320px] md:max-w-[240px] leading-1.5 p-3 md:p-2 {{ $bubbleClass }}">
         
         <div class="flex items-center gap-2 {{ $headerDirection }}">
-            <span class="text-sm font-semibold {{ $nameColor }}">
+            <span class="text-sm md:text-xs font-semibold {{ $nameColor }}">
                 João Pedro
             </span>
 
-            <span class="text-sm {{ $timeColor }}">
+            <span class="text-sm md:text-[9px] {{ $timeColor }}">
                 11:32
             </span>
         </div>
 
-        <p class="text-sm py-2.5 text-gray-900 {{ $textAlignment }}">
+        <p class="text-sm py-2.5 md:py-1.5 text-gray-900 {{ $textAlignment }}">
             Insanooo!
         </p>
 
-        <span class="text-xs font-medium {{ $textAlignment }} {{ $statusColor }}">
+        <span class="text-xs md:text-[8px] font-medium {{ $textAlignment }} {{ $statusColor }}">
             {{ $status}}
         </span>
     </div>

@@ -5,7 +5,7 @@
         />
     @endforeach
 @else
-    <div class="text-center py-4 text-gray-400 text-sm">
+    <div class="text-center py-4 md:py-2.5 text-gray-400 text-sm md:text-xs">
         Nenhum evento para este dia.
     </div>
 @endif

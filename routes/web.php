@@ -31,48 +31,45 @@ Route::prefix('clube')->name('clube.')->group(function () {
     
     Route::post('/cadastro', [AuthClubeController::class, 'register'])->name('cadastro.submit');
 
+    Route::post('/logout', [AuthClubeController::class, 'logout'])->name('logout');
+    
+    Route::get('/dashboard', [DashClubeController::class, 'dashboardData'])->name('dashboard');
 
-    Route::middleware(['auth:club'])->group(function () {
-        Route::post('/logout', [AuthClubeController::class, 'logout'])->name('logout');
-        
-        Route::get('/dashboard', [DashClubeController::class, 'dashboardData'])->name('dashboard');
+    Route::get('/oportunidades', function () {
+        return view('clube.oportunidades.index');
+    })->name('oportunidades');
 
-        Route::get('/oportunidades', function () {
-            return view('clube.oportunidades.index');
-        })->name('oportunidades');
+    Route::get('/oportunidade', function () {
+        return view('clube.oportunidades.show');
+    })->name('oportunidade');
 
-        Route::get('/oportunidade', function () {
-            return view('clube.oportunidades.show');
-        })->name('oportunidade');
+    Route::get('/listas', function () {
+        return view('clube.listas.index');
+    })->name('listas');
 
-        Route::get('/listas', function () {
-            return view('clube.listas.index');
-        })->name('listas');
+    Route::get('/lista', function () {
+        return view('clube.listas.show');
+    })->name('lista');
 
-        Route::get('/lista', function () {
-            return view('clube.listas.show');
-        })->name('lista');
+    Route::get('/perfil', function () {
+        return view('clube.perfil');
+    })->name('perfil');
 
-        Route::get('/perfil', function () {
-            return view('clube.perfil');
-        })->name('perfil');
+    Route::get('/mensagens', function () {
+        return view('clube.mensagens');
+    })->name('mensagens');
 
-        Route::get('/mensagens', function () {
-            return view('clube.mensagens');
-        })->name('mensagens');
+    Route::get('/agenda', function () {
+        return view('clube.agenda');
+    })->name('agenda');
 
-        Route::get('/agenda', function () {
-            return view('clube.agenda');
-        })->name('agenda');
+    Route::get('/pesquisa', function () {
+        return view('clube.pesquisa');
+    })->name('pesquisa');
 
-        Route::get('/pesquisa', function () {
-            return view('clube.pesquisa');
-        })->name('pesquisa');
-
-        Route::get('/configuracoes', function () {
-            return view('clube.configuracoes');
-        })->name('configuracoes');
-    });
+    Route::get('/configuracoes', function () {
+        return view('clube.configuracoes');
+    })->name('configuracoes');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {

@@ -1,5 +1,5 @@
 <div> 
-    <span class="px-2 mb-2 block text-xs font-semibold text-gray-400 uppercase tracking-wider">
+    <span class="px-2 mb-2 block text-xs md:text-[8px] font-semibold text-gray-400 uppercase tracking-wider">
         {{ $title }}
     </span>
 

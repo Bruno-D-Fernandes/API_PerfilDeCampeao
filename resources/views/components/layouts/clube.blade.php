@@ -2,9 +2,9 @@
     <x-sidebar>
         <x-slot:logo>
             <div class="h-full flex flex-col gap-y-1 items-center p-3">
-                <img src="{{ asset('img/logo-side-clube.png') }}" alt="" class="h-24 object-contain aspect-square">
+                <img src="{{ asset('img/logo-side-clube.png') }}" alt="" class="h-24 md:h-20 object-contain aspect-square">
 
-                <span class="text-xl font-semibold text-emerald-500 tracking-tight">
+                <span class="md:text-sm text-xl font-semibold text-emerald-500 tracking-tight">
                     Perfil de Campeão
                 </span>
             </div>
@@ -53,7 +53,7 @@
         </x-sidebar-section>
     </x-sidebar>
 
-    <div class="sm:ml-80 h-screen flex flex-col">  
+    <div class="sm:ml-80 md:ml-60 h-screen flex flex-col">  
         <x-topbar :title="$title" :breadcrumb="$breadcrumb" context="clube">
             @if(isset($action))
                 <x-slot:action>
@@ -62,7 +62,7 @@
             @endif
         </x-topbar>
 
-        <main class="sm:mt-[6.75rem] flex-1 p-8">
+        <main class="sm:mt-20 h-full flex-1 p-8 md:p-6">
             {{ $slot }}
         </main>
     </div>

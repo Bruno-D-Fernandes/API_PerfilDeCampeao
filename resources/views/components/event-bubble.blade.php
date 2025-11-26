@@ -30,24 +30,24 @@
     $statusColor = 'text-emerald-900';
 @endphp
 
-<div class="flex items-start gap-2 self-end flex-row-reverse mb-4">
-    <div class="w-8 h-8 rounded-full flex-shrink-0 bg-emerald-500 flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">
+<div class="flex items-start gap-2 self-end flex-row-reverse mb-4 md:mb-3">
+    <div class="w-8 md:w-7 h-8 md:h-7 rounded-full flex-shrink-0 bg-emerald-500 flex items-center justify-center text-white text-xs font-bold border-2 border-white">
         EU
     </div>
 
-    <div class="flex flex-col w-[240px] leading-1.5 p-3 {{ $bubbleClass }}">
+    <div class="flex flex-col w-[240px] md:w-[200px] leading-1.5 p-3 md:p-2 {{ $bubbleClass }}">
         <div class="flex items-center gap-2 flex-row-reverse mb-2">
-            <span class="text-sm font-semibold {{ $nameColor }}">
+            <span class="text-sm md:text-xs font-semibold {{ $nameColor }}">
                 Você
             </span>
-            <span class="text-xs {{ $timeColor }}">
+            <span class="text-xs md:text-[9px] {{ $timeColor }}">
                 {{ now()->format('H:i') }}
             </span>
         </div>
 
-        <div class="w-full rounded-lg overflow-hidden {{ $cardTheme['bg'] }} border {{ $cardTheme['border'] }} p-3">
-            <div class="pb-1.5 border-b border-gray-300 flex justify-between items-center">
-                <span class="text-sm font-semibold tracking-tight {{ $isExpired ? 'text-gray-400' : 'text-emerald-500' }}">
+        <div class="w-full rounded-lg overflow-hidden {{ $cardTheme['bg'] }} border {{ $cardTheme['border'] }} p-3 md:p-2">
+            <div class="pb-1.5 md:pb-0.5 border-b border-gray-300 flex justify-between items-center">
+                <span class="text-sm md:text-xs font-semibold tracking-tight {{ $isExpired ? 'text-gray-400' : 'text-emerald-500' }}">
                     {{ $cardTheme['status_label'] }}
                 </span>
                 @if(!$isExpired)
@@ -55,8 +55,8 @@
                 @endif
             </div>
 
-            <div class="flex flex-col gap-2">
-                <h4 class="text-sm font-medium mt-2 leading-tight {{ $cardTheme['title_color'] }}">
+            <div class="flex flex-col gap-2 md:gap-1">
+                <h4 class="text-sm md:text-s font-medium mt-2 md:mt-1 leading-tight {{ $cardTheme['title_color'] }}">
                     {{ $event->titulo ?? 'Evento' }}
                 </h4>
 
@@ -74,11 +74,11 @@
 
                 <div class="mt-0.5">
                     @if($isExpired)
-                        <div class="w-full py-1.5 rounded text-xs font-bold uppercase text-center border border-gray-200 bg-gray-100 text-gray-400">
+                        <div class="w-full py-1.5 md:py-0.5 rounded text-xs font-bold uppercase text-center border border-gray-200 bg-gray-100 text-gray-400">
                             Finalizado
                         </div>
                     @else
-                        <a href="{{ route('clube.agenda', ['date' => $dataInicio->format('Y-m-d')]) }}" class="block w-full py-2 rounded text-sm font-medium text-center {{ $cardTheme['btn_class'] }}">
+                        <a href="{{ route('clube.agenda', ['date' => $dataInicio->format('Y-m-d')]) }}" class="block w-full py-2 md:py-1 rounded text-sm font-medium text-center {{ $cardTheme['btn_class'] }}">
                             Ver Evento
                         </a>
                     @endif
@@ -86,7 +86,7 @@
             </div>
         </div>
 
-        <span class="text-xs font-medium text-right {{ $statusColor }} mt-1.5">
+        <span class="text-xs md:text-[8px] font-medium text-right {{ $statusColor }} mt-1.5">
             Enviado
         </span>
     </div>

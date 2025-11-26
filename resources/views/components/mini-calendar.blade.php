@@ -5,33 +5,31 @@
     data-current-year="{{ $date->year }}"
     data-selected="{{ $highlight ? $highlight->format('Y-m-d') : '' }}"
 >
-    <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center justify-between mb-4 md:mb-2">
         <span id="mc-label" class="text-xs font-bold text-gray-800 uppercase tracking-wide">
             {{ $date->translatedFormat('F Y') }}
         </span>
         
-        <div class="flex gap-1">
+        <div class="flex gap-1 md:gap-0.5">
             <button type="button" onclick="mcChangeMonth(-1)" class="cursor-pointer p-1.5 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-600 transition-colors">
-                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                <svg class="w-3 h-3 md:w-2 md:h-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             </button>
 
             <button type="button" onclick="mcChangeMonth(1)" class="cursor-pointer p-1.5 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-600 transition-colors">
-                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                <svg class="w-3 h-3 md:w-2 md:h-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
         </div>
     </div>
     
-    <div class="grid grid-cols-7 text-center gap-y-3 text-xs font-bold text-gray-400 mb-2">
+    <div class="grid grid-cols-7 text-center gap-y-3 md:gap-y-2 text-xs md:text-[8px] font-bold text-gray-400 mb-2 md:mb-1">
         @foreach(['D', 'S', 'T', 'Q', 'Q', 'S', 'S'] as $dia)
             <span>{{ $dia }}</span>
         @endforeach
     </div>
     
-    <div id="mc-grid" class="grid grid-cols-7 text-center gap-y-1 text-sm font-medium text-gray-600">
-        {{-- Isso garante que o calendário já aparece pronto antes do JS carregar (SEO/Performance) --}}
-        
+    <div id="mc-grid" class="grid grid-cols-7 text-center gap-y-1 md:gap-y-0.5 text-sm md:text-xs font-medium text-gray-600">
         @for($i = 0; $i < $startDayOfWeek; $i++)
-            <span class="p-1"></span>
+            <span class="p-1 md:p-0"></span>
         @endfor
         
         @for($day = 1; $day <= $daysInMonth; $day++)
@@ -43,7 +41,7 @@
             <button 
                 type="button"
                 onclick="mcSelectDate('{{ $fullDate }}')"
-                class="cursor-pointer w-7 h-7 mx-auto flex items-center justify-center rounded-md transition-colors {{ $isSel ? 'bg-emerald-500 text-white' : 'hover:bg-gray-100' }}"
+                class="text-xs md:text-[4px] cursor-pointer w-7 md:w-4 h-7 md:h-4 mx-auto md:mx-0.5 flex items-center justify-center rounded-md transition-colors {{ $isSel ? 'bg-emerald-500 text-white' : 'hover:bg-gray-100' }}"
             >
                 {{ $day }}
             </button>

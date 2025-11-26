@@ -46,65 +46,63 @@
         $maxEventos = 2;
     @endphp
 
-    <div class="h-full w-full flex gap-6">
-        <div class="w-3/12 border border-2 border-gray-200 p-3.5 rounded-xl bg-white flex flex-col justify-between">
-            <div class="flex flex-col gap-4">
+    <div class="h-full w-full flex gap-6 md:gap-4">
+        <div class="w-3/12 border border-2 border-gray-200 p-3.5 md:p-2 rounded-xl bg-white flex flex-col justify-between">
+            <div class="flex flex-col gap-4 md:gap-2">
                 <x-mini-calendar 
                     class="bg-white rounded-xl"
                 />
 
                 <div class="w-full h-px bg-gray-100"></div>
 
-                <div class="flex flex-col gap-3">
+                <div class="flex flex-col gap-3 md:gap-1.5">
                     <div class="flex items-center justify-between">
-                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-tight flex items-center gap-2">
+                        <h3 class="text-xs md:text-[8px] font-bold text-gray-400 uppercase tracking-tight flex items-center gap-2 md:gap-1">
                             Hoje
                         </h3>
 
-                        <span id="sidebar-selected-date" class="text-xs text-gray-400 font-medium">
+                        <span id="sidebar-selected-date" class="text-xs md:text-[8px] text-gray-400 font-medium">
                             {{ \Carbon\Carbon::parse($selectedDateStr)->translatedFormat('l, d') }}
                         </span>
                     </div>
 
-                    <div id="sidebar-event-list" class="flex flex-col gap-3">
+                    <div id="sidebar-event-list" class="flex flex-col gap-3 md:gap-1">
                         <x-event-item :item="null" />
                         <x-event-item :item="null" />
                     </div>
                 </div>
 
-                <div class="w-full h-px bg-gray-100"></div>
-
-                <div class="flex flex-col gap-3">
-                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-tight flex items-center gap-2">
+                <div class="flex flex-col gap-3 md:gap-1.5">
+                    <h3 class="text-xs md:text-[8px] font-bold text-gray-400 uppercase tracking-tight flex items-center gap-2 md:gap-1">
                         Próximos Eventos
                     </h3>
 
-                    <div class="flex flex-col gap-3 opacity-80">
+                    <div class="flex flex-col gap-3 md:gap-1 opacity-80">
                         <x-event-item :item="null" />
                         <x-event-item :item="null" />
                     </div>
                 </div>
             </div>
 
-            <x-button onclick="openModal('create-event')" color="clube" :full="true">
+            <x-button onclick="openModal('create-event')" color="clube" :full="true" class="!py-2">
                 <x-slot:icon>
-                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                    <svg class="h-4 w-4 md:h-3 md:w-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                 </x-slot:icon>
 
                 Adicionar novo evento
             </x-button>
         </div>
 
-        <div class="w-9/12 flex flex-col gap-4 h-full max-h-full overflow-hidden">
-            <div class="shrink-0 w-full h-auto flex flex-col gap-4 bg-emerald-500 rounded-lg p-6">
+        <div class="w-9/12 flex flex-col gap-4 md:gap-3 h-full max-h-full overflow-hidden">
+            <div class="shrink-0 w-full h-auto flex flex-col gap-4 md:gap-3 bg-emerald-500 rounded-lg p-6 md:p-4">
                 <div class="flex items-center justify-between">
-                    <div class="flex gap-x-4 items-center">
+                    <div class="flex gap-x-4 md:gap-x-3 items-center">
                         <div class="flex gap-x-1 items-end text-white">
-                            <span id="label-month" class="text-2xl font-semibold capitalize">{{ \Carbon\Carbon::create($ano, $mes, 1)->translatedFormat('F') }}</span>
+                            <span id="label-month" class="md:text-lg text-2xl font-semibold capitalize">{{ \Carbon\Carbon::create($ano, $mes, 1)->translatedFormat('F') }}</span>
                             <span id="label-year" class="text-md font-medium">{{ $ano }}</span>
                         </div>
 
-                        <div class="h-8 bg-gray-100 flex gap-x-1 rounded-md p-1">
+                        <div class="h-8 md:h-6 bg-gray-100 flex gap-x-1 rounded-md p-1">
                             <button onclick="changeCalendarMonth(-1)" class="cursor-pointer h-full aspect-square bg-white text-gray-400 rounded-sm flex items-center justify-center group hover:bg-gray-50 transition-colors">
                                 <svg class="h-4 w-4 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                             </button>
@@ -115,7 +113,7 @@
                         </div>
                     </div>
                     <div>
-                        <button class="bg-white text-emerald-500 px-4 py-2 rounded font-medium" onclick="openModal('create-event')">
+                        <button class="bg-white text-emerald-500 px-4 md:px-3 py-2 md:py-1 rounded font-medium" onclick="openModal('create-event')">
                             Adicionar novo evento
                         </button>
                     </div>
@@ -134,7 +132,7 @@
                 </div>
                 
                 <div id="calendar-loading" class="absolute inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center hidden rounded-lg">
-                    <svg class="animate-spin h-8 w-8 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg class="animate-spin h-8 md:h-7 md:w-7 w-8 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
@@ -143,8 +141,8 @@
         </div>
 
         <x-modal maxWidth="2xl" name="create-event" title="Criar novo evento" titleSize="2xl" titleColor="green">
-            <div class="flex flex-col gap-4">
-                <div class="px-1">
+            <div class="flex flex-col gap-4 md:gap-3">
+                <div class="px-1 md:px-0.5">
                     <ol class="flex items-center w-full text-sm font-medium text-center text-gray-500 sm:text-base">
                         <li id="evt-crumb-1" class="flex md:w-full items-center text-emerald-600 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 transition-colors duration-300">
                             <span class="me-2 flex items-center">
