@@ -49,6 +49,8 @@ Route::prefix('usuario')->group(function () {
         Route::delete('/perfil/excluir/{id}', [PerfilController::class, 'destroy']);
         // Fim multilpos perfis
 
+        //Eventos 
+        Route::get('/eventos', [EventoClubeController::class, 'listUserEvents']);
 
         // Postagem protegida
         Route::post('/postagem', [PostagemController::class, 'store']);

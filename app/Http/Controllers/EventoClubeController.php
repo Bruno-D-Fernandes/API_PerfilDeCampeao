@@ -23,7 +23,8 @@ class EventoClubeController extends Controller
 
         return response()->json(['eventos' => $eventos], 200);
     }
-    public function eventInvites(Request $request, $eventoId){
+    public function eventInvites(Request $request, $eventoId)
+    {
         $clube = $request->user();
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Clube não encontrado'], 404);
@@ -69,7 +70,8 @@ class EventoClubeController extends Controller
         ]);
     }
 
-    public function deletarEvento(Request $request, $eventoId){
+    public function deletarEvento(Request $request, $eventoId)
+    {
         $clube = $request->user();
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Clube não encontrado'], 404);
@@ -88,7 +90,8 @@ class EventoClubeController extends Controller
         return response()->json(['message' => 'Evento deletado com sucesso.'], 200);
     }
 
-    public function detalhesEvento(Request $request, $eventoId){
+    public function detalhesEvento(Request $request, $eventoId)
+    {
         $clube = $request->user();
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Clube não encontrado'], 404);
@@ -106,7 +109,8 @@ class EventoClubeController extends Controller
         return response()->json(['evento' => $evento], 200);
     }
 
-    public function criarEvento(Request $request){
+    public function criarEvento(Request $request)
+    {
         $clube = $request->user();
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Clube não encontrado'], 404);
@@ -146,7 +150,8 @@ class EventoClubeController extends Controller
         return response()->json(['evento' => $evento], 201);
     }
 
-    public function atualizarEvento(Request $request, $eventoId){
+    public function atualizarEvento(Request $request, $eventoId)
+    {
         $clube = $request->user();
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Clube não encontrado'], 404);
@@ -180,7 +185,7 @@ class EventoClubeController extends Controller
         return response()->json(['evento' => $evento], 200);
     }
 
-        public function calendar(Request $request)
+    public function calendar(Request $request)
     {
         $clube = $request->user();
 
@@ -264,7 +269,7 @@ class EventoClubeController extends Controller
             'calendar' => $calendar,
         ], 200);
     }
-    
+
     public function atualizarCorEvento(Request $request, $id)
     {
         $clube = $request->user();
@@ -292,5 +297,21 @@ class EventoClubeController extends Controller
             'message' => 'Cor do evento atualizada com sucesso.',
             'evento'  => $evento,
         ], 200);
+    }
+
+    public function listUserEvents(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user instanceof Usuario) {
+            return response()->json(['message' => 'Acesso negado. Apenas usuários podem listar seus eventos.'], 403);
+        }
+
+        $eventos = Evento::whereHas('convites', function ($query) use ($user) {
+            $query->where('usuario_id', $user->id)
+                ->where('status', 'aceito');
+        })->get();
+
+        return response()->json(['eventos' => $eventos], 200);
     }
 }
