@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EventoAtualizadoNotification;
+use App\Events\MessageReceivedNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Evento;
@@ -181,6 +183,10 @@ class EventoClubeController extends Controller
         ]);
 
         $evento->update($data);
+
+        foreach ($evento->usuarios as $usuario) {
+            $usuario->notify(new EventoAtualizadoNotification($evento));
+        }
 
         return response()->json(['evento' => $evento], 200);
     }

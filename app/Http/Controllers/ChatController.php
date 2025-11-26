@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use App\Notifications\MessageReceivedNotification;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Clube;
@@ -77,6 +78,8 @@ class ChatController extends Controller
             $msg->receiver()->associate($receiver);
 
             $msg->save();
+
+            $msg->receiver->notify(new MessageReceivedNotification($msg));
 
             broadcast(new MessageSent($msg->load('sender')))->toOthers();
 
