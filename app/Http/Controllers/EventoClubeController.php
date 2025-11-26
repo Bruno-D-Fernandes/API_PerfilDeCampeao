@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Evento;
 use App\Models\Clube;
 use App\Models\Usuario;
+use Carbon\Carbon;
+use App\Models\ConviteEvento;
 
 class EventoClubeController extends Controller
 {
@@ -203,10 +205,17 @@ class EventoClubeController extends Controller
 
         $end = (clone $start)->endOfMonth()->endOfDay();
 
-        $eventos = Evento::where('clube_id', $clube->id)
+        $search = $request->query('search');
+
+        $query = Evento::where('clube_id', $clube->id)
             ->whereBetween('data_hora_inicio', [$start, $end])
-            ->with('convites.usuario')
-            ->get();
+            ->with('convites.usuario');
+
+        if ($search) {
+            $query->where('titulo', 'LIKE', '%' . $search . '%');
+        }
+
+        $eventos = $query->get();
 
         $calendar = [];
 
@@ -242,10 +251,11 @@ class EventoClubeController extends Controller
                 'total_expirados'  => $convites->where('status', ConviteEvento::STATUS_EXPIRADO)->count(),
                 'total_cancelados' => $convites->where('status', ConviteEvento::STATUS_CANCELADO_PELO_CLUBE)->count(),
 
-                 'vagas_disponiveis' => $evento->limite_participantes
-                ? max($evento->limite_participantes - $convites->where('status', ConviteEvento::STATUS_ACEITO)->count(), 0)
-                : null,
-                'color'            => $evento->color,
+                'vagas_disponiveis' => $evento->limite_participantes
+                    ? max($evento->limite_participantes - $convites->where('status', ConviteEvento::STATUS_ACEITO)->count(), 0)
+                    : null,
+
+                'color' => $evento->color,
             ];
         }
 
