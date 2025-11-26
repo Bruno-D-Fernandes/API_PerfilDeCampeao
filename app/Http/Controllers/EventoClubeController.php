@@ -196,7 +196,7 @@ class EventoClubeController extends Controller
                 $start = Carbon::createFromDate((int) $year, (int) $month, 1)->startOfDay();
             } catch (\Throwable $e) {
                 return response()->json([
-                    'message' => 'Parâmetro "month" inválido. Use o formato YYYY-MM, por exemplo: 2025-11.',
+                    'message' => 'Parâmetro "month" inválido. Use o formato YYYY-MM, por exemplo: 2025-11.'
                 ], 422);
             }
         } else {
@@ -262,7 +262,7 @@ class EventoClubeController extends Controller
         return response()->json([
             'month'    => $start->format('Y-m'),
             'calendar' => $calendar,
-        ]);
+        ], 200);
     }
     public function atualizarCorEvento(Request $request, $id)
     {
