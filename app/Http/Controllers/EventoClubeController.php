@@ -264,6 +264,7 @@ class EventoClubeController extends Controller
             'calendar' => $calendar,
         ], 200);
     }
+    
     public function atualizarCorEvento(Request $request, $id)
     {
         $clube = $request->user();

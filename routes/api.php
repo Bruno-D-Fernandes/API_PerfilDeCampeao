@@ -45,8 +45,8 @@ Route::prefix('usuario')->group(function () {
         Route::get('/perfilForm/{id}', [perfilController::class, 'formInfo']);
         Route::get('/loadPerfilAll', [perfilController::class, 'show']);
         Route::get('/optionsEsportes', [perfilController::class, 'esportesFiltro']);
-        Route::put('/perfil/{id}', [PerfilController::class, 'update']);
-        Route::delete('/perfil/excluir/{id}', [PerfilController::class, 'destroy']);
+        Route::put('/perfil/{id}', [perfilController::class, 'update']);
+        Route::delete('/perfil/excluir/{id}', [perfilController::class, 'destroy']);
         // Fim multilpos perfis
 
 
@@ -84,7 +84,6 @@ Route::prefix('usuario')->group(function () {
         Route::get('/show/{id}', [UserController::class, 'show']);
         Route::put('/update/{id}', [UserController::class, 'update']);
         Route::delete('/delete/{id}', [UserController::class, 'destroy']);
-        Route::post('/logout', [AuthUserController::class, 'logout']);
 
         // Convites de eventos (usuário)
         Route::get('/convites/pendentes', [ConviteEventoController::class, 'pendentes']);
@@ -271,10 +270,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/usuarios', [UserController::class, 'index']);
         Route::get('/clubes', [ClubeController::class, 'index']);
 
-        Route::put(
-            '/oportunidade/{oportunidade}/status',
-            [AdminSistemaController::class, 'oportunidadeUpdateStatus']
-        );
+        Route::put('/oportunidade/{oportunidade}/status',[AdminSistemaController::class, 'oportunidadeUpdateStatus']);
 
         Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 
