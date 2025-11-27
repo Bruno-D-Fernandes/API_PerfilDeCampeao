@@ -44,7 +44,7 @@ class AuthClubeController extends Controller
         
         $request->session()->invalidate();
 
-        Auth::guard('club')->login($clube, true);
+        Auth::guard('club')->login($clube);
         
         $request->session()->regenerate();
         $request->session()->save();
