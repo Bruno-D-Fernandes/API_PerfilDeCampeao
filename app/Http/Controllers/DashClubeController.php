@@ -72,53 +72,150 @@ class DashClubeController extends Controller
         }
     }
 
-    private function getResumoGeral($clube, $esporteId)
-    {
-        $inscricoesPendentes = Inscricao::pending()
-            ->whereHas('oportunidade', function ($q) use ($clube, $esporteId) {
-                $q->where('clube_id', $clube->id);
-                if ($esporteId) $q->where('esporte_id', $esporteId);
-            })->count();
+   private function getResumoGeral($clube, $esporteId)
+{
+    $agora            = Carbon::now();
+    $inicioMesAtual   = $agora->copy()->startOfMonth();
+    $fimMesAtual      = $agora->copy()->endOfMonth();
 
-        $oportunidadesAtivas = Oportunidade::approved()
-            ->where('clube_id', $clube->id)
-            ->when($esporteId, fn($q) => $q->where('esporte_id', $esporteId))
-            ->count();
+    $inicioMesAnterior = $inicioMesAtual->copy()->subMonth();
+    $fimMesAnterior    = $inicioMesAtual->copy()->subDay();
 
-        $proximoEvento = Evento::query()
-            ->where('clube_id', $clube->id)
-            ->where('data_hora_inicio', '>=', Carbon::now())
-            ->orderBy('data_hora_inicio', 'asc')
-            ->first(['id', 'titulo', 'descricao', 'data_hora_inicio', 'cidade', 'estado']);
 
-        $usuariosUnicos = Usuario::query()
-            ->whereHas('listas', fn($q) => $q->where('listas.clube_id', $clube->id))
-            ->distinct('usuarios.id')
-            ->count('usuarios.id');
+    $inscricoesPendentesMesAtual = Inscricao::pending()
+        ->whereBetween('created_at', [$inicioMesAtual, $fimMesAtual])
+        ->whereHas('oportunidade', function ($q) use ($clube, $esporteId) {
+            $q->where('clube_id', $clube->id);
+            if ($esporteId) {
+                $q->where('esporte_id', $esporteId);
+            }
+        })
+        ->count();
 
-        return compact('inscricoesPendentes', 'oportunidadesAtivas', 'proximoEvento', 'usuariosUnicos');
-    }
+    $inscricoesPendentesMesAnterior = Inscricao::pending()
+        ->whereBetween('created_at', [$inicioMesAnterior, $fimMesAnterior])
+        ->whereHas('oportunidade', function ($q) use ($clube, $esporteId) {
+            $q->where('clube_id', $clube->id);
+            if ($esporteId) {
+                $q->where('esporte_id', $esporteId);
+            }
+        })
+        ->count();
 
-    private function getDistribuicaoPosicoes($clube, $esporteId)
-    {
-        $rows = Inscricao::query()
-            ->join('oportunidades', 'inscricoes.oportunidade_id', '=', 'oportunidades.id')
-            ->where('oportunidades.clube_id', $clube->id)
-            ->when($esporteId, fn($q) => $q->where('oportunidades.esporte_id', $esporteId))
-            ->selectRaw('oportunidades.posicoes_id as posicao_id, COUNT(*) as total')
-            ->groupBy('oportunidades.posicoes_id')
-            ->get();
+    $diffInscricoes = $inscricoesPendentesMesAtual - $inscricoesPendentesMesAnterior;
+    $percentInscricoes = $inscricoesPendentesMesAnterior > 0
+        ? round(($diffInscricoes / $inscricoesPendentesMesAnterior) * 100, 2)
+        : null;
 
-        $posicoes = Posicao::whereIn('id', $rows->pluck('posicao_id')->filter())->get()->keyBy('id');
+    $oportunidadesAtivasTotal = Oportunidade::approved()
+        ->where('clube_id', $clube->id)
+        ->when($esporteId, fn ($q) => $q->where('esporte_id', $esporteId))
+        ->count();
 
-        return $rows->map(function ($row) use ($posicoes) {
-            $pos = $posicoes->get($row->posicao_id);
-            return [
-                'posicao_nome' => $pos?->nomePosicao ?? 'N/A',
-                'total' => (int) $row->total,
-            ];
-        });
-    }
+    $oportunidadesAtivasMesAtual = Oportunidade::approved()
+        ->where('clube_id', $clube->id)
+        ->when($esporteId, fn ($q) => $q->where('esporte_id', $esporteId))
+        ->whereBetween('created_at', [$inicioMesAtual, $fimMesAtual])
+        ->count();
+
+    $oportunidadesAtivasMesAnterior = Oportunidade::approved()
+        ->where('clube_id', $clube->id)
+        ->when($esporteId, fn ($q) => $q->where('esporte_id', $esporteId))
+        ->whereBetween('created_at', [$inicioMesAnterior, $fimMesAnterior])
+        ->count();
+
+    $diffOportunidades = $oportunidadesAtivasMesAtual - $oportunidadesAtivasMesAnterior;
+    $percentOportunidades = $oportunidadesAtivasMesAnterior > 0
+        ? round(($diffOportunidades / $oportunidadesAtivasMesAnterior) * 100, 2)
+        : null;
+
+    $proximoEvento = Evento::query()
+        ->where('clube_id', $clube->id)
+        ->where('data_hora_inicio', '>=', Carbon::now())
+        ->orderBy('data_hora_inicio', 'asc')
+        ->first([
+            'id',
+            'titulo',
+            'descricao',
+            'data_hora_inicio',
+            'cidade',
+            'estado',
+            'color',
+        ]);
+
+    $eventosMesAtual = Evento::query()
+        ->where('clube_id', $clube->id)
+        ->whereBetween('data_hora_inicio', [$inicioMesAtual, $fimMesAtual])
+        ->count();
+
+    $eventosMesAnterior = Evento::query()
+        ->where('clube_id', $clube->id)
+        ->whereBetween('data_hora_inicio', [$inicioMesAnterior, $fimMesAnterior])
+        ->count();
+
+    $diffEventos = $eventosMesAtual - $eventosMesAnterior;
+    $percentEventos = $eventosMesAnterior > 0
+        ? round(($diffEventos / $eventosMesAnterior) * 100, 2)
+        : null;
+
+    $usuariosUnicosTotal = Usuario::query()
+        ->whereHas('listas', function ($q) use ($clube) {
+            $q->where('listas.clube_id', $clube->id);
+        })
+        ->distinct('usuarios.id')
+        ->count('usuarios.id');
+
+    $usuariosUnicosMesAtual = Usuario::query()
+        ->whereHas('listas', function ($q) use ($clube, $inicioMesAtual, $fimMesAtual) {
+            $q->where('listas.clube_id', $clube->id)
+              ->whereBetween('listas.created_at', [$inicioMesAtual, $fimMesAtual]);
+        })
+        ->distinct('usuarios.id')
+        ->count('usuarios.id');
+
+    $usuariosUnicosMesAnterior = Usuario::query()
+        ->whereHas('listas', function ($q) use ($clube, $inicioMesAnterior, $fimMesAnterior) {
+            $q->where('listas.clube_id', $clube->id)
+              ->whereBetween('listas.created_at', [$inicioMesAnterior, $fimMesAnterior]);
+        })
+        ->distinct('usuarios.id')
+        ->count('usuarios.id');
+
+    $diffUsuarios = $usuariosUnicosMesAtual - $usuariosUnicosMesAnterior;
+    $percentUsuarios = $usuariosUnicosMesAnterior > 0
+        ? round(($diffUsuarios / $usuariosUnicosMesAnterior) * 100, 2)
+        : null;
+
+    return [
+        'inscricoes_pendentes' => [
+            'mes_atual'   => $inscricoesPendentesMesAtual,
+            'mes_anterior'=> $inscricoesPendentesMesAnterior,
+            'diferenca'   => $diffInscricoes,
+            'percentual'  => $percentInscricoes,
+        ],
+        'oportunidades_ativas' => [
+            'total_ativo_agora' => $oportunidadesAtivasTotal,
+            'mes_atual'         => $oportunidadesAtivasMesAtual,
+            'mes_anterior'      => $oportunidadesAtivasMesAnterior,
+            'diferenca'         => $diffOportunidades,
+            'percentual'        => $percentOportunidades,
+        ],
+        'proximo_evento' => [
+            'evento'       => $proximoEvento,
+            'mes_atual'    => $eventosMesAtual,
+            'mes_anterior' => $eventosMesAnterior,
+            'diferenca'    => $diffEventos,
+            'percentual'   => $percentEventos,
+        ],
+        'usuarios_unicos_listas' => [
+            'total'        => $usuariosUnicosTotal,
+            'mes_atual'    => $usuariosUnicosMesAtual,
+            'mes_anterior' => $usuariosUnicosMesAnterior,
+            'diferenca'    => $diffUsuarios,
+            'percentual'   => $percentUsuarios,
+        ],
+    ];
+}
 
     private function getInscricoesMensais($clube, $esporteId, $meses)
     {
