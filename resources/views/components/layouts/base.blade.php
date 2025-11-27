@@ -113,6 +113,8 @@
 
         if (form) {
             form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                
                 const formData = new FormData(form);
 
                 try {
@@ -120,17 +122,32 @@
                         method: "POST",
                         body: formData,
                         headers: {
-                            "Accept": "application/json"
+                            "Accept": "application/json",
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                         }
                     });
 
+                    const data = await response.json();
+
                     if (!response.ok) {
-                        e.preventDefault();
-                        const data = await response.json();
                         showToast("error", "Erro de Acesso", data.message ?? "Erro inesperado.");
+                        return; 
                     }
+
+                    if (data.access_token) {
+                        const token = data.access_token.replace('Bearer ', '');
+                        
+                        localStorage.setItem('clube_token', token);
+                    }
+
+                    showToast("success", "Sucesso", "Login realizado! Redirecionando...");
+
+                    setTimeout(() => {
+                        window.location.href = data.redirect_url || '/clube/dashboard';
+                    }, 1000);
+
                 } catch (err) {
-                    e.preventDefault();
+                    console.error(err);
                     showToast("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
                 }
             });
@@ -170,6 +187,50 @@
 
                 } catch (err) {
                     showToast("error", "Erro de conexão", "Não foi possível conectar ao servidor.");
+                }
+            });
+        }
+
+        const formAdm = document.querySelector("#login-form-adm");
+
+        if (formAdm) {
+            formAdm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(formAdm);
+
+                try {
+                    const response = await fetch(formAdm.action, {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            "Accept": "application/json",
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        showToast("error", "Erro de Acesso", data.message ?? "Erro inesperado.");
+                        return; 
+                    }
+
+                    if (data.access_token) {
+                        const token = data.access_token.replace('Bearer ', '');
+                        
+                        localStorage.setItem('admin_token', token);
+                    }
+
+                    showToast("success", "Sucesso", "Login realizado! Redirecionando...");
+
+                    setTimeout(() => {
+                        window.location.href = data.redirect_url || '/admin/dashboard';
+                    }, 1000);
+
+                } catch (err) {
+                    console.error(err);
+                    showToast("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
                 }
             });
         }

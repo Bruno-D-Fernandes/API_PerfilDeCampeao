@@ -29,35 +29,39 @@ class AuthClubeController extends Controller
         $clube = Clube::where('cnpjClube', $request->cnpjClube)->first();
 
         if (! $clube || ! Hash::check($request->senhaClube, $clube->senhaClube)) {
-            $response = ['message' => 'Credenciais inválidas.'];
-            return $request->wantsJson() ? response()->json($response, 401) : back()->withErrors(['cnpjClube' => $response['message']])->withInput();
+            $msg = 'Credenciais inválidas.';
+            return $request->wantsJson() 
+                ? response()->json(['message' => $msg], 401) 
+                : back()->withErrors(['cnpjClube' => $msg])->withInput();
         }
         
-        if ($clube->status === Clube::STATUS_BLOQUEADO) {
-            $response = ['message' => 'Conta bloqueada: ' . $clube->bloque_reason];
-            return $request->wantsJson() ? response()->json($response, 403) : back()->withErrors(['cnpjClube' => $response['message']])->withInput();
-        }
-
         if ($clube->status !== Clube::STATUS_ATIVO) {
-            $response = ['message' => 'Conta inativa. Status: ' . $clube->status];
-            return $request->wantsJson() ? response()->json($response, 403) : back()->withErrors(['cnpjClube' => $response['message']])->withInput();
+            $msg = 'Conta inativa ou bloqueada.';
+            return $request->wantsJson() 
+                ? response()->json(['message' => $msg], 403) 
+                : back()->withErrors(['cnpjClube' => $msg])->withInput();
         }
+        
+        $request->session()->invalidate();
+
+        Auth::guard('club')->login($clube, true);
+        
+        $request->session()->regenerate();
+        $request->session()->save();
 
         $token = $clube->createToken('web_dashboard_token', ['club'])->plainTextToken;
-        
+        session(['clube_api_token' => $token]);
+
         if ($request->wantsJson()) {
             return response()->json([
+                'message' => 'Login realizado com sucesso!',
                 'access_token' => "Bearer $token",
-                'clube' => $clube
+                'clube' => $clube,
+                'redirect_url' => route('clube.dashboard') 
             ], 200);
-        } else {
-            Auth::guard('club')->login($clube);
-            $request->session()->regenerate();
-            
-            session(['clube_api_token' => $token]);
-            
-            return redirect()->intended(route('clube.dashboard'));
-        }
+        } 
+
+        return redirect()->intended(route('clube.dashboard'));
     }
 
     public function logout(Request $request)

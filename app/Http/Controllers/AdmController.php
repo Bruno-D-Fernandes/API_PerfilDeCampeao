@@ -15,6 +15,7 @@ use App\Models\Esporte;
 use App\Models\Funcao;
 use App\Models\Posicao; 
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class AdmController extends Controller
 {
@@ -26,6 +27,8 @@ class AdmController extends Controller
             ['admin' => $admin]
         );
     }
+
+    
 
      public function loginAdm(Request $request)
     {

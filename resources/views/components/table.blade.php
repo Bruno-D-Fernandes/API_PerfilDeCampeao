@@ -1,7 +1,8 @@
-<div class="relative h-full w-full overflow-x-auto bg-gray-50 shadow-xs rounded-[0.63vw] border border-[0.052vw] border-gray-300">
-    
+<div id="{{ $tableId }}" class="relative h-full w-full overflow-x-auto bg-gray-50 rounded-[0.63vw] border border-[0.052vw] border-gray-300">
     <div class="p-[0.83vw] flex items-center justify-between space-x-[0.83vw]">
-        <x-search-input />
+        <div class="search-box-wrapper">
+            <x-search-input class="!bg-white" />
+        </div>
 
         <div class="flex items-center gap-x-[0.42vw]">
             <x-button size="md" type="button">
@@ -25,13 +26,13 @@
             </tr>
         </thead>
 
-        <tbody>
+        <tbody class="table-body">
             {{ $body }}
         </tbody>
     </table>
 
     @if(isset($items) && method_exists($items, 'lastPage'))
-        <div class="w-full p-[0.83vw] flex items-center justify-center border-t-[0.052vw] border-gray-200 bg-white rounded-b-[0.63vw]">
+        <div class="pagination-container w-full p-[0.83vw] flex items-center justify-center border-t-[0.052vw] border-gray-200 bg-white rounded-b-[0.63vw]">
             <x-pagination 
                 :maxPage="$items->lastPage()" 
                 :currentPage="$items->currentPage()" 

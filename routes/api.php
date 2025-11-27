@@ -349,10 +349,10 @@ Route::prefix('admin')->group(function () {
         Route::put('/posicao/{id}', [AdminSistemaController::class, 'updatePosicao']);    // Antes era Posicaoupdate
         Route::delete('/posicao/{id}', [AdminSistemaController::class, 'destroyPosicao']); // Antes era Posicaodestroy
 
+        Route::get('/funcao', [AdminSistemaController::class, 'listarFuncoes'])->name('admin.funcoes.listar');
         Route::post('/funcao', [FuncaoController::class, 'store']);
         Route::put('/funcao/{id}', [FuncaoController::class, 'update']);
         Route::delete('/funcao/{id}', [FuncaoController::class, 'destroy']);
-        Route::get('/funcao', [FuncaoController::class, 'index']);
         Route::get('/funcao/{id}', [FuncaoController::class, 'show']);
 
         Route::get('/esporte', [AdminSistemaController::class, 'ListarEsportes']);

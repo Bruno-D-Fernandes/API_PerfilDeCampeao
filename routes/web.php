@@ -13,6 +13,8 @@ use App\Http\Controllers\AdminSistemaController;
 use App\Http\Controllers\EsporteController;
 use App\Http\Controllers\DashClubeController;
 use App\Http\Controllers\AuthClubeController;
+use App\Http\Controllers\AuthAdmController;
+use App\Http\Controllers\DashAdminController;
 use App\Mail\ClubWelcomeEmail;
 use App\Mail\UserWelcomeEmail;
 use App\Models\Categoria;
@@ -31,55 +33,63 @@ Route::prefix('clube')->name('clube.')->group(function () {
     
     Route::post('/cadastro', [AuthClubeController::class, 'register'])->name('cadastro.submit');
 
-    Route::post('/logout', [AuthClubeController::class, 'logout'])->name('logout');
-    
-    Route::get('/dashboard', [DashClubeController::class, 'dashboardData'])->name('dashboard');
+    Route::middleware(['auth:club'])->group(function () {
+        Route::post('/logout', [AuthClubeController::class, 'logout'])->name('logout');
+       
+        Route::get('/dashboard', [DashClubeController::class, 'dashboardData'])->name('dashboard');
 
-    Route::get('/oportunidades', function () {
-        return view('clube.oportunidades.index');
-    })->name('oportunidades');
+        Route::get('/oportunidades', function () {
+            return view('clube.oportunidades.index');
+        })->name('oportunidades');
 
-    Route::get('/oportunidade', function () {
-        return view('clube.oportunidades.show');
-    })->name('oportunidade');
+        Route::get('/oportunidade', function () {
+            return view('clube.oportunidades.show');
+        })->name('oportunidade');
 
-    Route::get('/listas', function () {
-        return view('clube.listas.index');
-    })->name('listas');
+        Route::get('/listas', function () {
+            return view('clube.listas.index');
+        })->name('listas');
 
-    Route::get('/lista', function () {
-        return view('clube.listas.show');
-    })->name('lista');
+        Route::get('/lista', function () {
+            return view('clube.listas.show');
+        })->name('lista');
 
-    Route::get('/perfil', function () {
-        return view('clube.perfil');
-    })->name('perfil');
+        Route::get('/perfil', function () {
+            return view('clube.perfil');
+        })->name('perfil');
 
-    Route::get('/mensagens', function () {
-        return view('clube.mensagens');
-    })->name('mensagens');
+        Route::get('/mensagens', function () {
+            return view('clube.mensagens');
+        })->name('mensagens');
 
-    Route::get('/agenda', function () {
-        return view('clube.agenda');
-    })->name('agenda');
+        Route::get('/agenda', function () {
+            return view('clube.agenda');
+        })->name('agenda');
 
-    Route::get('/pesquisa', function () {
-        return view('clube.pesquisa');
-    })->name('pesquisa');
+        Route::get('/pesquisa', function () {
+            return view('clube.pesquisa');
+        })->name('pesquisa');
 
-    Route::get('/configuracoes', function () {
-        return view('clube.configuracoes');
-    })->name('configuracoes');
+        Route::get('/configuracoes', function () {
+            return view('clube.configuracoes');
+        })->name('configuracoes');
+    });
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', function () {
-        return view('auth.admin.login');
-    })->name('login');
+    Route::get('/login', [AuthAdmController::class, 'showLoginForm'])->name('login');
 
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::post('/login', [AuthAdmController::class, 'loginAdm'])->name('login.submit');
+
+    Route::middleware(['auth:admin'])->group(function () {
+        Route::post('/logout', [AuthAdmController::class, 'logout'])->name('logout');
+       
+        Route::get('/dashboard', [DashAdminController::class, 'dashboardData'])->name('dashboard');
+
+        Route::get('/funcoes', function () {
+            return view('admin.funcoes.index');
+        })->name('funcoes');
+    });
 });
 
 Route::get('/usuario/perfil', function () {

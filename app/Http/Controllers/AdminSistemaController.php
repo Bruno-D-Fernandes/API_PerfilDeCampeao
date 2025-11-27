@@ -810,6 +810,9 @@ public function listarClubes(Request $request)
     $search  = $request->query('search');
     $perPage = (int) $request->query('per_page', 15);
 
+    $sortCol = $request->query('sort_col');
+    $sortDir = $request->query('sort_dir');
+
     $q = Funcao::query();
 
     if ($status) {
@@ -823,9 +826,19 @@ public function listarClubes(Request $request)
         });
     }
 
-    $funcoes = $q
-        ->orderBy('id')
-        ->paginate($perPage);
+    $allowedColumns = ['id', 'nome', 'descricao', 'status', 'created_at'];
+
+    if (
+        $sortCol && 
+        in_array($sortCol, $allowedColumns) && 
+        in_array($sortDir, ['asc', 'desc'])
+    ) {
+        $q->orderBy($sortCol, $sortDir);
+    } else {
+        $q->orderBy('id', 'desc');
+    }
+
+    $funcoes = $q->paginate($perPage);
 
     return response()->json($funcoes, 200);
 }

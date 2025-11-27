@@ -22,6 +22,11 @@ return [
             'provider' => 'clubs',
         ],
 
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'adms',
+        ],
+
         'club_sanctum' => [ 
             'driver' => 'sanctum',
             'provider' => 'clubs',

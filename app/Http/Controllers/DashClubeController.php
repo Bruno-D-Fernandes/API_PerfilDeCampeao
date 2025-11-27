@@ -10,13 +10,14 @@ use App\Models\Inscricao;
 use App\Models\Evento;
 use App\Models\Usuario;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashClubeController extends Controller
 {
     public function dashboardData(Request $request)
     {
         try {
-            $clube = $request->user('club');
+            $clube = Auth::guard('club')->user();
 
             if (! $clube instanceof Clube) {
                 if ($request->wantsJson()) {
@@ -25,7 +26,7 @@ class DashClubeController extends Controller
                 abort(403, 'Acesso não autorizado.');
             }
 
-            $esporteId = $request->query('esporte_id');
+            $esporteId = $request->query('esporte_id', $clube->esporte()->get());
             $meses = (int) $request->query('months', 6);
             $perPage = (int) $request->query('per_page', 5);
 
