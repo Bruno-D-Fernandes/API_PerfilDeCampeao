@@ -85,6 +85,21 @@ class Clube extends Authenticatable
         return $this->belongsTo(Esporte::class);
     }
 
+    public function esportes()
+    {
+        return $this->belongsToMany(
+            Esporte::class,
+            'clubes_esporte',
+            'clube_id',
+            'esporte_id'
+        )->withTimestamps();
+    }
+
+    public function esportesExtras()
+    {
+        return $this->esportes()->where('esportes.id', '!=', $this->esporte_id);
+    }
+
     public function categoria()
     {
         return $this->belongsTo(Categoria::class);

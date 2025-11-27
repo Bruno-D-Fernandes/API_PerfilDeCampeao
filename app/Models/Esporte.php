@@ -29,6 +29,16 @@ class Esporte extends Model
         return $this->hasMany(Clube::class);
     }
 
+    public function clubesEsportePivot()
+{
+    return $this->belongsToMany(
+        Clube::class,
+        'clubes_esporte',
+        'esporte_id',
+        'clube_id'
+    )->withTimestamps();
+}
+
     public function scopeAtivos($query)
     {
         return $query->where('status', self::STATUS_ATIVO);
