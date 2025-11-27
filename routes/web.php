@@ -81,15 +81,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::post('/login', [AuthAdmController::class, 'loginAdm'])->name('login.submit');
 
-    Route::middleware(['auth:admin'])->group(function () {
-        Route::post('/logout', [AuthAdmController::class, 'logout'])->name('logout');
-       
-        Route::get('/dashboard', [DashAdminController::class, 'dashboardData'])->name('dashboard');
+    Route::post('/logout', [AuthAdmController::class, 'logout'])->name('logout');
+    
+    Route::get('/dashboard', [DashAdminController::class, 'dashboardData'])->name('dashboard');
 
-        Route::get('/funcoes', function () {
-            return view('admin.funcoes.index');
-        })->name('funcoes');
-    });
+    Route::get('/funcoes', function () {
+        return view('admin.funcoes.index');
+    })->name('funcoes');
 });
 
 Route::get('/usuario/perfil', function () {

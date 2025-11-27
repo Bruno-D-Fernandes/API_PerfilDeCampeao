@@ -32,10 +32,6 @@ class DashAdminController extends Controller
             // 1. Verificação de Segurança
             $admin = Auth::guard('admin')->user();
 
-            if (! $admin instanceof Admin) {
-                return response()->json(['message' => 'Admin não autorizado'], 403);
-            }
-
             // 2. Parâmetros Globais
             $perPage = (int) $request->query('per_page', 5);
             $meses = (int) $request->query('months', 6);

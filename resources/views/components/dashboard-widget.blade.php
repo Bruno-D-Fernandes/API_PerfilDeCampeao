@@ -1,4 +1,4 @@
-<div {{ $attributes->merge(['class' => 'p-[0.83vw] bg-white border-[0.052vw] border-[0.1vw] border-gray-200 flex flex-col gap-y-[0.42vw] rounded-[0.42vw] max-w-full hover:border-' . $borderColor . '-500 transition-colors']) }}>
+<div {{ $attributes->merge(['class' => 'p-[0.83vw] bg-white border border-[0.15vw] border-gray-200 flex flex-col gap-y-[0.42vw] rounded-[0.42vw] max-w-full hover:border-' . $borderColor . '-500 transition-colors']) }}>
     <div class="flex gap-x-[0.42vw] items-center">
         <div class="h-[0.83vw] w-[0.83vw] {{ $iconColor }}">
             {{ $icon ?? '' }}

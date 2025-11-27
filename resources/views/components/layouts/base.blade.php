@@ -13,6 +13,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body class="font-sans antialiased h-screen relative">
     {{ $slot }}
@@ -240,7 +241,7 @@
             const color = colors[type] ?? "sky";
 
             const toast = document.createElement("div");
-            toast.className = `toast-alert flex items-start p-3 mb-3 rounded-lg border bg-${color}-50 border-${color}-400 shadow transition-all animate-fade-in-up w-[420px]`;
+            toast.className = `toast-alert flex items-start p-3 mb-3 rounded-lg border bg-${color}-50 border-${color}-400 transition-all animate-fade-in-up w-[420px]`;
             toast.innerHTML = `
                 <div class="inline-flex items-center justify-center flex-shrink-0 w-6 h-6 mt-0.5 text-${color}-600">
                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
