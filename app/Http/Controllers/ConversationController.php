@@ -75,7 +75,7 @@ class ConversationController extends Controller
             return response()->json(['message' => 'Conversa não encontrada ou acesso negado.'], 404);
         }
 
-        $messages = $conversation->messages()->with('evento')->orderBy('created_at', 'asc')->get();
+        $messages = $conversation->messages()->with('evento', 'conviteEvento')->orderBy('created_at', 'asc')->get();
 
         return response()->json($messages);
     }

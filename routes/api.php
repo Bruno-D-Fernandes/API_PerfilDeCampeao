@@ -40,6 +40,7 @@ Route::prefix('usuario')->group(function () {
         Route::delete('/delete', [AuthUserController::class, 'deleteAccount']);
         Route::put('/update', [AuthUserController::class, 'updateAccount']);
 
+
         // Multiplos perfis
         Route::post('/perfilStore', [perfilController::class, 'store']);
         Route::get('/perfilForm/{id}', [perfilController::class, 'formInfo']);
@@ -47,6 +48,7 @@ Route::prefix('usuario')->group(function () {
         Route::get('/optionsEsportes', [perfilController::class, 'esportesFiltro']);
         Route::put('/perfil/{id}', [PerfilController::class, 'update']);
         Route::delete('/perfil/excluir/{id}', [PerfilController::class, 'destroy']);
+        Route::get('/hasPerfil', [PerfilController::class, 'hasPerfil']);
         // Fim multilpos perfis
 
         //Eventos 

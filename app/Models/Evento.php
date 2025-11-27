@@ -11,7 +11,7 @@ class Evento extends Model
 
     protected $table = 'eventos';
 
-     protected $fillable = [
+    protected $fillable = [
         'clube_id',
         'titulo',
         'descricao',
@@ -47,5 +47,4 @@ class Evento extends Model
     {
         return $this->hasMany(Message::class, 'evento_id');
     }
-
 }
