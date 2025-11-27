@@ -1,23 +1,23 @@
 @php
     $maxWidthClass = match($maxWidth) {
-        'sm' => 'sm:max-w-sm',
-        'md' => 'sm:max-w-md',
-        'lg' => 'sm:max-w-lg',
-        'xl' => 'sm:max-w-xl',
-        '2xl' => 'sm:max-w-2xl',
-        default => 'sm:max-w-2xl',
+        'sm' => 'max-w-[20vw]',  
+        'md' => 'max-w-[23.33vw]',  
+        'lg' => 'max-w-[26.67vw]', 
+        'xl' => 'max-w-[30vw]',   
+        '2xl' => 'max-w-[35vw]',  
+        default => 'max-w-[35vw]',
     };
 
     $titleSizeClass = match($titleSize) {
-        'sm' => 'text-sm',
-        'md' => 'text-md',
-        'lg' => 'text-lg',
-        'xl' => 'text-xl',
-        '2xl' => 'text-2xl',
-        '3xl' => 'text-3xl',
-        '4xl' => 'text-4xl',
-        '5xl' => 'text-5xl',
-        default => 'sm:text-xl',
+        'sm' => 'text-[0.73vw]',
+        'md' => 'text-[0.83vw]',
+        'lg' => 'text-[0.94vw]',
+        'xl' => 'text-[1.04vw]',
+        '2xl' => 'text-[1.25vw]',
+        '3xl' => 'text-[1.56vw]',
+        '4xl' => 'text-[1.88vw]',
+        '5xl' => 'text-[2.5vw]',
+        default => 'text-[1.04vw]',
     };
 
     $titleColorClass = match($titleColor) {
@@ -35,34 +35,35 @@
     role="dialog" 
     aria-modal="true"
 >
-    <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+    <div class="flex min-h-screen items-center justify-center px-[0.83vw] pt-[0.83vw] pb-[4.17vw] text-center block p-0">
+        
         <div 
-            class="fixed inset-0 bg-gray-900/75 backdrop-blur-sm transition-opacity" 
+            class="fixed inset-0 bg-gray-900/75 backdrop-blur-[0.21vw] transition-opacity" 
             aria-hidden="true"
             onclick="closeModal('{{ $name }}')"
         ></div>
 
-        <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
+        <span class="inline-block h-screen align-middle" aria-hidden="true">&#8203;</span>
 
-        <div class="relative inline-block transform overflow-hidden rounded-xl bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:align-middle {{ $maxWidthClass }} p-4">
-            <div class="flex items-center justify-between pb-2 border-b border-gray-300">
+        <div class="relative inline-block transform overflow-hidden rounded-[0.63vw] bg-white text-left align-bottom shadow-xl transition-all my-[1.67vw] w-full align-middle {{ $maxWidthClass }} p-[0.83vw]">
+            <div class="flex items-center justify-between pb-[0.42vw] border-b-[0.052vw] border-gray-300">
                 <h3 class="{{ $titleSizeClass }} font-semibold {{ $titleColorClass }} tracking-tight" id="modal-title">
                     {{ $title }}
                 </h3>
 
                 <button type="button" onclick="closeModal('{{ $name }}')" class="cursor-pointer text-gray-400 hover:text-gray-500 focus:outline-none">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    <svg class="h-[1.25vw] w-[1.25vw] stroke-[0.1vw]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
 
-            <div class="pt-2.5 pb-2.5">
+            <div class="pt-[0.52vw] pb-[0.52vw]">
                 {{ $slot }}
             </div>
 
             @if(isset($footer))
-                <div class="flex pt-3 justify-end border-t border-gray-300">
+                <div class="flex pt-[0.63vw] justify-end border-t-[0.052vw] border-gray-300">
                     {{ $footer }}
                 </div>
             @endif

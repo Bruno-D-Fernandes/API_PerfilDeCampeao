@@ -1,22 +1,22 @@
-<div {{ $attributes->merge(['class' => 'p-4 bg-white border border-2 border-gray-200 flex flex-col gap-y-2 rounded-lg max-w-full hover:border-' . $borderColor . '-500 transition-colors']) }}>
-    <div class="flex gap-x-2 items-center">
-        <div class="h-4 w-4 {{ $iconColor }}">
+<div {{ $attributes->merge(['class' => 'p-[0.83vw] bg-white border-[0.052vw] border-[0.1vw] border-gray-200 flex flex-col gap-y-[0.42vw] rounded-[0.42vw] max-w-full hover:border-' . $borderColor . '-500 transition-colors']) }}>
+    <div class="flex gap-x-[0.42vw] items-center">
+        <div class="h-[0.83vw] w-[0.83vw] {{ $iconColor }}">
             {{ $icon ?? '' }}
         </div>
 
-        <span class="text-sm font-medium {{ $iconColor }}">
+        <span class="text-[0.73vw] font-medium {{ $iconColor }}">
             {{ $title }}
         </span>
     </div>
     
-    <div class="flex items-center gap-x-2">
-        <span class="{{ (is_numeric($value) ? 'text-xl' : 'text-lg') }} font-medium text-gray-800 tracking-tight">
+    <div class="flex items-center gap-x-[0.42vw]">
+        <span class="{{ (is_numeric($value) ? 'text-[1.04vw]' : 'text-[0.94vw]') }} font-medium text-gray-800 tracking-tight">
             {{ $value }}
         </span>
 
         @if ($trend !== null)
-            <div class="flex gap-x-1 items-center">
-                <svg class="w-5 h-5 {{ $trendColor }}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <div class="flex gap-x-[0.21vw] items-center">
+                <svg class="w-[1.04vw] h-[1.04vw] stroke-[0.1vw] {{ $trendColor }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                     @php
                         $isPositive = is_numeric($trend) && (float) str_replace(['+', '%'], '', $trend) >= 0;
                     @endphp
@@ -28,7 +28,7 @@
                     @endif
                 </svg>
 
-                <span class="text-lg tracking-tight font-medium {{ $trendColor }}">
+                <span class="text-[0.94vw] tracking-tight font-medium {{ $trendColor }}">
                     {{ is_numeric($trend) && (float) $trend > 0 ? '+' : '' }}{{ $trend }}
                 </span>
             </div>

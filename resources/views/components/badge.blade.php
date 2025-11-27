@@ -30,23 +30,23 @@
 @endphp
 
 <span {{ $attributes->class([
-    'inline-flex items-center rounded-2xl py-1.5 px-' . ($hasIcon ? '2' : '3.5') . ' text-xs font-medium',
+    'inline-flex items-center rounded-[0.83vw] py-[0.31vw] px-[' . ($hasIcon ? '0.42vw' : '0.73vw') . '] text-[0.63vw] font-medium',
     $style['bgColor'],
     $style['textColor'],
-    $style['borderColor'] . ' ring-1 ring-inset' => $border, 
+    $style['borderColor'] . ' ring-[0.052vw] ring-inset' => $border, 
 ]) }}>
     @if($hasIcon)
-        <span class="mr-1 flex h-4 w-4 shrink-0 items-center justify-center">
+        <span class="mr-[0.21vw] flex h-[0.83vw] w-[0.83vw] shrink-0 items-center justify-center">
             {{ $icon }}
         </span>
     @else
-        <span class="mr-1 h-1 w-1 rounded-full {{ $style['dotColor'] }}"></span>
+        <span class="mr-[0.21vw] h-[0.21vw] w-[0.21vw] rounded-full {{ $style['dotColor'] }}"></span>
     @endif
 
     {{ $slot }}
 
     @if($dismissable)
-        <span class="ml-0.75 h-4 w-4 shrink-0 {{ $style['textColor'] }}">
+        <span class="ml-[0.16vw] h-[0.83vw] w-[0.83vw] shrink-0 {{ $style['textColor'] }}">
             <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
         </span>
     @endif

@@ -8,8 +8,8 @@
         : 'bg-gray-200';
 
     $bubbleClass = $isMe 
-        ? 'bg-emerald-500 rounded-s-xl rounded-ee-xl' 
-        : 'bg-gray-100 rounded-e-xl rounded-es-xl';
+        ? 'bg-emerald-500 rounded-s-[0.63vw] rounded-ee-[0.63vw]' 
+        : 'bg-gray-100 rounded-e-[0.63vw] rounded-es-[0.63vw]';
 
     $textAlignment = $isMe ? 'text-right' : 'text-left';
     $headerDirection = $isMe ? 'flex-row-reverse' : '';
@@ -21,28 +21,27 @@
     $status = $isMe ? 'Enviado' : 'Recebido';
 @endphp
 
-<div class="flex items-start gap-2 {{ $containerClass }}">
+<div class="flex items-start gap-[0.42vw] {{ $containerClass }}">
     
-    <div class="w-8 md:w-7 h-8 md:h-7 rounded-full flex-shrink-0 {{ $avatarClass }}">
-        </div>
+    <div class="w-[1.46vw] h-[1.46vw] rounded-full flex-shrink-0 {{ $avatarClass }}">
+    </div>
 
-    <div class="flex flex-col w-full max-w-[320px] md:max-w-[240px] leading-1.5 p-3 md:p-2 {{ $bubbleClass }}">
-        
-        <div class="flex items-center gap-2 {{ $headerDirection }}">
-            <span class="text-sm md:text-xs font-semibold {{ $nameColor }}">
+    <div class="flex flex-col gap-[0.42vw] w-full max-w-[12.5vw] leading-1.5 p-[0.75vw] {{ $bubbleClass }}">
+        <div class="flex items-center gap-[0.42vw] {{ $headerDirection }}">
+            <span class="text-[0.75vw] font-semibold {{ $nameColor }}">
                 João Pedro
             </span>
 
-            <span class="text-sm md:text-[9px] {{ $timeColor }}">
+            <span class="text-[0.75vw] font-semibold {{ $nameColor }}">
                 11:32
             </span>
         </div>
 
-        <p class="text-sm py-2.5 md:py-1.5 text-gray-900 {{ $textAlignment }}">
+        <p class="text-[0.73vw] py-[0.31vw] text-gray-900 {{ $textAlignment }}">
             Insanooo!
         </p>
 
-        <span class="text-xs md:text-[8px] font-medium {{ $textAlignment }} {{ $statusColor }}">
+        <span class="text-[0.55vw] font-medium {{ $textAlignment }} {{ $statusColor }}">
             {{ $status}}
         </span>
     </div>

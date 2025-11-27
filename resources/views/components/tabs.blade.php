@@ -1,13 +1,13 @@
 <div class="w-full">
-    <div class="border-b border-gray-200">
-        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center">
+    <div class="border-b-[0.052vw] border-gray-200">
+        <ul class="flex flex-wrap -mb-[0.052vw] text-[0.73vw] font-medium text-center">
             @foreach($options as $key => $label)
-                <li class="me-2">
+                <li class="me-[0.42vw]">
                     <button 
                         type="button"
                         id="tab-btn-{{ $key }}"
                         onclick="switchTab('{{ $key }}')"
-                        class="tab-button cursor-pointer inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg transition-all duration-100 gap-2 
+                        class="tab-button cursor-pointer inline-flex items-center justify-center p-[0.83vw] border-b-[0.1vw] rounded-t-[0.42vw] transition-all duration-100 gap-[0.42vw] 
                         {{ $key === $default ? 'text-emerald-500 border-emerald-500 active' : 'text-gray-500 border-transparent hover:text-gray-600 hover:border-gray-300' }}"
                     >
                         @if(isset(${'icon_'.$key}))
@@ -23,7 +23,7 @@
         </ul>
     </div>
 
-    <div class="mt-6">
+    <div class="mt-[1.25vw]">
         @foreach($options as $key => $label)
             <div id="tab-content-{{ $key }}" class="tab-content {{ $key === $default ? '' : 'hidden' }}">
                 {{ $$key ?? '' }} 

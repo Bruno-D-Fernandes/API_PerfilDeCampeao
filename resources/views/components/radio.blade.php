@@ -2,7 +2,7 @@
     $theme = match($color) {
         'red' => [
             'input' => 'text-red-600 border-gray-300 focus:border-red-500 focus:ring-red-500',
-            'label' => 'text-gray-700', // Label neutro é mais elegante, mas se quiser colorido use: text-red-700
+            'label' => 'text-gray-700', 
         ],
         'blue' => [
             'input' => 'text-sky-600 border-gray-300 focus:border-sky-500 focus:ring-sky-500',
@@ -29,10 +29,10 @@
         id="{{ $id }}" 
         name="{{ $name }}" 
         value="{{ $value }}"
-        {{ $attributes->merge(['class' => "w-4 h-4 rounded-full focus:ring-1 {$theme['input']}"]) }}
+        {{ $attributes->merge(['class' => "w-[0.83vw] h-[0.83vw] rounded-full focus:ring-[0.052vw] {$theme['input']}"]) }}
     >
     
-    <label for="{{ $id }}" class="select-none ms-2 text-md font-medium {{ $theme['label'] }}">
+    <label for="{{ $id }}" class="select-none ms-[0.42vw] text-[0.83vw] font-medium {{ $theme['label'] }}">
         {{ $label ?? $slot }}
     </label>
 </div>

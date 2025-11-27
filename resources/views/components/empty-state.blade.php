@@ -1,19 +1,21 @@
 <div class="w-full h-full flex items-center justify-center">
-    <div class="flex flex-col gap-4 items-center">
-        <div class="h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center text-gray-700">
+    <div class="flex flex-col gap-[0.83vw] items-center">
+        <div class="h-[3.33vw] w-[3.33vw] rounded-full bg-gray-100 flex items-center justify-center text-gray-700">
             {{ $icon }}
         </div>
 
-        <div class="flex flex-col gap-2 items-center">
-            <h3 class="text-gray-700 text-xl font-medium">
+        <div class="flex flex-col gap-[0.42vw] items-center">
+            <h3 class="text-gray-700 text-[1.04vw] font-medium">
                 {{ $text }}
             </h3>
 
             {{ $slot }}
         </div>
 
-        <div class="flex items-start justify-center gap-x-4">
-            {{ $actions }}
-        </div>
+        @if($actions)
+            <div class="flex items-start justify-center gap-x-[0.83vw]">
+                {{ $actions }}
+            </div>
+        @endif
     </div>
 </div>

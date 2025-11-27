@@ -5,31 +5,31 @@
     data-current-year="{{ $date->year }}"
     data-selected="{{ $highlight ? $highlight->format('Y-m-d') : '' }}"
 >
-    <div class="flex items-center justify-between mb-4 md:mb-2">
-        <span id="mc-label" class="text-xs font-bold text-gray-800 uppercase tracking-wide">
+    <div class="flex items-center justify-between mb-[0.42vw]">
+        <span id="mc-label" class="text-[0.75vw] font-bold text-gray-800 uppercase tracking-wide">
             {{ $date->translatedFormat('F Y') }}
         </span>
         
-        <div class="flex gap-1 md:gap-0.5">
-            <button type="button" onclick="mcChangeMonth(-1)" class="cursor-pointer p-1.5 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-600 transition-colors">
-                <svg class="w-3 h-3 md:w-2 md:h-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        <div class="flex gap-[0.1vw]">
+            <button type="button" onclick="mcChangeMonth(-1)" class="cursor-pointer p-[0.31vw] hover:bg-gray-100 rounded-[0.21vw] text-gray-400 hover:text-gray-600 transition-colors">
+                <svg class="w-[0.75vw] h-[0.75vw] stroke-[0.1vw]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
             </button>
 
-            <button type="button" onclick="mcChangeMonth(1)" class="cursor-pointer p-1.5 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-600 transition-colors">
-                <svg class="w-3 h-3 md:w-2 md:h-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <button type="button" onclick="mcChangeMonth(1)" class="cursor-pointer p-[0.31vw] hover:bg-gray-100 rounded-[0.21vw] text-gray-400 hover:text-gray-600 transition-colors">
+                <svg class="w-[0.75vw] h-[0.75vw] stroke-[0.1vw]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             </button>
         </div>
     </div>
     
-    <div class="grid grid-cols-7 text-center gap-y-3 md:gap-y-2 text-xs md:text-[8px] font-bold text-gray-400 mb-2 md:mb-1">
+    <div class="grid grid-cols-7 text-center gap-y-[0.42vw] text-[0.55vw] font-bold text-gray-400 mb-[0.21vw]">
         @foreach(['D', 'S', 'T', 'Q', 'Q', 'S', 'S'] as $dia)
             <span>{{ $dia }}</span>
         @endforeach
     </div>
     
-    <div id="mc-grid" class="grid grid-cols-7 text-center gap-y-1 md:gap-y-0.5 text-sm md:text-xs font-medium text-gray-600">
+    <div id="mc-grid" class="grid grid-cols-7 text-center gap-y-[0.42vw] text-[0.75vw] font-medium text-gray-600">
         @for($i = 0; $i < $startDayOfWeek; $i++)
-            <span class="p-1 md:p-0"></span>
+            <span class="p-[0.1vw]"></span>
         @endfor
         
         @for($day = 1; $day <= $daysInMonth; $day++)
@@ -41,7 +41,7 @@
             <button 
                 type="button"
                 onclick="mcSelectDate('{{ $fullDate }}')"
-                class="text-xs md:text-[4px] cursor-pointer w-7 md:w-4 h-7 md:h-4 mx-auto md:mx-0.5 flex items-center justify-center rounded-md transition-colors {{ $isSel ? 'bg-emerald-500 text-white' : 'hover:bg-gray-100' }}"
+                class="text-[0.6vw] cursor-pointer w-[1.5vw] h-[1.5vw] mx-auto flex items-center justify-center rounded-[0.31vw] transition-colors {{ $isSel ? 'bg-emerald-500 text-white' : 'hover:bg-gray-100' }}"
             >
                 {{ $day }}
             </button>
@@ -65,8 +65,7 @@
             if(root) {
                 mcState.month = parseInt(root.dataset.currentMonth) - 1;
                 mcState.year = parseInt(root.dataset.currentYear);
-                mcState.selectedDate = root.dataset.selected;
-                mcRender();
+                mcState.selectedDate = root.dataset.selected; 
             }
         });
 
@@ -109,11 +108,12 @@
             const startDayOfWeek = firstDay.getDay();
 
             const monthName = new Intl.DateTimeFormat('pt-BR', { month: 'long' }).format(firstDay);
-            label.innerText = `${monthName} ${mcState.year}`;
+            const monthNameCap = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+            label.innerText = `${monthNameCap} ${mcState.year}`;
 
             for (let i = 0; i < startDayOfWeek; i++) {
                 const span = document.createElement('span');
-                span.className = 'p-1';
+                span.className = 'p-[0.21vw]';
                 grid.appendChild(span);
             }
 
@@ -124,7 +124,7 @@
                 btn.innerText = d;
                 btn.type = 'button';
                 
-                let classes = "cursor-pointer w-7 h-7 mx-auto flex items-center justify-center rounded-md transition-colors ";
+                let classes = "text-[0.6vw] cursor-pointer w-[1.5vw] h-[1.5vw] mx-auto flex items-center justify-center rounded-[0.31vw] transition-colors ";
                 
                 if (loopDate === mcState.selectedDate) {
                     classes += "bg-emerald-500 text-white";

@@ -1,4 +1,4 @@
-<div class="absolute inset-0 grid grid-cols-7 gap-px overflow-hidden rounded-lg bg-gray-200 auto-rows-[1fr]">
+<div class="absolute inset-0 grid grid-cols-7 gap-[0.052vw] overflow-hidden rounded-[0.42vw] bg-gray-200 auto-rows-[1fr]">
     @foreach($dias as $dia)
         <x-calendar-day 
             :day="$dia['numero']" 
@@ -9,12 +9,13 @@
         >
             @php $qtdEventos = count($dia['eventos']); @endphp
 
-            <div class="flex-1 overflow-y-auto px-1 md:p-0.5 custom-scrollbar">
+            <div class="flex-1 overflow-y-auto p-[0.1vw] custom-scrollbar">
                 @foreach($dia['eventos'] as $evento)
                     @if($loop->index + 1 <= $maxEventos)
-                        <div class="flex gap-x-2 md:gap-x-1 items-center mb-1 md:mb-0">
-                            <div class="w-2.5 md:w-1.5 h-2.5 md:h-1.5 rounded-full shrink-0" style="background-color: {{ $evento['color'] }};"></div>
-                            <span class="text-sm md:text-xs font-medium truncate" style="color: {{ $evento['color'] }};">
+                        <div class="flex gap-x-[0.21vw] items-center mb-[0.21vw]">
+                            <div class="w-[0.31vw] h-[0.31vw] rounded-full shrink-0" style="background-color: {{ $evento['color'] }};"></div>
+                            
+                            <span class="text-[0.63vw] font-medium truncate" style="color: {{ $evento['color'] }};">
                                 {{ $evento['titulo'] }}
                             </span>
                         </div>
@@ -22,7 +23,7 @@
                 @endforeach
 
                 @if($qtdEventos > $maxEventos)
-                    <div class="sticky bottom-0 bg-white/95 backdrop-blur-sm py-0.5 text-xs text-gray-500 hover:text-green-600 font-medium cursor-pointer hover:underline transition-colors border-t border-transparent">
+                    <div class="sticky bottom-0 bg-white/95 backdrop-blur-sm py-[0.1vw] text-[0.63vw] text-gray-500 hover:text-green-600 font-medium cursor-pointer hover:underline transition-colors border-t-[0.052vw] border-transparent">
                         + {{ $qtdEventos - $maxEventos }} mais
                     </div>
                 @endif

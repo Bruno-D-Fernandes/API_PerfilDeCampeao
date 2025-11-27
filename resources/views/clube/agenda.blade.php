@@ -37,7 +37,6 @@
                 'numero' => $i,
                 'full_date' => $currentDateStr,
                 'is_today' => $currentDateObj->isToday(),
-                // Verifica se é o dia selecionado na URL
                 'is_selected' => ($currentDateStr === $selectedDateStr),
                 'eventos' => $listaEventos
             ];
@@ -46,74 +45,75 @@
         $maxEventos = 2;
     @endphp
 
-    <div class="h-full w-full flex gap-6 md:gap-4">
-        <div class="w-3/12 border border-2 border-gray-200 p-3.5 md:p-2 rounded-xl bg-white flex flex-col justify-between">
-            <div class="flex flex-col gap-4 md:gap-2">
+    <div class="h-full w-full flex gap-[1.25vw]">
+        
+        <div class="w-[20vw] border border-[0.1vw] border-gray-200 p-[0.73vw] rounded-[0.63vw] bg-white flex flex-col justify-between">
+            <div class="flex flex-col gap-[0.83vw]">
                 <x-mini-calendar 
-                    class="bg-white rounded-xl"
+                    class="bg-white rounded-[0.63vw]"
                 />
 
-                <div class="w-full h-px bg-gray-100"></div>
+                <div class="w-full h-[0.052vw] bg-gray-100"></div>
 
-                <div class="flex flex-col gap-3 md:gap-1.5">
+                <div class="flex flex-col gap-[0.63vw]">
                     <div class="flex items-center justify-between">
-                        <h3 class="text-xs md:text-[8px] font-bold text-gray-400 uppercase tracking-tight flex items-center gap-2 md:gap-1">
+                        <h3 class="text-[0.5vw] font-bold text-gray-400 uppercase tracking-tight flex items-center gap-[0.21vw]">
                             Hoje
                         </h3>
 
-                        <span id="sidebar-selected-date" class="text-xs md:text-[8px] text-gray-400 font-medium">
+                        <span id="sidebar-selected-date" class="text-[0.475vw] text-gray-400 font-medium">
                             {{ \Carbon\Carbon::parse($selectedDateStr)->translatedFormat('l, d') }}
                         </span>
                     </div>
 
-                    <div id="sidebar-event-list" class="flex flex-col gap-3 md:gap-1">
+                    <div id="sidebar-event-list" class="flex flex-col gap-[0.21vw]">
                         <x-event-item :item="null" />
                         <x-event-item :item="null" />
                     </div>
                 </div>
 
-                <div class="flex flex-col gap-3 md:gap-1.5">
-                    <h3 class="text-xs md:text-[8px] font-bold text-gray-400 uppercase tracking-tight flex items-center gap-2 md:gap-1">
+                <div class="flex flex-col gap-[0.63vw]">
+                    <h3 class="text-[0.5vw] font-bold text-gray-400 uppercase tracking-tight flex items-center gap-[0.21vw]">
                         Próximos Eventos
                     </h3>
 
-                    <div class="flex flex-col gap-3 md:gap-1 opacity-80">
+                    <div class="flex flex-col gap-[0.21vw] opacity-80">
                         <x-event-item :item="null" />
                         <x-event-item :item="null" />
                     </div>
                 </div>
             </div>
 
-            <x-button onclick="openModal('create-event')" color="clube" :full="true" class="!py-2">
+            <x-button onclick="openModal('create-event')" color="clube" :full="true">
                 <x-slot:icon>
-                    <svg class="h-4 w-4 md:h-3 md:w-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                    <svg class="h-[0.63vw] w-[0.63vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                 </x-slot:icon>
 
                 Adicionar novo evento
             </x-button>
         </div>
 
-        <div class="w-9/12 flex flex-col gap-4 md:gap-3 h-full max-h-full overflow-hidden">
-            <div class="shrink-0 w-full h-auto flex flex-col gap-4 md:gap-3 bg-emerald-500 rounded-lg p-6 md:p-4">
+        <div class="flex-1 flex flex-col gap-[0.83vw] h-full max-h-full overflow-hidden">
+            <div class="shrink-0 w-full h-auto flex flex-col gap-[0.83vw] bg-emerald-500 rounded-[0.42vw] p-[1.25vw]">
                 <div class="flex items-center justify-between">
-                    <div class="flex gap-x-4 md:gap-x-3 items-center">
-                        <div class="flex gap-x-1 items-end text-white">
-                            <span id="label-month" class="md:text-lg text-2xl font-semibold capitalize">{{ \Carbon\Carbon::create($ano, $mes, 1)->translatedFormat('F') }}</span>
-                            <span id="label-year" class="text-md font-medium">{{ $ano }}</span>
+                    <div class="flex gap-x-[0.83vw] items-center">
+                        <div class="flex gap-x-[0.21vw] items-end text-white">
+                            <span id="label-month" class="text-[1.25vw] font-semibold capitalize">{{ \Carbon\Carbon::create($ano, $mes, 1)->translatedFormat('F') }}</span>
+                            <span id="label-year" class="text-[0.83vw] font-medium">{{ $ano }}</span>
                         </div>
 
-                        <div class="h-8 md:h-6 bg-gray-100 flex gap-x-1 rounded-md p-1">
-                            <button onclick="changeCalendarMonth(-1)" class="cursor-pointer h-full aspect-square bg-white text-gray-400 rounded-sm flex items-center justify-center group hover:bg-gray-50 transition-colors">
-                                <svg class="h-4 w-4 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                        <div class="h-[1.67vw] bg-gray-100 flex gap-x-[0.21vw] rounded-[0.31vw] p-[0.21vw]">
+                            <button onclick="changeCalendarMonth(-1)" class="cursor-pointer h-full aspect-square bg-white text-gray-400 rounded-[0.1vw] flex items-center justify-center group hover:bg-gray-50 transition-colors">
+                                <svg class="h-[0.83vw] w-[0.83vw] group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                             </button>
 
-                            <button onclick="changeCalendarMonth(1)" class="cursor-pointer h-full aspect-square bg-white text-gray-400 rounded-sm flex items-center justify-center group hover:bg-gray-50 transition-colors">
-                                <svg class="h-4 w-4 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            <button onclick="changeCalendarMonth(1)" class="cursor-pointer h-full aspect-square bg-white text-gray-400 rounded-[0.1vw] flex items-center justify-center group hover:bg-gray-50 transition-colors">
+                                <svg class="h-[0.83vw] w-[0.83vw] group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                             </button>
                         </div>
                     </div>
                     <div>
-                        <button class="bg-white text-emerald-500 px-4 md:px-3 py-2 md:py-1 rounded font-medium" onclick="openModal('create-event')">
+                        <button class="bg-white text-emerald-500 px-[0.83vw] py-[0.42vw] rounded-[0.21vw] font-medium" onclick="openModal('create-event')">
                             Adicionar novo evento
                         </button>
                     </div>
@@ -122,17 +122,17 @@
 
             <div class="shrink-0 grid grid-cols-7">
                 @foreach(['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'] as $diaSemana)
-                    <div class="text-center font-bold text-gray-500 text-sm uppercase">{{ $diaSemana }}</div>
+                    <div class="text-center font-bold text-gray-500 text-[0.73vw] uppercase">{{ $diaSemana }}</div>
                 @endforeach
             </div>
 
-            <div class="w-full flex-1 relative min-h-0 bg-gray-300 rounded-lg border border-gray-300"> 
+            <div class="w-full flex-1 relative min-h-0 bg-gray-300 rounded-[0.42vw] border border-[0.052vw] border-gray-300"> 
                 <div id="calendar-grid-container" class="h-full w-full relative">
                     @include('clube.partials.calendar-grid', ['dias' => $dias, 'colStart' => $colStart, 'maxEventos' => $maxEventos])
                 </div>
                 
-                <div id="calendar-loading" class="absolute inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center hidden rounded-lg">
-                    <svg class="animate-spin h-8 md:h-7 md:w-7 w-8 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <div id="calendar-loading" class="absolute inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center hidden rounded-[0.42vw]">
+                    <svg class="animate-spin h-[1.67vw] w-[1.67vw] text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
@@ -141,21 +141,21 @@
         </div>
 
         <x-modal maxWidth="2xl" name="create-event" title="Criar novo evento" titleSize="2xl" titleColor="green">
-            <div class="flex flex-col gap-4 md:gap-3">
-                <div class="px-1 md:px-0.5">
-                    <ol class="flex items-center w-full text-sm font-medium text-center text-gray-500 sm:text-base">
-                        <li id="evt-crumb-1" class="flex md:w-full items-center text-emerald-600 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 transition-colors duration-300">
-                            <span class="me-2 flex items-center">
+            <div class="flex flex-col gap-[0.83vw]">
+                <div class="px-[0.21vw]">
+                    <ol class="flex items-center w-full text-[0.73vw] font-medium text-center text-gray-500">
+                        <li id="evt-crumb-1" class="flex w-full items-center text-emerald-600 after:content-[''] after:w-full after:h-[0.21vw] after:border-b after:border-gray-200 after:border-[0.052vw] after:inline-block after:mx-[1.25vw] transition-colors duration-300">
+                            <span class="me-[0.42vw] flex items-center">
                                 <span id="evt-crumb-num-1">1</span>
-                                <svg id="evt-crumb-check-1" class="w-5 h-5 hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                                <svg id="evt-crumb-check-1" class="w-[1.04vw] h-[1.04vw] hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
                             </span>
                             Detalhes
                         </li>
 
                         <li id="evt-crumb-2" class="flex items-center whitespace-nowrap transition-colors duration-300">
-                            <span class="me-2 flex items-center">
+                            <span class="me-[0.42vw] flex items-center">
                                 <span id="evt-crumb-num-2">2</span>
-                                <svg id="evt-crumb-check-2" class="w-5 h-5 hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                                <svg id="evt-crumb-check-2" class="w-[1.04vw] h-[1.04vw] hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
                             </span>
                             Localização
                         </li>
@@ -163,19 +163,19 @@
                     </ol>
                 </div>
 
-                <form id="form-create-event" class="flex flex-col gap-4">
-                    <div id="evt-step-1" class="flex flex-col gap-4">
+                <form id="form-create-event" class="flex flex-col gap-[0.83vw]">
+                    <div id="evt-step-1" class="flex flex-col gap-[0.83vw]">
                         <x-form-group label="Título" name="titulo" id="evt-titulo" labelColor="green" required>
                             <x-slot:icon>
-                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16"/><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/><path d="M9 20h6"/></svg>
+                                <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16"/><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/><path d="M9 20h6"/></svg>
                             </x-slot:icon>
                         </x-form-group>
                         
-                        <div class="flex flex-col gap-2">
-                            <label class="block text-base font-medium text-emerald-500">Cor do Evento</label>
+                        <div class="flex flex-col gap-[0.42vw]">
+                            <label class="block text-[0.83vw] font-medium text-emerald-500">Cor do Evento</label>
                             <input type="hidden" name="color" id="evt-color" value="#10b981">
                             
-                            <div class="flex flex-wrap justify-between gap-2 items-center p-1">
+                            <div class="flex flex-wrap justify-between gap-[0.42vw] items-center p-[0.21vw]">
                                 @php
                                     $colors = ['#64748b', '#ef4444', '#f97316', '#f59e0b', '#eab308', '#84cc16', '#22c55e', '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7', '#d946ef', '#ec4899', '#f43f5e'];
                                 @endphp
@@ -183,7 +183,7 @@
                                 @foreach($colors as $hex)
                                     <button type="button" 
                                             onclick="selectColor(this, '{{ $hex }}')" 
-                                            class="color-btn w-6 h-6 rounded-full transition-all focus:outline-none {{ $hex == '#10b981' ? 'ring-2 ring-offset-1 ring-gray-400 opacity-100 scale-110' : 'opacity-40 hover:opacity-100' }}"
+                                            class="color-btn w-[1.25vw] h-[1.25vw] rounded-full transition-all focus:outline-none {{ $hex == '#10b981' ? 'ring-[0.1vw] ring-offset-[0.052vw] ring-gray-400 opacity-100 scale-110' : 'opacity-40 hover:opacity-100' }}"
                                             style="background-color: {{ $hex }}; --tw-ring-color: {{ $hex }};">
                                     </button>
                                 @endforeach
@@ -192,25 +192,25 @@
 
                         <x-form-group label="Descrição" name="descricao" id="evt-descricao" labelColor="green" required>
                             <x-slot:icon>
-                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 5H3"/><path d="M17 12H7"/><path d="M19 19H5"/></svg>
+                                <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 5H3"/><path d="M17 12H7"/><path d="M19 19H5"/></svg>
                             </x-slot:icon>
                         </x-form-group>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div class="flex gap-2 items-end">
+                        <div class="grid grid-cols-2 gap-[0.83vw]">
+                            <div class="flex gap-[0.42vw] items-end">
                                 <div class="flex-1">
                                     <x-form-group label="Início" type="date" name="data_inicio" id="evt-data-inicio" labelColor="green" required />
                                 </div>
-                                <div class="w-32">
+                                <div class="w-[6.67vw]">
                                     <x-form-group :label="null" type="time" name="hora_inicio" id="evt-hora-inicio" labelColor="green" required />
                                 </div>
                             </div>
 
-                            <div class="flex gap-2 items-end">
+                            <div class="flex gap-[0.42vw] items-end">
                                 <div class="flex-1">
                                     <x-form-group label="Fim" type="date" name="data_fim" id="evt-data-fim" labelColor="green" required />
                                 </div>
-                                <div class="w-32">
+                                <div class="w-[6.67vw]">
                                     <x-form-group :label="null" type="time" name="hora_fim" id="evt-hora-fim" labelColor="green" required />
                                 </div>
                             </div>
@@ -218,32 +218,32 @@
 
                         <x-form-group label="Limite de pessoas" type="number" name="limite_participantes" id="evt-limite" labelColor="green">
                             <x-slot:icon>
-                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                             </x-slot:icon>
                         </x-form-group>
                     </div>
 
-                    <div id="evt-step-2" class="hidden flex flex-col gap-4">
+                    <div id="evt-step-2" class="hidden flex flex-col gap-[0.83vw]">
                         
-                        <div class="flex gap-2 items-end">
-                            <div class="w-48">
+                        <div class="flex gap-[0.42vw] items-end">
+                            <div class="w-[10vw]">
                                 <x-form-group label="CEP" name="cep" id="evt-cep" labelColor="green" placeholder="00000-000" required>
                                     <x-slot:icon>
-                                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hash-icon lucide-hash"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg>
+                                        <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hash-icon lucide-hash"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg>
                                     </x-slot:icon>
                                 </x-form-group>
                             </div>
 
-                            <button type="button" class="h-[42px] w-[42px] bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200 rounded-lg transition-colors flex items-center justify-center shrink-0"> 
-                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                            <button type="button" class="h-[2.19vw] w-[2.19vw] bg-gray-100 text-gray-600 hover:bg-gray-200 border border-[0.052vw] border-gray-200 rounded-[0.42vw] transition-colors flex items-center justify-center shrink-0"> 
+                                <svg class="h-[1.04vw] w-[1.04vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                             </button>
                         </div>
 
-                        <div class="grid grid-cols-4 gap-4">
+                        <div class="grid grid-cols-4 gap-[0.83vw]">
                             <div class="col-span-3">
                                 <x-form-group label="Rua" name="rua" id="evt-rua" labelColor="green" required>
                                     <x-slot:icon>
-                                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-route-icon lucide-route"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>
+                                        <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-route-icon lucide-route"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>
                                     </x-slot:icon>
                                 </x-form-group>
                             </div>
@@ -251,34 +251,34 @@
                             <div class="col-span-1">
                                 <x-form-group label="Número" name="numero" id="evt-numero" labelColor="green" required>
                                     <x-slot:icon>
-                                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-ordered-icon lucide-list-ordered"><path d="M11 5h10"/><path d="M11 12h10"/><path d="M11 19h10"/><path d="M4 4h1v5"/><path d="M4 9h2"/><path d="M6.5 20H3.4c0-1 2.6-1.925 2.6-3.5a1.5 1.5 0 0 0-2.6-1.02"/></svg>
+                                        <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-ordered-icon lucide-list-ordered"><path d="M11 5h10"/><path d="M11 12h10"/><path d="M11 19h10"/><path d="M4 4h1v5"/><path d="M4 9h2"/><path d="M6.5 20H3.4c0-1 2.6-1.925 2.6-3.5a1.5 1.5 0 0 0-2.6-1.02"/></svg>
                                     </x-slot:icon>
                                 </x-form-group>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-3 gap-4">
+                        <div class="grid grid-cols-3 gap-[0.83vw]">
                             <x-form-group label="Bairro" name="bairro" id="evt-bairro" labelColor="green" required>
                                 <x-slot:icon>
-                                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-icon lucide-map"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg>
+                                    <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-icon lucide-map"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg>
                                 </x-slot:icon>
                             </x-form-group>
 
                             <x-form-group label="Cidade" name="cidade" id="evt-cidade" labelColor="green" required>
                                 <x-slot:icon>
-                                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-icon lucide-building"><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
+                                    <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-icon lucide-building"><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
                                 </x-slot:icon>
                             </x-form-group>
                             
-                            <div class="flex flex-col gap-1.5">
-                                <label class="block text-base font-medium text-emerald-600">Estado</label>
+                            <div class="flex flex-col gap-[0.31vw]">
+                                <label class="block text-[0.83vw] font-medium text-emerald-600">Estado</label>
 
                                 <div class="relative">
-                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-gray-500 z-10">
-                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-[0.73vw] pointer-events-none text-gray-500 z-10">
+                                        <svg class="h-[1.04vw] w-[1.04vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                                     </div>
 
-                                    <select name="estado" id="evt-estado" class="block w-full p-2.5 ps-10 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 h-[42px]">
+                                    <select name="estado" id="evt-estado" class="block w-full p-[0.52vw] ps-[2.08vw] text-[0.73vw] text-gray-900 bg-gray-50 border border-gray-300 rounded-[0.42vw] focus:ring-emerald-500 focus:border-emerald-500 h-[2.19vw]">
                                         <option value="">UF</option>
                                         <option value="SP">SP</option>
                                         <option value="RJ">RJ</option>
@@ -290,20 +290,20 @@
 
                         <x-form-group label="Complemento" name="complemento" id="evt-complemento" labelColor="green">
                             <x-slot:icon>
-                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layers-icon lucide-layers"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
+                                <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layers-icon lucide-layers"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>
                             </x-slot:icon>
                         </x-form-group>
                     </div>
                 </form>
 
                 <x-slot:footer>
-                    <div class="w-full flex justify-between items-center gap-x-4 bg-white">
+                    <div class="w-full flex justify-between items-center gap-x-[0.83vw] bg-white">
                         <div>
                             <x-button color="gray" id="evt-btn-prev" onclick="eventChangeStep(-1)" size="md" class="hidden">
                                 Voltar
                             </x-button>
                         </div>
-                        <div class="flex gap-3">
+                        <div class="flex gap-[0.63vw]">
                             <x-button color="gray" size="md" onclick="closeModal('create-event')">
                                 Cancelar
                             </x-button>
@@ -414,13 +414,13 @@
             const buttons = document.querySelectorAll('#form-create-event .color-btn');
 
             buttons.forEach(b => {
-                b.classList.remove('ring-2', 'ring-offset-1', 'ring-gray-400', 'opacity-100', 'scale-110');
+                b.classList.remove('ring-[0.1vw]', 'ring-offset-[0.052vw]', 'ring-gray-400', 'opacity-100', 'scale-110');
                 
                 b.classList.add('opacity-40', 'hover:opacity-100');
             });
 
             btn.classList.remove('opacity-40', 'hover:opacity-100');
-            btn.classList.add('ring-2', 'ring-offset-1', 'ring-gray-400', 'opacity-100', 'scale-110');
+            btn.classList.add('ring-[0.1vw]', 'ring-offset-[0.052vw]', 'ring-gray-400', 'opacity-100', 'scale-110');
         }
 
         let calState = {
@@ -480,7 +480,7 @@
 
             const containerLista = document.getElementById('sidebar-event-list');
             
-            containerLista.innerHTML = '<div class="p-4 text-center text-gray-400 text-xs">Carregando...</div>';
+            containerLista.innerHTML = '<div class="p-[0.83vw] text-center text-gray-400 text-[0.63vw]">Carregando...</div>';
 
             try {
                 const url = "{{ route('clube.ajax.day-details') }}?date=" + dateStr;
@@ -490,7 +490,7 @@
                 containerLista.innerHTML = html;
             } catch (err) {
                 console.error(err);
-                containerLista.innerHTML = '<div class="text-red-500 text-xs">Erro ao carregar.</div>';
+                containerLista.innerHTML = '<div class="text-red-500 text-[0.63vw]">Erro ao carregar.</div>';
             }
         }
     </script>

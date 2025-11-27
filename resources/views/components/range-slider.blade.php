@@ -19,24 +19,24 @@
 
 <div 
     id="{{ $id }}" 
-    class="w-full group range-slider-container flex flex-col gap-y-4"
+    class="w-full group range-slider-container flex flex-col gap-y-[0.83vw]"
     data-min="{{ $min }}"
     data-max="{{ $max }}"
     data-step="{{ $step }}"
 >
-    <label class="text-sm font-medium {{ $theme['text'] }}">
+    <label class="text-[0.73vw] font-medium {{ $theme['text'] }}">
         {{ $label }} 
 
-        @if($unit) <span class="opacity-80 text-xs font-normal">({{ $unit }})</span> @endif
+        @if($unit) <span class="opacity-80 text-[0.63vw] font-normal">({{ $unit }})</span> @endif
     </label>
 
-    <div class="relative w-full h-2">
-        <div class="absolute w-full h-2 rounded-full top-0 z-0 {{ $theme['track_bg'] }}"></div>
+    <div class="relative w-full h-[0.42vw]">
+        <div class="absolute w-full h-[0.42vw] rounded-full top-0 z-0 {{ $theme['track_bg'] }}"></div>
 
-        <div class="range-track absolute h-2 rounded-full top-0 z-10 {{ $theme['track_active'] }}"></div>
+        <div class="range-track absolute h-[0.42vw] rounded-full top-0 z-10 {{ $theme['track_active'] }}"></div>
 
-        <div class="thumb-min absolute h-5 w-5 rounded-full shadow top-1/2 -translate-y-1/2 -ml-2.5 z-20 pointer-events-none border-2 {{ $theme['thumb_bg'] }} {{ $theme['thumb_border'] }}"></div>
-        <div class="thumb-max absolute h-5 w-5 rounded-full shadow top-1/2 -translate-y-1/2 -ml-2.5 z-20 pointer-events-none border-2 {{ $theme['thumb_bg'] }} {{ $theme['thumb_border'] }}"></div>
+        <div class="thumb-min absolute h-[1.04vw] w-[1.04vw] rounded-full shadow top-1/2 -translate-y-1/2 -ml-[0.52vw] z-20 pointer-events-none border-[0.1vw] {{ $theme['thumb_bg'] }} {{ $theme['thumb_border'] }}"></div>
+        <div class="thumb-max absolute h-[1.04vw] w-[1.04vw] rounded-full shadow top-1/2 -translate-y-1/2 -ml-[0.52vw] z-20 pointer-events-none border-[0.1vw] {{ $theme['thumb_bg'] }} {{ $theme['thumb_border'] }}"></div>
 
         <input 
             type="range" 
@@ -46,7 +46,7 @@
             step="{{ $step }}" 
             value="{{ $min }}"
             oninput="updateRange('{{ $id }}')"
-            class="input-min absolute w-full h-2 top-0 z-30 opacity-0 cursor-pointer pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:appearance-none"
+            class="input-min absolute w-full h-[0.42vw] top-0 z-30 opacity-0 cursor-pointer pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-[1.04vw] [&::-webkit-slider-thumb]:h-[1.04vw] [&::-webkit-slider-thumb]:appearance-none"
         >
 
         <input 
@@ -57,11 +57,11 @@
             step="{{ $step }}" 
             value="{{ $max }}"
             oninput="updateRange('{{ $id }}')"
-            class="input-max absolute w-full h-2 top-0 z-30 opacity-0 cursor-pointer pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:appearance-none"
+            class="input-max absolute w-full h-[0.42vw] top-0 z-30 opacity-0 cursor-pointer pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:w-[1.04vw] [&::-webkit-slider-thumb]:h-[1.04vw] [&::-webkit-slider-thumb]:appearance-none"
         >
     </div>
 
-    <div class="flex justify-between items-center text-xs font-medium {{ $theme['text'] }}">
+    <div class="flex justify-between items-center text-[0.63vw] font-medium {{ $theme['text'] }}">
         <span class="display-min">{{ $min }}</span>
         <span class="display-max">{{ $max }}</span>
     </div>
