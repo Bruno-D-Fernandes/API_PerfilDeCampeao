@@ -35,20 +35,6 @@ Broadcast::channel('notifications.admin', function ($model) {
 
 // routes/channels.php
 
-Broadcast::channel('chat.{conversationId}', function ($user, $conversationId) {
-    $conversation = App\Models\Conversation::find($conversationId);
-
-    if (!$conversation) {
-        return false;
-    }
-
-    $userType = $user->getMorphClass();
-
-    $isParticipantOne = $user->id == $conversation->participant_one_id &&
-        $userType == $conversation->participant_one_type;
-
-    $isParticipantTwo = $user->id == $conversation->participant_two_id &&
-        $userType == $conversation->participant_two_type;
-
-    return $isParticipantOne || $isParticipantTwo;
+Broadcast::channel('chat.{userId}', function ($user, $userId) {
+    return (int) $user->id === (int) $userId;
 });
