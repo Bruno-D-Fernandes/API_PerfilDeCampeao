@@ -282,4 +282,25 @@ class DashClubeController extends Controller
             ->withCount('convites')
             ->get();
     }
+
+    private function getDistribuicaoPosicoes($clube, $esporteId)
+    {
+        $rows = Inscricao::query()
+            ->join('oportunidades', 'inscricoes.oportunidade_id', '=', 'oportunidades.id')
+            ->where('oportunidades.clube_id', $clube->id)
+            ->when($esporteId, fn($q) => $q->where('oportunidades.esporte_id', $esporteId))
+            ->selectRaw('oportunidades.posicoes_id as posicao_id, COUNT(*) as total')
+            ->groupBy('oportunidades.posicoes_id')
+            ->get();
+
+        $posicoes = Posicao::whereIn('id', $rows->pluck('posicao_id')->filter())->get()->keyBy('id');
+
+        return $rows->map(function ($row) use ($posicoes) {
+            $pos = $posicoes->get($row->posicao_id);
+            return [
+                'posicao_nome' => $pos?->nomePosicao ?? 'N/A',
+                'total' => (int) $row->total,
+            ];
+        });
+    }
 }

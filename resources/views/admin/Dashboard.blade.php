@@ -48,8 +48,8 @@
 
             <div class="flex-1 h-full">
                 <div class="h-full grid grid-cols-20 gap-[0.83vw]">
-                    <div class="h-full col-span-6 flex flex-col gap-[0.83vw]">
-                        <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
+                    <div class="h-full col-span-8 flex flex-col gap-[0.83vw]">
+                        <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex-[5] flex flex-col gap-[0.415vw]">
                             <span class="text-[0.83vw] font-medium text-gray-700">
                                 Crescimento de usuários
                             </span>
@@ -138,7 +138,7 @@
                             </script>
                         </div>
 
-                        <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
+                        <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex-[5] flex flex-col gap-[0.415vw]">
                             <span class="text-[0.83vw] font-medium text-gray-700">
                                 Evolução de candidaturas
                             </span>
@@ -217,7 +217,7 @@
                             </script>
                         </div>
 
-                        <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex flex-col gap-[0.415vw] flex-1">
+                        <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex flex-col gap-[0.415vw] flex-[4]">
                             <span class="text-md font-medium text-gray-700">
                                 Novos usuários
                             </span>
@@ -265,7 +265,7 @@
                         </div>
                     </div>
 
-                    <div class="col-span-6 flex flex-col gap-[0.83vw] flex-1 h-full">
+                    <div class="col-span-5 flex flex-col gap-[0.83vw] flex-1 h-full">
                         <div class="bg-white p-[0.83vw] rounded-[0.42vw] border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex flex-col gap-[0.415vw] flex-1">
                             <span class="text-[0.83vw] font-medium text-gray-700">
                                 Distribuição de oportunidades
@@ -318,7 +318,7 @@
                                             textStyle: { fontSize: 12, fontName: 'Poppins' }
                                         },
                                         animation: { startup: true, duration: 800, easing: 'out' },
-                                        pieHole: 0,
+                                        pieHole: 0.7,
                                         pieSliceBorderColor: 'transparent',
                                         tooltip: { isHtml: true },
                                         colors: [...cores], 
@@ -436,7 +436,7 @@
                         </div>
                     </div>
 
-                    <div class="col-span-8 flex flex-col gap-4">
+                    <div class="col-span-7 flex flex-col gap-4">
                         <div class="bg-white p-4 rounded-lg border border-2 border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
                             <span class="text-md font-medium text-gray-700">
                                 Atividades recentes
