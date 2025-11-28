@@ -82,21 +82,27 @@ class Oportunidade extends Model
         return $this->belongsTo(Esporte::class, 'esporte_id');
     }
 
-    /**
-     * Relacionamento: Uma oportunidade é para uma posição específica.
-     */
     public function posicao()
     {
         
         return $this->belongsTo(Posicao::class, 'posicoes_id');
     }
 
-    //public function caracteristicasRequeridas()
-    //{
-      //  return $this->belongsToMany(Caracteristica::class, 'oportunidade_caracteristicas')
-        //    ->withPivot('valor_min', 'valor_max')
-          //  ->withTimestamps();
-   // }
+    public function posicaoPivot(){
+
+        return $this->belongsToMany(
+            Posicao::class,
+            'oportunidades_posicoes',
+            'oportunidades_id',
+            'posicoes_id'
+        )->withTimestamps();
+        
+    }
+
+    public function posicaoExtras(){
+        return $this->posicaoPivot()->where('posicoes.id','!=', $this->posicoes_id);
+    }
+
 
     public function inscricoes()
     {

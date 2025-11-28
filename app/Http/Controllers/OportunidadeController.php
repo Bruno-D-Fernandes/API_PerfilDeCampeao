@@ -8,6 +8,7 @@ use App\Models\Oportunidade;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Posicao;
 use App\Models\Clube;
 use Carbon\Carbon;
 
@@ -32,7 +33,7 @@ class OportunidadeController extends Controller
 
         $clube = $request->user();
 
-        if (!$clube || !($clube instanceof Clube)) {
+        if (!$clube instanceof Clube){
             return response()->json([
                 'message' => 'Apenas clubes autenticados podem criar oportunidades'
             ], 403);
@@ -44,6 +45,8 @@ class OportunidadeController extends Controller
             'descricaoOportunidades'    => 'required|string|max:255',
             'esporte_id'                => 'required|exists:esportes,id',
             'posicoes_id'               => 'required|exists:posicoes,id',
+            'posicoes_ids'              => 'nullable|array',
+            'posicoes_ids*'             => 'exists:posicoes,id',
             'idadeMinima'               => 'nullable|integer|min:0|max:120',
             'idadeMaxima'               => 'nullable|integer|min:0|max:120|gte:idadeMinima',
         ]);
@@ -63,6 +66,25 @@ class OportunidadeController extends Controller
                 'idadeMaxima'               => $validatedData['idadeMaxima'],
                 
             ]);
+
+            if (array_key_exists('posicoes_ids', $validatedData)) {
+                $ids = $validatedData['posicoes_ids'] ?? [];
+
+                $principalId = $clube->posicoes_id;
+                if (array_key_exists('posicoes_id', $validatedData)) {
+                    $principalId = $validatedData['posicoes_id'];
+                }
+
+                if ($principalId && !in_array($principalId, $ids)) {
+                    $ids[] = $principalId;
+                }
+
+                $oportunidade->posicoesPivot()->sync($ids);
+            } else {
+                if (array_key_exists('posicoes_id', $validatedData)) {
+                    $oportunidade->posicoesPivot()->syncWithoutDetaching([$validatedData['posicoes_id']]);
+                }
+            }
 
             event(new NewPendingOpportunityEvent($oportunidade, $clube));
 
@@ -166,6 +188,8 @@ class OportunidadeController extends Controller
             'descricaoOportunidades'    => 'sometimes|required|string|max:255',
             'esporte_id'                => 'sometimes|required|exists:esportes,id',
             'posicoes_id'               => 'sometimes|required|exists:posicoes,id',
+            'posicoes_ids'              => 'sometimes|array',
+            'posicoes_ids*'             => 'exists:posicoes,id',
             'idadeMinima'               => 'sometimes|integer|min:0|max:120',
             'idadeMaxima'               => 'sometimes|integer|min:0|max:120|gte:idadeMinima',
         ]);
@@ -178,6 +202,25 @@ class OportunidadeController extends Controller
         }
 
         $oportunidade->fill($validatedData)->save();
+
+        if (array_key_exists('posicoes_ids', $validatedData)) {
+            $ids = $validatedData['posicoes_ids'] ?? [];
+
+            $principalId = $clube->posicoes_id;
+            if (array_key_exists('posicoes_id', $validatedData)) {
+                $principalId = $validatedData['posicoes_id'];
+            }
+
+            if ($principalId && !in_array($principalId, $ids)) {
+                $ids[] = $principalId;
+            }
+
+            $oportunidade->posicoesPivot()->sync($ids);
+        } else {
+            if (array_key_exists('posicoes_id', $validatedData)) {
+                $oportunidade->posicoesPivot()->syncWithoutDetaching([$validatedData['posicoes_id']]);
+            }
+        }
 
         try {
             $oportunidade->update($validatedData);
