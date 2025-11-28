@@ -31,7 +31,7 @@ class ClubeController extends Controller
         )->findOrFail($id);
 
         $membroClubeController = new MembroClubeController();
-        
+
         $membrosAgrupados = $membroClubeController->getMembrosAgrupados((string) $clube->id);
 
         $esportes = Esporte::with('posicoes')->get();
@@ -110,8 +110,7 @@ class ClubeController extends Controller
 
             $authController = new AuthClubeController();
             return $authController->login($request);
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
             ], 500);
@@ -153,8 +152,7 @@ class ClubeController extends Controller
             ]);
 
             return response()->json($clube->load('categoria', 'esporte'), 201);
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
             ], 500);
@@ -168,13 +166,7 @@ class ClubeController extends Controller
             $clube = Clube::findOrFail($id);
 
             $utilizadorAutenticado = Auth::user();
-            $podeVer = false;
-
-            if ($utilizadorAutenticado instanceof Admin) {
-                $podeVer = true;
-            } elseif ($utilizadorAutenticado instanceof Clube && $utilizadorAutenticado->id == $clube->id) {
-                $podeVer = true;
-            }
+            $podeVer = true;
 
             if (!$podeVer) {
                 Log::warning('Acesso negado ao clube show', [
@@ -182,13 +174,12 @@ class ClubeController extends Controller
                     'autenticado_tipo' => $utilizadorAutenticado ? get_class($utilizadorAutenticado) : 'Nenhum utilizador autenticado',
                     'clube_solicitado_id' => $clube->id
                 ]);
-                
+
                 return response()->json(['message' => 'Acesso não autorizado'], 403);
             }
 
             return response()->json($clube->load('categoria', 'esporte'), 200);
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
             ], 500);
@@ -218,7 +209,7 @@ class ClubeController extends Controller
             ]);
 
             $clube->fill($validatedData);
-            
+
             if ($request->filled('senhaClube')) {
                 $clube->senhaClube = Hash::make($validatedData['senhaClube']);
             }
@@ -242,8 +233,7 @@ class ClubeController extends Controller
             $clube->save();
 
             return response()->json($clube->fresh()->load('categoria', 'esporte'), 200);
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Ocorreu um erro ao atualizar o clube',
                 'message' => $e->getMessage()
@@ -270,8 +260,7 @@ class ClubeController extends Controller
             $clube->delete();
 
             return response()->json(null, 204);
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
             ], 500);

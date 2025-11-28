@@ -100,6 +100,10 @@ Route::prefix('usuario')->group(function () {
         Route::get('/agenda/calendar', [ConviteEventoController::class, 'calendar']);
         Route::put('/convites/{conviteId}/cor', [ConviteEventoController::class, 'updateColor']);
 
+
+        Route::get('clube/{id}', [ClubeController::class, 'show']);
+
+
         // Usuário aceita um convite (usado pelo botão "Aceitar" no chat)
         Route::post('/convites/{conviteId}/aceitar', [ChatController::class, 'aceitoInvite']);
     });
