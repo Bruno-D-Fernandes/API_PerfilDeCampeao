@@ -2,37 +2,54 @@
     'Dashboard' => null,
 ]">
     <div class="h-full w-full flex flex-col">
-        <div class="flex-grow grid grid-rows-[auto_1fr] gap-4">
-            <div class="w-full grid grid-cols-4 gap-4">
-                <x-dashboard-widget title="Atletas cadastrados" :value="90" :trend="70" iconColor="text-sky-500/70">
-                    <x-slot:icon>
-                        <svg class="h-4 w-4 text-sky-500/70" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>
-                    </x-slot:icon>
-                </x-dashboard-widget>
+        <div class="flex-grow grid grid-rows-[auto_1fr] gap-[0.83vw]">
+            <div class="w-full grid grid-cols-4 gap-[0.83vw]">
+                @php
+                    $dict = [
+                        'atletas_mes' => 'Atletas do mês', 
+                        'clubes_ativos' => 'Clubes ativos', 
+                        'oportunidades_ativas' => 'Oportunidades ativas', 
+                        'inscricoes_totais' => 'Inscrições totais'
+                    ];
 
-                <x-dashboard-widget title="Clubes ativos" :value="7" :trend="3" iconColor="text-sky-500/70">
-                    <x-slot:icon>
-                        <svg class="h-4 w-4 text-sky-500/70" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-icon lucide-building"><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
-                    </x-slot:icon>
-                </x-dashboard-widget>
+                    $icons = [
+                        'atletas_mes' => '<svg class="h-[0.83vw] w-[0.83vw] text-sky-500/70" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>',
+                        'clubes_ativos' => '<svg class="h-[0.83vw] w-[0.83vw] text-sky-500/70" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-icon lucide-building"><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>',
+                        'oportunidades_ativas' => '<svg class="h-[0.83vw] w-[0.83vw] text-sky-500/70" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone-icon lucide-megaphone"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></svg>',
+                        'inscricoes_totais' => '<svg class="h-[0.83vw] w-[0.83vw] text-sky-500/70" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-icon lucide-file"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>',
+                    ];
+                @endphp
 
-                <x-dashboard-widget title="Oportunidades ativas" :value="21" :trend="2" iconColor="text-sky-500/70">
-                    <x-slot:icon>
-                        <svg class="h-4 w-4 text-sky-500/70" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone-icon lucide-megaphone"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></svg>
-                    </x-slot:icon>
-                </x-dashboard-widget>
+                @foreach($resumo as $key => $item)
+                    @php
+                        $isTrendedKpi = is_array($item); 
+                        
+                        if ($isTrendedKpi) {
+                            $value = $key === 'clubes_ativos' ? $item['total_ativo_agora'] : $item['atual'];
+                            $trend = $item['diferenca'];
+                        } else {
+                            $value = $item;
+                            $trend = null; // Não há tendência
+                        }
+                    @endphp
 
-                <x-dashboard-widget title="Inscrições realizadas" :value="12" :trend="2" iconColor="text-sky-500/70">
-                    <x-slot:icon>
-                        <svg class="h-4 w-4 text-sky-500/70" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-icon lucide-file"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/></svg>
-                    </x-slot:icon>
-                </x-dashboard-widget>
+                    <x-dashboard-widget 
+                        :title="$dict[$key]" 
+                        :value="$value" 
+                        :trend="$trend"
+                        iconColor="text-sky-500/70"
+                    >
+                        <x-slot:icon>
+                            {!! $icons[$key] !!}
+                        </x-slot:icon>
+                    </x-dashboard-widget>
+                @endforeach
             </div>
 
             <div class="flex-1 h-full">
-                <div class="h-full grid grid-cols-20 gap-4">
-                    <div class="h-full col-span-6 flex flex-col gap-4">
-                        <div class="bg-white p-4 rounded-lg border border-2 border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
+                <div class="h-full grid grid-cols-20 gap-[0.83vw]">
+                    <div class="h-full col-span-6 flex flex-col gap-[0.83vw]">
+                        <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
                             <span class="text-[0.83vw] font-medium text-gray-700">
                                 Crescimento de usuários
                             </span>
@@ -42,6 +59,10 @@
                             </div>
 
                             <script>
+                                const dadosUsuarios = @json($graficoUsuarios);
+
+                                console.log(dadosUsuarios.length);
+
                                 const cor = '#00a6f4';
 
                                 google.charts.load('current', { packages: ['corechart'] });
@@ -50,16 +71,16 @@
                                 function drawChart() {
                                     const data = new google.visualization.DataTable();
                                     data.addColumn('string', 'Mês');
-                                    data.addColumn('number', 'Candidaturas');
+                                    data.addColumn('number', 'Usuários');
                                     data.addColumn({ type: 'string', role: 'tooltip', p: { html: true } });
 
                                     const tooltip = (mes, qtd, cor) => `
                                         <div role="tooltip"
-                                            class="absolute z-10 flex flex-col gap-y-1 px-3 py-2 text-sm font-medium text-white 
+                                            class="absolute z-10 flex flex-col gap-y-[0.21vw] px-[0.63vw] py-[0.42vw] text-sm font-medium text-white 
                                                 bg-stone-950 rounded-md leading-none whitespace-nowrap">
 
                                             <div class="flex items-center gap-x-1">
-                                                <span class="w-2.5 h-2.5 rounded-full" style="background: ${cor}"></span>
+                                                <span class="w-[0.52vw] h-[0.52vw] rounded-full" style="background: ${cor}"></span>
                                                 <span class="font-semibold">${mes}</span>
                                             </div>
 
@@ -67,14 +88,11 @@
                                         </div>
                                     `;
 
-                                    const meses = ['Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov'];
-                                    const valores = [12, 18, 23, 19, 27, 31];
-
                                     data.addRows(
-                                        meses.map((m, i) => [
-                                            m,
-                                            valores[i],
-                                            tooltip(m, valores[i], cor)
+                                        dadosUsuarios.map((item, i) => [
+                                            item.rotulo,
+                                            item.total,
+                                            tooltip(item.rotulo, item.total, cor)
                                         ])
                                     );
 
@@ -120,7 +138,7 @@
                             </script>
                         </div>
 
-                        <div class="bg-white p-4 rounded-lg border border-2 border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
+                        <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
                             <span class="text-[0.83vw] font-medium text-gray-700">
                                 Evolução de candidaturas
                             </span>
@@ -130,6 +148,8 @@
                             </div>
 
                             <script>
+                                const dadosInscricoes = @json($graficoInscricoes);
+
                                 const cor2 = '#00a6f4';
 
                                 google.charts.setOnLoadCallback(drawChart);
@@ -143,11 +163,11 @@
 
                                     const tooltip = (mes, qtd, cor) => `
                                         <div role="tooltip"
-                                            class="absolute z-10 flex flex-col gap-y-1 px-3 py-2 text-sm font-medium text-white 
+                                            class="absolute z-10 flex flex-col gap-y-[0.21vw] px-[0.63vw] py-[0.42vw] text-sm font-medium text-white 
                                                 bg-stone-950 rounded-md leading-none whitespace-nowrap">
 
                                             <div class="flex items-center gap-x-1">
-                                                <span class="w-2.5 h-2.5 rounded-full" style="background: ${cor}"></span>
+                                                <span class="w-[0.52vw] h-[0.52vw] rounded-full" style="background: ${cor}"></span>
                                                 <span class="font-semibold">${mes}</span>
                                             </div>
 
@@ -155,14 +175,11 @@
                                         </div>
                                     `;
 
-                                    const meses = ['Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov'];
-                                    const valores = [45, 60, 75, 70, 85, 95]; 
-
                                     data.addRows(
-                                        meses.map((m, i) => [
-                                            m,
-                                            valores[i],
-                                            tooltip(m, valores[i], cor2)
+                                        dadosInscricoes.map((item, i) => [
+                                            item.rotulo,
+                                            item.total,
+                                            tooltip(item.rotulo, item.total, cor2)
                                         ])
                                     );
 
@@ -200,16 +217,55 @@
                             </script>
                         </div>
 
-                        <div>
-                            <div class="bg-white p-4 rounded-lg border border-2 border-gray-200 hover:border-sky-500 transition-colors flex-1">
-                                <span class="text-md font-medium text-gray-700">
-                                    Novos cadastros
-                                </span>
+                        <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex flex-col gap-[0.415vw] flex-1">
+                            <span class="text-md font-medium text-gray-700">
+                                Novos usuários
+                            </span>
+
+                            @php
+                                $userIcon = '<svg class="h-[0.83vw] w-[0.83vw] text-sky-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+                            @endphp
+
+                            <div class="flex flex-col gap-[0.42vw] overflow-y-auto h-full">
+                                @forelse($listaUsuarios as $usuario)
+                                    <div class="flex items-center gap-x-[0.63vw] p-[0.42vw] border-b border-gray-100 last:border-b-0 group">
+                                        
+                                        <div class="flex-shrink-0 bg-sky-50 p-[0.42vw] rounded-full group-hover:bg-sky-100 transition-colors">
+                                            {!! $userIcon !!}
+                                        </div>
+
+                                        <div class="flex-1 min-w-0 flex flex-col">
+                                            <p class="text-sm font-medium text-gray-700 truncate" title="{{ $usuario->nomeCompletoUsuario }}">
+                                                {{ $usuario->nomeCompletoUsuario }}
+                                            </p>
+                                            <p class="text-xs text-gray-500 truncate" title="{{ $usuario->emailUsuario }}">
+                                                {{ $usuario->emailUsuario }}
+                                            </p>
+                                        </div>
+
+                                        <div class="flex-shrink-0">
+                                            <span class="text-xs text-gray-400 whitespace-nowrap">
+                                                {{ $usuario->created_at->diffForHumans() }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="p-[0.42vw] flex items-center justify-center h-full">
+                                        <x-empty-state text="Nenhum cadastro recente.">
+                                            <x-slot:icon>
+                                                <svg class="h-[1.67vw] w-[1.67vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-x-icon lucide-user-x"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" x2="22" y1="8" y2="13"/><line x1="22" x2="17" y1="8" y2="13"/></svg>
+                                            </x-slot:icon>
+                                            <p class="text-gray-400 font-normal text-md">
+                                                Não houveram novos registros na plataforma recentemente.
+                                            </p>
+                                        </x-empty-state>
+                                    </div>
+                                @endforelse
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-span-6 flex flex-col gap-4 flex-1 h-full">
+                    <div class="col-span-6 flex flex-col gap-[0.83vw] flex-1 h-full">
                         <div class="bg-white p-[0.83vw] rounded-[0.42vw] border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex flex-col gap-[0.415vw] flex-1">
                             <span class="text-[0.83vw] font-medium text-gray-700">
                                 Distribuição de oportunidades
@@ -220,19 +276,10 @@
                             </div>
 
                             <script>
+                                const dadosEsportes = @json($graficoEsportes);
+
                                 const cores = ['#00598a', '#0069a8', '#0084d1', '#00a6f4', '#00bcff'];
 
-                                let dadosEsportes = [
-                                    ['Futebol', 30],
-                                    ['Basquete', 25],
-                                    ['Vôlei', 18],
-                                    ['Natação', 10],
-                                    ['Tênis', 5],
-                                ];
-
-                                dadosEsportes.sort((a, b) => b[1] - a[1]); 
-
-                                google.charts.load('current', { packages: ['corechart'] });
                                 google.charts.setOnLoadCallback(drawChart);
 
                                 function drawChart() {
@@ -244,11 +291,11 @@
 
                                     const tooltip = (titulo, qtd, cor) => `
                                         <div role="tooltip"
-                                            class="absolute z-10 flex flex-col gap-y-1 px-3 py-2 text-sm font-medium text-white 
+                                            class="absolute z-10 flex flex-col gap-y-[0.21vw] px-[0.63vw] py-[0.42vw] text-sm font-medium text-white 
                                                 bg-stone-950 rounded-md leading-none whitespace-nowrap">
                                             
                                             <div class="flex items-center gap-x-1">
-                                                <span class="w-2.5 h-2.5 rounded-full" style="background:${cor}"></span>
+                                                <span class="w-[0.52vw] h-[0.52vw] rounded-full" style="background:${cor}"></span>
                                                 <span class="font-semibold">${titulo}</span>
                                             </div>
 
@@ -257,15 +304,15 @@
                                     `;
 
                                     const linhasComTooltip = dadosEsportes.map((item, index) => [
-                                        item[0], 
-                                        item[1], 
-                                        tooltip(item[0], item[1], cores[index % cores.length])
+                                        item.esporte_nome, 
+                                        item.total, 
+                                        tooltip(item.esporte_nome, item.total, cores[index % cores.length])
                                     ]);
 
                                     data.addRows(linhasComTooltip);
 
                                     const options = {
-                                        chartArea: { width: '60%', height: '80%' },
+                                        chartArea: { width: '70%', height: '80%' },
                                         legend: {
                                             position: 'right',
                                             textStyle: { fontSize: 12, fontName: 'Poppins' }
@@ -290,24 +337,211 @@
                             </script>
                         </div>
 
-                        <div class="bg-white p-4 rounded-lg border border-2 border-gray-200 hover:border-sky-500 transition-colors flex-1">
+                        <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
                             <span class="text-md font-medium text-gray-700">
                                 Oportunidades populares
                             </span>
+
+                            @php
+                                $oppIcon = '<svg class="h-[0.83vw] w-[0.83vw] text-sky-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone-icon lucide-megaphone"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></svg>';
+                                
+                                $usersIcon = '<svg class="h-[0.63vw] w-[0.63vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>';
+                            @endphp
+
+                            <div class="flex flex-col gap-[0.42vw] overflow-y-auto h-full">
+                                @forelse($listaOportunidadesTop as $oportunidade)
+                                    <div class="flex items-center gap-x-[0.63vw] p-[0.42vw] border-b border-gray-100 last:border-b-0 group">
+                                        <div class="flex-shrink-0 bg-sky-50 p-[0.42vw] rounded-full group-hover:bg-sky-100 transition-colors">
+                                            {!! $oppIcon !!}
+                                        </div>
+
+                                        <div class="flex-1 min-w-0 flex flex-col">
+                                            <p class="text-sm font-medium text-gray-700 truncate" title="{{ $oportunidade->tituloOportunidades }}">
+                                                {{ $oportunidade->tituloOportunidades }}
+                                            </p>
+                                            <p class="text-xs text-gray-500 truncate">
+                                                {{ optional($oportunidade->clube)->nomeClube ?? 'Clube' }} • {{ optional($oportunidade->esporte)->nomeEsporte }}
+                                            </p>
+                                        </div>
+
+                                        <div class="flex-shrink-0 flex items-center gap-x-[0.31vw]">
+                                            {!! $usersIcon !!}
+                                            <span class="text-xs font-medium text-gray-500">
+                                                {{ $oportunidade->inscricoes_count }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="p-[0.83vw] flex items-center justify-center h-full">
+                                        <x-empty-state text="Nenhuma oportunidade em destaque.">
+                                            <x-slot:icon>
+                                                <svg class="h-[1.67vw] w-[1.67vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon lucide-trophy"><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                                            </x-slot:icon>
+                                            <p class="text-gray-400 font-normal text-md">
+                                                Ainda não há dados suficientes para ranking.
+                                            </p>
+                                        </x-empty-state>
+                                    </div>
+                                @endforelse
+                            </div>
                         </div>
 
-                        <div class="bg-white p-4 rounded-lg border border-2 border-gray-200 hover:border-sky-500 transition-colors flex-1">
+                        <div class="bg-white p-4 rounded-lg border border-2 border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
                             <span class="text-md font-medium text-gray-700">
                                 Clubes mais ativos
                             </span>
+
+                            @php
+                                $clubIcon = '<svg class="h-4 w-4 text-sky-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-icon lucide-building"><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>';
+                                
+                                $oppIconSmall = '<svg class="h-3 w-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone-icon lucide-megaphone"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></svg>';
+                            @endphp
+
+                            <div class="flex flex-col gap-2 overflow-y-auto h-full">
+                                @forelse($listaClubesTop as $clube)
+                                    <div class="flex items-center gap-x-3 p-2 border-b border-gray-100 last:border-b-0 group">
+                                        <div class="flex-shrink-0 bg-sky-50 p-2 rounded-full group-hover:bg-sky-100 transition-colors">
+                                            {!! $clubIcon !!}
+                                        </div>
+
+                                        <div class="flex-1 min-w-0 flex flex-col">
+                                            <p class="text-sm font-medium text-gray-700 truncate" title="{{ $clube->nomeClube }}">
+                                                {{ $clube->nomeClube }}
+                                            </p>
+                                            <p class="text-xs text-gray-500 truncate">
+                                                {{ $clube->cidadeClube }} - {{ $clube->estadoClube }}
+                                            </p>
+                                        </div>
+
+                                        <div class="flex-shrink-0 flex items-center gap-x-1.5">
+                                            {!! $oppIconSmall !!}
+                                            <span class="text-xs font-medium text-gray-500">
+                                                {{ $clube->oportunidades_count }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="p-4 flex items-center justify-center h-full">
+                                        <x-empty-state text="Nenhum clube em destaque.">
+                                            <x-slot:icon>
+                                                <svg class="h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon lucide-trophy"><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                                            </x-slot:icon>
+                                            <p class="text-gray-400 font-normal text-md">
+                                                Ainda não há dados suficientes para ranking.
+                                            </p>
+                                        </x-empty-state>
+                                    </div>
+                                @endforelse
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-span-8 flex flex-col gap-4">
-                        <div class="bg-white p-4 rounded-lg border border-2 border-gray-200 hover:border-sky-500 transition-colors flex-1">
+                        <div class="bg-white p-4 rounded-lg border border-2 border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
                             <span class="text-md font-medium text-gray-700">
                                 Atividades recentes
                             </span>
+
+                            @php
+                                $userIcon = '<svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+                                $clubIcon = '<svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-icon lucide-building"><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>';
+
+                                $statusIcons = [
+                                    'pending' => '<svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-icon lucide-clock"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>',
+                                    'approved' => '<svg class="h-4 w-4 text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-icon lucide-circle-check"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>',
+                                    'rejected' => '<svg class="h-4 w-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>',
+                                ];
+                            @endphp
+
+                            <div class="flex flex-col gap-2 overflow-y-auto h-full">
+                                @forelse($atividadesRecentes as $atividade)
+                                    @php
+                                        $mensagem = '';
+                                        $mainIcon = '';
+                                        $statusIcon = '';
+                                        $data = $atividade->created_at instanceof \Carbon\Carbon ? $atividade->created_at->diffForHumans() : '';
+                                    @endphp
+
+                                    @if ($atividade instanceof App\Models\Oportunidade)
+                                        @php
+                                            $clubeNome = optional($atividade->clube)->nomeClube ?? 'Clube';
+                                            $esporteNome = optional($atividade->esporte)->nomeEsporte ?? 'Esporte';
+                                            $mainIcon = $clubIcon;
+                                            $statusIcon = $statusIcons[$atividade->status] ?? $statusIcons['pending'];
+
+                                            switch ($atividade->status) {
+                                                case 'pending':
+                                                    $mensagem = "O clube {$clubeNome} criou a oportunidade para {$esporteNome} (Pendente).";
+                                                    break;
+                                                case 'approved':
+                                                    $mensagem = "A oportunidade para {$esporteNome} do clube {$clubeNome} foi aprovada.";
+                                                    break;
+                                                case 'rejected':
+                                                    $mensagem = "A oportunidade para {$esporteNome} do clube {$clubeNome} foi recusada.";
+                                                    break;
+                                                default:
+                                                    $mensagem = "Nova oportunidade criada pelo clube {$clubeNome}.";
+                                            }
+                                        @endphp
+
+                                    @elseif ($atividade instanceof App\Models\Inscricao)
+                                        @php
+                                            $usuarioNome = optional($atividade->usuario)->nomeCompletoUsuario ?? 'Usuário';
+                                            $oportunidadeTitulo = optional($atividade->oportunidade)->tituloOportunidades ?? 'Oportunidade';
+                                            $mainIcon = $userIcon;
+                                            $statusIcon = $statusIcons[$atividade->status] ?? $statusIcons['pending'];
+
+                                            switch ($atividade->status) {
+                                                case 'pending':
+                                                    $mensagem = "O usuário {$usuarioNome} se inscreveu em '{$oportunidadeTitulo}'.";
+                                                    break;
+                                                case 'approved':
+                                                    $mensagem = "O clube aprovou a inscrição de {$usuarioNome} em '{$oportunidadeTitulo}'.";
+                                                    break;
+                                                case 'rejected':
+                                                    $mensagem = "O clube recusou a inscrição de {$usuarioNome} em '{$oportunidadeTitulo}'.";
+                                                    break;
+                                                default:
+                                                    $mensagem = "Atualização na inscrição de {$usuarioNome}.";
+                                            }
+                                        @endphp
+                                    @endif
+
+                                    @if (!empty($mensagem))
+                                        <div class="flex-1 flex items-center gap-x-3 p-2 border-b border-gray-100 last:border-b-0 h-full">
+                                            <div class="flex-shrink-0">
+                                                {!! $statusIcon !!}
+                                            </div>
+
+                                            <div class="flex-1 min-w-0 flex items-center gap-x-2">
+                                                <div class="flex-shrink-0">
+                                                    {!! $mainIcon !!}
+                                                </div>
+                                                <p class="text-sm text-gray-700 truncate" title="{{ strip_tags($mensagem) }}">
+                                                    {!! $mensagem !!}
+                                                </p>
+                                            </div>
+
+                                            <div class="flex-shrink-0">
+                                                <span class="text-xs text-gray-400 whitespace-nowrap">
+                                                    {{ $data }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @empty
+                                    <div class="p-4 flex items-center justify-center h-full">
+                                        <x-empty-state text="Sem atividades recentes.">
+                                            <x-slot:icon>
+                                                <svg class="h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper-icon lucide-newspaper"><path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/></svg>
+                                            </x-slot:icon>
+                                            <p class="text-gray-400 font-normal text-md">
+                                                O sistema não identificou nenhuma atividade recente até o momento.
+                                            </p>
+                                        </x-empty-state>
+                                    </div>
+                                @endforelse
+                            </div>
                         </div>
 
                         <div class="bg-white h-max p-4 rounded-lg border border-2 border-gray-200 hover:border-sky-500 transition-colors flex flex-col gap-3 flex-1">

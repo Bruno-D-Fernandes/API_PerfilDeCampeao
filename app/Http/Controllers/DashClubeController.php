@@ -26,7 +26,7 @@ class DashClubeController extends Controller
                 abort(403, 'Acesso não autorizado.');
             }
 
-            $esporteId = $request->query('esporte_id', $clube->esporte()->get());
+            $esporteId = $request->query('esporte_id', $clube->esporte->id);
             $meses = (int) $request->query('months', 6);
             $perPage = (int) $request->query('per_page', 5);
 

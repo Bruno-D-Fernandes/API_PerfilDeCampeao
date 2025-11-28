@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
 
 class UsuarioSeeder extends Seeder
 {
@@ -14,6 +15,8 @@ class UsuarioSeeder extends Seeder
      */
     public function run(): void
     {
+        $agora = Carbon::now();
+
         $atletas = [
             [
                 'nomeCompletoUsuario' => 'Lucas Ferreira da Silva',
@@ -29,6 +32,8 @@ class UsuarioSeeder extends Seeder
                 'generoUsuario' => 'Masculino',
                 'estadoUsuario' => 'São Paulo',
                 'cidadeUsuario' => 'Campinas',
+                'created_at' => $agora->copy()->subMonths(5)->toDateTimeString(),
+                'updated_at' => $agora->copy()->subMonths(5)->toDateTimeString(),
             ],
             [
                 'nomeCompletoUsuario' => 'Mariana Costa Oliveira',
@@ -44,6 +49,8 @@ class UsuarioSeeder extends Seeder
                 'generoUsuario' => 'Feminino',
                 'estadoUsuario' => 'Minas Gerais',
                 'cidadeUsuario' => 'Belo Horizonte',
+                'created_at' => $agora->copy()->subMonths(5)->toDateTimeString(),
+                'updated_at' => $agora->copy()->subMonths(5)->toDateTimeString(),
             ],
             [
                 'nomeCompletoUsuario' => 'Rafael Andrade Lima',
@@ -59,6 +66,8 @@ class UsuarioSeeder extends Seeder
                 'generoUsuario' => 'Masculino',
                 'estadoUsuario' => 'Rio de Janeiro',
                 'cidadeUsuario' => 'Niterói',
+                'created_at' => $agora->copy()->subMonths(5)->toDateTimeString(),
+                'updated_at' => $agora->copy()->subMonths(5)->toDateTimeString(),
             ],
             [
                 'nomeCompletoUsuario' => 'Beatriz Santos Nogueira',
@@ -74,6 +83,8 @@ class UsuarioSeeder extends Seeder
                 'generoUsuario' => 'Feminino',
                 'estadoUsuario' => 'Paraná',
                 'cidadeUsuario' => 'Curitiba',
+                'created_at' => $agora->copy()->subMonths(4)->toDateTimeString(),
+                'updated_at' => $agora->copy()->subMonths(4)->toDateTimeString(),
             ],
             [
                 'nomeCompletoUsuario' => 'João Victor Mendes',
@@ -89,6 +100,8 @@ class UsuarioSeeder extends Seeder
                 'generoUsuario' => 'Masculino',
                 'estadoUsuario' => 'Bahia',
                 'cidadeUsuario' => 'Salvador',
+                'created_at' => $agora->copy()->subMonths(4)->toDateTimeString(),
+                'updated_at' => $agora->copy()->subMonths(4)->toDateTimeString(),
             ],
             [
                 'nomeCompletoUsuario' => 'Carla Lima Souza',
@@ -104,6 +117,8 @@ class UsuarioSeeder extends Seeder
                 'generoUsuario' => 'Feminino',
                 'estadoUsuario' => 'São Paulo',
                 'cidadeUsuario' => 'Santos',
+                'created_at' => $agora->copy()->subMonths(4)->toDateTimeString(),
+                'updated_at' => $agora->copy()->subMonths(4)->toDateTimeString(),
             ],
             [
                 'nomeCompletoUsuario' => 'Eduardo Rocha Lima',
@@ -119,6 +134,8 @@ class UsuarioSeeder extends Seeder
                 'generoUsuario' => 'Masculino',
                 'estadoUsuario' => 'Pernambuco',
                 'cidadeUsuario' => 'Recife',
+                'created_at' => $agora->copy()->subMonths(3)->toDateTimeString(),
+                'updated_at' => $agora->copy()->subMonths(3)->toDateTimeString(),
             ],
             [
                 'nomeCompletoUsuario' => 'Larissa Gomes Pinto',
@@ -134,6 +151,8 @@ class UsuarioSeeder extends Seeder
                 'generoUsuario' => 'Feminino',
                 'estadoUsuario' => 'Rio Grande do Sul',
                 'cidadeUsuario' => 'Porto Alegre',
+                'created_at' => $agora->copy()->subMonths(2)->toDateTimeString(),
+                'updated_at' => $agora->copy()->subMonths(2)->toDateTimeString(),
             ],
             [
                 'nomeCompletoUsuario' => 'Pedro Henrique Almeida',
@@ -149,6 +168,8 @@ class UsuarioSeeder extends Seeder
                 'generoUsuario' => 'Masculino',
                 'estadoUsuario' => 'Ceará',
                 'cidadeUsuario' => 'Fortaleza',
+                'created_at' => $agora->copy()->subMonths(1)->toDateTimeString(),
+                'updated_at' => $agora->copy()->subMonths(1)->toDateTimeString(),
             ],
             [
                 'nomeCompletoUsuario' => 'Sofia Reis Martins',
@@ -164,6 +185,8 @@ class UsuarioSeeder extends Seeder
                 'generoUsuario' => 'Feminino',
                 'estadoUsuario' => 'Santa Catarina',
                 'cidadeUsuario' => 'Florianópolis',
+                'created_at' => $agora->toDateTimeString(),
+                'updated_at' => $agora->toDateTimeString(),
             ],
         ];
 
