@@ -7,92 +7,128 @@ use App\Models\Oportunidade;
 use App\Models\Esporte;
 use App\Models\Posicao;
 use App\Models\Clube;
+use Carbon\Carbon;
 
 class OportunidadeSeeder extends Seeder
 {
     public function run(): void
     {
-        $today = now()->toDateString();
+        $clubes   = Clube::pluck('id')->all();
+        $esportes = Esporte::all();
 
-        $esporte = Esporte::firstOrCreate(
-            ['nomeEsporte' => 'Futebol'],
-            ['descricaoEsporte' => 'Futebol — modalidade principal do projeto']
-        );
+        if (empty($clubes) || $esportes->isEmpty()) {
+            return;
+        }
 
-        $lateral = Posicao::firstOrCreate([
-            'nomePosicao' => 'Lateral Esquerdo',
-            'idEsporte' => $esporte->id
-        ]);
+        // mapa: esporte_id => [posicao_ids...]
+        $posicoesPorEsporte = [];
+        foreach ($esportes as $esporte) {
+            $posicoesPorEsporte[$esporte->id] = Posicao::where('idEsporte', $esporte->id)
+                ->pluck('id')
+                ->all();
+        }
 
-        $volante = Posicao::firstOrCreate([
-            'nomePosicao' => 'Volante',
-            'idEsporte' => $esporte->id
-        ]);
+        // mapa: posicao_id => nomePosicao (pra montar título bonitinho)
+        $mapPosicoes = Posicao::pluck('nomePosicao', 'id')->all();
 
-        $atacante = Posicao::firstOrCreate([
-            'nomePosicao' => 'Atacante',
-            'idEsporte' => $esporte->id
-        ]);
-
-        $zagueiro = Posicao::firstOrCreate([
-            'nomePosicao' => 'Zagueiro',
-            'idEsporte' => $esporte->id
-        ]);
-        
-        $meia = Posicao::firstOrCreate([
-            'nomePosicao' => 'Meia',
-            'idEsporte' => $esporte->id
-        ]);
-
-        $flamengo = Clube::where('nomeClube', 'CR Flamengo')->first();
-        $saoPaulo = Clube::where('nomeClube', 'São Paulo FC')->first();
-        $palmeiras = Clube::where('nomeClube', 'SE Palmeiras')->first();
-
-        $oportunidades = [
-            [
-                'tituloOportunidades'       => 'Peneira Lateral-Esquerdo Sub-17 (Flamengo)',
-                'descricaoOportunidades'    => 'Processo seletivo para lateral-esquerdo sub-17.',
-                'datapostagemOportunidades' => $today,
-                'esporte_id'                => $esporte->id,
-                'posicoes_id'               => $lateral->id,
-                'clube_id'                  => $flamengo->id,
-            ],
-            [
-                'tituloOportunidades'       => 'Treino para Alas e Laterais (São Paulo FC)',
-                'descricaoOportunidades'    => 'Treino aberto para alas e laterais.',
-                'datapostagemOportunidades' => $today,
-                'esporte_id'                => $esporte->id,
-                'posicoes_id'               => $lateral->id,
-                'clube_id'                  => $saoPaulo->id,
-            ],
-            [
-                'tituloOportunidades'       => 'Teste para Atacantes — Finalização (Flamengo)',
-                'descricaoOportunidades'    => 'Teste de finalização e jogo aéreo para atacantes.',
-                'datapostagemOportunidades' => $today,
-                'esporte_id'                => $esporte->id,
-                'posicoes_id'               => $atacante->id,
-                'clube_id'                  => $flamengo->id,
-            ],
-            [
-                'tituloOportunidades'       => 'Captação Meia Ofensivo (Palmeiras)',
-                'descricaoOportunidades'    => 'Captação para meia ofensivo.',
-                'datapostagemOportunidades' => $today,
-                'esporte_id'                => $esporte->id,
-                'posicoes_id'               => $meia->id,
-                'clube_id'                  => $palmeiras->id,
-            ],
-            [
-                'tituloOportunidades'       => 'Avaliação para Zagueiros (São Paulo FC)',
-                'descricaoOportunidades'    => 'Avaliação para zagueiros.',
-                'datapostagemOportunidades' => $today,
-                'esporte_id'                => $esporte->id,
-                'posicoes_id'               => $zagueiro->id,
-                'clube_id'                  => $saoPaulo->id,
-            ],
+        $titulosBase = [
+            'Avaliação de novos talentos',
+            'Peneira oficial',
+            'Treino teste para elenco',
+            'Seleção para categoria de base',
+            'Projeto de desenvolvimento de atletas',
+            'Avaliação técnica de atletas',
+            'Observação de jogadores',
+            'Treino específico para posição',
+            'Semana de testes',
+            'Captação de atletas',
         ];
 
-        foreach ($oportunidades as $op) {
-            Oportunidade::create($op);
+        for ($i = 1; $i <= 100; $i++) {
+            // Clube sorteado
+            $clubeId = $clubes[array_rand($clubes)];
+
+            // Esporte sorteado que tenha ao menos uma posição
+            $esporteEscolhido = null;
+            $posicoes = [];
+            $tentativas = 0;
+
+            do {
+                $esporteEscolhido = $esportes->random();
+                $posicoes = $posicoesPorEsporte[$esporteEscolhido->id] ?? [];
+                $tentativas++;
+            } while (empty($posicoes) && $tentativas < 10);
+
+            if (empty($posicoes)) {
+                // Se não tiver posição pra esse esporte, pula
+                continue;
+            }
+
+            // Entre 1 e 3 posições distintas
+            $quantPosicoes = rand(1, min(3, count($posicoes)));
+            $keysSorteadas = (array) array_rand($posicoes, $quantPosicoes);
+            $posicoesIds   = [];
+
+            foreach ($keysSorteadas as $k) {
+                $posicoesIds[] = $posicoes[$k];
+            }
+
+            $posicaoPrincipalId   = $posicoesIds[0];
+            $nomePosicaoPrincipal = $mapPosicoes[$posicaoPrincipalId] ?? 'Atleta';
+
+            // Monta título decente
+            $tituloBase = $titulosBase[array_rand($titulosBase)];
+            $titulo     = sprintf(
+                '%s - %s (%s)',
+                $tituloBase,
+                $esporteEscolhido->nomeEsporte,
+                $nomePosicaoPrincipal
+            );
+
+            $descricao = 'Oportunidade para atletas interessados em ' . $esporteEscolhido->nomeEsporte .
+                ' na posição de ' . $nomePosicaoPrincipal .
+                '. Seleção organizada pelo clube para avaliação de novos talentos.';
+
+            // Data de postagem entre 1 e 6 meses atrás
+            $mesesAtras   = rand(1, 6);
+            $diasExtras   = rand(0, 27);
+            $dataPostagem = Carbon::now()
+                ->copy()
+                ->subMonths($mesesAtras)
+                ->subDays($diasExtras)
+                ->setHour(rand(8, 21))
+                ->setMinute(rand(0, 59))
+                ->setSecond(0);
+
+            // Idades (às vezes null)
+            $idadeMin = null;
+            $idadeMax = null;
+
+            if (rand(0, 1)) {
+                $idadeMin = rand(12, 18);
+                $idadeMax = rand($idadeMin + 1, $idadeMin + 10);
+            }
+
+            // Limite de inscrições (AGORA SEMPRE DEFINIDO)
+            $limiteInscricoes = rand(10, 60);
+
+            $oportunidade = Oportunidade::create([
+                'limite_inscricoes'         => $limiteInscricoes,
+                'tituloOportunidades'       => $titulo,
+                'descricaoOportunidades'    => $descricao,
+                'datapostagemOportunidades' => $dataPostagem,
+                'esporte_id'                => $esporteEscolhido->id,
+                'posicoes_id'               => $posicaoPrincipalId,
+                'clube_id'                  => $clubeId,
+                'status'                    => Oportunidade::STATUS_APPROVED,
+                'idadeMinima'               => $idadeMin,
+                'idadeMaxima'               => $idadeMax,
+                'created_at'                => $dataPostagem,
+                'updated_at'                => $dataPostagem,
+            ]);
+
+            // Posições vinculadas (pivot)
+            $oportunidade->posicaoPivot()->sync($posicoesIds);
         }
     }
 }
