@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class ClubeController extends Controller
 {
@@ -70,6 +71,8 @@ class ClubeController extends Controller
 
     public function store(Request $request)
     {
+         Log::info('DADOS RECEBIDOS NO CADASTRO CLUBE', $request->all());
+
         try {
             $validatedData = $request->validate([
                 'nomeClube'       => 'required|string|max:255|unique:clubes,nomeClube',
@@ -121,11 +124,20 @@ class ClubeController extends Controller
                 'message' => 'Clube cadastrado com sucesso e enviado para análise do administrador.',
             ], 201);
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+        } catch (ValidationException $e) {
+                return response()->json([
+                    'message' => 'Erro de validação.',
+                    'errors'  => $e->errors(),
+                ], 422);
+            } catch (\Throwable $e) {
+                Log::error('Erro ao cadastrar clube', [
+                    'exception' => $e,
+                ]);
+
+                return response()->json([
+                    'message' => 'Erro interno ao cadastrar o clube.',
+                ], 500);
+            }
     }
 
     public function storeByAdmin(Request $request)
@@ -170,11 +182,20 @@ class ClubeController extends Controller
                 201
             );
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+        } catch (ValidationException $e) {
+        return response()->json([
+            'message' => 'Erro de validação.',
+            'errors'  => $e->errors(),
+        ], 422);
+    } catch (\Throwable $e) {
+        Log::error('Erro ao cadastrar clube', [
+            'exception' => $e,
+        ]);
+
+        return response()->json([
+            'message' => 'Erro interno ao cadastrar o clube.',
+        ], 500);
+    }
     }
 
     public function show($id)
