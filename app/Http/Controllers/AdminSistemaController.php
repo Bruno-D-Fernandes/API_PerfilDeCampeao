@@ -17,9 +17,545 @@ use App\Models\Esporte;
 use App\Models\Funcao;
 use App\Models\Posicao; 
 use Illuminate\Validation\Rule;
+use ZipArchive;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Inscricao;
+use App\Models\Evento;
+use App\Models\ConviteEvento;
+
 
 class AdminSistemaController extends Controller
 {
+
+
+protected function buildCsv(array $header, iterable $rows): string
+{
+    $fh = fopen('php://temp', 'r+');
+    fputcsv($fh, $header, ';');
+    foreach ($rows as $row) {
+        fputcsv($fh, $row, ';');
+    }
+    rewind($fh);
+    return stream_get_contents($fh);
+}
+
+//Maldito seja o demonio que criou csv, apenas --Luan
+
+public function exportDadosSistema(Request $request)
+{
+    $admin = $request->user();
+    if (!$admin instanceof Admin) {
+        return response()->json(['message' => 'Somente admin autenticado'], 403);
+    }
+
+    $zip = new ZipArchive();
+    $fileName = 'dados_sistema_' . now()->format('Ymd_His') . '.zip';
+    $zipPath = storage_path('app/' . $fileName);
+
+    if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+        return response()->json(['message' => 'Não foi possível gerar o arquivo'], 500);
+    }
+
+    $usuarios = Usuario::withCount(['perfis', 'inscricoes', 'listas'])->get();
+    $usuariosHeader = [
+        'id',
+        'nome',
+        'email',
+        'data_nascimento',
+        'genero',
+        'estado',
+        'cidade',
+        'altura_cm',
+        'peso_kg',
+        'pe_dominante',
+        'mao_dominante',
+        'status',
+        'reviewed_by',
+        'reviewed_at',
+        'bloque_reason',
+        'perfis_count',
+        'inscricoes_count',
+        'listas_count',
+        'created_at',
+        'updated_at',
+    ];
+    $usuariosRows = $usuarios->map(function (Usuario $u) {
+        return [
+            $u->id,
+            $u->nomeCompletoUsuario,
+            $u->emailUsuario,
+            $u->dataNascimentoUsuario?->format('Y-m-d'),
+            $u->generoUsuario,
+            $u->estadoUsuario,
+            $u->cidadeUsuario,
+            $u->alturaCm,
+            $u->pesoKg,
+            $u->peDominante,
+            $u->maoDominante,
+            $u->status,
+            $u->reviewed_by,
+            $u->reviewed_at?->toDateTimeString(),
+            $u->bloque_reason,
+            $u->perfis_count,
+            $u->inscricoes_count,
+            $u->listas_count,
+            $u->created_at?->toDateTimeString(),
+            $u->updated_at?->toDateTimeString(),
+        ];
+    });
+    $zip->addFromString('usuarios.csv', $this->buildCsv($usuariosHeader, $usuariosRows));
+
+    $clubes = Clube::with(['categoria:id,nomeCategoria', 'esporte:id,nomeEsporte'])
+        ->withCount(['oportunidades', 'listas', 'membros'])
+        ->get();
+    $clubesHeader = [
+        'id',
+        'nome',
+        'cnpj',
+        'email',
+        'cidade',
+        'estado',
+        'ano_criacao',
+        'endereco',
+        'bio',
+        'categoria_id',
+        'categoria_nome',
+        'esporte_id',
+        'esporte_nome',
+        'status',
+        'reviewed_by',
+        'reviewed_at',
+        'rejection_reason',
+        'bloque_reason',
+        'oportunidades_count',
+        'listas_count',
+        'membros_count',
+        'created_at',
+        'updated_at',
+    ];
+    $clubesRows = $clubes->map(function (Clube $c) {
+        return [
+            $c->id,
+            $c->nomeClube,
+            $c->cnpjClube,
+            $c->emailClube,
+            $c->cidadeClube,
+            $c->estadoClube,
+            $c->anoCriacaoClube?->format('Y-m-d'),
+            $c->enderecoClube,
+            $c->bioClube,
+            $c->categoria_id,
+            $c->categoria?->nomeCategoria,
+            $c->esporte_id,
+            $c->esporte?->nomeEsporte,
+            $c->status,
+            $c->reviewed_by,
+            $c->reviewed_at?->toDateTimeString(),
+            $c->rejection_reason,
+            $c->bloque_reason,
+            $c->oportunidades_count,
+            $c->listas_count,
+            $c->membros_count,
+            $c->created_at?->toDateTimeString(),
+            $c->updated_at?->toDateTimeString(),
+        ];
+    });
+    $zip->addFromString('clubes.csv', $this->buildCsv($clubesHeader, $clubesRows));
+
+    $esportes = Esporte::withCount(['posicoes', 'caracteristicas', 'clubes'])->get();
+    $esportesHeader = [
+        'id',
+        'nome',
+        'descricao',
+        'status',
+        'posicoes_count',
+        'caracteristicas_count',
+        'clubes_count',
+        'created_at',
+        'updated_at',
+    ];
+    $esportesRows = $esportes->map(function (Esporte $e) {
+        return [
+            $e->id,
+            $e->nomeEsporte,
+            $e->descricaoEsporte,
+            $e->status,
+            $e->posicoes_count,
+            $e->caracteristicas_count,
+            $e->clubes_count,
+            $e->created_at?->toDateTimeString(),
+            $e->updated_at?->toDateTimeString(),
+        ];
+    });
+    $zip->addFromString('esportes.csv', $this->buildCsv($esportesHeader, $esportesRows));
+
+    $posicoes = Posicao::with('esporte:id,nomeEsporte')->withCount(['usuarios', 'oportunidades'])->get();
+    $posicoesHeader = [
+        'id',
+        'nome',
+        'esporte_id',
+        'esporte_nome',
+        'usuarios_count',
+        'oportunidades_count',
+        'created_at',
+        'updated_at',
+    ];
+    $posicoesRows = $posicoes->map(function (Posicao $p) {
+        return [
+            $p->id,
+            $p->nomePosicao,
+            $p->idEsporte,
+            $p->esporte?->nomeEsporte,
+            $p->usuarios_count,
+            $p->oportunidades_count,
+            $p->created_at?->toDateTimeString(),
+            $p->updated_at?->toDateTimeString(),
+        ];
+    });
+    $zip->addFromString('posicoes.csv', $this->buildCsv($posicoesHeader, $posicoesRows));
+
+    $caracteristicas = Caracteristica::with('esporte:id,nomeEsporte')->get();
+    $caracteristicasHeader = [
+        'id',
+        'caracteristica',
+        'unidade_medida',
+        'esporte_id',
+        'esporte_nome',
+        'created_at',
+        'updated_at',
+    ];
+    $caracteristicasRows = $caracteristicas->map(function (Caracteristica $c) {
+        return [
+            $c->id,
+            $c->caracteristica,
+            $c->unidade_medida,
+            $c->esporte_id,
+            $c->esporte?->nomeEsporte,
+            $c->created_at?->toDateTimeString(),
+            $c->updated_at?->toDateTimeString(),
+        ];
+    });
+    $zip->addFromString('caracteristicas.csv', $this->buildCsv($caracteristicasHeader, $caracteristicasRows));
+
+    $categorias = Categoria::withCount('clubes')->get();
+    $categoriasHeader = [
+        'id',
+        'nome',
+        'descricao',
+        'clubes_count',
+        'created_at',
+        'updated_at',
+    ];
+    $categoriasRows = $categorias->map(function (Categoria $c) {
+        return [
+            $c->id,
+            $c->nomeCategoria,
+            $c->descricaoCategoria,
+            $c->clubes_count,
+            $c->created_at?->toDateTimeString(),
+            $c->updated_at?->toDateTimeString(),
+        ];
+    });
+    $zip->addFromString('categorias.csv', $this->buildCsv($categoriasHeader, $categoriasRows));
+
+    $funcoes = Funcao::all();
+    $funcoesHeader = [
+        'id',
+        'nome',
+        'descricao',
+        'status',
+        'created_at',
+        'updated_at',
+    ];
+    $funcoesRows = $funcoes->map(function (Funcao $f) {
+        return [
+            $f->id,
+            $f->nome,
+            $f->descricao,
+            $f->status,
+            $f->created_at?->toDateTimeString(),
+            $f->updated_at?->toDateTimeString(),
+        ];
+    });
+    $zip->addFromString('funcoes.csv', $this->buildCsv($funcoesHeader, $funcoesRows));
+
+    $listas = Lista::with(['clube:id,nomeClube'])->withCount('usuarios')->get();
+    $listasHeader = [
+        'id',
+        'nome',
+        'descricao',
+        'clube_id',
+        'clube_nome',
+        'status',
+        'usuarios_count',
+        'created_at',
+        'updated_at',
+    ];
+    $listasRows = $listas->map(function (Lista $l) {
+        return [
+            $l->id,
+            $l->nome,
+            $l->descricao,
+            $l->clube_id,
+            $l->clube?->nomeClube,
+            $l->status,
+            $l->usuarios_count,
+            $l->created_at?->toDateTimeString(),
+            $l->updated_at?->toDateTimeString(),
+        ];
+    });
+    $zip->addFromString('listas.csv', $this->buildCsv($listasHeader, $listasRows));
+
+    $listaUsuario = DB::table('lista_usuario')->get();
+    $mapListas = Lista::pluck('nome', 'id')->all();
+    $mapUsuarios = Usuario::pluck('nomeCompletoUsuario', 'id')->all();
+    $listasUsuariosHeader = [
+        'lista_id',
+        'lista_nome',
+        'usuario_id',
+        'usuario_nome',
+        'created_at',
+        'updated_at',
+    ];
+    $listasUsuariosRows = $listaUsuario->map(function ($row) use ($mapListas, $mapUsuarios) {
+        return [
+            $row->lista_id,
+            $mapListas[$row->lista_id] ?? null,
+            $row->usuario_id,
+            $mapUsuarios[$row->usuario_id] ?? null,
+            isset($row->created_at) ? (string) $row->created_at : null,
+            isset($row->updated_at) ? (string) $row->updated_at : null,
+        ];
+    });
+    $zip->addFromString('listas_usuarios.csv', $this->buildCsv($listasUsuariosHeader, $listasUsuariosRows));
+
+    $oportunidades = Oportunidade::with(['clube:id,nomeClube', 'esporte:id,nomeEsporte', 'posicoes:id,nomePosicao'])
+        ->withCount(['inscricoes', 'inscricoesAprovadas', 'inscricoesRejeitadas', 'inscricoesPendentes'])
+        ->get();
+    $oportunidadesHeader = [
+        'id',
+        'titulo',
+        'descricao',
+        'data_postagem',
+        'esporte_id',
+        'esporte_nome',
+        'clube_id',
+        'clube_nome',
+        'idade_minima',
+        'idade_maxima',
+        'limite_inscricoes',
+        'status',
+        'reviewed_by',
+        'reviewed_at',
+        'rejection_reason',
+        'total_inscricoes',
+        'inscricoes_aprovadas',
+        'inscricoes_rejeitadas',
+        'inscricoes_pendentes',
+        'posicoes_ids',
+        'posicoes_nomes',
+        'created_at',
+        'updated_at',
+    ];
+    $oportunidadesRows = $oportunidades->map(function (Oportunidade $o) {
+        $posicoesIds = $o->posicoes->pluck('id')->implode('|');
+        $posicoesNomes = $o->posicoes->pluck('nomePosicao')->implode('|');
+        return [
+            $o->id,
+            $o->tituloOportunidades,
+            $o->descricaoOportunidades,
+            $o->datapostagemOportunidades?->format('Y-m-d'),
+            $o->esporte_id,
+            $o->esporte?->nomeEsporte,
+            $o->clube_id,
+            $o->clube?->nomeClube,
+            $o->idadeMinima,
+            $o->idadeMaxima,
+            $o->limite_inscricoes,
+            $o->status,
+            $o->reviewed_by,
+            $o->reviewed_at?->toDateTimeString(),
+            $o->rejection_reason,
+            $o->inscricoes_count,
+            $o->inscricoes_aprovadas_count,
+            $o->inscricoes_rejeitadas_count,
+            $o->inscricoes_pendentes_count,
+            $posicoesIds,
+            $posicoesNomes,
+            $o->created_at?->toDateTimeString(),
+            $o->updated_at?->toDateTimeString(),
+        ];
+    });
+    $zip->addFromString('oportunidades.csv', $this->buildCsv($oportunidadesHeader, $oportunidadesRows));
+
+    $pivotOppPos = DB::table('oportunidades_posicoes')->get();
+    $mapOpp = Oportunidade::pluck('tituloOportunidades', 'id')->all();
+    $mapPos = Posicao::pluck('nomePosicao', 'id')->all();
+    $oppPosHeader = [
+        'oportunidade_id',
+        'oportunidade_titulo',
+        'posicao_id',
+        'posicao_nome',
+        'created_at',
+        'updated_at',
+    ];
+    $oppPosRows = $pivotOppPos->map(function ($row) use ($mapOpp, $mapPos) {
+        return [
+            $row->oportunidades_id,
+            $mapOpp[$row->oportunidades_id] ?? null,
+            $row->posicoes_id,
+            $mapPos[$row->posicoes_id] ?? null,
+            isset($row->created_at) ? (string) $row->created_at : null,
+            isset($row->updated_at) ? (string) $row->updated_at : null,
+        ];
+    });
+    $zip->addFromString('oportunidades_posicoes.csv', $this->buildCsv($oppPosHeader, $oppPosRows));
+
+    $inscricoes = Inscricao::with(['oportunidade:id,tituloOportunidades,clube_id', 'oportunidade.clube:id,nomeClube', 'usuario:id,nomeCompletoUsuario,emailUsuario'])->get();
+    $inscricoesHeader = [
+        'id',
+        'oportunidade_id',
+        'oportunidade_titulo',
+        'clube_id',
+        'clube_nome',
+        'usuario_id',
+        'usuario_nome',
+        'usuario_email',
+        'status',
+        'mensagem',
+        'created_at',
+        'updated_at',
+    ];
+    $inscricoesRows = $inscricoes->map(function (Inscricao $i) {
+        return [
+            $i->id,
+            $i->oportunidade_id,
+            $i->oportunidade?->tituloOportunidades,
+            $i->oportunidade?->clube_id,
+            $i->oportunidade?->clube?->nomeClube,
+            $i->usuario_id,
+            $i->usuario?->nomeCompletoUsuario,
+            $i->usuario?->emailUsuario,
+            $i->status,
+            $i->mensagem,
+            $i->created_at?->toDateTimeString(),
+            $i->updated_at?->toDateTimeString(),
+        ];
+    });
+    $zip->addFromString('inscricoes.csv', $this->buildCsv($inscricoesHeader, $inscricoesRows));
+
+    $eventos = Evento::with(['clube:id,nomeClube'])->withCount('convites')->get();
+    $eventosHeader = [
+        'id',
+        'clube_id',
+        'clube_nome',
+        'titulo',
+        'descricao',
+        'data_hora_inicio',
+        'data_hora_fim',
+        'cep',
+        'estado',
+        'cidade',
+        'bairro',
+        'rua',
+        'numero',
+        'complemento',
+        'limite_participantes',
+        'color',
+        'convites_count',
+        'created_at',
+        'updated_at',
+    ];
+    $eventosRows = $eventos->map(function (Evento $e) {
+        return [
+            $e->id,
+            $e->clube_id,
+            $e->clube?->nomeClube,
+            $e->titulo,
+            $e->descricao,
+            $e->data_hora_inicio?->toDateTimeString(),
+            $e->data_hora_fim?->toDateTimeString(),
+            $e->cep,
+            $e->estado,
+            $e->cidade,
+            $e->bairro,
+            $e->rua,
+            $e->numero,
+            $e->complemento,
+            $e->limite_participantes,
+            $e->color,
+            $e->convites_count,
+            $e->created_at?->toDateTimeString(),
+            $e->updated_at?->toDateTimeString(),
+        ];
+    });
+    $zip->addFromString('eventos.csv', $this->buildCsv($eventosHeader, $eventosRows));
+
+    $convites = ConviteEvento::with(['evento:id,titulo', 'usuario:id,nomeCompletoUsuario'])->get();
+    $convitesHeader = [
+        'id',
+        'evento_id',
+        'evento_titulo',
+        'usuario_id',
+        'usuario_nome',
+        'status',
+        'sent_at',
+        'responded_at',
+        'expires_at',
+        'color',
+        'created_at',
+        'updated_at',
+    ];
+    $convitesRows = $convites->map(function (ConviteEvento $c) {
+        return [
+            $c->id,
+            $c->evento_id,
+            $c->evento?->titulo,
+            $c->usuario_id,
+            $c->usuario?->nomeCompletoUsuario,
+            $c->status,
+            $c->sent_at?->toDateTimeString(),
+            $c->responded_at?->toDateTimeString(),
+            $c->expires_at?->toDateTimeString(),
+            $c->color,
+            $c->created_at?->toDateTimeString(),
+            $c->updated_at?->toDateTimeString(),
+        ];
+    });
+    $zip->addFromString('convites_evento.csv', $this->buildCsv($convitesHeader, $convitesRows));
+
+    $metrics = [
+        ['total_usuarios', Usuario::count()],
+        ['total_usuarios_ativos', Usuario::ativos()->count()],
+        ['total_usuarios_bloqueados', Usuario::bloqueados()->count()],
+        ['total_usuarios_deletados', Usuario::deletados()->count()],
+        ['total_clubes', Clube::count()],
+        ['total_clubes_ativos', Clube::ativos()->count()],
+        ['total_clubes_pendentes', Clube::pendentes()->count()],
+        ['total_clubes_rejeitados', Clube::rejeitados()->count()],
+        ['total_clubes_bloqueados', Clube::bloqueados()->count()],
+        ['total_oportunidades', Oportunidade::count()],
+        ['total_oportunidades_pending', Oportunidade::pending()->count()],
+        ['total_oportunidades_approved', Oportunidade::approved()->count()],
+        ['total_oportunidades_rejected', Oportunidade::rejected()->count()],
+        ['total_inscricoes', Inscricao::count()],
+        ['total_eventos', Evento::count()],
+        ['total_convites_evento', ConviteEvento::count()],
+        ['total_esportes', Esporte::count()],
+        ['total_posicoes', Posicao::count()],
+        ['total_listas', Lista::count()],
+        ['total_funcoes', Funcao::count()],
+        ['total_categorias', Categoria::count()],
+    ];
+    $metricsHeader = ['metrica', 'valor'];
+    $zip->addFromString('resumo_metricas.csv', $this->buildCsv($metricsHeader, $metrics));
+
+    $zip->close();
+
+    return response()->download($zipPath, $fileName)->deleteFileAfterSend(true);
+}
+
 
 
 public function oportunidadeUpdateStatus(Request $request, Oportunidade $oportunidade)
