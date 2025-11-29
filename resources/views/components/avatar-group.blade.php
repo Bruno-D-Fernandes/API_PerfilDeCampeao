@@ -12,8 +12,8 @@
 <div class="flex -space-x-[0.63vw] rtl:space-x-reverse">
     @foreach(collect($items)->take($max) as $item)
         <x-avatar 
-            :src="data_get($item, 'foto')" 
-            :alt="data_get($item, 'nome') ?? 'User'" 
+            :src="data_get($item, 'usuario.fotoPerfilUsuario')" 
+            :alt="data_get($item, 'usuario.nomeCompletoUsuario') ?? 'User'" 
             :size="$size"
             class="border-[0.1vw] border-white" 
         />

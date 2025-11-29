@@ -48,7 +48,8 @@ class ClubeSeeder extends Seeder
             'senhaClube' => Hash::make('mengao123'),
             'categoria_id' => 2,
             'esporte_id' => 1,
-            'fotoPerfilClube' => 'imagens_seeder/flamengo_perfil.png'
+            'fotoPerfilClube' => 'imagens_seeder/flamengo_perfil.png',
+            'status' => 'ativo',
         ]);
 
         // São Paulo FC

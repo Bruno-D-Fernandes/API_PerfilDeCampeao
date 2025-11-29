@@ -10,7 +10,7 @@
 
 <div {{ $attributes->merge(['class' => 'w-full']) }}>
     @if($label || $showValue)
-        <div class="flex justify-between mb-[0.1vw]">
+        <div class="flex justify-between">
             @if($label)
                 <span class="text-[0.63vw] font-medium text-gray-700">{{ $label }}</span>
             @endif

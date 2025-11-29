@@ -1,13 +1,41 @@
+@php
+    use Carbon\Carbon;
+
+    $monthStr = $data['month'] ?? now()->format('Y-m');
+    $start = Carbon::createFromFormat('!Y-m', $monthStr)->startOfMonth();
+
+    $colStart = $start->dayOfWeek + 1;
+
+    $daysInMonth = $start->daysInMonth;
+    $dias = [];
+    $maxEventos = 3;
+
+    for ($i = 1; $i <= $daysInMonth; $i++) {
+        $currentDate = $start->copy()->day($i);
+        $dateKey = $currentDate->toDateString();
+
+        $dias[] = [
+            'numero'    => $i,
+            'full_date' => $dateKey,
+            'is_today'  => $currentDate->isToday(),
+            'eventos'   => $data['calendar'][$dateKey] ?? [] 
+        ];
+    }
+@endphp
+
 <div class="absolute inset-0 grid grid-cols-7 gap-[0.052vw] overflow-hidden rounded-[0.42vw] bg-gray-200 auto-rows-[1fr]">
     @foreach($dias as $dia)
         <x-calendar-day 
             :day="$dia['numero']" 
             :is-today="$dia['is_today']"
-            class="min-h-0 flex flex-col bg-white relative group transition-colors hover:bg-emerald-50" 
+            id="cal-day-{{ $dia['full_date'] }}"
+            class="min-h-0 flex flex-col bg-white relative group transition-colors hover:bg-emerald-50"  
             style="{{ $loop->first ? 'grid-column-start: ' . $colStart : '' }}"
             onclick="selectDate('{{ $dia['full_date'] }}')"
         >
-            @php $qtdEventos = count($dia['eventos']); @endphp
+            @php 
+                $qtdEventos = count($dia['eventos']); 
+            @endphp
 
             <div class="flex-1 overflow-y-auto p-[0.1vw] custom-scrollbar">
                 @foreach($dia['eventos'] as $evento)

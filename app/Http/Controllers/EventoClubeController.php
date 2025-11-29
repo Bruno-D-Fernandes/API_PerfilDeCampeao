@@ -23,6 +23,7 @@ class EventoClubeController extends Controller
 
         return response()->json(['eventos' => $eventos], 200);
     }
+    
     public function eventInvites(Request $request, $eventoId){
         $clube = $request->user();
         if (!$clube instanceof Clube) {
@@ -259,10 +260,20 @@ class EventoClubeController extends Controller
             ];
         }
 
-        return response()->json([
+        $responseData = [
             'month'    => $start->format('Y-m'),
             'calendar' => $calendar,
-        ], 200);
+        ];
+
+        if ($request->wantsJson()) {
+            return response()->json($responseData, 200);
+        }
+
+        if ($request->ajax()) {
+            return view('clube.partials.calendar-grid', ['data' => $responseData]);
+        }
+
+        return view('clube.agenda', ['data' => $responseData]);
     }
     
     public function atualizarCorEvento(Request $request, $id)

@@ -22,15 +22,8 @@
 
                 @foreach($resumo as $key => $item)
                     @php
-                        $isTrendedKpi = is_array($item); 
-                        
-                        if ($isTrendedKpi) {
-                            $value = $key === 'clubes_ativos' ? $item['total_ativo_agora'] : $item['atual'];
-                            $trend = $item['diferenca'];
-                        } else {
-                            $value = $item;
-                            $trend = null; // Não há tendência
-                        }
+                        $value = $item['mes_atual'];
+                        $trend = $item['diferenca'];
                     @endphp
 
                     <x-dashboard-widget 
@@ -76,10 +69,10 @@
 
                                     const tooltip = (mes, qtd, cor) => `
                                         <div role="tooltip"
-                                            class="absolute z-10 flex flex-col gap-y-[0.21vw] px-[0.63vw] py-[0.42vw] text-sm font-medium text-white 
+                                            class="absolute z-10 flex flex-col gap-y-[0.21vw] px-[0.63vw] py-[0.42vw] text-[0.73vw] font-medium text-white 
                                                 bg-stone-950 rounded-md leading-none whitespace-nowrap">
 
-                                            <div class="flex items-center gap-x-1">
+                                            <div class="flex items-center gap-x-[0.21vw]">
                                                 <span class="w-[0.52vw] h-[0.52vw] rounded-full" style="background: ${cor}"></span>
                                                 <span class="font-semibold">${mes}</span>
                                             </div>
@@ -163,10 +156,10 @@
 
                                     const tooltip = (mes, qtd, cor) => `
                                         <div role="tooltip"
-                                            class="absolute z-10 flex flex-col gap-y-[0.21vw] px-[0.63vw] py-[0.42vw] text-sm font-medium text-white 
+                                            class="absolute z-10 flex flex-col gap-y-[0.21vw] px-[0.63vw] py-[0.42vw] text-[0.73vw] font-medium text-white 
                                                 bg-stone-950 rounded-md leading-none whitespace-nowrap">
 
-                                            <div class="flex items-center gap-x-1">
+                                            <div class="flex items-center gap-x-[0.21vw]">
                                                 <span class="w-[0.52vw] h-[0.52vw] rounded-full" style="background: ${cor}"></span>
                                                 <span class="font-semibold">${mes}</span>
                                             </div>
@@ -218,7 +211,7 @@
                         </div>
 
                         <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex flex-col gap-[0.415vw] flex-[4]">
-                            <span class="text-md font-medium text-gray-700">
+                            <span class="text-[0.83vw] font-medium text-gray-700">
                                 Novos usuários
                             </span>
 
@@ -235,16 +228,16 @@
                                         </div>
 
                                         <div class="flex-1 min-w-0 flex flex-col">
-                                            <p class="text-sm font-medium text-gray-700 truncate" title="{{ $usuario->nomeCompletoUsuario }}">
+                                            <p class="text-[0.73vw] font-medium text-gray-700 truncate" title="{{ $usuario->nomeCompletoUsuario }}">
                                                 {{ $usuario->nomeCompletoUsuario }}
                                             </p>
-                                            <p class="text-xs text-gray-500 truncate" title="{{ $usuario->emailUsuario }}">
+                                            <p class="text-[0.63vw] text-gray-500 truncate" title="{{ $usuario->emailUsuario }}">
                                                 {{ $usuario->emailUsuario }}
                                             </p>
                                         </div>
 
                                         <div class="flex-shrink-0">
-                                            <span class="text-xs text-gray-400 whitespace-nowrap">
+                                            <span class="text-[0.63vw] text-gray-400 whitespace-nowrap">
                                                 {{ $usuario->created_at->diffForHumans() }}
                                             </span>
                                         </div>
@@ -255,7 +248,7 @@
                                             <x-slot:icon>
                                                 <svg class="h-[1.67vw] w-[1.67vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-x-icon lucide-user-x"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" x2="22" y1="8" y2="13"/><line x1="22" x2="17" y1="8" y2="13"/></svg>
                                             </x-slot:icon>
-                                            <p class="text-gray-400 font-normal text-md">
+                                            <p class="text-gray-400 font-normal text-[0.83vw]">
                                                 Não houveram novos registros na plataforma recentemente.
                                             </p>
                                         </x-empty-state>
@@ -291,10 +284,10 @@
 
                                     const tooltip = (titulo, qtd, cor) => `
                                         <div role="tooltip"
-                                            class="absolute z-10 flex flex-col gap-y-[0.21vw] px-[0.63vw] py-[0.42vw] text-sm font-medium text-white 
+                                            class="absolute z-10 flex flex-col gap-y-[0.21vw] px-[0.63vw] py-[0.42vw] text-[0.73vw] font-medium text-white 
                                                 bg-stone-950 rounded-md leading-none whitespace-nowrap">
                                             
-                                            <div class="flex items-center gap-x-1">
+                                            <div class="flex items-center gap-x-[0.21vw]">
                                                 <span class="w-[0.52vw] h-[0.52vw] rounded-full" style="background:${cor}"></span>
                                                 <span class="font-semibold">${titulo}</span>
                                             </div>
@@ -338,7 +331,7 @@
                         </div>
 
                         <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
-                            <span class="text-md font-medium text-gray-700">
+                            <span class="text-[0.83vw] font-medium text-gray-700">
                                 Oportunidades populares
                             </span>
 
@@ -356,17 +349,17 @@
                                         </div>
 
                                         <div class="flex-1 min-w-0 flex flex-col">
-                                            <p class="text-sm font-medium text-gray-700 truncate" title="{{ $oportunidade->tituloOportunidades }}">
+                                            <p class="text-[0.73vw] font-medium text-gray-700 truncate" title="{{ $oportunidade->tituloOportunidades }}">
                                                 {{ $oportunidade->tituloOportunidades }}
                                             </p>
-                                            <p class="text-xs text-gray-500 truncate">
+                                            <p class="text-[0.63vw] text-gray-500 truncate">
                                                 {{ optional($oportunidade->clube)->nomeClube ?? 'Clube' }} • {{ optional($oportunidade->esporte)->nomeEsporte }}
                                             </p>
                                         </div>
 
                                         <div class="flex-shrink-0 flex items-center gap-x-[0.31vw]">
                                             {!! $usersIcon !!}
-                                            <span class="text-xs font-medium text-gray-500">
+                                            <span class="text-[0.63vw] font-medium text-gray-500">
                                                 {{ $oportunidade->inscricoes_count }}
                                             </span>
                                         </div>
@@ -377,7 +370,7 @@
                                             <x-slot:icon>
                                                 <svg class="h-[1.67vw] w-[1.67vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon lucide-trophy"><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
                                             </x-slot:icon>
-                                            <p class="text-gray-400 font-normal text-md">
+                                            <p class="text-gray-400 font-normal text-[0.83vw]">
                                                 Ainda não há dados suficientes para ranking.
                                             </p>
                                         </x-empty-state>
@@ -386,47 +379,47 @@
                             </div>
                         </div>
 
-                        <div class="bg-white p-4 rounded-lg border border-2 border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
-                            <span class="text-md font-medium text-gray-700">
+                        <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
+                            <span class="text-[0.83vw] font-medium text-gray-700">
                                 Clubes mais ativos
                             </span>
 
                             @php
-                                $clubIcon = '<svg class="h-4 w-4 text-sky-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-icon lucide-building"><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>';
+                                $clubIcon = '<svg class="h-[0.83vw] w-[0.83vw] text-sky-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-icon lucide-building"><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>';
                                 
-                                $oppIconSmall = '<svg class="h-3 w-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone-icon lucide-megaphone"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></svg>';
+                                $oppIconSmall = '<svg class="h-[0.63vw] w-[0.63vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone-icon lucide-megaphone"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></svg>';
                             @endphp
 
-                            <div class="flex flex-col gap-2 overflow-y-auto h-full">
+                            <div class="flex flex-col gap-[0.42vw] overflow-y-auto h-full">
                                 @forelse($listaClubesTop as $clube)
-                                    <div class="flex items-center gap-x-3 p-2 border-b border-gray-100 last:border-b-0 group">
+                                    <div class="flex items-center gap-x-[0.63vw] p-[0.42vw] border-b border-gray-100 last:border-b-0 group">
                                         <div class="flex-shrink-0 bg-sky-50 p-2 rounded-full group-hover:bg-sky-100 transition-colors">
                                             {!! $clubIcon !!}
                                         </div>
 
                                         <div class="flex-1 min-w-0 flex flex-col">
-                                            <p class="text-sm font-medium text-gray-700 truncate" title="{{ $clube->nomeClube }}">
+                                            <p class="text-[0.73vw] font-medium text-gray-700 truncate" title="{{ $clube->nomeClube }}">
                                                 {{ $clube->nomeClube }}
                                             </p>
-                                            <p class="text-xs text-gray-500 truncate">
+                                            <p class="text-[0.63vw] text-gray-500 truncate">
                                                 {{ $clube->cidadeClube }} - {{ $clube->estadoClube }}
                                             </p>
                                         </div>
 
-                                        <div class="flex-shrink-0 flex items-center gap-x-1.5">
+                                        <div class="flex-shrink-0 flex items-center gap-x-[0.32vw]">
                                             {!! $oppIconSmall !!}
-                                            <span class="text-xs font-medium text-gray-500">
+                                            <span class="text-[0.63vw] font-medium text-gray-500">
                                                 {{ $clube->oportunidades_count }}
                                             </span>
                                         </div>
                                     </div>
                                 @empty
-                                    <div class="p-4 flex items-center justify-center h-full">
+                                    <div class="p-[0.83vw] flex items-center justify-center h-full">
                                         <x-empty-state text="Nenhum clube em destaque.">
                                             <x-slot:icon>
-                                                <svg class="h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon lucide-trophy"><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                                                <svg class="h-[1.67vw] w-[1.67vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon lucide-trophy"><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
                                             </x-slot:icon>
-                                            <p class="text-gray-400 font-normal text-md">
+                                            <p class="text-gray-400 font-normal text-[0.83vw]">
                                                 Ainda não há dados suficientes para ranking.
                                             </p>
                                         </x-empty-state>
@@ -436,24 +429,24 @@
                         </div>
                     </div>
 
-                    <div class="col-span-7 flex flex-col gap-4">
-                        <div class="bg-white p-4 rounded-lg border border-2 border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
-                            <span class="text-md font-medium text-gray-700">
+                    <div class="col-span-7 flex flex-col gap-[0.83vw]">
+                        <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
+                            <span class="text-[0.83vw] font-medium text-gray-700">
                                 Atividades recentes
                             </span>
 
                             @php
-                                $userIcon = '<svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
-                                $clubIcon = '<svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-icon lucide-building"><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>';
+                                $userIcon = '<svg class="h-[0.83vw] w-[0.83vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+                                $clubIcon = '<svg class="h-[0.83vw] w-[0.83vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-icon lucide-building"><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>';
 
                                 $statusIcons = [
-                                    'pending' => '<svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-icon lucide-clock"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>',
-                                    'approved' => '<svg class="h-4 w-4 text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-icon lucide-circle-check"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>',
-                                    'rejected' => '<svg class="h-4 w-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>',
+                                    'pending' => '<svg class="h-[0.83vw] w-[0.83vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-icon lucide-clock"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>',
+                                    'approved' => '<svg class="h-[0.83vw] w-[0.83vw] text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-icon lucide-circle-check"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>',
+                                    'rejected' => '<svg class="h-[0.83vw] w-[0.83vw] text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>',
                                 ];
                             @endphp
 
-                            <div class="flex flex-col gap-2 overflow-y-auto h-full">
+                            <div class="flex flex-col gap-[0.42vw] overflow-y-auto h-full">
                                 @forelse($atividadesRecentes as $atividade)
                                     @php
                                         $mensagem = '';
@@ -508,34 +501,34 @@
                                     @endif
 
                                     @if (!empty($mensagem))
-                                        <div class="flex-1 flex items-center gap-x-3 p-2 border-b border-gray-100 last:border-b-0 h-full">
+                                        <div class="flex-1 flex items-center gap-x-[0.63vw] p-[0.42vw] border-b border-gray-100 last:border-b-0 h-full">
                                             <div class="flex-shrink-0">
                                                 {!! $statusIcon !!}
                                             </div>
 
-                                            <div class="flex-1 min-w-0 flex items-center gap-x-2">
+                                            <div class="flex-1 min-w-0 flex items-center gap-x-[0.42vw]">
                                                 <div class="flex-shrink-0">
                                                     {!! $mainIcon !!}
                                                 </div>
-                                                <p class="text-sm text-gray-700 truncate" title="{{ strip_tags($mensagem) }}">
+                                                <p class="text-[0.73vw] text-gray-700 truncate" title="{{ strip_tags($mensagem) }}">
                                                     {!! $mensagem !!}
                                                 </p>
                                             </div>
 
                                             <div class="flex-shrink-0">
-                                                <span class="text-xs text-gray-400 whitespace-nowrap">
+                                                <span class="text-[0.63vw] text-gray-400 whitespace-nowrap">
                                                     {{ $data }}
                                                 </span>
                                             </div>
                                         </div>
                                     @endif
                                 @empty
-                                    <div class="p-4 flex items-center justify-center h-full">
+                                    <div class="p-[0.83vw] flex items-center justify-center h-full">
                                         <x-empty-state text="Sem atividades recentes.">
                                             <x-slot:icon>
-                                                <svg class="h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper-icon lucide-newspaper"><path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/></svg>
+                                                <svg class="h-[1.67vw] w-[1.67vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper-icon lucide-newspaper"><path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/></svg>
                                             </x-slot:icon>
-                                            <p class="text-gray-400 font-normal text-md">
+                                            <p class="text-gray-400 font-normal text-[0.83vw]">
                                                 O sistema não identificou nenhuma atividade recente até o momento.
                                             </p>
                                         </x-empty-state>
@@ -544,41 +537,41 @@
                             </div>
                         </div>
 
-                        <div class="bg-white h-max p-4 rounded-lg border border-2 border-gray-200 hover:border-sky-500 transition-colors flex flex-col gap-3 flex-1">
-                            <div class="flex items-center gap-x-2">
-                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hourglass-icon lucide-hourglass"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg>
+                        <div class="bg-white h-max p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex flex-col gap-[0.63vw] flex-1">
+                            <div class="flex items-center gap-x-[0.42vw]">
+                                <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hourglass-icon lucide-hourglass"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg>
 
-                                <span class="text-md font-medium text-gray-700">
+                                <span class="text-[0.83vw] font-medium text-gray-700">
                                     Oportunidades pendentes
                                 </span>
                             </div>
 
                             <div class="w-full border border-t border-gray-200"></div>
 
-                            <div class="flex flex-col gap-2 overflow-y-auto h-full">
+                            <div class="flex flex-col gap-[0.42vw] overflow-y-auto h-full">
                                 @foreach([1, 2, 3, 4, 5] as $num)
                                     <div class="flex flex-1 items-center justify-between">
-                                        <div class="flex items-center gap-x-3">
-                                            <div class="h-[1.6vw] border border-l border-3 border-gray-200 hover:border-sky-500 transition-colors rounded-md"></div>
+                                        <div class="flex items-center gap-x-[0.63vw]">
+                                            <div class="h-[1.6vw] border border-l border-[0.225vw] border-gray-200 hover:border-sky-500 transition-colors rounded-md"></div>
 
-                                            <span class="text-md font-medium text-gray-700">
+                                            <span class="text-[0.83vw] font-medium text-gray-700">
                                                 Vasco da Gama
                                             </span>
 
-                                            <a href="" class="text-sm font-semibold tracking-tight text-sky-500 hover:text-sky-600 underline transition-colors">
+                                            <a href="" class="text-[0.73vw] font-semibold tracking-tight text-sky-500 hover:text-sky-600 underline transition-colors">
                                                 Oportunidade
                                             </a>
                                         </div>
 
-                                        <div class="flex items-center gap-x-2">
+                                        <div class="flex items-center gap-x-[0.42vw]">
                                             <x-icon-button color="red">
-                                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                                                <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                                             </x-icon-button>
                                     
-                                            <div class="w-px h-4 bg-gray-200"></div>
+                                            <div class="w-px h-[0.83vw] bg-gray-200"></div>
 
                                             <x-icon-button color="green">
-                                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                                                <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
                                             </x-icon-button>
                                         </div>
                                     </div>

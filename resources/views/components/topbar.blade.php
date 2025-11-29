@@ -45,17 +45,21 @@
             </button>
 
             <div class="relative">
-                <button data-dropdown-toggle="dropdown-user" type="button" class="flex items-center gap-[0.42vw] p-[0.42vw] bg-white rounded-[0.31vw] border-[0.052vw] border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all group duration-200 cursor-pointer focus:outline-none focus:ring-0">
+                @php
+                    $displayName = $user->nomeClube ?? $user->name;
+                @endphp
+    
+                <button data-dropdown-toggle="dropdown-user" type="button" class="w-[10vw] flex items-center gap-[0.42vw] p-[0.42vw] bg-white rounded-[0.31vw] border-[0.052vw] border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all group duration-200 cursor-pointer focus:outline-none focus:ring-0">
                     <div class="h-[1.46vw] w-[1.46vw] rounded-full bg-{{$color}}/10 flex items-center justify-center text-{{ $color }} font-bold border-[0.1vw] border-white uppercase text-[0.73vw]">
-                        {{ substr($user->name, 0, 2) }}
+                        {{ substr($displayName, 0, 2) }}
                     </div>
 
-                    <div class="text-left block">
-                        <p class="text-[0.63vw] font-semibold text-gray-700 leading-none">
-                            {{ $user->name }}
+                    <div class="text-left block min-w-0 flex-1 flex flex-col justify-between">
+                        <p class="text-[0.65vw] font-semibold text-gray-700 leading-none truncate">
+                            {{ $displayName }}
                         </p>
                         
-                        <p class="text-[0.39vw] font-medium text-gray-400 mt-[0.1vw]">
+                        <p class="text-[0.53vw] font-medium text-gray-400 mt-[0.1vw]">
                             {{ $type }} 
                         </p>
                     </div>
@@ -65,17 +69,7 @@
                     </svg>
                 </button>
 
-                <div id="dropdown-user" class="z-50 hidden text-[0.83vw] list-none bg-white divide-y divide-gray-100 rounded-[0.21vw] shadow-lg w-[9.17vw]">
-                    <div class="p-[0.42vw]" role="none">
-                        <p class="text-[0.73vw] text-gray-900" role="none">
-                            {{ $user->name }}
-                        </p>
-
-                        <p class="text-[0.73vw] font-medium text-gray-900 truncate" role="none">
-                            {{ $user->email }}
-                        </p>
-                    </div>
-
+                <div id="dropdown-user" class="w-[10vw] z-50 hidden text-[0.83vw] list-none bg-white divide-y divide-gray-100 rounded-[0.21vw] shadow-lg w-[9.17vw]">
                     <ul class="p-[0.42vw]" role="none">
                         <li>
                             <a href="#" class="block p-[0.42vw] text-[0.73vw] text-gray-700 hover:bg-gray-100 rounded-[0.31vw]">Meu Perfil</a>

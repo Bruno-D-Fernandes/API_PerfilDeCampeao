@@ -50,8 +50,7 @@
     </div>
 </div>
 
-@push('scripts')
-    @once
+@once
     <script>
         const mcState = {
             month: 0,
@@ -68,6 +67,21 @@
                 mcState.selectedDate = root.dataset.selected; 
             }
         });
+
+        window.updateMiniCalendar = function(dateStr, shouldSelect = true) {
+            const [y, m, d] = dateStr.split('-').map(Number);
+            
+            if (mcState.year !== y || mcState.month !== (m - 1)) {
+                mcState.year = y;
+                mcState.month = m - 1;
+            }
+
+            if (shouldSelect) {
+                mcState.selectedDate = dateStr;
+            }
+            
+            mcRender();
+        }
 
         function mcChangeMonth(direction) {
             mcState.month += direction;
@@ -140,5 +154,4 @@
             }
         }
     </script>
-    @endonce
-@endpush
+@endonce

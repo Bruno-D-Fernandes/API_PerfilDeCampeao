@@ -3,46 +3,11 @@
     'Agenda' => null,
 ]">
     @php
-        $mes = request()->query('month', now()->month);
-        $ano = request()->query('year', now()->year);
+        $currentDate = \Carbon\Carbon::createFromFormat('Y-m', $data['month']);
+        $ano = $currentDate->year;
+        $mes = $currentDate->month;
         
         $selectedDateStr = request()->query('date', now()->format('Y-m-d'));
-        $selectedDate = \Carbon\Carbon::parse($selectedDateStr);
-
-        $dataVisualizada = \Carbon\Carbon::create($ano, $mes, 1);
-
-        $primeiroDiaSemana = $dataVisualizada->dayOfWeek;
-        $colStart = $primeiroDiaSemana + 1; 
-        $totalDiasNoMes = $dataVisualizada->daysInMonth;
-
-        $dias = [];
-        
-        for ($i = 1; $i <= $totalDiasNoMes; $i++) {
-            $currentDateObj = \Carbon\Carbon::create($ano, $mes, $i);
-            $currentDateStr = $currentDateObj->format('Y-m-d');
-
-            $listaEventos = [];
-
-            if ($i == 5) $listaEventos[] = ['titulo' => 'Treino Tático', 'color' => '#22c55e'];
-            if ($i == 12) {
-                $listaEventos[] = ['titulo' => 'Final Regional', 'color' => '#ef4444'];
-                $listaEventos[] = ['titulo' => 'Fisioterapia', 'color' => '#3b82f6'];
-            }
-            if ($i == 20) {
-                $listaEventos[] = ['titulo' => 'Reunião Diretoria', 'color' => '#eab308'];
-                $listaEventos[] = ['titulo' => 'Peneira Sub-15', 'color' => '#a855f7'];
-            }
-
-            $dias[] = [
-                'numero' => $i,
-                'full_date' => $currentDateStr,
-                'is_today' => $currentDateObj->isToday(),
-                'is_selected' => ($currentDateStr === $selectedDateStr),
-                'eventos' => $listaEventos
-            ];
-        }
-
-        $maxEventos = 2;
     @endphp
 
     <div class="h-full w-full flex gap-[1.25vw]">
@@ -128,7 +93,7 @@
 
             <div class="w-full flex-1 relative min-h-0 bg-gray-300 rounded-[0.42vw] border border-[0.052vw] border-gray-300"> 
                 <div id="calendar-grid-container" class="h-full w-full relative">
-                    @include('clube.partials.calendar-grid', ['dias' => $dias, 'colStart' => $colStart, 'maxEventos' => $maxEventos])
+                    @include('clube.partials.calendar-grid', ['data' => $data, 'selectedDateStr' => $selectedDateStr ])
                 </div>
                 
                 <div id="calendar-loading" class="absolute inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center hidden rounded-[0.42vw]">
@@ -424,74 +389,171 @@
         }
 
         let calState = {
-            month: {{ $mes }},
-            year: {{ $ano }},
-            routeName: "{{ route('clube.ajax.calendar') }}"
+            month: parseInt("{{ $mes }}"), 
+            year: parseInt("{{ $ano }}"),  
+            selectedDate: "{{ $selectedDateStr }}",
+            routeName: "{{ route('clube.ajax.calendar') }}",
+            isLoading: false
         };
 
         const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
         async function changeCalendarMonth(direction) {
-            let newMonth = calState.month + direction;
-            let newYear = calState.year;
+            if (calState.isLoading) return;
 
-            if (newMonth > 12) {
-                newMonth = 1;
-                newYear++;
-            } else if (newMonth < 1) {
-                newMonth = 12;
-                newYear--;
+            let nextMonth = calState.month + direction;
+            let nextYear = calState.year;
+
+            if (nextMonth > 12) { 
+                nextMonth = 1; 
+                nextYear++; 
+            } else if (nextMonth < 1) { 
+                nextMonth = 12; 
+                nextYear--; 
             }
 
-            calState.month = newMonth;
-            calState.year = newYear;
-
-            document.getElementById('label-month').innerText = monthNames[newMonth - 1];
-            document.getElementById('label-year').innerText = newYear;
+            await loadCalendarGrid(nextMonth, nextYear, calState.selectedDate);
             
+            if (typeof window.updateMiniCalendar === 'function') {
+                let padMonth = String(nextMonth).padStart(2, '0');
+                window.updateMiniCalendar(`${nextYear}-${padMonth}-01`, false); 
+            }
+        }
+
+        window.selectDate = async function(dateStr) {
+            calState.selectedDate = dateStr;
+
+            if (typeof window.updateMiniCalendar === 'function') {
+                window.updateMiniCalendar(dateStr, true); 
+            }
+
+            const parts = dateStr.split('-');
+            const y = parseInt(parts[0]);
+            const m = parseInt(parts[1]);
+            
+            if (y !== calState.year || m !== calState.month) {
+                await loadCalendarGrid(m, y, dateStr);
+            } else {
+                updateVisualBadges(dateStr);
+            }
+
+            updateSidebarDetails(dateStr);
+        }
+
+        async function loadCalendarGrid(targetMonth, targetYear, dateToHighlight) {
             const loader = document.getElementById('calendar-loading');
             const container = document.getElementById('calendar-grid-container');
-            loader.classList.remove('hidden');
+            
+            calState.isLoading = true;
+            if (loader) loader.classList.remove('hidden');
 
             try {
-                const response = await fetch(`${calState.routeName}?month=${newMonth}&year=${newYear}`);
-                if (!response.ok) throw new Error('Erro na rede');
+                let monthFormatted = String(targetMonth).padStart(2, '0');
+                let phpMonthParam = `${targetYear}-${monthFormatted}`;
+
+                const params = new URLSearchParams({
+                    month: phpMonthParam,      
+                    date: dateToHighlight,
+                    _t: new Date().getTime()   
+                });
+
+                const response = await fetch(`${calState.routeName}?${params.toString()}`, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+
+                if (!response.ok) throw new Error('Erro na rede: ' + response.status);
                 
                 const html = await response.text();
                 
-                container.innerHTML = html;
+                if (container) container.innerHTML = html;
+
+                calState.month = targetMonth;
+                calState.year = targetYear;
+
+                const lblMonth = document.getElementById('label-month');
+                const lblYear = document.getElementById('label-year');
+
+                if (lblMonth) lblMonth.innerText = monthNames[targetMonth - 1];
+                if (lblYear) lblYear.innerText = targetYear;
+
+                if (dateToHighlight) {
+                    updateVisualBadges(dateToHighlight);
+                }
+
             } catch (error) {
                 console.error("Erro ao carregar calendário:", error);
-                alert("Não foi possível carregar os eventos.");
             } finally {
-                loader.classList.add('hidden');
+                calState.isLoading = false;
+                if(loader) loader.classList.add('hidden');
             }
         }
 
-        async function selectDate(dateStr) {
-            const dateObj = new Date(dateStr + 'T00:00:00');
-            const options = { weekday: 'long', day: 'numeric' };
+        function updateVisualBadges(dateStr) {
+            const allBadges = document.querySelectorAll('#calendar-grid-container .day-badge');
+            
+            const activeClasses = [
+                'bg-emerald-500', 'text-white', 
+                'w-[1.04vw]', 'h-[1.04vw]', 
+                'rounded-[0.25vw]', 'font-bold', 'text-[0.63vw]',
+                'flex', 'items-center', 'justify-center' 
+            ];
 
+            const inactiveClasses = [
+                'text-gray-700', 'font-medium', 
+                'w-[0.83vw]', 'h-[0.83vw]', 'text-[0.63vw]',
+                'flex', 'items-center', 'justify-center'
+            ];
+
+ 
+            allBadges.forEach(badge => {
+                badge.classList.remove(...activeClasses);
+                badge.classList.add(...inactiveClasses);
+            });
+
+            const container = document.getElementById('cal-day-' + dateStr);
+
+            if (container) {
+                const badge = container.querySelector('.day-badge');
+                if (badge) {
+                    badge.classList.remove(...inactiveClasses);
+                    badge.classList.add(...activeClasses);
+                }
+            }
+        }
+
+        async function updateSidebarDetails(dateStr) {
+            const [y, m, d] = dateStr.split('-');
+            const dateObj = new Date(y, m - 1, d); 
+            
+            const options = { weekday: 'long', day: 'numeric' };
             const formattedDate = dateObj.toLocaleDateString('pt-BR', options); 
             
             const labelSidebar = document.getElementById('sidebar-selected-date');
-
-            if(labelSidebar) labelSidebar.innerText = formattedDate;
+            if (labelSidebar) labelSidebar.innerText = formattedDate;
 
             const containerLista = document.getElementById('sidebar-event-list');
-            
-            containerLista.innerHTML = '<div class="p-[0.83vw] text-center text-gray-400 text-[0.63vw]">Carregando...</div>';
 
-            try {
-                const url = "{{ route('clube.ajax.day-details') }}?date=" + dateStr;
-                const res = await fetch(url);
-                const html = await res.text();
+            if (containerLista) {
+                containerLista.innerHTML = '<div class="p-[0.83vw] text-center text-gray-400 text-[0.63vw]">Carregando...</div>';
                 
-                containerLista.innerHTML = html;
-            } catch (err) {
-                console.error(err);
-                containerLista.innerHTML = '<div class="text-red-500 text-[0.63vw]">Erro ao carregar.</div>';
+                try {
+                    const url = "{{ route('clube.ajax.day-details') }}?date=" + dateStr;
+                    const res = await fetch(url);
+                    if(!res.ok) throw new Error('Erro sidebar');
+                    const html = await res.text();
+                    containerLista.innerHTML = html;
+                } catch (err) {
+                    console.error(err);
+                    containerLista.innerHTML = '<div class="text-red-500 text-center text-[0.63vw] py-4">Erro ao carregar detalhes.</div>';
+                }
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof window.updateMiniCalendar === 'function') {
+                window.updateMiniCalendar(calState.selectedDate);
+            }
+            updateSidebarDetails(calState.selectedDate);
+        });
     </script>
 </x-layouts.clube>

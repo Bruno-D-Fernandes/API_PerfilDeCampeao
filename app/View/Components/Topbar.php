@@ -21,10 +21,7 @@ class Topbar extends Component
         $this->title = $title;
         $this->breadcrumb = $breadcrumb;
         
-        $this->user = Auth::user() ?? (object) [
-            'name' => 'Visitante', 
-            'email' => 'guest@sistema.com'
-        ];
+        $this->user = Auth::guard('club')->user() ?? Auth::guard('admin')->user();
 
         $this->type = ($this->user instanceof Clube ? 'Clube' : ($this->user instanceof Admin ? 'Admin' : 'Visitante'));
 

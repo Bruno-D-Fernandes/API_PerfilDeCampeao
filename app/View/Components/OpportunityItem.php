@@ -10,24 +10,22 @@ class OpportunityItem extends Component
 
     public function __construct($opportunity)
     {
-        $this->opportunity = $opportunity;
+        $this->opportunity = $opportunity->load('inscricoes.usuario');
     }
 
     public function statusColor()
     {
         return match($this->opportunity->status) {
-            'ativa'  => ['color' => 'green', 'text' => 'Ativa'],
-            'rejeitada' => ['color' => 'red', 'text' => 'Rejeitada'],
+            'approved'  => ['color' => 'green', 'text' => 'Aprovada'],
+            'rejected' => ['color' => 'red', 'text' => 'Rejeitada'],
             default   => ['color' => 'gray', 'text' => 'Pendente'],
         };
     }
 
     public function progress()
     {
-        $limit = $this->opportunity->vagas ?? 0;
-        $current = $this->opportunity->inscritos;
-
-        if ($limit <= 0) return null;
+        $limit = $this->opportunity->limite_inscricoes ?? 10;
+        $current = $this->opportunity->inscricoes->count();
 
         return [
             'percentage' => min(100, ($current / $limit) * 100),

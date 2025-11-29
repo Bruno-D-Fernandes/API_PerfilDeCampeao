@@ -103,10 +103,27 @@ class Oportunidade extends Model
         return $this->posicaoPivot()->where('posicoes.id','!=', $this->posicoes_id);
     }
 
-
     public function inscricoes()
     {
         return $this->hasMany(Inscricao::class, 'oportunidade_id');
+    }
+
+    public function inscricoesAprovadas()
+    {
+        return $this->hasMany(Inscricao::class, 'oportunidade_id')
+                    ->where('status', self::STATUS_APPROVED);
+    }
+
+    public function inscricoesRejeitadas()
+    {
+        return $this->hasMany(Inscricao::class, 'oportunidade_id')
+                    ->where('status', self::STATUS_REJECTED);
+    }
+
+    public function inscricoesPendentes()
+    {
+        return $this->hasMany(Inscricao::class, 'oportunidade_id')
+                    ->where('status', self::STATUS_PENDING);
     }
 
     public function candidatos()
