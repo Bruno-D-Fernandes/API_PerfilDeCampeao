@@ -26,11 +26,6 @@ return new class extends Migration
                   ->constrained('esportes') // Assume que sua tabela é 'esportes'
                   ->onDelete('cascade');
             
-            // Posição (Singular/Plural do nome da FK não importa se você usa 'constrained')
-            $table->foreignId('posicoes_id') 
-                  ->constrained('posicoes') // Assume que sua tabela de posições é 'posicoes'
-                  ->onDelete('cascade');
-            
             // Clube
             $table->foreignId('clube_id')
                   ->constrained('clubes') // Assume que sua tabela de clubes é 'clubes'
