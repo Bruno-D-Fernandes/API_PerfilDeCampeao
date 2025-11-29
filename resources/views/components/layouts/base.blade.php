@@ -23,6 +23,8 @@
         let currentSortCol = null;
         let currentSortDir = 'neutral';
 
+         const clubeLoginUrl = "{{ route('clube.login') }}";
+
         function handleSort(columnName) {
             let newDirection = 'asc';
 
@@ -156,41 +158,80 @@
 
         const signupForm = document.querySelector("#signup-form");
 
-        if (signupForm) {
-            signupForm.addEventListener("submit", async (e) => {
-                e.preventDefault();
+            if (signupForm) {
+                signupForm.addEventListener("submit", async (e) => {
+                    e.preventDefault();
 
-                const formData = new FormData(signupForm);
+                    const formData = new FormData(signupForm);
 
-                for (let [key, value] of formData.entries()) {
-                    console.log(key, value);
-                }
+                    try {
+                        const response = await fetch(signupForm.action, {
+                            method: "POST",
+                            body: formData,
+                            headers: {
+                                "Accept": "application/json",
+                                "X-CSRF-TOKEN": document
+                                    .querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content'),
+                            },
+                        });
 
-                try {
-                    const response = await fetch(signupForm.action, {
-                        method: "POST",
-                        body: formData,
-                        headers: {
-                            "Accept": "application/json",
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        const raw = await response.text();
+                        console.log('RAW RESPONSE:', raw);
+
+                        let data = null;
+
+                        try {
+                            data = JSON.parse(raw);
+                        } catch (parseError) {
+                            // se não for JSON, mostramos o HTML de erro no console
+                            console.error("Resposta não é JSON. Conteúdo bruto:", raw);
+                            showToast(
+                                "error",
+                                "Erro no cadastro",
+                                "O servidor retornou uma resposta inesperada. Veja o console para detalhes."
+                            );
+                            return;
                         }
-                    });
 
-                    if (!response.ok) {
-                        const data = await response.json();
-                        showToast("error", "Erro no cadastro", data.message ?? "Erro inesperado.");
-                        return;
+                       if (!response.ok) {
+                            console.error("Erro no cadastro:", data);
+
+                            let msg = data.message ?? "Erro inesperado ao cadastrar.";
+
+                            if (response.status === 422 && data.errors) {
+                                const allErrors = Object.values(data.errors).flat();
+                                if (allErrors.length > 0) {
+                                    msg = allErrors[0];
+                                }
+                            }
+
+                            showToast("error", "Erro no cadastro", msg);
+                            return;
+                        }
+
+                        showToast(
+                            "success",
+                            "Cadastro realizado",
+                            data.message ?? "Conta criada com sucesso! Aguarde análise do administrador."
+                        );
+
+                        signupForm.reset();
+
+                        setTimeout(() => {
+                            window.location.href = clubeLoginUrl;
+                        }, 3000);
+
+                    } catch (err) {
+                        console.error(err);
+                        showToast(
+                            "error",
+                            "Erro de conexão",
+                            "Não foi possível conectar ao servidor."
+                        );
                     }
-
-                    const data = await response.json();
-                    showToast("success", "Cadastro realizado", data.message ?? "Conta criada com sucesso!");
-                    signupForm.reset();
-
-                } catch (err) {
-                    showToast("error", "Erro de conexão", "Não foi possível conectar ao servidor.");
-                }
-            });
-        }
+                });
+            }
 
         const formAdm = document.querySelector("#login-form-adm");
 

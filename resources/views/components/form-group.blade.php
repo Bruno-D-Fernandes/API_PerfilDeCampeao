@@ -1,4 +1,17 @@
+@props([
+    'label' => null,
+    'name' => null,
+    'id' => null,
+    'type' => 'text',
+    'labelColor' => 'gray',
+    'textSize' => 'md',
+])
+
 @php
+    if (!$id && $name) {
+        $id = $name;
+    }
+
     $theme = match($labelColor) {
         'red'   => ['label' => 'text-red-600',      'input' => 'focus:ring-red-500 focus:border-red-500'],
         'blue'  => ['label' => 'text-sky-600',      'input' => 'focus:ring-sky-500 focus:border-sky-500'],
@@ -56,15 +69,19 @@
         @endif
 
         @if($isSelect)
-            <x-select 
+            {{-- SELECT nativo, mantendo a mesma estilização do input --}}
+            <select
+                id="{{ $id }}"
+                name="{{ $name }}"
                 {{ $attributes->merge([
-                    'id' => $id, 
-                    'name' => $name,
-                    'class' => $theme['input'] . ' ' . ($hasSlotIcon ? 'ps-[2.08vw]' : ''),
+                    'class' =>
+                        'block w-full p-[0.52vw] text-[0.73vw] text-gray-900 bg-gray-50 border-[0.052vw] border-gray-300 rounded-[0.42vw] focus:border-[0.052vw] ' .
+                        $theme["input"] .
+                        ($showIconColumn ? ' ps-[2.08vw]' : ''),
                 ]) }}
             >
                 {{ $slot }}
-            </x-select>
+            </select>
         @else
             <input 
                 type="{{ $type }}" 

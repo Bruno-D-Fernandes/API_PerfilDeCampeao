@@ -2,194 +2,130 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class UsuarioSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $agora = Carbon::now();
 
-        $atletas = [
-            [
-                'nomeCompletoUsuario' => 'Lucas Ferreira da Silva',
-                'emailUsuario' => 'lucasf@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2002-05-14',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'alturaCm' => 178.5,
-                'pesoKg' => 72.3,
-                'peDominante' => 'Direito',
-                'maoDominante' => 'Destro',
-                'generoUsuario' => 'Masculino',
-                'estadoUsuario' => 'São Paulo',
-                'cidadeUsuario' => 'Campinas',
-                'created_at' => $agora->copy()->subMonths(5)->toDateTimeString(),
-                'updated_at' => $agora->copy()->subMonths(5)->toDateTimeString(),
-            ],
-            [
-                'nomeCompletoUsuario' => 'Mariana Costa Oliveira',
-                'emailUsuario' => 'maricosta@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2004-11-09',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'alturaCm' => 182.0,
-                'pesoKg' => 68.0,
-                'peDominante' => 'Direito',
-                'maoDonante' => 'Destro',
-                'generoUsuario' => 'Feminino',
-                'estadoUsuario' => 'Minas Gerais',
-                'cidadeUsuario' => 'Belo Horizonte',
-                'created_at' => $agora->copy()->subMonths(5)->toDateTimeString(),
-                'updated_at' => $agora->copy()->subMonths(5)->toDateTimeString(),
-            ],
-            [
-                'nomeCompletoUsuario' => 'Rafael Andrade Lima',
-                'emailUsuario' => 'rafael.a@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '1999-02-25',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'alturaCm' => 174.0,
-                'pesoKg' => 69.5,
-                'peDominante' => 'Direito',
-                'maoDominante' => 'Destro',
-                'generoUsuario' => 'Masculino',
-                'estadoUsuario' => 'Rio de Janeiro',
-                'cidadeUsuario' => 'Niterói',
-                'created_at' => $agora->copy()->subMonths(5)->toDateTimeString(),
-                'updated_at' => $agora->copy()->subMonths(5)->toDateTimeString(),
-            ],
-            [
-                'nomeCompletoUsuario' => 'Beatriz Santos Nogueira',
-                'emailUsuario' => 'bia.nog@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2005-08-12',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'alturaCm' => 170.0,
-                'pesoKg' => 60.0,
-                'peDominante' => 'Direito',
-                'maoDominante' => 'Destro',
-                'generoUsuario' => 'Feminino',
-                'estadoUsuario' => 'Paraná',
-                'cidadeUsuario' => 'Curitiba',
-                'created_at' => $agora->copy()->subMonths(4)->toDateTimeString(),
-                'updated_at' => $agora->copy()->subMonths(4)->toDateTimeString(),
-            ],
-            [
-                'nomeCompletoUsuario' => 'João Victor Mendes',
-                'emailUsuario' => 'joaovm@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2001-03-22',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'alturaCm' => 185.0,
-                'pesoKg' => 80.0,
-                'peDominante' => 'Direito',
-                'maoDominante' => 'Destro',
-                'generoUsuario' => 'Masculino',
-                'estadoUsuario' => 'Bahia',
-                'cidadeUsuario' => 'Salvador',
-                'created_at' => $agora->copy()->subMonths(4)->toDateTimeString(),
-                'updated_at' => $agora->copy()->subMonths(4)->toDateTimeString(),
-            ],
-            [
-                'nomeCompletoUsuario' => 'Carla Lima Souza',
-                'emailUsuario' => 'carlinha@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2003-07-30',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'alturaCm' => 177.0,
-                'pesoKg' => 65.0,
-                'peDominante' => 'Direito',
-                'maoDominante' => 'Destro',
-                'generoUsuario' => 'Feminino',
-                'estadoUsuario' => 'São Paulo',
-                'cidadeUsuario' => 'Santos',
-                'created_at' => $agora->copy()->subMonths(4)->toDateTimeString(),
-                'updated_at' => $agora->copy()->subMonths(4)->toDateTimeString(),
-            ],
-            [
-                'nomeCompletoUsuario' => 'Eduardo Rocha Lima',
-                'emailUsuario' => 'edu.rocha@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '1998-12-01',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'alturaCm' => 180.0,
-                'pesoKg' => 75.0,
-                'peDominante' => 'Direito',
-                'maoDominante' => 'Destro',
-                'generoUsuario' => 'Masculino',
-                'estadoUsuario' => 'Pernambuco',
-                'cidadeUsuario' => 'Recife',
-                'created_at' => $agora->copy()->subMonths(3)->toDateTimeString(),
-                'updated_at' => $agora->copy()->subMonths(3)->toDateTimeString(),
-            ],
-            [
-                'nomeCompletoUsuario' => 'Larissa Gomes Pinto',
-                'emailUsuario' => 'lari.pinto@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2006-09-05',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'alturaCm' => 165.0,
-                'pesoKg' => 55.0,
-                'peDominante' => 'Direito',
-                'maoDominante' => 'Canhoto',
-                'generoUsuario' => 'Feminino',
-                'estadoUsuario' => 'Rio Grande do Sul',
-                'cidadeUsuario' => 'Porto Alegre',
-                'created_at' => $agora->copy()->subMonths(2)->toDateTimeString(),
-                'updated_at' => $agora->copy()->subMonths(2)->toDateTimeString(),
-            ],
-            [
-                'nomeCompletoUsuario' => 'Pedro Henrique Almeida',
-                'emailUsuario' => 'pedroha@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2000-01-10',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'alturaCm' => 183.0,
-                'pesoKg' => 77.0,
-                'peDominante' => 'Direito',
-                'maoDominante' => 'Destro',
-                'generoUsuario' => 'Masculino',
-                'estadoUsuario' => 'Ceará',
-                'cidadeUsuario' => 'Fortaleza',
-                'created_at' => $agora->copy()->subMonths(1)->toDateTimeString(),
-                'updated_at' => $agora->copy()->subMonths(1)->toDateTimeString(),
-            ],
-            [
-                'nomeCompletoUsuario' => 'Sofia Reis Martins',
-                'emailUsuario' => 'sofiamartins@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2007-10-15',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'alturaCm' => 160.0,
-                'pesoKg' => 50.0,
-                'peDominante' => 'Direito',
-                'maoDominante' => 'Destro',
-                'generoUsuario' => 'Feminino',
-                'estadoUsuario' => 'Santa Catarina',
-                'cidadeUsuario' => 'Florianópolis',
-                'created_at' => $agora->toDateTimeString(),
-                'updated_at' => $agora->toDateTimeString(),
-            ],
+        // -----------------------------------------
+        // LISTAS DE NOMES – aleatórios e variados
+        // -----------------------------------------
+        $firstMale = [
+            "Lucas","João","Pedro","Rafael","Thiago","Bruno","Matheus","Gustavo",
+            "Samuel","Daniel","Felipe","Victor","Alex","Igor","Henrique","Diego",
+            "Marcelo","André","Rodrigo","Eduardo","Hugo","Caio","Murilo","Fernando",
+            "Leandro","Renato","Fábio","Cauã","Nathan","Arthur","Ryan","Enzo",
         ];
 
-        DB::table('usuarios')->insert($atletas);
+        $firstFemale = [
+            "Ana","Mariana","Letícia","Julia","Isabela","Camila","Larissa","Bianca",
+            "Carolina","Emanuelle","Aline","Sophia","Luana","Heloísa","Bruna","Gabriela",
+            "Vitória","Laura","Nicole","Paola","Manuela","Yasmin","Fernanda","Lorena",
+            "Alice","Raquel","Stella","Lívia","Tainá","Nathalia","Caroline","Marina",
+        ];
+
+        $lastNames = [
+            "Silva","Santos","Oliveira","Souza","Rodrigues","Fernandes","Almeida","Lima",
+            "Araújo","Gomes","Costa","Barbosa","Mendes","Moura","Teixeira","Carvalho",
+            "Rocha","Batista","Rezende","Monteiro","Nogueira","Pires","Ribeiro","Cardoso",
+            "Dias","Freitas","Castro","Matos","Farias","Cavalcante","Vieira","Azevedo",
+        ];
+
+        // -----------------------------------------
+        // LOCAIS (mantive os seus)
+        // -----------------------------------------
+        $locais = [
+            ['estado' => 'São Paulo', 'cidade' => 'São Paulo'],
+            ['estado' => 'São Paulo', 'cidade' => 'Campinas'],
+            ['estado' => 'São Paulo', 'cidade' => 'Santos'],
+            ['estado' => 'Rio de Janeiro', 'cidade' => 'Rio de Janeiro'],
+            ['estado' => 'Rio de Janeiro', 'cidade' => 'Niterói'],
+            ['estado' => 'Minas Gerais', 'cidade' => 'Belo Horizonte'],
+            ['estado' => 'Paraná', 'cidade' => 'Curitiba'],
+            ['estado' => 'Bahia', 'cidade' => 'Salvador'],
+            ['estado' => 'Pernambuco', 'cidade' => 'Recife'],
+            ['estado' => 'Rio Grande do Sul', 'cidade' => 'Porto Alegre'],
+            ['estado' => 'Ceará', 'cidade' => 'Fortaleza'],
+            ['estado' => 'Santa Catarina', 'cidade' => 'Florianópolis'],
+        ];
+
+        // -----------------------------------------
+        // GERAR 200 USUÁRIOS
+        // -----------------------------------------
+        $usuarios = [];
+
+        for ($i = 1; $i <= 200; $i++) {
+
+            $genero = rand(0, 1) === 1 ? 'Masculino' : 'Feminino';
+
+            $firstName = $genero === 'Masculino'
+                ? $firstMale[array_rand($firstMale)]
+                : $firstFemale[array_rand($firstFemale)];
+
+            $lastName  = $lastNames[array_rand($lastNames)];
+
+            $nome = "{$firstName} {$lastName}";
+
+            // Email seguro (sem acentos e sem caracteres especiais)
+            $emailBase = Str::ascii($nome);
+            $emailBase = strtolower(preg_replace('/[^a-z0-9]/', '', $emailBase));
+            $numero = str_pad($i, 3, '0', STR_PAD_LEFT);
+
+            $email = "{$emailBase}{$numero}@example.com";
+
+            // datas de nascimento variando (1985–2004)
+            $ano = rand(1985, 2004);
+            $mes = rand(1, 12);
+            $dia = rand(1, 28);
+
+            $dataNascimento = sprintf('%04d-%02d-%02d', $ano, $mes, $dia);
+
+            // Local aleatório
+            $local = $locais[array_rand($locais)];
+
+            // altura e peso normais
+            $altura = rand(160, 195);
+            $peso   = rand(55, 95);
+
+            $peDominante  = rand(0, 1) ? 'direito' : 'esquerdo';
+            $maoDominante = rand(0, 1) ? 'direita' : 'esquerda';
+
+            // created_at / updated_at -> entre agora e 6 meses atrás
+            $createdAt = Carbon::now()
+                ->copy()
+                ->subMonths(rand(0, 5))
+                ->subDays(rand(0, 27))
+                ->setHour(rand(7, 22))
+                ->setMinute(rand(0, 59))
+                ->setSecond(0);
+
+            $usuarios[] = [
+                'nomeCompletoUsuario'     => $nome,
+                'emailUsuario'            => $email,
+                'senhaUsuario'            => Hash::make('123456'),
+                'dataNascimentoUsuario'   => $dataNascimento,
+                'fotoPerfilUsuario'       => "usuario_{$numero}_perfil.jpg",
+                'fotoBannerUsuario'       => "usuario_{$numero}_banner.jpg",
+                'alturaCm'                => $altura,
+                'pesoKg'                  => $peso,
+                'peDominante'             => $peDominante,
+                'maoDominante'            => $maoDominante,
+                'generoUsuario'           => $genero,
+                'estadoUsuario'           => $local['estado'],
+                'cidadeUsuario'           => $local['cidade'],
+                'status'                  => 'ativo',
+                'created_at'              => $createdAt,
+                'updated_at'              => $createdAt,
+            ];
+        }
+
+        DB::table('usuarios')->insert($usuarios);
     }
 }

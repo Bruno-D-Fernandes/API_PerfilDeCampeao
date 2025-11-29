@@ -32,7 +32,7 @@ Route::prefix('clube')->name('clube.')->group(function () {
     
     Route::get('/cadastro', [AuthClubeController::class, 'showRegisterForm'])->name('cadastro');
     
-    Route::post('/cadastro', [AuthClubeController::class, 'register'])->name('cadastro.submit');
+    Route::post('/clube/register', [ClubeController::class, 'store'])->name('cadastro.submit');
 
     Route::middleware(['auth:club'])->group(function () {
         Route::post('/logout', [AuthClubeController::class, 'logout'])->name('logout');

@@ -9,6 +9,9 @@ return [
     'integer'  => 'O campo :attribute deve ser um número inteiro.',
     'min'      => [
         'numeric' => 'O campo :attribute deve ser no mínimo :min.',
+        'string'  => 'O campo :attribute deve ter no mínimo :min caracteres.',
+        'array'   => 'O campo :attribute deve ter no mínimo :min itens.',
+        'file'    => 'O arquivo :attribute deve ter no mínimo :min kilobytes.',
     ],
     'max'      => [
         'string'  => 'O campo :attribute pode ter no máximo :max caracteres.',
