@@ -46,7 +46,7 @@ class OportunidadeController extends Controller
             'esporte_id'                => 'required|exists:esportes,id',
             'posicoes_id'               => 'required|exists:posicoes,id',
             'posicoes_ids'              => 'nullable|array',
-            'posicoes_ids*'             => 'exists:posicoes,id',
+            'posicoes_ids.*'             => 'exists:posicoes,id',
             'idadeMinima'               => 'nullable|integer|min:0|max:120',
             'idadeMaxima'               => 'nullable|integer|min:0|max:120|gte:idadeMinima',
         ]);
@@ -70,7 +70,7 @@ class OportunidadeController extends Controller
             if (array_key_exists('posicoes_ids', $validatedData)) {
                 $ids = $validatedData['posicoes_ids'] ?? [];
 
-                $principalId = $clube->posicoes_id;
+                $principalId = $oportunidade->posicoes_id;
                 if (array_key_exists('posicoes_id', $validatedData)) {
                     $principalId = $validatedData['posicoes_id'];
                 }
@@ -79,10 +79,10 @@ class OportunidadeController extends Controller
                     $ids[] = $principalId;
                 }
 
-                $oportunidade->posicoesPivot()->sync($ids);
+                $oportunidade->posicaoPivot()->sync($ids);
             } else {
                 if (array_key_exists('posicoes_id', $validatedData)) {
-                    $oportunidade->posicoesPivot()->syncWithoutDetaching([$validatedData['posicoes_id']]);
+                    $oportunidade->posicaoPivot()->syncWithoutDetaching([$validatedData['posicoes_id']]);
                 }
             }
 
@@ -189,7 +189,7 @@ class OportunidadeController extends Controller
             'esporte_id'                => 'sometimes|required|exists:esportes,id',
             'posicoes_id'               => 'sometimes|required|exists:posicoes,id',
             'posicoes_ids'              => 'sometimes|array',
-            'posicoes_ids*'             => 'exists:posicoes,id',
+            'posicoes_ids.*'             => 'exists:posicoes,id',
             'idadeMinima'               => 'sometimes|integer|min:0|max:120',
             'idadeMaxima'               => 'sometimes|integer|min:0|max:120|gte:idadeMinima',
         ]);
@@ -206,7 +206,7 @@ class OportunidadeController extends Controller
         if (array_key_exists('posicoes_ids', $validatedData)) {
             $ids = $validatedData['posicoes_ids'] ?? [];
 
-            $principalId = $clube->posicoes_id;
+            $principalId = $oportunidade->posicoes_id;
             if (array_key_exists('posicoes_id', $validatedData)) {
                 $principalId = $validatedData['posicoes_id'];
             }
@@ -215,10 +215,10 @@ class OportunidadeController extends Controller
                 $ids[] = $principalId;
             }
 
-            $oportunidade->posicoesPivot()->sync($ids);
+            $oportunidade->posicaoPivot()->sync($ids);
         } else {
             if (array_key_exists('posicoes_id', $validatedData)) {
-                $oportunidade->posicoesPivot()->syncWithoutDetaching([$validatedData['posicoes_id']]);
+                $oportunidade->posicaoPivot()->syncWithoutDetaching([$validatedData['posicoes_id']]);
             }
         }
 

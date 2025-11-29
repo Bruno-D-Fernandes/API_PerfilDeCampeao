@@ -18,16 +18,51 @@ class ListaClubeController extends Controller
         return view('admin.listas.listas')->with(['listas' => $listas]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $clube = Auth::guard('club_sanctum')->user();
+            $clube = $request->user();
 
-            if (!$clube) {
+            if (! $clube instanceof Clube) {
                 return response()->json(['message' => 'Clube não autenticado'], 401);
             }
 
-            $listas = $clube->listas->load('usuarios'); 
+            $search  = $request->query('search');
+            $perPage = (int) $request->query('per_page', 15);
+            $sortCol = $request->query('sort_col');
+            $sortDir = $request->query('sort_dir');
+
+            $q = Lista::query()
+                ->where('clube_id', $clube->id)
+                ->withCount('usuarios');
+
+            if ($search) {
+                $q->where(function ($w) use ($search) {
+                    $w->where('nome', 'like', "%{$search}%")
+                      ->orWhere('descricao', 'like', "%{$search}%");
+                });
+            }
+
+            $allowedColumns = [
+                'id',
+                'nome',
+                'descricao',
+                'usuarios_count',
+                'created_at',
+                'updated_at',
+            ];
+
+            if (
+                $sortCol &&
+                in_array($sortCol, $allowedColumns) &&
+                in_array($sortDir, ['asc', 'desc'])
+            ) {
+                $q->orderBy($sortCol, $sortDir);
+            } else {
+                $q->orderBy('id', 'desc');
+            }
+
+            $listas = $q->paginate($perPage);
 
             return response()->json($listas, 200);
         } catch (\Exception $e) {
@@ -58,7 +93,7 @@ class ListaClubeController extends Controller
         }
 
         $lista = Lista::create([
-            'clube_id'  => $clube->id,      
+            'clube_id'  => $clube->id,
             'nome'      => $data['nome'],
             'descricao' => $data['descricao'] ?? null,
         ]);
@@ -77,7 +112,6 @@ class ListaClubeController extends Controller
 
         $lista = Lista::where('clube_id', $clube->id)->findOrFail($listaId);
 
-        // evita duplicatas no pivot
         $lista->usuarios()->syncWithoutDetaching($usuario);
 
         return response()->json(['message' => 'Usuário adicionado à lista com sucesso'], 201);
@@ -87,7 +121,7 @@ class ListaClubeController extends Controller
     public function removeUsuarioFromLista(Request $request, $listaId, Usuario $usuario)
     {
         $clube = $request->user();
-        
+
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Apenas clube autenticado'], 403);
         }
@@ -101,7 +135,7 @@ class ListaClubeController extends Controller
     // GET /api/clube/listas/{id}
     public function show(Request $request, $id)
     {
-        $user = $request->user(); 
+        $user = $request->user();
 
         if (!$user) {
             return response()->json(['message' => 'Não autenticado'], 401);
@@ -110,11 +144,12 @@ class ListaClubeController extends Controller
         $lista = Lista::with([
             'clube',
             'usuarios:id,nomeCompletoUsuario,emailUsuario,estadoUsuario,cidadeUsuario,alturaCm,pesoKg'
-        ])
-        ->find($id);
+        ])->find($id);
+
         if (!$lista) {
             return response()->json(['message' => 'Lista não encontrada'], 404);
         }
+
         $podeVer = false;
 
         if ($user instanceof Admin) {
@@ -137,13 +172,15 @@ class ListaClubeController extends Controller
         if (!$user) {
             return response()->json(['message' => 'Não autenticado'], 401);
         }
+
         $lista = Lista::find($id);
 
         if (!$lista) {
             return response()->json(['message' => 'Lista não encontrada'], 404);
         }
+
         $podeExcluir = false;
-        
+
         if ($user instanceof Admin) {
             $podeExcluir = true;
         } elseif ($user instanceof Clube && $user->id == $lista->clube_id) {

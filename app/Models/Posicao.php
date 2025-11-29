@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Clube;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Esporte;
 use App\Models\Perfil;
 use App\Models\Oportunidade;
 use App\Models\Usuario;
@@ -41,9 +42,9 @@ class Posicao extends Model
     public function oportunidades(){
         return $this->belongsToMany(
             Oportunidade::class,
-            'oportunidades_id',
+            'oportunidades_posicoes',
             'posicoes_id',
-            'oportunidades_posicoes'
+            'oportunidades_id'
         )->withTimestamps();
     }
 
