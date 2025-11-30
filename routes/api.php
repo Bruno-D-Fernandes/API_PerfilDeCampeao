@@ -396,6 +396,9 @@ Route::prefix('admin')->group(function () {
 
         // Convites / "inscritos" de um evento (Admin)
         Route::get('/eventos/{eventoId}/convites', [AdminEventoController::class, 'eventInvitesAdmin']);
+
+         // ROTA DO CSV
+        Route::get('/export/csv', [AdminSistemaController::class, 'exportDadosSistema'])->name('admin.export.csv');
     });
 });
 

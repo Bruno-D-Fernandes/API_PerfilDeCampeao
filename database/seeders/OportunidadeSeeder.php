@@ -20,7 +20,6 @@ class OportunidadeSeeder extends Seeder
             return;
         }
 
-        // mapa: esporte_id => [posicao_ids...]
         $posicoesPorEsporte = [];
         foreach ($esportes as $esporte) {
             $posicoesPorEsporte[$esporte->id] = Posicao::where('idEsporte', $esporte->id)
@@ -28,7 +27,6 @@ class OportunidadeSeeder extends Seeder
                 ->all();
         }
 
-        // mapa: posicao_id => nomePosicao (pra montar título bonitinho)
         $mapPosicoes = Posicao::pluck('nomePosicao', 'id')->all();
 
         $titulosBase = [
@@ -45,10 +43,8 @@ class OportunidadeSeeder extends Seeder
         ];
 
         for ($i = 1; $i <= 100; $i++) {
-            // Clube sorteado
             $clubeId = $clubes[array_rand($clubes)];
 
-            // Esporte sorteado que tenha ao menos uma posição
             $esporteEscolhido = null;
             $posicoes = [];
             $tentativas = 0;
@@ -60,11 +56,9 @@ class OportunidadeSeeder extends Seeder
             } while (empty($posicoes) && $tentativas < 10);
 
             if (empty($posicoes)) {
-                // Se não tiver posição pra esse esporte, pula
                 continue;
             }
 
-            // Entre 1 e 3 posições distintas
             $quantPosicoes = rand(1, min(3, count($posicoes)));
             $keysSorteadas = (array) array_rand($posicoes, $quantPosicoes);
             $posicoesIds   = [];
@@ -73,10 +67,10 @@ class OportunidadeSeeder extends Seeder
                 $posicoesIds[] = $posicoes[$k];
             }
 
+            // usa a primeira posição só pra montar título/descrição, mas NÃO salva como campo principal
             $posicaoPrincipalId   = $posicoesIds[0];
             $nomePosicaoPrincipal = $mapPosicoes[$posicaoPrincipalId] ?? 'Atleta';
 
-            // Monta título decente
             $tituloBase = $titulosBase[array_rand($titulosBase)];
             $titulo     = sprintf(
                 '%s - %s (%s)',
@@ -89,7 +83,6 @@ class OportunidadeSeeder extends Seeder
                 ' na posição de ' . $nomePosicaoPrincipal .
                 '. Seleção organizada pelo clube para avaliação de novos talentos.';
 
-            // Data de postagem entre 1 e 6 meses atrás
             $mesesAtras   = rand(1, 6);
             $diasExtras   = rand(0, 27);
             $dataPostagem = Carbon::now()
@@ -100,7 +93,6 @@ class OportunidadeSeeder extends Seeder
                 ->setMinute(rand(0, 59))
                 ->setSecond(0);
 
-            // Idades (às vezes null)
             $idadeMin = null;
             $idadeMax = null;
 
@@ -109,7 +101,6 @@ class OportunidadeSeeder extends Seeder
                 $idadeMax = rand($idadeMin + 1, $idadeMin + 10);
             }
 
-            // Limite de inscrições (AGORA SEMPRE DEFINIDO)
             $limiteInscricoes = rand(10, 60);
 
             $oportunidade = Oportunidade::create([
@@ -118,7 +109,6 @@ class OportunidadeSeeder extends Seeder
                 'descricaoOportunidades'    => $descricao,
                 'datapostagemOportunidades' => $dataPostagem,
                 'esporte_id'                => $esporteEscolhido->id,
-                'posicoes_id'               => $posicaoPrincipalId,
                 'clube_id'                  => $clubeId,
                 'status'                    => Oportunidade::STATUS_APPROVED,
                 'idadeMinima'               => $idadeMin,
@@ -127,8 +117,8 @@ class OportunidadeSeeder extends Seeder
                 'updated_at'                => $dataPostagem,
             ]);
 
-            // Posições vinculadas (pivot)
-            $oportunidade->posicaoPivot()->sync($posicoesIds);
+            // aqui é a parte importante: usa a relação MANY-TO-MANY nova
+            $oportunidade->posicoes()->sync($posicoesIds);
         }
     }
 }

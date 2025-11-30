@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('idadeMinima')->nullable(); // 0–255
             $table->unsignedTinyInteger('idadeMaxima')->nullable();
 
-            $table->index(['esporte_id', 'posicoes_id']);
+            $table->index(['esporte_id']);
         });
     }
 

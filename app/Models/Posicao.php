@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Clube;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Esporte;
 use App\Models\Perfil;
@@ -27,6 +26,7 @@ class Posicao extends Model
     {
         return $this->belongsTo(Esporte::class, 'idEsporte');
     }
+
     public function perfis()
     {
         return $this->belongsToMany(Perfil::class, 'perfil_posicao')
@@ -39,7 +39,8 @@ class Posicao extends Model
             ->withTimestamps();
     }
 
-    public function oportunidades(){
+    public function oportunidades()
+    {
         return $this->belongsToMany(
             Oportunidade::class,
             'oportunidades_posicoes',
@@ -47,5 +48,4 @@ class Posicao extends Model
             'oportunidades_id'
         )->withTimestamps();
     }
-
 }

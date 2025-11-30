@@ -11,20 +11,14 @@ use App\Models\Inscricao;
 use App\Models\Admin;
 use App\Models\Usuario;
 
-// Não é necessário herdar de Authenticatable ou usar HasApiTokens neste Model,
-// pois ele é apenas um registro de dados, não um usuário logável.
-
 class Oportunidade extends Model
 {
     use HasFactory;
 
-
-
-
     protected $table = 'oportunidades';
     protected $hidden = ['created_at', 'updated_at'];
 
-    public const STATUS_PENDING = 'pending';
+    public const STATUS_PENDING  = 'pending';
     public const STATUS_APPROVED = 'approved';
     public const STATUS_REJECTED = 'rejected';
 
@@ -33,20 +27,19 @@ class Oportunidade extends Model
         'descricaoOportunidades',
         'datapostagemOportunidades',
         'esporte_id',
-        'posicoes_id',
         'clube_id',
         'idadeMinima',
         'idadeMaxima',
         'limite_inscricoes',
-        "status",
-        "reviewed_by",
-        "reviewed_at",
-        "rejection_reason",
+        'status',
+        'reviewed_by',
+        'reviewed_at',
+        'rejection_reason',
     ];
 
     protected $casts = [
         'datapostagemOportunidades' => 'date:Y-m-d',
-        'reviewed_at'               => 'datetime'
+        'reviewed_at'               => 'datetime',
     ];
 
     public function scopeApproved($query)
@@ -58,6 +51,7 @@ class Oportunidade extends Model
     {
         return $query->where('status', self::STATUS_PENDING);
     }
+
     public function scopeRejected($query)
     {
         return $query->where('status', self::STATUS_REJECTED);
@@ -70,37 +64,22 @@ class Oportunidade extends Model
 
     public function clube()
     {
-        
         return $this->belongsTo(Clube::class, 'clube_id');
     }
 
-    /**
-     * Relacionamento: Uma oportunidade é para um esporte.
-     */
     public function esporte()
     {
         return $this->belongsTo(Esporte::class, 'esporte_id');
     }
 
-    public function posicao()
+    public function posicoes()
     {
-        
-        return $this->belongsTo(Posicao::class, 'posicoes_id');
-    }
-
-    public function posicaoPivot(){
-
         return $this->belongsToMany(
             Posicao::class,
             'oportunidades_posicoes',
             'oportunidades_id',
             'posicoes_id'
         )->withTimestamps();
-        
-    }
-
-    public function posicaoExtras(){
-        return $this->posicaoPivot()->where('posicoes.id','!=', $this->posicoes_id);
     }
 
     public function inscricoes()
@@ -129,17 +108,18 @@ class Oportunidade extends Model
     public function candidatos()
     {
         return $this->belongsToMany(Usuario::class, 'inscricoes', 'oportunidade_id', 'usuario_id')
-            ->withPivot('status', 'mensagem')->withTimestamps();
+            ->withPivot('status', 'mensagem')
+            ->withTimestamps();
     }
 
     public function showHTMLStatus()
     {
-        if ($this->status == $this::STATUS_APPROVED) {
+        if ($this->status == self::STATUS_APPROVED) {
             return 'Aprovada';
-        } else if ($this->status == $this::STATUS_REJECTED) {
+        } elseif ($this->status == self::STATUS_REJECTED) {
             return 'Rejeitada';
-        } else {
-            return 'Pendente';
         }
+
+        return 'Pendente';
     }
 }
