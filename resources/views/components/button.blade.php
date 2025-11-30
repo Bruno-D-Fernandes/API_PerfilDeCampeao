@@ -10,14 +10,15 @@
     ];
 
     $sizes = [
-        'xs' => 'px-[0.42vw] py-[0.1vw]  text-[0.42vw]',
+        'sq' => 'p-[0.42vw] text-[0.42vw]',
+        'xs' => 'px-[0.42vw] py-[0.1vw] text-[0.42vw]',
         'sm' => 'px-[0.63vw] py-[0.31vw] text-[0.63vw]',
         'md' => 'px-[0.83vw] py-[0.52vw] text-[0.73vw]',
         'lg' => 'px-[1.25vw] py-[0.73vw] text-[0.83vw]',
         'xl' => 'px-[1.67vw] py-[0.94vw] text-[0.94vw]'
     ];
 
-    $baseClasses = 'cursor-pointer inline-flex items-center justify-center font-medium rounded-[0.42vw] ' . ($color == 'none' ? ' ' : 'shadow-xs ') . 'focus:outline-none transition-transform hover:-translate-y-[0.1vw] transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
+    $baseClasses = 'cursor-pointer inline-flex items-center justify-center font-medium rounded-[0.42vw] ' . ($color == 'none' ? ' ' : 'shadow-xs ]') . 'focus:outline-none transition-transform hover:-translate-y-[0.1vw] transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
     
     $classes = $baseClasses . ' ' . 
                ($colors[$color] ?? $variants['primary']) . ' ' . 

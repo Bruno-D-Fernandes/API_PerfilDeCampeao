@@ -255,7 +255,7 @@ class DashClubeController extends Controller
     private function getAtividadesRecentes($clube, $esporteId, $perPage)
     {
         $oportunidades = Oportunidade::where('clube_id', $clube->id)
-            ->with(['esporte:id,nomeEsporte', 'posicao:id,nomePosicao'])
+            ->with(['esporte:id,nomeEsporte', 'posicoes:id,nomePosicao'])
             ->when($esporteId, fn($q) => $q->where('esporte_id', $esporteId))
             ->orderByDesc('created_at')
             ->take($perPage)
@@ -273,7 +273,7 @@ class DashClubeController extends Controller
         return compact('oportunidades', 'inscricoes');
     }
 
-    private function getProximosEventos($clube, $limit = 3)
+    private function getProximosEventos($clube, $limit = 1)
     {
         return Evento::where('clube_id', $clube->id)
             ->where('data_hora_inicio', '>=', Carbon::now())
@@ -287,18 +287,27 @@ class DashClubeController extends Controller
     {
         $rows = Inscricao::query()
             ->join('oportunidades', 'inscricoes.oportunidade_id', '=', 'oportunidades.id')
+            
+            // 1. JOIN NA TABELA PIVÔ (onde ficam os IDs agora)
+            ->join('oportunidades_posicoes', 'oportunidades.id', '=', 'oportunidades_posicoes.oportunidades_id')
+            
+            // 2. JOIN NA TABELA DE POSIÇÕES (para pegar o nome)
+            ->join('posicoes', 'oportunidades_posicoes.posicoes_id', '=', 'posicoes.id')
+            
             ->where('oportunidades.clube_id', $clube->id)
             ->when($esporteId, fn($q) => $q->where('oportunidades.esporte_id', $esporteId))
-            ->selectRaw('oportunidades.posicoes_id as posicao_id, COUNT(*) as total')
-            ->groupBy('oportunidades.posicoes_id')
+            
+            // 3. SELECT DIRETO DO NOME E CONTAGEM
+            ->selectRaw('posicoes.nomePosicao as posicao_nome, COUNT(inscricoes.id) as total')
+            
+            // 4. AGRUPAR PELO ID DA POSIÇÃO
+            ->groupBy('posicoes.id', 'posicoes.nomePosicao')
             ->get();
 
-        $posicoes = Posicao::whereIn('id', $rows->pluck('posicao_id')->filter())->get()->keyBy('id');
-
-        return $rows->map(function ($row) use ($posicoes) {
-            $pos = $posicoes->get($row->posicao_id);
+        // Retorna direto (o map é opcional agora, mas mantive a estrutura do array)
+        return $rows->map(function ($row) {
             return [
-                'posicao_nome' => $pos?->nomePosicao ?? 'N/A',
+                'posicao_nome' => $row->posicao_nome,
                 'total' => (int) $row->total,
             ];
         });

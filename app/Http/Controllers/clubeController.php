@@ -21,32 +21,22 @@ class ClubeController extends Controller
 {
     public function showProfilePage(Request $request, $id)
     {
-        $clube = Clube::with(
-            'esporte',
-            'esportes',
-            'esportesExtras',
-            'categoria',
+        $clube = Clube::with([
+            'esporte', 
+            'categoria', 
+            'esportesExtras', 
             'oportunidades.esporte',
-            'oportunidades.posicao',
             'oportunidades.inscricoes',
             'oportunidades.candidatos'
-        )->findOrFail($id);
+        ])->findOrFail($id);
 
-        $membroClubeController = new MembroClubeController();
-        $membrosAgrupados = $membroClubeController->getMembrosAgrupados((string) $clube->id);
-
-        $esportes   = Esporte::with('posicoes')->get();
-        $funcoes    = Funcao::all();
-        $posicoes   = Posicao::all();
+        $esportes   = Esporte::all();
         $categorias = Categoria::all();
 
-        return view('clube.perfis.perfil')->with([
-            'clube'            => $clube,
-            'esportes'         => $esportes,
-            'funcoes'          => $funcoes,
-            'posicoes'         => $posicoes,
-            'categorias'       => $categorias,
-            'membrosAgrupados' => $membrosAgrupados,
+        return view('clube.perfil', [
+            'clube'      => $clube,
+            'esportes'   => $esportes,
+            'categorias' => $categorias,
         ]);
     }
 

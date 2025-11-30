@@ -128,4 +128,70 @@ class AuthClubeController extends Controller
         return redirect()->route('clube.login')
             ->with('success', 'Cadastro realizado com sucesso! Um administrador verificará suas informações antes de liberar o acesso.');
     }
+
+    public function updateAccount(Request $request)
+    {
+        try {
+            $request->validate([
+                'nomeClube'       => 'required|string|max:255',
+                'cepClube'        => 'nullable|string',
+                'enderecoClube'   => 'required|string',
+                'cidadeClube'     => 'required|string',
+                'estadoClube'     => 'required|string|max:2',
+                'anoCriacaoClube' => 'required|date',
+                'bioClube'        => 'nullable|string',
+                'categoria_id'    => 'required',
+                'esporte_id'      => 'required',
+                'esportes_extras' => 'nullable|array',
+                'fotoPerfilClube' => 'nullable|image|max:2048',
+                'fotoBannerClube' => 'nullable|image|max:2048',
+            ]);
+
+            $clube = Auth::guard('club')->user()->load('oportunidades');
+
+            if ($request->hasFile('fotoPerfilClube')) {
+                $path = $request->file('fotoPerfilClube')->store('clubes/perfis', 'public');
+                $clube->fotoPerfilClube = $path;
+            }
+
+            if ($request->hasFile('fotoBannerClube')) {
+                $path = $request->file('fotoBannerClube')->store('clubes/banners', 'public');
+                $clube->fotoBannerClube = $path;
+            }
+
+            $dados = $request->except(['fotoPerfilClube', 'fotoBannerClube', 'esportes_extras', '_token', '_method']);
+
+            $clube->update($dados);
+
+            if ($request->has('esportes_extras')) {
+                $clube->esportesExtras()->sync($request->esportes_extras);
+            } else {
+                $clube->esportesExtras()->detach();
+            }
+
+            $clube->refresh();
+
+            $html = view('clube.partials.profile-page', [
+                'clube' => $clube,
+                'oportunidades' => $clube->oportunidades,
+                'categorias' => Categoria::all(),
+            ])->render();
+
+
+            return response()->json([
+                'success' => true, 
+                'message' => 'Perfil atualizado com sucesso!',
+                'data' => [
+                    'clube' => $clube,
+                    'html' => $html
+                ],
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'Erro interno: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

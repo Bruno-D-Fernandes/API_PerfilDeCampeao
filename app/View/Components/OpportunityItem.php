@@ -7,10 +7,12 @@ use Illuminate\View\Component;
 class OpportunityItem extends Component
 {
     public $opportunity;
+    public $hasActions;
 
-    public function __construct($opportunity)
+    public function __construct($opportunity, $hasActions = false)
     {
         $this->opportunity = $opportunity->load('inscricoes.usuario');
+        $this->hasActions = $hasActions;
     }
 
     public function statusColor()
