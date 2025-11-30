@@ -99,9 +99,16 @@ class ListaClubeController extends Controller
             'descricao' => $data['descricao'] ?? null,
         ]);
 
-        $html = view('clube.partials.list-card', ['item' => $lista])->render();
+        $htmlGrid = view('clube.partials.list-card', ['item' => $lista])->render();
 
-        return response()->json(['message' => 'Lista criada com sucesso', 'data' => $lista, 'html' => $html], 201);
+        $htmlModal = view('clube.partials.save-to-list-item', ['lista' => $lista])->render();
+
+        return response()->json([
+            'message' => 'Lista criada com sucesso', 
+            'data' => $lista, 
+            'html' => $htmlGrid,       
+            'html_modal' => $htmlModal 
+        ], 201);
     }
 
     public function update(Request $request, $id)

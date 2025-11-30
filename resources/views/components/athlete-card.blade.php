@@ -1,13 +1,9 @@
-<a href="" class="max-w-full max-h-full flex flex-col gap-[0.42vw] p-[0.83vw] bg-white border border-[0.1vw] border-gray-300/80 hover:border-emerald-400 transition-colors rounded-[0.42vw] group">
+<div class="cursor-pointer max-w-full max-h-full flex flex-col gap-[0.42vw] p-[0.83vw] bg-white border border-[0.1vw] border-gray-300/80 hover:border-emerald-400 transition-colors rounded-[0.42vw] group">
     <div class="relative w-full">
         <x-avatar :src="null" alt="{{ $athlete->nomeCompletoUsuario }}" size="xl" class="w-[4.17vw] h-[4.17vw]" />
 
         <div class="absolute top-0 right-0 z-10 flex gap-x-[0.21vw]">
-            <x-icon-button color="none" class="text-emerald-400 hover:text-emerald-400 transition-colors">
-                <svg class="h-[1.25vw] w-[1.25vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye-icon lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
-            </x-icon-button>
-
-            <x-icon-button color="none" class="text-emerald-400 hover:text-emerald-500 transition-colors">
+            <x-icon-button color="none" class="text-emerald-400 hover:text-emerald-500 transition-colors" onclick="openModal('save-to-list-{{ $athlete->id }}')">
                 <svg class="h-[1.25vw] w-[1.25vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             </x-icon-button>
         </div>
@@ -64,4 +60,4 @@
 
         Rio de Janeiro - RJ
     </div>
-</a>
+</div>

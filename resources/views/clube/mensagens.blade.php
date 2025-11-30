@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <x-modal maxWidth="[26.67vw]" name="send-invite-modal" title="Enviar Convite" titleSize="[1.04vw]" titleColor="emerald">
+    <x-modal maxWidth="xl" name="send-invite-modal" title="Enviar Convite" titleSize="[1.04vw]" titleColor="emerald">
         <div class="flex flex-col gap-[0.83vw]">
             <x-search-input placeholder="Buscar eventos..."></x-search-input>
 

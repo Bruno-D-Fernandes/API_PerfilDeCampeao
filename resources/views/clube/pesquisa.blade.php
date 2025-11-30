@@ -1,4 +1,6 @@
 <x-layouts.clube title="Pesquisa" :breadcrumb="['Dashboard' => route('clube.dashboard'), 'Pesquisa' => null]">
+    <div id="toast-container" class="fixed top-4 left-4 z-[9999] flex flex-col gap-3 pointer-events-auto"></div>
+
     <div class="flex justify-center gap-[1.25vw] w-full h-full">
     
         <x-form class="flex flex-col justify-between gap-2 bg-emerald-500 h-full w-1/4 rounded-lg p-[1.25vw]" id="search-form" onsubmit="return false;">
@@ -101,8 +103,38 @@
             </div>
         </div>
     </div>
-</x-layouts.clube>
 
+    <x-modal maxWidth="xl" name="create-list" title="Criar lista" titleSize="[1.25vw]" titleColor="green">
+        <x-form id="create-list-form" method="POST">
+            @csrf
+            <div class="flex flex-col gap-[0.42vw]">
+                <x-form-group label="Nome" name="nome" id="lista-nome" labelColor="green" textSize="[1.04vw]">
+                    <x-slot:icon>
+                        <svg class="h-[0.83vw] w-[0.83vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16"/><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/><path d="M9 20h6"/></svg>
+                    </x-slot:icon>
+                </x-form-group>
+
+                <x-form-group label="Descrição" name="descricao" id="lista-descricao" labelColor="green" textSize="[1.04vw]">
+                    <x-slot:icon>
+                        <svg class="h-[0.83vw] w-[0.83vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 5H3"/><path d="M17 12H7"/><path d="M19 19H5"/></svg>
+                    </x-slot:icon>
+                </x-form-group>
+            </div>
+        </x-form>
+
+        <x-slot:footer>
+            <div class="w-full flex gap-x-[0.42vw] justify-end">
+                <x-button color="gray" size="md" onclick="resetAndClose('cr-list-form', 'create-list')">
+                    Cancelar
+                </x-button>
+
+                <x-button color="clube" size="md" onclick="submitAjax('create-list-form', '/api/clube/listas', 'POST', 'create-list', null, 'Sucesso!', 'Lista criada com sucesso!', 'Erro!', 'Ocorreu um erro ao criar a lista.')">
+                    Salvar
+                </x-button>
+            </div>
+        </x-slot:footer>
+    </x-modal>
+</x-layouts.clube>
 
 <script>
     const searchUrl = "{{ route('clube.pesquisa.data') }}"; 
@@ -262,4 +294,55 @@
     }
     
     window.handlePerPageChange = function(newPerPage) {}
+
+    async function submitAjax(formId, url, method, modalName, listId = null, 
+                          successTitle = 'Sucesso!', 
+                          successText = 'Operação realizada com êxito.', 
+                          errorTitle = 'Erro!', 
+                          errorText = 'A solicitação falhou. Tente novamente.') {
+
+        const form = document.getElementById(formId);
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                const detailedErrorText = errorText + ' Detalhe: ' + (errorData.message || 'Erro de servidor.');
+                showToast('error', errorTitle, detailedErrorText);
+                return;
+            }
+
+            const result = await response.json();
+
+            resetAndClose(formId, modalName);
+            
+            showToast('success', successTitle, successText);
+
+            if (result.list || result.data) {
+                const newList = result.list || result.data;
+                if (typeof window.addListToAllModals === 'function') {
+                    window.addListToAllModals(newList);
+                }
+            }
+
+            if (result.html_modal && typeof window.addListToAllModals === 'function') {
+                window.addListToAllModals(result.html_modal);
+            }
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+            showToast('error', errorTitle, 'Erro de conexão ou falha no processamento de dados.');
+        }
+    }
 </script>
