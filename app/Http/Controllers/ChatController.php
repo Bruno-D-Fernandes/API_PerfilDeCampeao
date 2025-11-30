@@ -73,8 +73,6 @@ class ChatController extends Controller
                 // Outros campos do $fillable, como 'type', podem ser adicionados aqui
             ]);
 
-            event(new MessageReceivedNotification($msg));
-
             $msg->conversation()->associate($conversation);
             $msg->sender()->associate($sender);
             $msg->receiver()->associate($receiver);
@@ -250,7 +248,7 @@ class ChatController extends Controller
         $convite->responded_at = now();
         $convite->save();
 
-        // $convite->evento->clube->notify(new AceitarEventoUsuario($convite)); 
+         $convite->evento->clube->notify(new AceitarEventoUsuario($convite)); 
 
         return response()->json([
             'message' => 'Convite aceito com sucesso.',

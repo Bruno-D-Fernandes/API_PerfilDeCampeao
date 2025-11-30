@@ -43,6 +43,6 @@ class EventoAtualizadoNotification extends Notification
     }
 
     public function broadcastOn($notifiable){
-        return new PrivateChannel('notifications.user.' . $notifiable->id);
+        return new PrivateChannel('notification.user.' . $notifiable->id);
     }
 }
