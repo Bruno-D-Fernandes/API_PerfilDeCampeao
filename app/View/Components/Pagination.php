@@ -8,11 +8,15 @@ class Pagination extends Component
 {
     public $maxPage;
     public $currentPage;
+    public $perPageCurrent;
+    public $hasPerPageSelect;
 
-    public function __construct($maxPage, $currentPage = 1)
+    public function __construct($maxPage, $currentPage = 1, $perPageCurrent = 15, $hasPerPageSelect = false)
     {
         $this->maxPage = $maxPage;
         $this->currentPage = max(1, $currentPage);
+        $this->perPageCurrent = $perPageCurrent;
+        $this->hasPerPageSelect = $hasPerPageSelect;
     }
 
     public function pages()
@@ -38,9 +42,11 @@ class Pagination extends Component
             $pages[] = '...';
         }
 
-        $pages[] = $this->maxPage;
+        if ($this->maxPage > 1) {
+             $pages[] = $this->maxPage;
+        }
 
-        return $pages;
+        return array_unique($pages);
     }
 
     public function render()

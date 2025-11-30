@@ -2,6 +2,7 @@
     @foreach($eventos as $evento)
         <x-event-item 
             :item="$evento"
+            onclick="showEventDetails({{ $evento->id }})"
         />
     @endforeach
 @else

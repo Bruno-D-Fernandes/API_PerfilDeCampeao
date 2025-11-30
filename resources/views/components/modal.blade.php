@@ -30,7 +30,7 @@
 
 <div 
     id="{{ $name }}" 
-    class="fixed inset-0 z-50 hidden overflow-y-auto overflow-x-hidden"
+    class="fixed inset-0 z-[900] hidden overflow-y-hidden overflow-x-hidden"
     aria-labelledby="modal-title" 
     role="dialog" 
     aria-modal="true"

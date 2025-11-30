@@ -40,10 +40,12 @@
             <div class="flex-1 overflow-y-auto p-[0.1vw] custom-scrollbar">
                 @foreach($dia['eventos'] as $evento)
                     @if($loop->index + 1 <= $maxEventos)
-                        <div class="flex gap-x-[0.21vw] items-center mb-[0.21vw]">
-                            <div class="w-[0.31vw] h-[0.31vw] rounded-full shrink-0" style="background-color: {{ $evento['color'] }};"></div>
-                            
-                            <span class="text-[0.63vw] font-medium truncate" style="color: {{ $evento['color'] }};">
+                        <div class="cursor-pointer rounded-[0.21vw] px-[0.31vw] py-[0.15vw] truncate"
+                        style="
+                            background-color: {{ $evento['color'] }}26; 
+                            color: {{ $evento['color'] }};
+                        ">
+                            <span class="text-[0.63vw] font-medium truncate leading-tight block">
                                 {{ $evento['titulo'] }}
                             </span>
                         </div>

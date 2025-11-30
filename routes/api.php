@@ -111,7 +111,7 @@ Route::prefix('clube')->group(function () {
     Route::post('/register', [ClubeController::class, 'store']);
     Route::post('/login', [AuthClubeController::class, 'login']);
 
-    Route::middleware('auth:club_sanctum,adm_sanctum')->group(function () {
+    Route::middleware(['web', 'auth:club_sanctum,adm_sanctum'])->group(function () {
         Route::get('/perfil', [AuthClubeController::class, 'perfil']);
         Route::post('/logout', [AuthClubeController::class, 'logout']);
 
@@ -275,7 +275,7 @@ Route::get('/teste-chat-usuario', function () {
 Route::prefix('admin')->group(function () {
     Route::post('/login', [AdmController::class, 'loginAdm']);
 
-    Route::middleware('auth:adm_sanctum')->group(function () {
+    Route::middleware(['web', 'auth:adm_sanctum'])->group(function () {
         Route::get('/perfil', [AdmController::class, 'perfilAdm']);
         Route::post('/logout', [AdmController::class, 'logoutAdm']);
         Route::put('/perfil/identidade', [AdminProfileController::class, 'updateIdentidade']);

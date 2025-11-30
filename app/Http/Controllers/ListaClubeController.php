@@ -88,6 +88,7 @@ class ListaClubeController extends Controller
         ]);
 
         $existe = Lista::where('clube_id', $clube->id)->where('nome', $data['nome'])->exists();
+
         if ($existe) {
             return response()->json(['message' => 'Já existe uma lista com esse nome'], 422);
         }
@@ -98,9 +99,28 @@ class ListaClubeController extends Controller
             'descricao' => $data['descricao'] ?? null,
         ]);
 
-        return response()->json(['message' => 'Lista criada com sucesso', 'data' => $lista], 201);
+        $html = view('clube.partials.list-card', ['item' => $lista])->render();
+
+        return response()->json(['message' => 'Lista criada com sucesso', 'data' => $lista, 'html' => $html], 201);
     }
 
+    public function update(Request $request, $id)
+    {
+        $lista = Lista::findOrFail($id);
+        
+        $validated = $request->validate([
+            'nome' => 'required|string|max:255',
+            'descricao' => 'nullable|string',
+        ]);
+
+        $lista->update($validated);
+
+        return response()->json([
+            'message' => 'Lista atualizada!',
+            'data'    => $lista
+        ], 200);
+    }
+    
     // POST /api/clube/listas/{listaId}/usuarios
     public function addUsuarioToLista(Request $request, $listaId, Usuario $usuario)
     {

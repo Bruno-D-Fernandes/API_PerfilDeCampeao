@@ -9,10 +9,14 @@
     };
 @endphp
 
-<div class="flex -space-x-[0.63vw] rtl:space-x-reverse">
+<div class="flex -space-x-[0.63vw]">
     @foreach(collect($items)->take($max) as $item)
+        @php
+            $foto = data_get($item, 'usuario.fotoPerfilUsuario');
+        @endphp
+
         <x-avatar 
-            :src="data_get($item, 'usuario.fotoPerfilUsuario')" 
+            :src="$foto ? asset('storage/' . $foto) : null" 
             :alt="data_get($item, 'usuario.nomeCompletoUsuario') ?? 'User'" 
             :size="$size"
             class="border-[0.1vw] border-white" 

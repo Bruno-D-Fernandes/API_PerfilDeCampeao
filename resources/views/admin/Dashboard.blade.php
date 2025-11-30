@@ -22,7 +22,7 @@
 
                 @foreach($resumo as $key => $item)
                     @php
-                        $value = $item['mes_atual'];
+                        $value = $item['total'];
                         $trend = $item['diferenca'];
                     @endphp
 
@@ -210,7 +210,7 @@
                             </script>
                         </div>
 
-                        <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex flex-col gap-[0.415vw] flex-[4]">
+                        <div class="w-full bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex flex-col gap-[0.415vw] flex-[4]">
                             <span class="text-[0.83vw] font-medium text-gray-700">
                                 Novos usuários
                             </span>
@@ -219,7 +219,7 @@
                                 $userIcon = '<svg class="h-[0.83vw] w-[0.83vw] text-sky-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
                             @endphp
 
-                            <div class="flex flex-col gap-[0.42vw] overflow-y-auto h-full">
+                            <div class="w-full flex flex-col gap-[0.42vw] overflow-y-auto h-full">
                                 @forelse($listaUsuarios as $usuario)
                                     <div class="flex items-center gap-x-[0.63vw] p-[0.42vw] border-b border-gray-100 last:border-b-0 group">
                                         
@@ -227,10 +227,11 @@
                                             {!! $userIcon !!}
                                         </div>
 
-                                        <div class="flex-1 min-w-0 flex flex-col">
+                                        <div class="w-full flex-1 min-w-0 flex flex-col">
                                             <p class="text-[0.73vw] font-medium text-gray-700 truncate" title="{{ $usuario->nomeCompletoUsuario }}">
                                                 {{ $usuario->nomeCompletoUsuario }}
                                             </p>
+
                                             <p class="text-[0.63vw] text-gray-500 truncate" title="{{ $usuario->emailUsuario }}">
                                                 {{ $usuario->emailUsuario }}
                                             </p>
@@ -269,9 +270,65 @@
                             </div>
 
                             <script>
+                                function hexToRgb(hex) {
+                                    hex = hex.replace(/^#/, '');
+
+                                    if (hex.length === 3) {
+                                        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+                                    }
+
+                                    const bigint = parseInt(hex, 16);
+                                    return {
+                                        r: (bigint >> 16) & 255,
+                                        g: (bigint >> 8) & 255,
+                                        b: bigint & 255
+                                    };
+                                }
+
+                                function rgbToHex(r, g, b) {
+                                    r = Math.max(0, Math.min(255, Math.round(r)));
+                                    g = Math.max(0, Math.min(255, Math.round(g)));
+                                    b = Math.max(0, Math.min(255, Math.round(b)));
+
+                                    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+                                }
+
+                                function generateColorGradient(startHex, endHex, steps) {
+                                    if (steps === 0) return [];
+                                    if (steps === 1) return [startHex];
+
+                                    const startRGB = hexToRgb(startHex);
+                                    const endRGB = hexToRgb(endHex);
+                                    const gradientColors = [];
+
+                                    const stepR = (endRGB.r - startRGB.r) / (steps - 1);
+                                    const stepG = (endRGB.g - startRGB.g) / (steps - 1);
+                                    const stepB = (endRGB.b - startRGB.b) / (steps - 1);
+
+                                    for (let i = 0; i < steps; i++) {
+                                        const newR = startRGB.r + (stepR * i);
+                                        const newG = startRGB.g + (stepG * i);
+                                        const newB = startRGB.b + (stepB * i);
+                                        gradientColors.push(rgbToHex(newR, newG, newB));
+                                    }
+
+                                    return gradientColors;
+                                }
+
                                 const dadosEsportes = @json($graficoEsportes);
 
-                                const cores = ['#00598a', '#0069a8', '#0084d1', '#00a6f4', '#00bcff'];
+                                const corInicialAzul = '#00598a';
+                                const corFinalAzul   = '#00bcff';
+
+                                const quantidadeElementos = dadosEsportes.length || 0;
+
+                                let cores = [];
+
+                                if (quantidadeElementos > 0) {
+                                    cores = generateColorGradient(corInicialAzul, corFinalAzul, quantidadeElementos);
+                                } else {
+                                    cores = ['#cccccc']; 
+                                }
 
                                 google.charts.setOnLoadCallback(drawChart);
 
@@ -308,13 +365,24 @@
                                         chartArea: { width: '70%', height: '80%' },
                                         legend: {
                                             position: 'right',
-                                            textStyle: { fontSize: 12, fontName: 'Poppins' }
+                                            textStyle: { fontSize: 12, fontName: 'Poppins' },
+                                            maxLines: 5,
                                         },
                                         animation: { startup: true, duration: 800, easing: 'out' },
                                         pieHole: 0.7,
                                         pieSliceBorderColor: 'transparent',
                                         tooltip: { isHtml: true },
                                         colors: [...cores], 
+                                        scrollArrows: {
+                                            activeColor: '#00bcff',
+                                            inactiveColor: '#cccccc'
+                                        },
+                                        
+                                        pagingTextStyle: {
+                                            color: '#666666',
+                                            fontSize: 12,
+                                            bold: true
+                                        }
                                     };
 
                                     const container = document.getElementById('chart-oportunidades');

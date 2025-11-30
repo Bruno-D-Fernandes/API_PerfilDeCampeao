@@ -40,6 +40,7 @@ class DashAdminController extends Controller
             $fimMesAnterior = $inicioMesAtual->copy()->subDay();
             $inicioJanelaGraficos = $agora->copy()->subMonthsNoOverflow($meses - 1)->startOfMonth();
 
+            $atletasTotal = Usuario::count();
             $atletasMesAtual = Usuario::whereBetween('created_at', [$inicioMesAtual, $fimMesAtual])->count();
             $atletasMesAnterior = Usuario::whereBetween('created_at', [$inicioMesAnterior, $fimMesAnterior])->count();
             $diffAtletas = $atletasMesAtual - $atletasMesAnterior;
@@ -73,20 +74,21 @@ class DashAdminController extends Controller
 
             $resumo = [
                 'atletas_mes' => [
+                    'total' => $atletasTotal,
                     'mes_atual'    => $atletasMesAtual,
                     'mes_anterior' => $atletasMesAnterior,
                     'diferenca'    => $diffAtletas,
                     'percentual'   => $percentAtletas,
                 ],
                 'clubes_ativos' => [
-                    'total_ativo_agora' => $clubesAtivosAtual,
+                    'total' => $clubesAtivosAtual,
                     'mes_atual'         => $clubesAtivosMesAtual,
                     'mes_anterior'      => $clubesAtivosMesAnterior,
                     'diferenca'         => $diffClubes,
                     'percentual'        => $percentClubes,
                 ],
                 'oportunidades_ativas' => [
-                    'total_ativo_agora' => $oportunidadesAprovadasTotal,
+                    'total' => $oportunidadesAprovadasTotal,
                     'mes_atual'         => $oportunidadesMesAtual,
                     'mes_anterior'      => $oportunidadesMesAnterior,
                     'diferenca'         => $diffOportunidades,

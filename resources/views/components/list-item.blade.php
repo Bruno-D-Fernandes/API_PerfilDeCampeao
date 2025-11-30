@@ -25,17 +25,21 @@
                 <svg class="h-[1.25vw] w-[1.25vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-icon lucide-folder"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
             </div>
 
-            <h3 class="text-[0.83vw] font-semibold text-gray-800">
+            <h3 id="list-nome-{{ $list->id }}" class="text-[0.83vw] font-semibold text-gray-800">
                 {{ $list->nome }}
             </h3>
         </div>
 
-        <span class="text-[0.73vw] font-normal truncate">
+        <span id="list-desc-{{ $list->id }}"class="text-[0.73vw] font-normal truncate">
             {{ $list->descricao }}
         </span>
 
         <div class="flex items-center justify-between">
-            <x-avatar-group :items="$list->usuarios" size="sm" :max="5"/>
+            @if($list->usuarios->count() > 0)
+                <x-avatar-group :items="$opportunity->inscricoes" size="sm" :max="3"/>
+            @else
+                <p class="text-[0.6vw] text-gray-400 font-normal">Nenhum inscrito.</p>
+            @endif
 
             <div class="flex items-center gap-x-[0.63vw]">
                 <div class="flex items-center gap-x-[0.21vw] font-medium text-gray-400 text-[0.73vw]">

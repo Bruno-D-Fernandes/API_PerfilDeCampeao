@@ -67,7 +67,7 @@
         </main>
     </div>
 
-    <x-modal name="logout-modal" title="Encerrar sessão" titleSize="[1.04vw]" titleColor="red" maxWidth="[23.33vw]">
+    <x-modal name="logout-modal" title="Encerrar sessão" titleSize="[1.04vw]" titleColor="red" maxWidth="lg">
         <div class="p-[0.83vw] text-center">
             <div class="mx-auto flex items-center justify-center h-[2.5vw] w-[2.5vw] rounded-full bg-red-100 mb-[0.83vw]">
                 <svg class="h-[1.25vw] w-[1.25vw] text-red-600 stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

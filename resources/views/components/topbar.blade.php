@@ -46,7 +46,7 @@
 
             <div class="relative">
                 @php
-                    $displayName = $user->nomeClube ?? $user->name;
+                    $displayName = $user->nomeClube ?? $user->nome;
                 @endphp
     
                 <button data-dropdown-toggle="dropdown-user" type="button" class="w-[10vw] flex items-center gap-[0.42vw] p-[0.42vw] bg-white rounded-[0.31vw] border-[0.052vw] border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all group duration-200 cursor-pointer focus:outline-none focus:ring-0">

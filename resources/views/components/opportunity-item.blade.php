@@ -7,7 +7,7 @@
 <div class="h-[9vw] group flex flex-col bg-white border border-[0.052vw] border-gray-300 rounded-[0.63vw] hover:border-emerald-500 transition-all duration-200 overflow-hidden relative">
     <a href="{{ $href }}" class="absolute inset-0 z-2"></a>
 
-    <div class="h-full flex flex-row overflow-hidden relative">
+    <div class="w-full h-full flex flex-row overflow-hidden relative">
         <div class="absolute top-[0.63vw] right-[0.63vw] z-10 opacity-0 group-hover:opacity-100 transition-opacity">
             <div class="flex items-center bg-white rounded-[0.42vw] shadow-sm p-[0.21vw] gap-x-[0.21vw]">
                 <x-icon-button color="blue" onclick="openModal('edit-opportunity-{{ $opportunity->id }}')">
@@ -28,7 +28,7 @@
             </x-badge>
         </div>
 
-        <div class="flex-1 p-[0.63vw] flex flex-col justify-between">
+        <div class="w-full flex-1 p-[0.63vw] flex flex-col justify-between">
             <span class="text-[0.63vw] font-medium">
                 Criado em: {{ \Carbon\Carbon::parse($opportunity->datapostagemOportunidades)->format('d/m/Y') }}
             </span>

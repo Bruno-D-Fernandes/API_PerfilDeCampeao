@@ -12,7 +12,6 @@
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body class="font-sans antialiased h-screen relative">
@@ -307,6 +306,16 @@
 
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 4000);
+        }
+
+        function resetAndClose(formId, modalName) {
+            const form = document.getElementById(formId);
+            
+            if (form) {
+                form.reset();
+            }
+
+            closeModal(modalName);
         }
     </script>
 </body>

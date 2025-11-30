@@ -17,48 +17,66 @@
         </x-button>
     </x-slot:action>
 
-    <x-modal maxWidth="xl" name="create-opportunity" title="Criar oportunidade" titleSize="2xl" titleColor="green">
+    <x-modal maxWidth="xl" name="create-opportunity" title="Nova Oportunidade" titleSize="2xl" titleColor="green">
         <form class="flex flex-col gap-[0.42vw]">
-            <x-form-group label="Título" name="nomeOportunidade" id="oportunidade-nome" labelColor="green" textSize="xl">
+            @csrf
+
+            <x-form-group label="Título da Oportunidade" name="tituloOportunidades" id="oportunidade-titulo" labelColor="green" textSize="xl" required>
                 <x-slot:icon>
-                    <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-type-icon lucide-type"><path d="M12 4v16"/><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/><path d="M9 20h6"/></svg>
+                    <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-type-icon"><path d="M12 4v16"/><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/><path d="M9 20h6"/></svg>
                 </x-slot:icon>
             </x-form-group>
 
-            <x-form-group label="Descrição" name="descricaoOportunidade" id="oportunidade-descricao" labelColor="green" textSize="xl">
+            <div class="grid grid-cols-2 gap-[0.42vw]">
+                <x-form-group label="Esporte" type="select" name="esporte_id" id="oportunidade-esporte" labelColor="green" textSize="xl" required>
+                    <x-slot:icon>
+                        <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"/><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/></svg>
+                    </x-slot:icon>
+                    <option value="">Selecione...</option>
+                </x-form-group>
+
+                <x-form-group label="Posição" type="select" name="posicoes_id" id="oportunidade-posicao" labelColor="green" textSize="xl" required>
+                    <x-slot:icon>
+                        <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-target-icon"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                    </x-slot:icon>
+                    <option value="">Selecione...</option>
+                    </x-form-group>
+            </div>
+
+            <div class="grid grid-cols-3 gap-[0.42vw]">
+                <x-form-group label="Idade Mín." type="number" name="idadeMinima" id="oportunidade-idade-min" labelColor="green" textSize="xl" required>
+                    <x-slot:icon>
+                        <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down-to-line"><path d="M12 17V3"/><path d="m6 11 6 6 6-6"/><path d="M19 21H5"/></svg>
+                    </x-slot:icon>
+                </x-form-group>
+
+                <x-form-group label="Idade Máx." type="number" name="idadeMaxima" id="oportunidade-idade-max" labelColor="green" textSize="xl" required>
+                    <x-slot:icon>
+                        <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-from-line"><path d="m18 9-6-6-6 6"/><path d="M12 3v14"/><path d="M5 21h14"/></svg>
+                    </x-slot:icon>
+                </x-form-group>
+
+                <x-form-group label="Vagas" type="number" name="limite_inscricoes" id="oportunidade-limite" labelColor="green" textSize="xl" required>
+                    <x-slot:icon>
+                        <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </x-slot:icon>
+                </x-form-group>
+            </div>
+
+            <x-form-group label="Descrição Detalhada" name="descricaoOportunidades" id="oportunidade-descricao" labelColor="green" textSize="xl" required>
                 <x-slot:icon>
-                    <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-text-align-center-icon lucide-text-align-center"><path d="M21 5H3"/><path d="M17 12H7"/><path d="M19 19H5"/></svg>
+                    <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-align-left"><line x1="21" x2="3" y1="6" y2="6"/><line x1="15" x2="3" y1="12" y2="12"/><line x1="17" x2="3" y1="18" y2="18"/></svg>
                 </x-slot:icon>
-            </x-form-group>
-
-            <x-form-group label="Esporte" type="select" name="esportes" id="oportunidade-esportes" labelColor="green" textSize="xl" size="1" multiple>
-                <x-slot:icon>
-                    <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon lucide-trophy"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"/><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/></svg>
-                </x-slot:icon>
-
-                <option>
-                    Futebol
-                </option>
-            </x-form-group>
-
-            <x-form-group label="Posições" type="select" name="posicoes" id="oportunidade-posicoes" labelColor="green" textSize="xl" size="1" multiple>
-                <x-slot:icon>
-                    <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-target-icon lucide-target"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-                </x-slot:icon>
-
-                <option>
-                    Atacante
-                </option>
             </x-form-group>
         </form>
 
         <x-slot:footer>
             <div class="w-full flex gap-x-[0.42vw] justify-end">
-                <x-button color="gray" size="md">
+                <x-button color="gray" size="md" onclick="closeModal('create-opportunity')">
                     Cancelar
                 </x-button>
 
-                <x-button color="clube" size="md">
+                <x-button color="clube" size="md" type="submit">
                     Salvar
                 </x-button>
             </div>
@@ -87,44 +105,61 @@
         @foreach($oportunidades as $item)
             <x-opportunity-item :opportunity="$item" />
 
-            <x-modal maxWidth="xl" name="edit-opportunity-{{ $item->id }}" title="Editar oportunidade" titleSize="2xl" titleColor="blue">
+            <x-modal maxWidth="2xl" name="edit-opportunity-{{ $item->id }}" title="Editar oportunidade" titleSize="2xl" titleColor="blue">
                 <form class="flex flex-col gap-[0.42vw]">
-                    <x-form-group label="Título" name="nomeOportunidade" id="oportunidade-nome" labelColor="blue" textSize="xl" value="{{ $item->titulo }}">
+                    
+                    <x-form-group label="Título" name="tituloOportunidades" id="oportunidade-titulo-{{ $item->id }}" labelColor="blue" textSize="xl" value="{{ $item->tituloOportunidades }}" required>
                         <x-slot:icon>
-                            <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-type-icon lucide-type"><path d="M12 4v16"/><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/><path d="M9 20h6"/></svg>
+                            <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-type-icon"><path d="M12 4v16"/><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/><path d="M9 20h6"/></svg>
                         </x-slot:icon>
                     </x-form-group>
 
-                    <x-form-group label="Descrição" name="descricaoOportunidade" id="oportunidade-descricao" labelColor="blue" textSize="xl">
+                    <div class="grid grid-cols-2 gap-[0.42vw]">
+                        <x-form-group label="Esporte" type="select" name="esporte_id" id="oportunidade-esporte-{{ $item->id }}" labelColor="blue" textSize="xl" required>
+                            <x-slot:icon>
+                                <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"/><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/></svg>
+                            </x-slot:icon>
+                            <option value="{{ $item->esporte_id }}" selected>Futebol (Exemplo)</option>
+                            </x-form-group>
+
+                        <x-form-group label="Posições" type="select" name="posicoes_id" id="oportunidade-posicao-{{ $item->id }}" labelColor="blue" textSize="xl" required>
+                            <x-slot:icon>
+                                <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-target-icon"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                            </x-slot:icon>
+                            <option value="{{ $item->posicoes_id }}" selected>Atacante (Exemplo)</option>
+                            </x-form-group>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-[0.42vw]">
+                        <x-form-group label="Idade Mín." type="number" name="idadeMinima" id="oportunidade-idade-min-{{ $item->id }}" labelColor="blue" textSize="xl" value="{{ $item->idadeMinima }}" required>
+                            <x-slot:icon>
+                                <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down-to-line"><path d="M12 17V3"/><path d="m6 11 6 6 6-6"/><path d="M19 21H5"/></svg>
+                            </x-slot:icon>
+                        </x-form-group>
+
+                        <x-form-group label="Idade Máx." type="number" name="idadeMaxima" id="oportunidade-idade-max-{{ $item->id }}" labelColor="blue" textSize="xl" value="{{ $item->idadeMaxima }}" required>
+                            <x-slot:icon>
+                                <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-from-line"><path d="m18 9-6-6-6 6"/><path d="M12 3v14"/><path d="M5 21h14"/></svg>
+                            </x-slot:icon>
+                        </x-form-group>
+
+                        <x-form-group label="Vagas" type="number" name="limite_inscricoes" id="oportunidade-limite-{{ $item->id }}" labelColor="blue" textSize="xl" value="{{ $item->limite_inscricoes }}" required>
+                            <x-slot:icon>
+                                <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            </x-slot:icon>
+                        </x-form-group>
+                    </div>
+
+                    <x-form-group label="Descrição" name="descricaoOportunidades" id="oportunidade-descricao-{{ $item->id }}" labelColor="blue" textSize="xl" value="{{ $item->descricaoOportunidades }}" required>
                         <x-slot:icon>
-                            <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-text-align-center-icon lucide-text-align-center"><path d="M21 5H3"/><path d="M17 12H7"/><path d="M19 19H5"/></svg>
+                            <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-text-align-center-icon"><path d="M21 5H3"/><path d="M17 12H7"/><path d="M19 19H5"/></svg>
                         </x-slot:icon>
-                    </x-form-group>
-
-                    <x-form-group label="Esporte" type="select" name="esportes" id="oportunidade-esportes" labelColor="blue" textSize="xl" size="1" multiple>
-                        <x-slot:icon>
-                            <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon lucide-trophy"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"/><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/></svg>
-                        </x-slot:icon>
-
-                        <option>
-                            Futebol
-                        </option>
-                    </x-form-group>
-
-                    <x-form-group label="Posições" type="select" name="posicoes" id="oportunidade-posicoes" labelColor="blue" textSize="xl" size="1" multiple>
-                        <x-slot:icon>
-                            <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-target-icon lucide-target"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-                        </x-slot:icon>
-
-                        <option>
-                            Atacante
-                        </option>
                     </x-form-group>
                 </form>
 
                 <x-slot:footer>
                     <div class="w-full flex gap-x-[0.42vw] justify-end">
-                        <x-button color="gray" size="md">
+                        <x-button color="gray" size="md" onclick="closeModal('edit-opportunity-{{ $item->id }}')">
                             Cancelar
                         </x-button>
 
@@ -144,7 +179,7 @@
                     </div>
                     <h3 class="text-[0.94vw] leading-6 font-medium text-gray-900">Tem certeza absoluta?</h3>
                     <p class="text-[0.73vw] text-gray-500 mt-[0.42vw]">
-                        Você está prestes a excluir <strong>"{{ $item->titulo }}"</strong>. Essa ação é irreversível.
+                        Você está prestes a excluir <strong>"{{ $item->tituloOportunidades }}"</strong>. Essa ação é irreversível.
                     </p>
                 </div>
 

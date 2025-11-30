@@ -16,6 +16,7 @@ use App\Http\Controllers\AuthClubeController;
 use App\Http\Controllers\AuthAdmController;
 use App\Http\Controllers\DashAdminController;
 use App\Http\Controllers\EventoClubeController;
+use App\Http\Controllers\SearchUsuarioController;
 use App\Mail\ClubWelcomeEmail;
 use App\Mail\UserWelcomeEmail;
 use App\Models\Categoria;
@@ -65,34 +66,23 @@ Route::prefix('clube')->name('clube.')->group(function () {
 
         Route::get('/agenda', [EventoClubeController::class, 'calendar'])->name('agenda');
 
-        Route::get('/pesquisa', function () {
-            return view('clube.pesquisa');
-        })->name('pesquisa');
+        Route::get('/pesquisa', [SearchUsuarioController::class, 'showPage'])
+            ->name('pesquisa');
+
+        Route::get('/pesquisa/data', [SearchUsuarioController::class, 'index'])->name('pesquisa.data');
 
         Route::get('/configuracoes', function () {
             return view('clube.configuracoes');
         })->name('configuracoes');
 
-        
         Route::get('/ajax/calendar-grid', [EventoClubeController::class, 'calendar'])
             ->name('ajax.calendar');
 
-        Route::get('/ajax/day-details', function () {
-            $date = request()->query('date');
-            
-            $eventos = [];
-            
-            $dia = \Carbon\Carbon::parse($date)->day;
-            if ($dia == 5) {
-                $eventos[] = ['titulo' => 'Treino Tático', 'color' => '#22c55e', 'hora_inicio' => '14:00', 'hora_fim' => '16:00', 'descricao' => 'Treino principal'];
-            }
-            if ($dia == 12) {
-                $eventos[] = ['titulo' => 'Final Regional', 'color' => '#ef4444', 'hora_inicio' => '09:00', 'hora_fim' => '12:00'];
-                $eventos[] = ['titulo' => 'Fisioterapia', 'color' => '#3b82f6', 'hora_inicio' => '14:00', 'hora_fim' => '15:00'];
-            }
+        Route::get('/ajax/day-details', [EventoClubeController::class, 'dayDetails'])
+        ->name('ajax.day-details');
 
-            return view('clube.partials.day-events-list', compact('eventos'));
-        })->name('ajax.day-details');
+        Route::get('/ajax/next-events', [EventoClubeController::class, 'nextEventsHtml'])
+        ->name('ajax.next-events');
     });
 });
 

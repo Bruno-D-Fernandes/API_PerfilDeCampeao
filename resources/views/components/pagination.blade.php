@@ -6,7 +6,6 @@
                     type="button"
                     @if($currentPage > 1)
                         onclick="handlePageChange({{ $currentPage - 1 }})"
-                        /* border -> border-[0.052vw] | rounded-s-lg -> rounded-s-[0.42vw] | px-3 -> px-[0.63vw] | h-9 -> h-[1.88vw] */
                         class="cursor-pointer flex items-center justify-center bg-gray-50 text-gray-500 border border-[0.052vw] border-gray-300 hover:bg-gray-200 hover:text-gray-700 font-medium rounded-s-[0.42vw] px-[0.63vw] h-[1.88vw] transition-colors"
                     @else
                         disabled
@@ -25,6 +24,8 @@
                         </span>
                     @else
                         @php
+                            $isActive = ($page == $currentPage);
+                            
                             $classes = $isActive 
                                 ? 'bg-gray-200 text-gray-900 font-medium border border-[0.052vw] border-gray-300' 
                                 : 'bg-gray-50 text-gray-500 font-medium border border-[0.052vw] border-gray-300 hover:bg-gray-200 hover:text-gray-700'; 
@@ -33,7 +34,6 @@
                         <button 
                             type="button"
                             onclick="handlePageChange({{ $page }})"
-                            /* w-9 h-9 -> w-[1.88vw] h-[1.88vw] | text-sm -> text-[0.73vw] */
                             class="flex items-center justify-center w-[1.88vw] h-[1.88vw] text-[0.73vw] transition-colors {{ $classes }} cursor-pointer"
                         >
                             {{ $page }}
@@ -59,17 +59,19 @@
         </ul>
     </nav>
 
-    <div class="w-[7.92vw]">
-        <select 
-            id="per_page"
-            onchange="handlePerPageChange(this.value)"
-            class="block w-full px-[0.63vw] py-[0.52vw] border border-[0.052vw] border-gray-300 text-gray-700 font-medium text-[0.73vw] rounded-[0.42vw] focus:ring-[0.052vw] focus:ring-gray-300 focus:border-gray-300 shadow-xs"
-        >
-            @foreach([10, 25, 50, 100] as $limit)
-                <option value="{{ $limit }}">
-                    {{ $limit }} por página
-                </option>
-            @endforeach
-        </select>
-    </div>
+    @if($hasPerPageSelect)
+        <div class="w-[7.92vw]">
+            <select 
+                id="per_page"
+                onchange="handlePerPageChange(this.value)"
+                class="block w-full px-[0.63vw] py-[0.52vw] border border-[0.052vw] border-gray-300 text-gray-700 font-medium text-[0.73vw] rounded-[0.42vw] focus:ring-[0.052vw] focus:ring-gray-300 focus:border-gray-300 shadow-xs"
+            >
+                @foreach([10, 25, 50, 100] as $limit)
+                    <option value="{{ $limit }}" @selected($limit == $perPageCurrent)> 
+                        {{ $limit }} por página
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    @endif
 </div>

@@ -13,7 +13,9 @@ class MiniCalendar extends Component
     public $daysInMonth;
     public $startDayOfWeek;
 
-    public function __construct($month = null, $year = null, $selected = null)
+    public $events;
+
+    public function __construct($month = null, $year = null, $selected = null, $events = [])
     {
         $m = $month ?? now()->month;
         $y = $year ?? now()->year;
@@ -24,6 +26,8 @@ class MiniCalendar extends Component
 
         $this->daysInMonth = $this->date->daysInMonth;
         $this->startDayOfWeek = $this->date->dayOfWeek; 
+
+        $this->events = $events;
     }
 
     public function isSelected($day)

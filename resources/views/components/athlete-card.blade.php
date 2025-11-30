@@ -1,6 +1,6 @@
-<a href="" class="flex flex-col gap-[0.42vw] p-[0.83vw] bg-white border border-[0.1vw] border-gray-300/80 hover:border-emerald-400 transition-colors rounded-[0.42vw] group">
+<a href="" class="max-w-full max-h-full flex flex-col gap-[0.42vw] p-[0.83vw] bg-white border border-[0.1vw] border-gray-300/80 hover:border-emerald-400 transition-colors rounded-[0.42vw] group">
     <div class="relative w-full">
-        <x-avatar :src="null" alt="Joseias" size="xl" class="w-[4.17vw] h-[4.17vw]" />
+        <x-avatar :src="null" alt="{{ $athlete->nomeCompletoUsuario }}" size="xl" class="w-[4.17vw] h-[4.17vw]" />
 
         <div class="absolute top-0 right-0 z-10 flex gap-x-[0.21vw]">
             <x-icon-button color="none" class="text-emerald-400 hover:text-emerald-400 transition-colors">
@@ -14,7 +14,7 @@
     </div>
 
     <h2 class="font-semibold text-[0.94vw] text-gray-900">
-        João da Silva
+        {{ $athlete->nomeCompletoUsuario }}
     </h2>
 
     <div class="flex gap-[0.63vw] flex-wrap items-center justify-center font-medium">
