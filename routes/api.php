@@ -28,6 +28,7 @@ use App\Http\Controllers\SeguidorController;
 use App\Http\Controllers\perfilController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ClubeChatController;
+use App\Http\Controllers\ClubeOportunidadeController;
 use App\Models\Clube;
 use App\Models\Usuario;
 use Laravel\Sanctum\Sanctum;
@@ -113,6 +114,8 @@ Route::prefix('clube')->group(function () {
     Route::post('/login', [AuthClubeController::class, 'login']);
 
     Route::middleware(['web', 'auth:club_sanctum,adm_sanctum'])->group(function () {
+        Route::put('/update', [AuthClubeController::class, 'updateAccount']);
+
         Route::get('/perfil', [AuthClubeController::class, 'perfil']);
         Route::post('/logout', [AuthClubeController::class, 'logout']);
 
@@ -131,6 +134,10 @@ Route::prefix('clube')->group(function () {
         Route::post('/oportunidade', [OportunidadeController::class, 'store']);
         Route::put('/oportunidade/{id}', [OportunidadeController::class, 'update']);
         Route::delete('/oportunidade/{id}', [OportunidadeController::class, 'destroy']);
+
+        Route::post('/oportunidade-painel', [ClubeOportunidadeController::class, 'store']);
+        Route::put('/oportunidade-painel/{id}', [ClubeOportunidadeController::class, 'update']);
+        Route::delete('/oportunidade-painel/{id}', [ClubeOportunidadeController::class, 'destroy']);
 
         Route::get('/oportunidades', [OportunidadeController::class, 'index']); //Tem que retirar essa rota esta mostrando todos 
 
@@ -199,12 +206,11 @@ Route::prefix('clube')->group(function () {
         Route::post('/convites/{conviteId}/cancelar', [ChatController::class, 'clubeCancelInvite']);
 
         // Rotas para o clube gerenciar sua conta
-        Route::put('/update', [AuthClubeController::class, 'updateAccount']);
         Route::delete('/delete', [AuthClubeController::class, 'deleteAccount']);
 
-        Route::put('/{id}', [ClubeController::class, 'update']);
-        Route::get('/{id}', [ClubeController::class, 'show']);
-        Route::delete('/{id}', [ClubeController::class, 'destroy']);
+        Route::put('/{id}', [ClubeController::class, 'update'])->whereNumber('id');
+        Route::get('/{id}', [ClubeController::class, 'show'])->whereNumber('id');
+        Route::delete('/{id}', [ClubeController::class, 'destroy'])->whereNumber('id');
         // Fim Listas do Clube
     });
 

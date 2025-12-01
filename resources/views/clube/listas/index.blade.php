@@ -67,10 +67,10 @@
 
 <script>
     async function submitAjax(formId, url, method, modalName, listId = null, 
-                            successTitle = 'Sucesso!', 
-                            successText = 'Operação realizada com êxito.', 
-                            errorTitle = 'Erro!', 
-                            errorText = 'A solicitação falhou. Tente novamente.') {
+        successTitle = 'Sucesso!', 
+        successText = 'Operação realizada com êxito.', 
+        errorTitle = 'Erro!', 
+        errorText = 'A solicitação falhou. Tente novamente.') {
 
         const form = document.getElementById(formId);
         const formData = new FormData(form);

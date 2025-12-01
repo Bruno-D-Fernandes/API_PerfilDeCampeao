@@ -69,7 +69,6 @@
         @endif
 
         @if($isSelect)
-            {{-- SELECT nativo, mantendo a mesma estilização do input --}}
             <select
                 id="{{ $id }}"
                 name="{{ $name }}"
@@ -90,7 +89,7 @@
                 @if($isDate || $isTime) onclick="try { this.showPicker() } catch(e){}" @endif
                 {{ $attributes->merge([
                     'class' => $isFile 
-                        ? 'block w-full text-[0.73vw] text-gray-900 border-[0.052vw] border-gray-300 rounded-[0.42vw] cursor-pointer bg-gray-50 focus:outline-none focus:border-gray-500 focus:ring-[0.052vw] focus:ring-gray-500 placeholder:text-gray-400 file:mr-[0.83vw] file:py-[0.42vw] file:px-[0.83vw] file:rounded-l-[0.42vw] file:border-0 file:text-[0.73vw] file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300'
+                        ? 'block w-full text-[0.73vw] text-gray-900 border-[0.052vw] border-gray-300 rounded-[0.42vw] cursor-pointer bg-gray-50 focus:outline-none focus:border-gray-500 focus:ring-[0.052vw] focus:ring-gray-500 placeholder:text-gray-400 file:mr-[0.83vw] file:py-[0.42vw] file:px-[1.5vw] file:rounded-l-[0.42vw] file:border-0 file:text-[0.73vw] file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300'
                         : 'block w-full p-[0.52vw] text-[0.73vw] text-gray-900 bg-gray-50 border-[0.052vw] border-gray-300 rounded-[0.42vw] focus:border-[0.052vw] ' . 
                           $theme['input'] . 
                           ($showIconColumn ? ' ps-[2.08vw]' : '') . 

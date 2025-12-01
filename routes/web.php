@@ -14,6 +14,7 @@ use App\Http\Controllers\EsporteController;
 use App\Http\Controllers\DashClubeController;
 use App\Http\Controllers\AuthClubeController;
 use App\Http\Controllers\AuthAdmController;
+use App\Http\Controllers\ClubeOportunidadeController;
 use App\Http\Controllers\DashAdminController;
 use App\Http\Controllers\EventoClubeController;
 use App\Http\Controllers\SearchUsuarioController;
@@ -42,9 +43,8 @@ Route::prefix('clube')->name('clube.')->group(function () {
        
         Route::get('/dashboard', [DashClubeController::class, 'dashboardData'])->name('dashboard');
 
-        Route::get('/oportunidades', function () {
-            return view('clube.oportunidades.index');
-        })->name('oportunidades');
+        Route::get('/minhas-oportunidades', [ClubeOportunidadeController::class, 'index'])
+        ->name('minhas-oportunidades');
 
         Route::get('/oportunidade', function () {
             return view('clube.oportunidades.show');
@@ -54,13 +54,8 @@ Route::prefix('clube')->name('clube.')->group(function () {
             return view('clube.listas.index');
         })->name('listas');
 
-        Route::get('/lista', function () {
-            return view('clube.listas.show');
-        })->name('lista');
-
-        Route::get('/perfil', function () {
-            return view('clube.perfil');
-        })->name('perfil');
+        Route::get('/listas/{id}', [ListaClubeController::class, 'show'])
+        ->name('listas.show');
 
          // POR ISSO AQUI:
         Route::get('/mensagens', [ClubeChatController::class, 'index'])->name('mensagens');
@@ -92,6 +87,10 @@ Route::prefix('clube')->name('clube.')->group(function () {
 
         Route::get('/ajax/next-events', [EventoClubeController::class, 'nextEventsHtml'])
         ->name('ajax.next-events');
+
+        Route::get('/{id}', [ClubeController::class, 'showProfilePage'])
+        ->where('id', '[0-9]+')
+        ->name('perfil');
     });
 });
 

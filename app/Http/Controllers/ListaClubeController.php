@@ -21,7 +21,7 @@ class ListaClubeController extends Controller
     public function index(Request $request)
     {
         try {
-            $clube = $request->user();
+            $clube = auth()->guard('club')->user();
 
             if (! $clube instanceof Clube) {
                 return response()->json(['message' => 'Clube não autenticado'], 401);
@@ -159,37 +159,19 @@ class ListaClubeController extends Controller
         return response()->json(['message' => 'Usuário removido da lista com sucesso'], 200);
     }
 
-    // GET /api/clube/listas/{id}
     public function show(Request $request, $id)
     {
-        $user = $request->user();
+        $clube = Auth::guard('club')->user();
 
-        if (!$user) {
-            return response()->json(['message' => 'Não autenticado'], 401);
-        }
+        $lista = Lista::where('id', $id)
+                      ->where('clube_id', $clube->id)
+                      ->firstOrFail();
 
-        $lista = Lista::with([
-            'clube',
-            'usuarios:id,nomeCompletoUsuario,emailUsuario,estadoUsuario,cidadeUsuario,alturaCm,pesoKg'
-        ])->find($id);
+        $usuarios = $lista->usuarios()
+                          ->latest()
+                          ->get();
 
-        if (!$lista) {
-            return response()->json(['message' => 'Lista não encontrada'], 404);
-        }
-
-        $podeVer = false;
-
-        if ($user instanceof Admin) {
-            $podeVer = true;
-        } elseif ($user instanceof Clube && $user->id == $lista->clube_id) {
-            $podeVer = true;
-        }
-
-        if (!$podeVer) {
-            return response()->json(['message' => 'Você não tem permissão para ver esta lista'], 403);
-        }
-
-        return response()->json($lista);
+        return view('clube.listas.show', compact('usuarios', 'lista'));
     }
 
     public function destroy(Request $request, $id)
