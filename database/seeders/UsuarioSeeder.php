@@ -111,7 +111,7 @@ class UsuarioSeeder extends Seeder
                 'emailUsuario'            => $email,
                 'senhaUsuario'            => Hash::make('123456'),
                 'dataNascimentoUsuario'   => $dataNascimento,
-                'fotoPerfilUsuario'       => "usuario_perfil.jpg",
+                'fotoPerfilUsuario'       => 'imagens_seeder/usuario_perfil.jpg',
                 'fotoBannerUsuario'       => "usuario_banner.jpg",
                 'alturaCm'                => $altura,
                 'pesoKg'                  => $peso,

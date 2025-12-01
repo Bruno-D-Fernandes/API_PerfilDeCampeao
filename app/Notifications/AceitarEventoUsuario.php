@@ -44,8 +44,9 @@ class AceitarEventoUsuario extends Notification
         return new BroadcastMessage($this->toArray($notifiable));
     }
 
-    public function broadcastOn($notifiable)
+    public function broadcastOn()
     {
-        return new PrivateChannel('notifications.club.' . $notifiable->id);
+         $receiver = $this->message->receiver;
+        return new PrivateChannel('notifications.club.' . $receiver->id);
     }
 }

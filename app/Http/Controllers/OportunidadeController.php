@@ -11,11 +11,17 @@ use Carbon\Carbon;
 
 class OportunidadeController extends Controller
 {
-    public function showWebPage()
+    public function showWebPage(Request $request)
     {
-        $oportunidades = Oportunidade::with('esporte', 'clube', 'posicoes', 'inscricoes')->get();
+        $user = $request->user();
+        if (!$user instanceof Clube) {
+            return redirect()->route('clube.login');
+        }
+        
 
-        return view('admin.listas.oportunidades')->with(['oportunidades' => $oportunidades]);
+
+
+        return view('admin.oportunidades.index');
     }
 
     public function store(Request $request)

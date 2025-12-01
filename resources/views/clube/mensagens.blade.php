@@ -276,6 +276,7 @@
         const loggedClubType      = @json(\App\Models\Clube::class);
         const loggedClubAvatar    = @json($clubeAvatar);
         const agendaBaseUrl       = "{{ route('clube.agenda') }}";
+        const defaultAvatarUrl    = "{{ asset('storage/imagens_seeders/usuario_perfil.png') }}";
 
         let activeConversationId = null;
         let activeContact        = null;
@@ -356,42 +357,43 @@
         }
 
         function renderConversationItem(conv) {
-            const name     = conv.contact?.name ?? 'Contato';
-            const lastText = conv.last_message?.text ?? '';
-            const preview  = truncatePreview(lastText);
-            const lastTime = conv.last_message?.time ?? '';
+    const name     = conv.contact?.name ?? 'Contato';
+    const lastText = conv.last_message?.text ?? '';
+    const preview  = truncatePreview(lastText);
+    const lastTime = conv.last_message?.time ?? '';
 
-            return `
-                <div class="conversation-item flex items-center justify-between bg-gray-50 rounded-[0.42vw] hover:bg-gray-100 transition-colors cursor-pointer p-[0.42vw]"
-                     data-conversation-id="${conv.conversation_id}">
-                    <div class="flex items-center gap-x-[0.42vw] w-full">
-                        <div class="h-[2.08vw] w-[2.08vw] aspect-square rounded-full bg-gray-200 overflow-hidden">
-                            ${conv.contact.avatar ? `
-                                <img src="${conv.contact.avatar}" class="w-full h-full object-cover" />
-                            ` : ''}
-                        </div>
+    // usa o avatar do contato, se tiver, senão o padrão
+    const avatarUrl = conv.contact?.avatar || defaultAvatarUrl;
 
-                        <div class="w-full h-full flex flex-col justify-between">
-                            <h2 class="text-[0.73vw] font-medium tracking-tight text-gray-800 truncate">
-                                ${name}
-                            </h2>
-
-                            <h3 class="text-[0.63vw] font-normal text-gray-500 truncate"
-                                data-conversation-preview>
-                                ${preview || '&nbsp;'}
-                            </h3>
-                        </div>
-                    </div>
-
-                    <div class="h-full flex flex-col items-end justify-center gap-y-[0.31vw]">
-                        <span class="text-[0.63vw] font-normal text-gray-700 pl-[0.63vw]"
-                              data-conversation-time>
-                            ${lastTime}
-                        </span>
-                    </div>
+    return `
+        <div class="conversation-item flex items-center justify-between bg-gray-50 rounded-[0.42vw] hover:bg-gray-100 transition-colors cursor-pointer p-[0.42vw]"
+             data-conversation-id="${conv.conversation_id}">
+            <div class="flex items-center gap-x-[0.42vw] w-full">
+                <div class="h-[2.08vw] w-[2.08vw] aspect-square rounded-full bg-gray-200 overflow-hidden">
+                    <img src="${avatarUrl}" class="w-full h-full object-cover" />
                 </div>
-            `;
-        }
+
+                <div class="w-full h-full flex flex-col justify-between">
+                    <h2 class="text-[0.73vw] font-medium tracking-tight text-gray-800 truncate">
+                        ${name}
+                    </h2>
+
+                    <h3 class="text-[0.63vw] font-normal text-gray-500 truncate"
+                        data-conversation-preview>
+                        ${preview || '&nbsp;'}
+                    </h3>
+                </div>
+            </div>
+
+            <div class="h-full flex flex-col items-end justify-center gap-y-[0.31vw]">
+                <span class="text-[0.63vw] font-normal text-gray-700 pl-[0.63vw]"
+                      data-conversation-time>
+                    ${lastTime}
+                </span>
+            </div>
+        </div>
+    `;
+}
 
         function formatEventDateTime(dateString) {
             if (!dateString) {
@@ -546,8 +548,9 @@
                 if (loggedClubAvatar) {
                     avatarHtml = `<img src="${loggedClubAvatar}" class="w-full h-full object-cover rounded-full" />`;
                 }
-            } else if (activeContact?.avatar) {
-                avatarHtml = `<img src="${activeContact.avatar}" class="w-full h-full object-cover rounded-full" />`;
+            } else {
+                const avatarUrl = activeContact?.avatar || defaultAvatarUrl;
+                avatarHtml = `<img src="${avatarUrl}" class="w-full h-full object-cover rounded-full" />`;
             }
 
             const avatarClass = avatarHtml ? '' : 'bg-gray-200';
@@ -684,11 +687,10 @@
             contactNameEl.textContent = conv.contact?.name ?? 'Contato';
 
             if (contactAvatarEl) {
-                contactAvatarEl.innerHTML = '';
-                if (conv.contact?.avatar) {
-                    contactAvatarEl.innerHTML =
-                        `<img src="${conv.contact.avatar}" class="w-full h-full object-cover" />`;
-                }
+                const avatarUrl = conv.contact?.avatar || defaultAvatarUrl;
+
+                contactAvatarEl.innerHTML =
+                    `<img src="${avatarUrl}" class="w-full h-full object-cover" />`;
             }
 
             await loadMessages(activeConversationId, false);

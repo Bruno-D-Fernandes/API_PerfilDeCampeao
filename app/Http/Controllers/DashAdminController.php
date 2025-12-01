@@ -190,7 +190,7 @@ class DashAdminController extends Controller
                 ->get(['id', 'nomeCompletoUsuario', 'emailUsuario', 'created_at', 'status']);
 
             $listaOportunidadesTop = Oportunidade::query()
-                ->with(['esporte:id,nomeEsporte', 'posicao:id,nomePosicao', 'clube:id,nomeClube,fotoPerfilClube'])
+                ->with(['esporte:id,nomeEsporte', 'posicoes:id,nomePosicao', 'clube:id,nomeClube,fotoPerfilClube'])
                 ->withCount('inscricoes')
                 ->orderByDesc('inscricoes_count')
                 ->take(3)
