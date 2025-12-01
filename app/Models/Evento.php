@@ -47,4 +47,28 @@ class Evento extends Model
     {
         return $this->hasMany(Message::class, 'evento_id');
     }
+
+    public function getEnderecoFormatadoAttribute()
+    {
+        $parteRua = collect([
+            $this->rua, 
+            $this->numero
+        ])->filter()->implode(', '); 
+
+        if ($this->complemento) {
+            $parteRua .= ', ' . $this->complemento;
+        }
+
+        $cidadeUf = collect([
+            $this->cidade, 
+            $this->estado
+        ])->filter()->implode(' - ');
+
+        return collect([
+            $parteRua,
+            $this->bairro,
+            $cidadeUf,
+            $this->cep
+        ])->filter()->implode(', '); 
+    }
 }

@@ -18,16 +18,51 @@ class ListaClubeController extends Controller
         return view('admin.listas.listas')->with(['listas' => $listas]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $clube = Auth::guard('club_sanctum')->user();
+            $clube = auth()->guard('club')->user();
 
-            if (!$clube) {
+            if (! $clube instanceof Clube) {
                 return response()->json(['message' => 'Clube não autenticado'], 401);
             }
 
-            $listas = $clube->listas->load('usuarios'); 
+            $search  = $request->query('search');
+            $perPage = (int) $request->query('per_page', 15);
+            $sortCol = $request->query('sort_col');
+            $sortDir = $request->query('sort_dir');
+
+            $q = Lista::query()
+                ->where('clube_id', $clube->id)
+                ->withCount('usuarios');
+
+            if ($search) {
+                $q->where(function ($w) use ($search) {
+                    $w->where('nome', 'like', "%{$search}%")
+                      ->orWhere('descricao', 'like', "%{$search}%");
+                });
+            }
+
+            $allowedColumns = [
+                'id',
+                'nome',
+                'descricao',
+                'usuarios_count',
+                'created_at',
+                'updated_at',
+            ];
+
+            if (
+                $sortCol &&
+                in_array($sortCol, $allowedColumns) &&
+                in_array($sortDir, ['asc', 'desc'])
+            ) {
+                $q->orderBy($sortCol, $sortDir);
+            } else {
+                $q->orderBy('id', 'desc');
+            }
+
+            $listas = $q->paginate($perPage);
 
             return response()->json($listas, 200);
         } catch (\Exception $e) {
@@ -53,19 +88,52 @@ class ListaClubeController extends Controller
         ]);
 
         $existe = Lista::where('clube_id', $clube->id)->where('nome', $data['nome'])->exists();
+
         if ($existe) {
             return response()->json(['message' => 'Já existe uma lista com esse nome'], 422);
         }
 
         $lista = Lista::create([
-            'clube_id'  => $clube->id,      
+            'clube_id'  => $clube->id,
             'nome'      => $data['nome'],
             'descricao' => $data['descricao'] ?? null,
         ]);
 
-        return response()->json(['message' => 'Lista criada com sucesso', 'data' => $lista], 201);
+        $htmlGrid = view('clube.partials.list-card', ['item' => $lista])->render();
+
+        $htmlModal = view('clube.partials.save-to-list-item', ['lista' => $lista])->render();
+
+        return response()->json([
+            'message' => 'Lista criada com sucesso', 
+            'data' => $lista, 
+            'html' => $htmlGrid,       
+            'html_modal' => $htmlModal 
+        ], 201);
     }
 
+    public function update(Request $request, $id)
+    {
+        $lista = Lista::findOrFail($id);
+        
+        $validated = $request->validate([
+            'nome' => 'required|string|max:255',
+            'descricao' => 'nullable|string',
+        ]);
+
+        $lista->update($validated);
+
+        $html = view('clube.partials.list-details', [
+                'lista' => $lista,
+                'usuarios' => $lista->usuarios,
+            ])->render();
+
+        return response()->json([
+            'message' => 'Lista atualizada!',
+            'data'    => $lista,
+            'html' => $html,
+        ], 200);
+    }
+    
     // POST /api/clube/listas/{listaId}/usuarios
     public function addUsuarioToLista(Request $request, $listaId, Usuario $usuario)
     {
@@ -77,7 +145,6 @@ class ListaClubeController extends Controller
 
         $lista = Lista::where('clube_id', $clube->id)->findOrFail($listaId);
 
-        // evita duplicatas no pivot
         $lista->usuarios()->syncWithoutDetaching($usuario);
 
         return response()->json(['message' => 'Usuário adicionado à lista com sucesso'], 201);
@@ -87,7 +154,7 @@ class ListaClubeController extends Controller
     public function removeUsuarioFromLista(Request $request, $listaId, Usuario $usuario)
     {
         $clube = $request->user();
-        
+
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Apenas clube autenticado'], 403);
         }
@@ -95,39 +162,29 @@ class ListaClubeController extends Controller
         $lista = Lista::where('clube_id', $clube->id)->findOrFail($listaId);
         $lista->usuarios()->detach($usuario);
 
-        return response()->json(['message' => 'Usuário removido da lista com sucesso'], 200);
+        $lista->load('usuarios');
+
+        $html = view('clube.partials.usuarios-table-body', [
+                'usuarios' => $lista->usuarios,
+                'lista' => $lista
+            ])->render();
+
+        return response()->json(['message' => 'Usuário removido da lista com sucesso', 'data' => $html], 200);
     }
 
-    // GET /api/clube/listas/{id}
     public function show(Request $request, $id)
     {
-        $user = $request->user(); 
+        $clube = Auth::guard('club')->user();
 
-        if (!$user) {
-            return response()->json(['message' => 'Não autenticado'], 401);
-        }
+        $lista = Lista::with('usuarios')->where('id', $id)
+                      ->where('clube_id', $clube->id)
+                      ->firstOrFail();
 
-        $lista = Lista::with([
-            'clube',
-            'usuarios:id,nomeCompletoUsuario,emailUsuario,estadoUsuario,cidadeUsuario,alturaCm,pesoKg'
-        ])
-        ->find($id);
-        if (!$lista) {
-            return response()->json(['message' => 'Lista não encontrada'], 404);
-        }
-        $podeVer = false;
+        $usuarios = $lista->usuarios()
+                          ->latest()
+                          ->get();
 
-        if ($user instanceof Admin) {
-            $podeVer = true;
-        } elseif ($user instanceof Clube && $user->id == $lista->clube_id) {
-            $podeVer = true;
-        }
-
-        if (!$podeVer) {
-            return response()->json(['message' => 'Você não tem permissão para ver esta lista'], 403);
-        }
-
-        return response()->json($lista);
+        return view('clube.listas.show', compact('usuarios', 'lista'));
     }
 
     public function destroy(Request $request, $id)
@@ -137,13 +194,15 @@ class ListaClubeController extends Controller
         if (!$user) {
             return response()->json(['message' => 'Não autenticado'], 401);
         }
+
         $lista = Lista::find($id);
 
         if (!$lista) {
             return response()->json(['message' => 'Lista não encontrada'], 404);
         }
+
         $podeExcluir = false;
-        
+
         if ($user instanceof Admin) {
             $podeExcluir = true;
         } elseif ($user instanceof Clube && $user->id == $lista->clube_id) {
@@ -166,5 +225,39 @@ class ListaClubeController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function searchUsuarios(Request $request, $id)
+    {
+        $lista = Lista::findOrFail($id);
+
+        $query = $lista->usuarios();
+
+        if ($search = $request->query('search')) {
+            $query->where(function($q) use ($search) {
+                $q->where('nomeCompletoUsuario', 'like', "%{$search}%")
+                ->orWhere('emailUsuario', 'like', "%{$search}%")
+                ->orWhere('cidadeUsuario', 'like', "%{$search}%");
+            });
+        }
+
+        $sortableColumns = ['nomeCompletoUsuario', 'cidadeUsuario', 'dataNascimentoUsuario', 'generoUsuario'];
+
+        $sortCol = $request->query('sortColumn');
+
+        $direction = $request->query('sortDirection', 'asc');
+
+        if (in_array($sortCol, $sortableColumns)) {
+            $direction = $direction === 'desc' ? 'desc' : 'asc';
+            $query->orderBy($sortCol, $direction);
+        }
+
+        $usuarios = $query->get(); 
+
+        if ($request->ajax()) {
+            return view('clube.partials.usuarios-table-body', compact('usuarios'))->render();
+        }
+
+        return view('clube.listas.index', compact('lista', 'usuarios'));
     }
 }

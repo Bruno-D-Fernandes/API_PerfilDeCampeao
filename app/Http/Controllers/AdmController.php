@@ -15,17 +15,20 @@ use App\Models\Esporte;
 use App\Models\Funcao;
 use App\Models\Posicao; 
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class AdmController extends Controller
 {
 
     public function showProfilePage(Request $request) {
-        $admin = Admin::findOrFail(1); // Tem que arrumar depois do login isso aqui, deveria pegar da autenticação
+        $admin = Admin::findOrFail(1);
 
         return view('admin.configuracoes.perfil')->with(
             ['admin' => $admin]
         );
     }
+
+    
 
      public function loginAdm(Request $request)
     {

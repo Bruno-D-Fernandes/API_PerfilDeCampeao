@@ -10,171 +10,62 @@ class AtletaSeeder extends Seeder
 {
     public function run(): void
     {
-        $atletas = [
-            [
-                'nomeCompletoUsuario' => 'Lucas Ferreira da Silva',
-                'emailUsuario' => 'lucasf@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2002-05-14',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'bioUsuario' => 'Amante do futebol e da corrida.',
-                'alturaCm' => 178.5,
-                'pesoKg' => 72.3,
-                'peDominante' => 'direito',
-                'maoDominante' => 'direita',
-                'generoUsuario' => 'Masculino',
-                'estadoUsuario' => 'São Paulo',
-                'cidadeUsuario' => 'Campinas',
-            ],
-            [
-                'nomeCompletoUsuario' => 'Mariana Costa Oliveira',
-                'emailUsuario' => 'maricosta@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2004-11-09',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'bioUsuario' => 'Apaixonada por vôlei e esportes coletivos.',
-                'alturaCm' => 182.0,
-                'pesoKg' => 68.0,
-                'peDominante' => 'direito',
-                'maoDominante' => 'direita',
-                'generoUsuario' => 'Feminino',
-                'estadoUsuario' => 'Minas Gerais',
-                'cidadeUsuario' => 'Belo Horizonte',
-            ],
-            [
-                'nomeCompletoUsuario' => 'Rafael Andrade Lima',
-                'emailUsuario' => 'rafael.a@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '1999-02-25',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'bioUsuario' => 'Corredor e triatleta nas horas vagas.',
-                'alturaCm' => 174.0,
-                'pesoKg' => 69.5,
-                'peDominante' => 'direito',
-                'maoDominante' => 'direita',
-                'generoUsuario' => 'Masculino',
+        $atletas = [];
 
-                'estadoUsuario' => 'Rio de Janeiro',
-                'cidadeUsuario' => 'Niterói',
-            ],
-            [
-                'nomeCompletoUsuario' => 'Beatriz Santos Nogueira',
-                'emailUsuario' => 'bia.nog@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2005-08-12',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'bioUsuario' => 'Atleta de natação desde os 10 anos.',
-                'alturaCm' => 170.0,
-                'pesoKg' => 60.0,
-                'peDominante' => 'direito',
-                'maoDominante' => 'direita',
-                'generoUsuario' => 'Feminino',
-                'estadoUsuario' => 'Paraná',
-                'cidadeUsuario' => 'Curitiba',
-            ],
-            [
-                'nomeCompletoUsuario' => 'João Victor Mendes',
-                'emailUsuario' => 'joaovm@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                 'dataNascimentoUsuario' => '2001-03-22',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'bioUsuario' => 'Goleiro com experiência em campeonatos regionais.',
-                'alturaCm' => 185.0,
-                'pesoKg' => 80.0,
-                'peDominante' => 'direito',
-                'maoDominante' => 'direita',
-                'generoUsuario' => 'Masculino',
-                'estadoUsuario' => 'Bahia',
-                'cidadeUsuario' => 'Salvador',
-            ],
-            [
-                'nomeCompletoUsuario' => 'Carla Lima Souza',
-                'emailUsuario' => 'carlinha@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2003-07-30',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'bioUsuario' => 'Jogadora de basquete universitário.',
-                'alturaCm' => 177.0,
-                'pesoKg' => 65.0,
-                'peDominante' => 'direito',
-                'maoDominante' => 'direita',
-                'generoUsuario' => 'Feminino',
-                'estadoUsuario' => 'São Paulo',
-                'cidadeUsuario' => 'Santos',
-            ],
-            [
-                'nomeCompletoUsuario' => 'Eduardo Rocha Lima',
-                'emailUsuario' => 'edu.rocha@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '1998-12-01',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'bioUsuario' => 'Maratonista apaixonado por desafios.',
-                'alturaCm' => 180.0,
-                'pesoKg' => 75.0,
-                'peDominante' => 'direito',
-                'maoDominante' => 'direita',
-                'generoUsuario' => 'Masculino',
-                'estadoUsuario' => 'Pernambuco',
-                'cidadeUsuario' => 'Recife',
-            ],
-            [
-                'nomeCompletoUsuario' => 'Larissa Gomes Pinto',
-                'emailUsuario' => 'lari.pinto@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2006-09-05',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'bioUsuario' => 'Jogadora de futsal escolar.',
-                'alturaCm' => 165.0,
-                'pesoKg' => 55.0,
-                'peDominante' => 'direito',
-                'maoDominante' => 'esquerda',
-                'generoUsuario' => 'Feminino',
-                'estadoUsuario' => 'Rio Grande do Sul',
-                'cidadeUsuario' => 'Porto Alegre',
-
-            ],
-            [
-                'nomeCompletoUsuario' => 'Pedro Henrique Almeida',
-                'emailUsuario' => 'pedroha@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2000-01-10',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'bioUsuario' => 'Jogador de tênis e amante de esportes ao ar livre.',
-                'alturaCm' => 183.0,
-                'pesoKg' => 77.0,
-                'peDominante' => 'direito',
-                'maoDominante' => 'direita',
-                'generoUsuario' => 'Masculino',
-                'estadoUsuario' => 'Ceará',
-                'cidadeUsuario' => 'Fortaleza',
-
-            ],
-            [
-                'nomeCompletoUsuario' => 'Sofia Reis Martins',
-                'emailUsuario' => 'sofiamartins@gmail.com',
-                'senhaUsuario' => Hash::make('123456'),
-                'dataNascimentoUsuario' => '2007-10-15',
-                'fotoPerfilUsuario' => null,
-                'fotoBannerUsuario' => null,
-                'bioUsuario' => 'Promessa do skate feminino nacional.',
-                'alturaCm' => 160.0,
-                'pesoKg' => 50.0,
-                'peDominante' => 'direito',   // <-- ADICIONE
-                'maoDominante' => 'direita',
-                'generoUsuario' => 'Feminino',
-                'estadoUsuario' => 'Santa Catarina',
-                'cidadeUsuario' => 'Florianópolis',
-            ],
+        // Lista de estados/cidades para sortear
+        $locais = [
+            ['estado' => 'São Paulo',        'cidade' => 'São Paulo'],
+            ['estado' => 'São Paulo',        'cidade' => 'Campinas'],
+            ['estado' => 'São Paulo',        'cidade' => 'Santos'],
+            ['estado' => 'Rio de Janeiro',   'cidade' => 'Rio de Janeiro'],
+            ['estado' => 'Rio de Janeiro',   'cidade' => 'Niterói'],
+            ['estado' => 'Minas Gerais',     'cidade' => 'Belo Horizonte'],
+            ['estado' => 'Paraná',           'cidade' => 'Curitiba'],
+            ['estado' => 'Bahia',            'cidade' => 'Salvador'],
+            ['estado' => 'Pernambuco',       'cidade' => 'Recife'],
+            ['estado' => 'Rio Grande do Sul','cidade' => 'Porto Alegre'],
+            ['estado' => 'Ceará',            'cidade' => 'Fortaleza'],
+            ['estado' => 'Santa Catarina',   'cidade' => 'Florianópolis'],
         ];
+
+        for ($i = 1; $i <= 60; $i++) {
+            $numero = str_pad((string) $i, 2, '0', STR_PAD_LEFT);
+
+            $nome   = "Atleta {$numero}";
+            $email  = "atleta{$numero}@example.com";
+
+            $genero = $i % 2 === 0 ? 'Feminino' : 'Masculino';
+            $peDominante  = $i % 3 === 0 ? 'esquerdo' : 'direito';
+            $maoDominante = $i % 4 === 0 ? 'esquerda' : 'direita';
+
+            $ano = 1990 + ($i % 15);
+            $mes = (($i - 1) % 12) + 1;
+            $dia = (($i - 1) % 28) + 1;
+            $dataNascimento = sprintf('%04d-%02d-%02d', $ano, $mes, $dia);
+
+            $altura = 160 + ($i % 25);
+            $peso   = 55 + ($i % 30);
+
+            $local = $locais[($i - 1) % count($locais)];
+
+            $atletas[] = [
+                'nomeCompletoUsuario'   => $nome,
+                'emailUsuario'          => $email,
+                'senhaUsuario'          => Hash::make('123456'),
+                'dataNascimentoUsuario' => $dataNascimento,
+                'fotoPerfilUsuario'     => "atleta_{$numero}_perfil.jpg",
+                'fotoBannerUsuario'     => "atleta_{$numero}_banner.jpg",
+                'bioUsuario'            => "Bio de {$nome} gerada automaticamente para testes.",
+                'alturaCm'              => $altura,
+                'pesoKg'                => $peso,
+                'peDominante'           => $peDominante,
+                'maoDominante'          => $maoDominante,
+                'generoUsuario'         => $genero,
+                'estadoUsuario'         => $local['estado'],
+                'cidadeUsuario'         => $local['cidade'],
+                'status'                => 'ativo',
+            ];
+        }
 
         DB::table('usuarios')->insert($atletas);
     }

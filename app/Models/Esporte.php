@@ -13,9 +13,13 @@ class Esporte extends Model
 
     protected $table = 'esportes';
 
+    const STATUS_ATIVO = 'ativo';
+    const STATUS_DELETADO = 'deletado';
+
     protected $fillable = [
         'nomeEsporte',
         'descricaoEsporte',
+        'status',
     ];
 
     protected $hidden = ['created_at', 'updated_at'];
@@ -23,6 +27,25 @@ class Esporte extends Model
     public function clubes() // tirar isso depois | só estou mexendo no usuario -- bruno
     {
         return $this->hasMany(Clube::class);
+    }
+
+    public function clubesEsportePivot()
+{
+    return $this->belongsToMany(
+        Clube::class,
+        'clubes_esporte',
+        'esporte_id',
+        'clube_id'
+    )->withTimestamps();
+}
+
+    public function scopeAtivos($query)
+    {
+        return $query->where('status', self::STATUS_ATIVO);
+    }
+    public function scopeDeletados($query)
+    {
+        return $query->where('status', self::STATUS_DELETADO);
     }
 
     public function posicoes()

@@ -16,34 +16,48 @@ class InscricaoOportunidadeController extends Controller
     /**
      * USUÁRIO: inscrever-se em uma oportunidade (status = PENDING).
      */
-    public function store(Request $request, $oportunidadeId)
-    {
-        $user = $request->user();
+ public function store(Request $request, $oportunidadeId)
+{
+    $user = $request->user();
 
-        if (!$user || !($user instanceof Usuario)) {
-            return response()->json(['message' => 'Somente usuário autenticado pode se inscrever'], 403);
-        }
-
-        $op = Oportunidade::findOrFail($oportunidadeId);
-
-        $jaExiste = Inscricao::where('oportunidade_id', $op->id)
-            ->where('usuario_id', $user->id)
-            ->exists();
-
-        if ($jaExiste) {
-            return response()->json(['message' => 'Já inscrito'], 409);
-        }
-
-        $insc = Inscricao::create([
-            'oportunidade_id' => $op->id,
-            'usuario_id'      => $user->id,
-            'status'          => Inscricao::STATUS_PENDING,
-        ]);
-
-        event(new OpportunityApplicationCreatedEvent($user, $op, $op->clube));
-
-        return response()->json($insc, 201);
+    if (!$user || !($user instanceof Usuario)) {
+        return response()->json(['message' => 'Somente usuário autenticado pode se inscrever'], 403);
     }
+
+    $op = Oportunidade::findOrFail($oportunidadeId);
+
+    if (!is_null($op->limite_inscricoes)) {
+        $totalInscritos = $op->inscricoes()
+            ->whereIn('status', [Inscricao::STATUS_PENDING, Inscricao::STATUS_APPROVED])
+            ->count();
+
+        if ($totalInscritos >= $op->limite_inscricoes) {
+            return response()->json(['message' => 'Esta oportunidade já atingiu o limite de inscrições.'], 422);
+        }
+    }
+
+    $jaExiste = Inscricao::where('oportunidade_id', $op->id)
+        ->where('usuario_id', $user->id)
+        ->exists();
+
+    if ($jaExiste) {
+        return response()->json(['message' => 'Você já está inscrito nesta oportunidade.'], 409);
+    }
+
+
+    $insc = Inscricao::create([
+        'oportunidade_id' => $op->id,
+        'usuario_id'      => $user->id,
+        'status'          => Inscricao::STATUS_PENDING,
+    ]);
+
+    event(new OpportunityApplicationCreatedEvent($user, $op, $op->clube));
+
+    return response()->json($insc, 201);
+}
+
+
+
 
     /**
      * USUÁRIO: minhas inscrições (com paginação configurável).
@@ -58,7 +72,7 @@ class InscricaoOportunidadeController extends Controller
         }
 
         $lista = Inscricao::with([
-            'oportunidade:id,descricaoOportunidades,datapostagemOportunidades,clube_id,posicoes_id,esporte_id,idadeMinima,idadeMaxima,estadoOportunidade,cidadeOportunidade,enderecoOportunidade,cepOportunidade,status',
+            'oportunidade:id,descricaoOportunidades,datapostagemOportunidades,clube_id,posicoes_id,esporte_id,idadeMinima,idadeMaxima,status',
             'oportunidade.esporte:id,nomeEsporte',
             'oportunidade.posicao:id,nomePosicao',
             'oportunidade.clube'
@@ -126,13 +140,34 @@ class InscricaoOportunidadeController extends Controller
             $insc->update(['status' => Inscricao::STATUS_APPROVED]);
         }
 
+        if (!is_null($op->limite_inscricoes)) {
+            $totalAprovados = Inscricao::where('oportunidade_id', $op->id)
+                ->where('status', Inscricao::STATUS_APPROVED)
+                ->count();
+
+            if ($totalAprovados >= $op->limite_inscricoes) {
+                $pendentes = Inscricao::where('oportunidade_id', $op->id)
+                    ->where('status', Inscricao::STATUS_PENDING)
+                    ->where('id', '!=', $insc->id)
+                    ->get();
+
+                if ($pendentes->isNotEmpty()) {
+                    $removidosIds = $pendentes->pluck('id')->toArray();
+                    Inscricao::whereIn('id', $removidosIds)->delete();
+                }
+            }
+        }
+
         $tipo = Inscricao::STATUS_APPROVED;
 
-        event(new ApplicationStatusChangeEvent($usuario, $op, $clube, $insc, $tipo));
+        $html = view('clube.partials.opportunity-details', [
+            'oportunidade' => $op,
+        ])->render();
 
         return response()->json([
             'status' => $insc->status,
-            'message' => 'Inscrição aprovada com sucesso.'
+            'message' => 'Inscrição aprovada com sucesso.',
+            'html' => $html
         ], 200);
     }
 
@@ -163,11 +198,14 @@ class InscricaoOportunidadeController extends Controller
 
         $tipo = Inscricao::STATUS_REJECTED;
 
-        event(new ApplicationStatusChangeEvent($usuario, $op, $clube, $insc, $tipo));
+        $html = view('clube.partials.opportunity-details', [
+            'oportunidade' => $op,
+        ])->render();
 
         return response()->json([
             'status' => $insc->status,
-            'message' => 'Inscrição recusada com sucesso.'
+            'message' => 'Inscrição recusada com sucesso.',
+            'html' => $html
         ], 200);
     }
 

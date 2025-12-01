@@ -12,6 +12,7 @@ use App\Models\Categoria;
 use App\Models\Perfil;
 use App\Models\Inscricao;
 use App\Models\Oportunidade;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class Usuario extends Authenticatable
@@ -20,6 +21,15 @@ class Usuario extends Authenticatable
 
     protected $table = 'usuarios';
 
+    const STATUS_ATIVO = 'ativo';
+    const STATUS_BLOQUEADO = 'bloqueado';
+    const STATUS_DELETADO = 'deletado';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         "nomeCompletoUsuario",
         "dataNascimentoUsuario",
@@ -34,7 +44,11 @@ class Usuario extends Authenticatable
         "peDominante",
         "maoDominante",
         "fotoPerfilUsuario",
-        "fotoBannerUsuario"
+        "fotoBannerUsuario",
+        "status",
+        "reviewed_at",
+        "reviewed_by",
+        "bloque_reason",
     ];
 
     protected $hidden = [
@@ -47,10 +61,35 @@ class Usuario extends Authenticatable
 
     protected $casts = [
         'dataNascimentoUsuario' => 'date',
+        'reviewed_at' => 'datetime',
     ];
 
-    public function getAuthPassword()
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+
+    public function scopeAtivos($query)
     {
+        return $query->where('status', self::STATUS_ATIVO);
+    }
+    public function scopeBloqueados($query)
+    {
+        return $query->where('status', self::STATUS_BLOQUEADO);
+    }
+    public function scopeDeletados($query)
+    {
+        return $query->where('status', self::STATUS_DELETADO);
+    }
+
+    public function reviewer()
+    {
+        return $this->belongsTo(Admin::class, 'reviewed_by');
+    }
+
+    public function getAuthPassword()
+        {
         return $this->senhaUsuario;
     }
 
@@ -165,6 +204,18 @@ class Usuario extends Authenticatable
 
     public function getAvatarAttribute()
     {
-        return $this->fotoPerfilUsuario;
+    if ($this->fotoPerfilUsuario) {
+        $path = ltrim($this->fotoPerfilUsuario, '/');
+
+        if (Str::startsWith($path, ['http://', 'https://'])) {
+            return $path;
+        }
+
+        $path = preg_replace('#^(public/|storage/)#', '', $path);
+
+        return asset('storage/' . $path);
+    }
+
+    return asset('storage/imagens_seeders/usuario_perfil.png');
     }
 }

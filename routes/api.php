@@ -7,6 +7,8 @@ use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\AuthClubeController;
 use App\Http\Controllers\ClubeController;
 use App\Http\Controllers\PostagemController;
+use App\Http\Controllers\DashAdminController;
+use App\Http\Controllers\DashClubeController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ConviteEventoController;
 use App\Http\Controllers\EventoClubeController;
@@ -20,11 +22,14 @@ use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\SearchUsuarioController;
 use App\Http\Controllers\InscricaoOportunidadeController;
 use App\Http\Controllers\NotificacoesController;
+use App\Http\Controllers\AdminOportunidadesController;
 use App\Http\Controllers\ListaClubeController;
 use App\Http\Controllers\MembroClubeController;
 use App\Http\Controllers\SeguidorController;
 use App\Http\Controllers\perfilController;
 use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\ClubeChatController;
+use App\Http\Controllers\ClubeOportunidadeController;
 use App\Models\Clube;
 use App\Models\Usuario;
 use Laravel\Sanctum\Sanctum;
@@ -118,7 +123,9 @@ Route::prefix('clube')->group(function () {
     Route::post('/register', [ClubeController::class, 'store']);
     Route::post('/login', [AuthClubeController::class, 'login']);
 
-    Route::middleware('auth:club_sanctum,adm_sanctum')->group(function () {
+    Route::middleware(['web', 'auth:club_sanctum,adm_sanctum'])->group(function () {
+        Route::put('/update', [AuthClubeController::class, 'updateAccount']);
+
         Route::get('/perfil', [AuthClubeController::class, 'perfil']);
         Route::post('/logout', [AuthClubeController::class, 'logout']);
 
@@ -129,6 +136,7 @@ Route::prefix('clube')->group(function () {
         Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                   // ver lista (com usuários)
         Route::put('/listas/{id}', [ListaClubeController::class, 'update']);        // editar lista
         Route::delete('/listas/{id}', [ListaClubeController::class, 'destroy']);     // deletar lista
+        Route::get('/listas/{id}/usuarios/search', [ListaClubeController::class, 'searchUsuarios']);
         Route::post('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário | e Desse ? --Bruno
         Route::delete('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
 
@@ -137,6 +145,11 @@ Route::prefix('clube')->group(function () {
         Route::post('/oportunidade', [OportunidadeController::class, 'store']);
         Route::put('/oportunidade/{id}', [OportunidadeController::class, 'update']);
         Route::delete('/oportunidade/{id}', [OportunidadeController::class, 'destroy']);
+        Route::get('/oportunidade/{id}/inscricoes/search', [ClubeOportunidadeController::class, 'searchInscricoes']);
+
+        Route::post('/oportunidade-painel', [ClubeOportunidadeController::class, 'store']);
+        Route::put('/oportunidade-painel/{id}', [ClubeOportunidadeController::class, 'update']);
+        Route::delete('/oportunidade-painel/{id}', [ClubeOportunidadeController::class, 'destroy']);
 
         Route::get('/oportunidades', [OportunidadeController::class, 'index']); //Tem que retirar essa rota esta mostrando todos 
 
@@ -169,6 +182,23 @@ Route::prefix('clube')->group(function () {
         Route::post('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'adicionarMembro']);
         Route::delete('/{clubeId}/membros/{usuarioId}', [MembroClubeController::class, 'removerMembro']);
 
+        // Dashboard Clube - resumo geral
+        Route::get('/dashboard/resumo-geral', [DashClubeController::class, 'resumoGeral']);
+
+        // Dashboard Clube - distribuição por posições (filtra por ?esporte_id=)
+        Route::get('/dashboard/distribuicao-posicoes', [DashClubeController::class, 'distribuicaoPosicoes']);
+
+        // Dashboard Clube - evolução mensal de inscrições (filtra por ?esporte_id= & ?months=)
+        Route::get('/dashboard/inscricoes-mensais', [DashClubeController::class, 'inscricoesMensais']);
+
+        // Dashboard Clube - top 5 estados com mais inscritos (filtra por ?esporte_id=)
+        Route::get('/dashboard/top-estados-inscricoes', [DashClubeController::class, 'topEstadosInscricoes']);
+
+        // Dashboard Clube - atividades recentes (oportunidades + inscrições)
+        Route::get('/dashboard/atividades-recentes', [DashClubeController::class, 'atividadesRecentes']);
+
+        //Seja feliz João --Luan
+        // Fim Listas do Clube
         // Eventos do clube
         Route::get('/agenda/calendar', [EventoClubeController::class, 'calendar']);
 
@@ -188,12 +218,16 @@ Route::prefix('clube')->group(function () {
         Route::post('/convites/{conviteId}/cancelar', [ChatController::class, 'clubeCancelInvite']);
 
         // Rotas para o clube gerenciar sua conta
-        Route::put('/update', [AuthClubeController::class, 'updateAccount']);
         Route::delete('/delete', [AuthClubeController::class, 'deleteAccount']);
 
-        Route::put('/{id}', [ClubeController::class, 'update']);
-        Route::get('/{id}', [ClubeController::class, 'show']);
-        Route::delete('/{id}', [ClubeController::class, 'destroy']);
+        Route::put('/{id}', [ClubeController::class, 'update'])->whereNumber('id');
+        Route::get('/{id}', [ClubeController::class, 'show'])->whereNumber('id');
+        Route::delete('/{id}', [ClubeController::class, 'destroy'])->whereNumber('id');
+
+        Route::put('/email',   [ClubeController::class, 'updateEmail']);
+        Route::put('/cnpj',    [ClubeController::class, 'updateCnpj']);
+        Route::put('/senha',   [ClubeController::class, 'updatePassword']);
+        Route::delete('/conta', [ClubeController::class, 'destroyMe']);
         // Fim Listas do Clube
     });
 
@@ -267,7 +301,7 @@ Route::get('/teste-chat-usuario', function () {
 Route::prefix('admin')->group(function () {
     Route::post('/login', [AdmController::class, 'loginAdm']);
 
-    Route::middleware('auth:adm_sanctum')->group(function () {
+    Route::middleware(['web', 'auth:adm_sanctum'])->group(function () {
         Route::get('/perfil', [AdmController::class, 'perfilAdm']);
         Route::post('/logout', [AdmController::class, 'logoutAdm']);
         Route::put('/perfil/identidade', [AdminProfileController::class, 'updateIdentidade']);
@@ -288,6 +322,16 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 
+        Route::post('/usuario/{id}/ativar', [AdminSistemaController::class, 'ativarUsuario']);
+        Route::post('/usuario/{id}/bloquear', [AdminSistemaController::class, 'bloquearUsuario']);
+
+        Route::post('/usuario/{id}/update', [AdminSistemaController::class, 'usuarioUpdateStatus']);
+
+        Route::post('/clube/{id}/ativar', [AdminSistemaController::class, 'ativarClube']);
+        Route::post('/clube/{id}/rejeitar', [AdminSistemaController::class, 'rejeitarClube']);
+        Route::post('/clube/{id}/bloquear', [AdminSistemaController::class, 'bloquearClube']);
+
+        Route::post('/clube/{id}/update', [AdminSistemaController::class, 'clubeUpdateStatus']);
 
         Route::put('/perfil/identidade', [AdminProfileController::class, 'updateIdentidade']);
         Route::put('/perfil/informacoes', [AdminProfileController::class, 'updateInformacoes']);
@@ -318,6 +362,15 @@ Route::prefix('admin')->group(function () {
         Route::put('/posicao/{id}', [AdminSistemaController::class, 'Posicaoupdate']);
         Route::delete('/posicao/{id}', [AdminSistemaController::class, 'Posicaodestroy']);
 
+        Route::get('/usuario/list', [AdminSistemaController::class, 'listarUsuarios']);
+        Route::get('/clube/list', [AdminSistemaController::class, 'listarClubes']);
+        Route::post('/esporte/{id}/ativar', [AdminSistemaController::class, 'esporteAtivar']);
+        Route::post('/esporte/{id}/deletar', [AdminSistemaController::class, 'esporteDeletar']);
+        Route::post('/lista/{id}/ativar', [AdminSistemaController::class, 'listaAtivar']);
+        Route::post('/lista/{id}/deletar', [AdminSistemaController::class, 'listaDeletar']);
+        Route::post('/funcoes/{id}/ativar', [AdminSistemaController::class, 'ativarFuncoes']);
+        Route::post('/funcoes/{id}/deletar', [AdminSistemaController::class, 'deletarFuncoes']);
+
         Route::get('/posicao/{id}', [AdminSistemaController::class, 'showPosicao']);
 
         Route::get('/posicao', [AdminSistemaController::class, 'listarPosicoes']);
@@ -325,10 +378,10 @@ Route::prefix('admin')->group(function () {
         Route::put('/posicao/{id}', [AdminSistemaController::class, 'updatePosicao']);    // Antes era Posicaoupdate
         Route::delete('/posicao/{id}', [AdminSistemaController::class, 'destroyPosicao']); // Antes era Posicaodestroy
 
+        Route::get('/funcao', [AdminSistemaController::class, 'listarFuncoes'])->name('admin.funcoes.listar');
         Route::post('/funcao', [FuncaoController::class, 'store']);
         Route::put('/funcao/{id}', [FuncaoController::class, 'update']);
         Route::delete('/funcao/{id}', [FuncaoController::class, 'destroy']);
-        Route::get('/funcao', [FuncaoController::class, 'index']);
         Route::get('/funcao/{id}', [FuncaoController::class, 'show']);
 
         Route::get('/esporte', [AdminSistemaController::class, 'ListarEsportes']);
@@ -340,6 +393,31 @@ Route::prefix('admin')->group(function () {
         Route::put('/caracteristica/{id}', [AdminSistemaController::class, 'updateCaracteristica']);
         Route::delete('/caracteristica/{id}', [AdminSistemaController::class, 'destroyCaracteristica']);
 
+        // Dashboard Admin - últimos cadastros de usuários
+        Route::get('/dashboard/ultimos-cadastros', [DashAdminController::class, 'ultimosCadastros']);
+
+        // Dashboard Admin - 5 oportunidades com mais inscrições
+        Route::get('/dashboard/oportunidades-inscricoes', [DashAdminController::class, 'oportunidadesInscricoes']);
+
+        // Dashboard Admin - 5 clubes mais ativos
+        Route::get('/dashboard/clubes-mais-ativos', [DashAdminController::class, 'clubesMaisAtivos']);
+
+        // Dashboard Admin - atividades recentes (oportunidades + inscrições)
+        Route::get('/dashboard/atividades-recentes', [DashAdminController::class, 'atividadesRecentes']);
+
+        // Dashboard Admin - cards gerais (atletas mês, clubes ativos, oportunidades ativas, inscrições totais)
+        Route::get('/dashboard/resumo-geral', [DashAdminController::class, 'resumoGeral']);
+
+        // Dashboard Admin - crescimento de usuários mensal
+        Route::get('/dashboard/crescimento-usuarios-mensal', [DashAdminController::class, 'crescimentoUsuariosMensal']);
+
+        // Dashboard Admin - inscrições mensais
+        Route::get('/dashboard/inscricoes-mensais', [DashAdminController::class, 'inscricoesMensais']);
+
+        // Dashboard Admin - distribuição de oportunidades entre esportes
+        Route::get('/dashboard/distribuicao-oportunidades-esporte', [DashAdminController::class, 'distribuicaoOportunidadesPorEsporte']);
+
+        //SEJA FELIZ JOAO --LUAN
         Route::get('/eventos', [AdminEventoController::class, 'listAllEvents']);
         Route::get('/eventos/{eventoId}', [AdminEventoController::class, 'showEvent']);
         Route::put('/eventos/{eventoId}', [AdminEventoController::class, 'updateEvent']);
@@ -347,6 +425,38 @@ Route::prefix('admin')->group(function () {
 
         // Convites / "inscritos" de um evento (Admin)
         Route::get('/eventos/{eventoId}/convites', [AdminEventoController::class, 'eventInvitesAdmin']);
+
+         // ROTA DO CSV
+        Route::get('/export/csv', [AdminSistemaController::class, 'exportDadosSistema'])->name('admin.export.csv');
+        
+          Route::post('/oportunidades/{id}/approve', [DashAdminController::class, 'approveOpportunity'])->name('admin.oportunidades.approve');
+
+            Route::post('/oportunidades/{id}/reject', [DashAdminController::class, 'rejectOpportunity'])->name('admin.oportunidades.reject');
+
+        Route::prefix('oportunidades')->group(function () {
+
+            // GET /api/admin/oportunidades/metrics
+            Route::get('/metrics', [AdminOportunidadesController::class, 'metrics']);
+
+            // GET /api/admin/oportunidades/list
+            Route::get('/list', [AdminOportunidadesController::class, 'list']);
+
+            // GET /api/admin/oportunidades/{oportunidade}
+            Route::get('/{oportunidade}', [AdminOportunidadesController::class, 'show']);
+
+            // PATCH /api/admin/oportunidades/{oportunidade}
+            Route::put('/{oportunidade}', [AdminOportunidadesController::class, 'update']);
+
+            // PATCH /api/admin/oportunidades/{oportunidade}/status
+            Route::put('/{oportunidade}/status', [AdminOportunidadesController::class, 'updateStatus']);
+
+            // GET /api/admin/oportunidades/{oportunidade}/inscricoes
+            Route::get('/{oportunidade}/inscricoes', [AdminOportunidadesController::class, 'listInscricoes']);
+
+            // DELETE /api/admin/oportunidades/{oportunidade}
+            Route::delete('/{oportunidade}', [AdminOportunidadesController::class, 'destroy']);
+
+        });
     });
 });
 

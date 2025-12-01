@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             
             // Campos de Dados
+            $table->string('tituloOportunidades',100);
             $table->string('descricaoOportunidades', 255);
             $table->date('datapostagemOportunidades');
 
@@ -23,11 +24,6 @@ return new class extends Migration
             // Esporte
             $table->foreignId('esporte_id')
                   ->constrained('esportes') // Assume que sua tabela é 'esportes'
-                  ->onDelete('cascade');
-            
-            // Posição (Singular/Plural do nome da FK não importa se você usa 'constrained')
-            $table->foreignId('posicoes_id') 
-                  ->constrained('posicoes') // Assume que sua tabela de posições é 'posicoes'
                   ->onDelete('cascade');
             
             // Clube

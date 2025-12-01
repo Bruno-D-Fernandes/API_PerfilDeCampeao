@@ -4,150 +4,125 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use App\Models\Esporte;
+use App\Models\Posicao;
 
 class SearchUsuarioController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Retorna a view principal para a carga inicial.
      */
-    public function index(Request $request)
+    public function showPage(Request $request)
     {
-       $validatedData = $request->validate([
-        'pesquisa'        => 'nullable|string|max:255',
+        $perPage = 9; 
 
+        $initialRequest = $request->duplicate();
+        $initialRequest->merge(['per_page' => $perPage]);
+
+        $atletas = $this->index($initialRequest, false);
+
+        // BUSCA DADOS PARA OS SELECTS
+        $esportes = Esporte::all(); 
+        $posicoes = Posicao::all(); // Precisamos de todas para filtrar via JS no front
+
+        return view('clube.pesquisa', [ 
+            'atletas' => $atletas,
+            'esportes' => $esportes,
+            'posicoes' => $posicoes,
+        ]);
+    }
+
+    /**
+     * Endpoint AJAX para buscar atletas e retornar JSON.
+     */
+    public function index(Request $request, $isAjax = true)
+    {
+        $isAjaxCall = $isAjax || $request->ajax(); 
         
-        'posicao_id'      => 'nullable|integer|exists:posicoes,id',
+        $validatedData = $request->validate([
+            'pesquisa'      => 'nullable|string|max:255',
+            'esporte_id'    => 'nullable|integer',
+            'posicao_id'    => 'nullable|integer', 
+            'alturaCm'      => 'nullable|numeric|min:50|max:300',
+            'altura_min'    => 'nullable|numeric|min:50|max:300',
+            'altura_max'    => 'nullable|numeric|min:50|max:300',
+            'peso_min'      => 'nullable|numeric|min:20|max:500',
+            'peso_max'      => 'nullable|numeric|min:20|max:500',
+            'idade_min'     => 'nullable|integer|min:0|max:120',
+            'idade_max'     => 'nullable|integer|min:0|max:120',
+            'estadoUsuario' => 'nullable|string|max:100',
+            'cidadeUsuario' => 'nullable|string|max:100',
+            'peDominante'   => 'nullable|in:direito,esquerdo',
+            'maoDominante'  => 'nullable|in:destro,canhoto',
+            'page'          => 'nullable|integer',
+            'ordenarpor'    => 'nullable|string',
+        ]);
 
-        // Altura (em cm ou m) + ranges
-        'alturaCm'        => 'nullable|numeric|min:50|max:300',
-        'altura_m'        => 'nullable|numeric|min:0.5|max:3.0',
-        'altura_min'      => 'nullable|numeric|min:50|max:300',
-        'altura_max'      => 'nullable|numeric|min:50|max:300',
+        $perPage = 9;
+        $sort = $request->input('ordenarpor', 'recentes');
+        $direction = 'desc';
 
-        // Peso (kg) + ranges
-        'pesoKg'          => 'nullable|numeric|min:20|max:500',
-        'peso_min'        => 'nullable|numeric|min:20|max:500',
-        'peso_max'        => 'nullable|numeric|min:20|max:500',
+        $q = Usuario::query()
+            ->with(['posicoes:id,nomePosicao', 'perfis.esporte']); 
 
-        // Idade (anos)
-        'idade'           => 'nullable|integer|min:0|max:120',
-        'idade_min'       => 'nullable|integer|min:0|max:120',
-        'idade_max'       => 'nullable|integer|min:0|max:120',
+        // --- FILTROS ---
 
-        // Localização e dominância
-        'estadoUsuario'   => 'nullable|string|max:100',
-        'cidadeUsuario'   => 'nullable|string|max:100',
-        'peDominante'     => 'nullable|in:direito,esquerdo',
-        'maoDominante'    => 'nullable|in:destro,canhoto',
-
-        // Paginação & ordenação
-        'per_page'        => 'nullable|integer|min:1|max:100',
-        'page'            => 'nullable|integer|min:1',
-        'ordenarpor'      => 'nullable|string|in:recentes,altura,peso,idade,nome,todos', // inclui "todos" p/ compatibilidade
-        'direction'       => 'nullable|in:asc,desc',
-    ]);
-
-   
-    if (!empty($validatedData['altura_m']) && empty($validatedData['alturaCm'])) {
-        $validatedData['alturaCm'] = (int) round($validatedData['altura_m'] * 100);
-    }
-
-    
-    $perPage   = isset($validatedData['per_page']) ? min(max((int) $validatedData['per_page'], 1), 100) : 15;
-    $sort      = $validatedData['ordenarpor'] ?? 'recentes';
-    $direction = $validatedData['direction']  ?? 'desc';
-
-    
-    $q = Usuario::query()
-        ->select([
-            'id',
-            'nomeCompletoUsuario',
-            'emailUsuario',
-            'dataNascimentoUsuario',
-            'cidadeUsuario',
-            'estadoUsuario',
-            'alturaCm',
-            'pesoKg',
-            'peDominante',
-            'maoDominante',
-            'created_at',
-            'updated_at',
-        ])
-        ->with(['posicoes:id,nomePosicao']);
-
-   
-    if (!empty($validatedData['pesquisa'])) {
-        $s = $validatedData['pesquisa'];
-        $q->where(function ($w) use ($s) {
-            $w->where('nomeCompletoUsuario', 'like', "%{$s}%")
-              ->orWhere('emailUsuario', 'like', "%{$s}%");
-        });
-    }
-   
-    if (!empty($validatedData['posicao_id'])) {
-        $q->whereHas('posicoes', fn ($w) => $w->where('posicoes.id', $validatedData['posicao_id']));
-    
-    }
-   
-    if (!empty($validatedData['alturaCm']))   $q->where('alturaCm', $validatedData['alturaCm']);
-    if (!empty($validatedData['altura_min'])) $q->where('alturaCm', '>=', $validatedData['altura_min']);
-    if (!empty($validatedData['altura_max'])) $q->where('alturaCm', '<=', $validatedData['altura_max']);
-
-    
-    if (!empty($validatedData['pesoKg']))     $q->where('pesoKg', $validatedData['pesoKg']);
-    if (!empty($validatedData['peso_min']))   $q->where('pesoKg', '>=', $validatedData['peso_min']);
-    if (!empty($validatedData['peso_max']))   $q->where('pesoKg', '<=', $validatedData['peso_max']);
-
-   
-    if (!empty($validatedData['idade'])) {
-        $maxDob = now()->subYears($validatedData['idade'])->endOfDay();
-        $minDob = now()->subYears($validatedData['idade'] + 1)->addDay()->startOfDay();
-        $q->whereBetween('dataNascimentoUsuario', [$minDob, $maxDob]);
-    }
-
-    
-    if (!empty($validatedData['idade_min'])) {
-        $dobMax = now()->subYears($validatedData['idade_min'])->endOfDay();   
-        $q->where('dataNascimentoUsuario', '<=', $dobMax);
-    }
-    if (!empty($validatedData['idade_max'])) {
-        $dobMin = now()->subYears($validatedData['idade_max'])->startOfDay(); 
-        $q->where('dataNascimentoUsuario', '>=', $dobMin);
-    }
-
-    
-    if (!empty($validatedData['estadoUsuario'])) $q->where('estadoUsuario', $validatedData['estadoUsuario']);
-    if (!empty($validatedData['cidadeUsuario'])) $q->where('cidadeUsuario', $validatedData['cidadeUsuario']);
-    if (!empty($validatedData['peDominante']))   $q->where('peDominante',   $validatedData['peDominante']);
-    if (!empty($validatedData['maoDominante']))  $q->where('maoDominante',  $validatedData['maoDominante']);
-
-   
-    if ($sort !== 'todos') { 
-        switch ($sort) {
-            case 'altura':
-                $q->orderBy('alturaCm', $direction);
-                break;
-            case 'peso':
-                $q->orderBy('pesoKg', $direction);
-                break;
-            case 'idade':
-                $q->orderBy('dataNascimentoUsuario', $direction);
-                break;
-            case 'nome':
-                $q->orderBy('nomeCompletoUsuario', $direction);
-                break;
-            case 'recentes':
-            default:
-                $q->orderBy('updated_at', $direction);
-                break;
+        if (!empty($validatedData['pesquisa'])) {
+            $term = $validatedData['pesquisa'];
+            $q->where(function ($w) use ($term) {
+                 $w->where('nomeCompletoUsuario', 'like', "%{$term}%")
+                   ->orWhere('emailUsuario', 'like', "%{$term}%");
+            });
         }
-    }
 
-    $result = $q->paginate($perPage)->appends($request->query());
+        if (!empty($validatedData['posicao_id'])) {
+            $q->whereHas('posicoes', fn ($w) => $w->where('posicoes.id', $validatedData['posicao_id']));
+        }
 
-    return response()->json($result, 200);
+        if (!empty($validatedData['esporte_id'])) {
+            $q->whereHas('perfis.esporte', fn ($w) => $w->where('esportes.id', $validatedData['esporte_id']));
+        }
 
+        // Filtros de Ranges
+        if (!empty($validatedData['altura_min'])) $q->where('alturaCm', '>=', $validatedData['altura_min']);
+        if (!empty($validatedData['altura_max'])) $q->where('alturaCm', '<=', $validatedData['altura_max']);
+        
+        if (!empty($validatedData['peso_min'])) $q->where('pesoKg', '>=', $validatedData['peso_min']);
+        if (!empty($validatedData['peso_max'])) $q->where('pesoKg', '<=', $validatedData['peso_max']);
 
+        if (!empty($validatedData['idade_min'])) {
+            $q->where('dataNascimentoUsuario', '<=', now()->subYears($validatedData['idade_min'])->endOfDay());
+        }
+        if (!empty($validatedData['idade_max'])) {
+            $q->where('dataNascimentoUsuario', '>=', now()->subYears($validatedData['idade_max'])->startOfDay());
+        }
+
+        // Filtros Específicos
+        if (!empty($validatedData['peDominante'])) $q->where('peDominante', $validatedData['peDominante']);
+        if (!empty($validatedData['maoDominante'])) $q->where('maoDominante', $validatedData['maoDominante']);
+        if (!empty($validatedData['estadoUsuario'])) $q->where('estadoUsuario', $validatedData['estadoUsuario']);
+        if (!empty($validatedData['cidadeUsuario'])) $q->where('cidadeUsuario', $validatedData['cidadeUsuario']);
+
+        // Ordenação
+        switch ($sort) {
+            case 'altura': $q->orderBy('alturaCm', $direction); break;
+            case 'peso': $q->orderBy('pesoKg', $direction); break;
+            case 'idade': $q->orderBy('dataNascimentoUsuario', 'asc'); break;
+            case 'nome': $q->orderBy('nomeCompletoUsuario', 'asc'); break;
+            default: $q->orderBy('updated_at', 'desc'); break;
+        }
+
+        $result = $q->paginate($perPage)->appends($request->query());
+
+        if (!$isAjaxCall) {
+            return $result;
+        }
+
+        return response()->json([
+            'grid' => view('clube.partials.athletes-grid', ['atletas' => $result])->render(),
+            'pagination' => view('clube.partials.pagination', ['atletas' => $result])->render(),
+            'total' => $result->total(),
+        ], 200);
     }
 
     /**

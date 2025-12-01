@@ -50,4 +50,15 @@ class Inscricao extends Model
     {
         return $this->belongsTo(Usuario::class);
     }
+
+    public function showHTMLStatus()
+    {
+        if ($this->status == self::STATUS_APPROVED) {
+            return 'Aprovada';
+        } elseif ($this->status == self::STATUS_REJECTED) {
+            return 'Rejeitada';
+        }
+
+        return 'Pendente';
+    }
 }

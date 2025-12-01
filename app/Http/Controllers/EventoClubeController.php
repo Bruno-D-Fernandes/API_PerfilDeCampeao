@@ -25,8 +25,8 @@ class EventoClubeController extends Controller
 
         return response()->json(['eventos' => $eventos], 200);
     }
-    public function eventInvites(Request $request, $eventoId)
-    {
+    
+    public function eventInvites(Request $request, $eventoId){
         $clube = $request->user();
         if (!$clube instanceof Clube) {
             return response()->json(['message' => 'Clube não encontrado'], 404);
@@ -131,6 +131,7 @@ class EventoClubeController extends Controller
             'numero'      => 'nullable|string|max:20',
             'complemento' => 'nullable|string|max:150',
             'limite_participantes' => 'nullable|integer|min:1',
+            'color' => 'required|string|max:20'
         ]);
 
         $evento = Evento::create([
@@ -147,6 +148,7 @@ class EventoClubeController extends Controller
             'numero'      => $data['numero'],
             'complemento' => $data['complemento'],
             'limite_participantes' => $data['limite_participantes'],
+            'color' => $data['color']
         ]);
 
         return response()->json(['evento' => $evento], 201);
@@ -180,6 +182,7 @@ class EventoClubeController extends Controller
             'numero'      => 'sometimes|nullable|string|max:20',
             'complemento' => 'sometimes|nullable|string|max:150',
             'limite_participantes' => 'sometimes|nullable|integer|min:1',
+            'color' => 'required|string|max:20'
         ]);
 
         $evento->update($data);
@@ -270,10 +273,27 @@ class EventoClubeController extends Controller
             ];
         }
 
-        return response()->json([
+        $responseData = [
             'month'    => $start->format('Y-m'),
             'calendar' => $calendar,
-        ], 200);
+        ];
+
+        if ($request->wantsJson()) {
+            return response()->json($responseData, 200);
+        }
+
+        if ($request->ajax()) {
+            $htmlGrid = view('clube.partials.calendar-grid', ['data' => $responseData, 'selectedDateStr' => $request->query('date')])->render();
+    
+            return response()->json([
+                'html' => $htmlGrid,
+                'calendarData' => $calendar,
+                'month' => $start->format('Y-m'),
+                'year' => $start->year
+            ]);
+        }
+
+        return view('clube.agenda', ['data' => $responseData]);
     }
 
     public function atualizarCorEvento(Request $request, $id)
@@ -305,6 +325,69 @@ class EventoClubeController extends Controller
         ], 200);
     }
 
+    public function proximosEventos(Request $request)
+    {
+        $clube = $request->user();
+
+        if (! $clube instanceof Clube) {
+            return response()->json(['message' => 'Clube não encontrado'], 404);
+        }
+
+        $request->validate([
+            'data_referencia' => 'nullable|date',
+            'limit'           => 'nullable|integer|min:1|max:50',
+        ]);
+
+        $dataReferencia = $request->input('data_referencia') 
+            ? Carbon::parse($request->input('data_referencia')) 
+            : Carbon::now();
+
+        $limit = (int) $request->input('limit', 1);
+
+        $eventos = Evento::where('clube_id', $clube->id)
+            ->where('data_hora_inicio', '>=', $dataReferencia)
+            ->orderBy('data_hora_inicio', 'asc')
+            ->limit($limit)
+            ->withCount('convites')
+            ->get();
+
+        return response()->json([
+            'data_referencia' => $dataReferencia->toDateTimeString(),
+            'eventos'         => $eventos
+        ], 200);
+    }
+
+    public function dayDetails(Request $request)
+    {
+        $clube = $request->user();
+        
+        $dateStr = $request->query('date');
+
+        if (!$dateStr) return '';
+
+        $date = Carbon::parse($dateStr);
+
+        $eventos = Evento::where('clube_id', $clube->id)
+            ->whereDate('data_hora_inicio', $date)
+            ->orderBy('data_hora_inicio', 'asc')
+            ->get();
+
+        return view('clube.partials.sidebar-events-list', ['eventos' => $eventos, 'emptyMessage' => 'Nenhum evento neste dia.']);
+    }
+
+    public function nextEventsHtml(Request $request)
+    {
+        $clube = $request->user();
+
+        $eventos = Evento::where('clube_id', $clube->id)
+            ->where('data_hora_inicio', '>', now())
+            ->orderBy('data_hora_inicio', 'asc')
+            ->limit(3)
+            ->get();
+
+        return view('clube.partials.sidebar-events-list', ['eventos' => $eventos, 'emptyMessage' => 'Sem próximos eventos agendados.']);
+    }
+    
     public function listUserEvents(Request $request)
     {
         $user = $request->user();

@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Esporte;
 use App\Models\Perfil;
+use App\Models\Oportunidade;
 use App\Models\Usuario;
 
 class Posicao extends Model
@@ -24,6 +26,7 @@ class Posicao extends Model
     {
         return $this->belongsTo(Esporte::class, 'idEsporte');
     }
+
     public function perfis()
     {
         return $this->belongsToMany(Perfil::class, 'perfil_posicao')
@@ -32,7 +35,17 @@ class Posicao extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany(\App\Models\Usuario::class, 'usuario_posicoes', 'posicao_id', 'usuario_id')
+        return $this->belongsToMany(Usuario::class, 'usuario_posicoes', 'posicao_id', 'usuario_id')
             ->withTimestamps();
+    }
+
+    public function oportunidades()
+    {
+        return $this->belongsToMany(
+            Oportunidade::class,
+            'oportunidades_posicoes',
+            'posicoes_id',
+            'oportunidades_id'
+        )->withTimestamps();
     }
 }

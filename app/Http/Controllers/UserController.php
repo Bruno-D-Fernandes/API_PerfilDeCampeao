@@ -24,7 +24,7 @@ class UserController extends Controller
             'perfis.caracteristicas',
         ])->findOrFail($id);
 
-        return view('clube.perfis.usuarios', [
+        return view('clube.usuarios.show', [
             'usuario' => $usuario
         ]);
     }
@@ -82,6 +82,7 @@ class UserController extends Controller
                 'generoUsuario' => $validatedData['generoUsuario'] ?? null,
                 'estadoUsuario' => $validatedData['estadoUsuario'] ?? null,
                 'cidadeUsuario' => $validatedData['cidadeUsuario'] ?? null,
+                'status' => Usuario::STATUS_ATIVO,
                 'alturaCm' => $validatedData['alturaCm'] ?? null,
                 'pesoKg' => $validatedData['pesoKg'] ?? null,
                 'peDominante' => $validatedData['peDominante'] ?? null,
@@ -127,6 +128,7 @@ class UserController extends Controller
                 'generoUsuario' => $validatedData['generoUsuario'] ?? null,
                 'estadoUsuario' => $validatedData['estadoUsuario'] ?? null,
                 'cidadeUsuario' => $validatedData['cidadeUsuario'] ?? null,
+                'status' => Usuario::STATUS_ATIVO,
                 'alturaCm' => $validatedData['alturaCm'] ?? null,
                 'pesoKg' => $validatedData['pesoKg'] ?? null,
                 'peDominante' => $validatedData['peDominante'] ?? null,

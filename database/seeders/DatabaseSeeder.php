@@ -7,14 +7,17 @@ namespace Database\Seeders;
 use App\Models\Usuario;
 use Illuminate\Database\Seeder;
 use \Database\Seeders\CategoriaSeeder;
+use \Database\Seeders\EventoSeeder;
 use \Database\Seeders\EsporteSeeder;
 use \Database\Seeders\PosicaoSeeder;
+use \Database\Seeders\ConviteEventoSeeder;
+use \Database\Seeders\ListasSeeder;
 use \Database\Seeders\AdminSeeder;
 use \Database\Seeders\ClubeSeeder;
 use \Database\Seeders\AtletaSeeder;
+use \Database\Seeders\PerfilSeeder;
 use \Database\Seeders\OportunidadeSeeder;
 use \Database\Seeders\InscricaoSeeder;
-use \Database\Seeders\EventoSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -31,18 +34,20 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            AdminSeeder::class,
-            UsuarioSeeder::class,
-            EsporteSeeder::class,
-            PosicaoSeeder::class,
-            CategoriaSeeder::class,
-            CaracteristicaSeeder::class,
-            ClubeSeeder::class,
-            OportunidadeSeeder::class,
-            InscricaoSeeder::class,
-            FuncaoSeeder::class,
-            EventoSeeder::class,
-
+        AdminSeeder::class,
+        UsuarioSeeder::class,
+        EsporteSeeder::class,
+        PosicaoSeeder::class,
+        CategoriaSeeder::class,
+        CaracteristicaSeeder::class,
+        ClubeSeeder::class,
+        OportunidadeSeeder::class,
+        InscricaoSeeder::class,
+        FuncaoSeeder::class,
+        EventoSeeder::class,
+        ConviteEventoSeeder::class,
+        ListasSeeder::class,
+        PerfilSeeder::class,
         ]);
     }
 }
