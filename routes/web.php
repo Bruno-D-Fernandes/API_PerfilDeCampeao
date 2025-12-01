@@ -101,6 +101,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // página web (Blade)
     Route::get('/dashboard', [DashAdminController::class, 'dashboardData'])->name('dashboard');
+    Route::post('/dashboard/oportunidades/aprovar', [DashAdminController::class, 'approveOpportunity'])
+    ->name('oportunidades.aprovar');
+
+Route::post('/dashboard/oportunidades/recusar', [DashAdminController::class, 'rejectOpportunity'])
+    ->name('oportunidades.recusar');
+
     Route::get('/oportunidades', [AdminOportunidadesController::class, 'index'])->name('oportunidades');
 
     // rotas JSON que o Alpine usa

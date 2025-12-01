@@ -617,33 +617,63 @@
                             <div class="w-full border border-t border-gray-200"></div>
 
                             <div class="flex flex-col gap-[0.42vw] overflow-y-auto h-full">
-                                @foreach([1, 2, 3, 4, 5] as $num)
+                                @forelse($oportunidadesPendentes->take(5) as $oportunidade)
                                     <div class="flex flex-1 items-center justify-between">
                                         <div class="flex items-center gap-x-[0.63vw]">
                                             <div class="h-[1.6vw] border border-l border-[0.225vw] border-gray-200 hover:border-sky-500 transition-colors rounded-md"></div>
 
                                             <span class="text-[0.83vw] font-medium text-gray-700">
-                                                Vasco da Gama
+                                                {{ optional($oportunidade->clube)->nomeClube ?? 'Clube' }}
                                             </span>
 
-                                            <a href="" class="text-[0.73vw] font-semibold tracking-tight text-sky-500 hover:text-sky-600 underline transition-colors">
-                                                Oportunidade
+                                            <a
+                                                href="{{ route('admin.oportunidades') }}"
+                                                class="text-[0.73vw] font-semibold tracking-tight text-sky-500 hover:text-sky-600 underline transition-colors"
+                                            >
+                                                {{ $oportunidade->tituloOportunidades }}
                                             </a>
                                         </div>
 
                                         <div class="flex items-center gap-x-[0.42vw]">
-                                            <x-icon-button color="red">
+                                            {{-- Recusar --}}
+                                            <x-icon-button
+                                                color="red"
+                                                onclick="openRejectOpportunityModal(
+                                                    {{ $oportunidade->id }},
+                                                    {{ \Illuminate\Support\Js::from(optional($oportunidade->clube)->nomeClube ?? 'Clube') }},
+                                                    {{ \Illuminate\Support\Js::from($oportunidade->tituloOportunidades) }}
+                                                )"
+                                            >
                                                 <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                                             </x-icon-button>
                                     
                                             <div class="w-px h-[0.83vw] bg-gray-200"></div>
 
-                                            <x-icon-button color="green">
+                                            {{-- Aprovar --}}
+                                            <x-icon-button
+                                                color="green"
+                                                onclick="openApproveOpportunityModal(
+                                                    {{ $oportunidade->id }},
+                                                    {{ \Illuminate\Support\Js::from(optional($oportunidade->clube)->nomeClube ?? 'Clube') }},
+                                                    {{ \Illuminate\Support\Js::from($oportunidade->tituloOportunidades) }}
+                                                )"
+                                            >
                                                 <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
                                             </x-icon-button>
                                         </div>
                                     </div>
-                                @endforeach
+                                @empty
+                                    <div class="p-[0.83vw] flex items-center justify-center">
+                                        <x-empty-state text="Nenhuma oportunidade pendente.">
+                                            <x-slot:icon>
+                                                <svg class="h-[1.67vw] w-[1.67vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hourglass-icon lucide-hourglass"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg>
+                                            </x-slot:icon>
+                                            <p class="text-gray-400 font-normal text-[0.83vw]">
+                                                Não há oportunidades aguardando aprovação no momento.
+                                            </p>
+                                        </x-empty-state>
+                                    </div>
+                                @endforelse
                             </div>
                         </div>
                     </div>
@@ -651,4 +681,207 @@
             </div>
         </div>
     </div>
+        {{-- Modal Aprovar Oportunidade --}}
+    <div
+        id="approveOpportunityModal"
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm"
+    >
+        <div class="bg-white rounded-lg shadow-lg w-[32vw] max-w-lg p-[1.25vw] flex flex-col gap-[0.83vw]">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-[0.42vw]">
+                    <svg class="h-[0.94vw] w-[0.94vw] text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-badge-check-icon lucide-badge-check"><path d="M8.5 8.5 11 11l4.5-4.5"/><path d="M4 7.5V4l3.5-.5L9 .5 12 .5l1.5 3L17 4l3 .5v3.5l1.5 3L20 14.5V18l-3 .5-1.5 3-3 .5-3-.5L7 18.5 4 18v-3.5L2.5 11z"/></svg>
+                    <span class="text-[0.94vw] font-semibold text-gray-800">
+                        Aprovar oportunidade
+                    </span>
+                </div>
+
+                <button
+                    type="button"
+                    class="text-gray-400 hover:text-gray-600 transition-colors"
+                    onclick="closeApproveOpportunityModal()"
+                >
+                    <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+
+            <div class="flex flex-col gap-[0.52vw]">
+                <p class="text-[0.83vw] text-gray-600 leading-snug">
+                    Você está prestes a aprovar a oportunidade:
+                </p>
+
+                <div class="bg-sky-50 border border-sky-100 rounded-md px-[0.73vw] py-[0.52vw] flex flex-col gap-[0.31vw]">
+                    <p class="text-[0.83vw] font-semibold text-sky-900" id="approve_opportunity_title">
+                        <!-- preenchido via JS -->
+                    </p>
+                    <p class="text-[0.73vw] text-sky-800/80">
+                        Clube: <span class="font-medium" id="approve_opportunity_club"></span>
+                    </p>
+                </div>
+
+                <p class="text-[0.73vw] text-gray-500">
+                    Após a aprovação, a oportunidade ficará visível para os atletas na plataforma.
+                </p>
+            </div>
+
+            <form
+                id="approveOpportunityForm"
+                method="POST"
+                action="{{ route('admin.oportunidades.aprovar') }}"
+                class="flex items-center justify-end gap-[0.63vw] mt-[0.42vw]"
+            >
+                @csrf
+                <input type="hidden" name="oportunidade_id" id="approve_oportunidade_id">
+
+                <button
+                    type="button"
+                    class="px-[0.94vw] py-[0.52vw] text-[0.78vw] font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+                    onclick="closeApproveOpportunityModal()"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="submit"
+                    class="px-[0.94vw] py-[0.52vw] text-[0.78vw] font-semibold text-white bg-emerald-500 hover:bg-emerald-600 rounded-md transition-colors flex items-center gap-[0.31vw]"
+                >
+                    <svg class="h-[0.73vw] w-[0.73vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                    Aprovar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    {{-- Modal Recusar Oportunidade --}}
+    <div
+        id="rejectOpportunityModal"
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm"
+    >
+        <div class="bg-white rounded-lg shadow-lg w-[34vw] max-w-xl p-[1.25vw] flex flex-col gap-[0.83vw]">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-[0.42vw]">
+                    <svg class="h-[0.94vw] w-[0.94vw] text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-x-icon lucide-shield-x"><path d="m14.5 9.5-5 5"/><path d="m9.5 9.5 5 5"/><path d="M9 4.38 4.62 6a2 2 0 0 0-1.38 1.9v5.28a4 4 0 0 0 2.06 3.51L10 19.84a4 4 0 0 0 3.9 0l4.69-2.52a4 4 0 0 0 2.06-3.51V7.9a2 2 0 0 0-1.38-1.9L15 4.38a4 4 0 0 0-2.66 0z"/></svg>
+                    <span class="text-[0.94vw] font-semibold text-gray-800">
+                        Recusar oportunidade
+                    </span>
+                </div>
+
+                <button
+                    type="button"
+                    class="text-gray-400 hover:text-gray-600 transition-colors"
+                    onclick="closeRejectOpportunityModal()"
+                >
+                    <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+
+            <div class="flex flex-col gap-[0.52vw]">
+                <p class="text-[0.83vw] text-gray-600 leading-snug">
+                    Você está prestes a <span class="font-semibold text-red-500">recusar</span> a oportunidade:
+                </p>
+
+                <div class="bg-red-50 border border-red-100 rounded-md px-[0.73vw] py-[0.52vw] flex flex-col gap-[0.31vw]">
+                    <p class="text-[0.83vw] font-semibold text-red-900" id="reject_opportunity_title">
+                        <!-- preenchido via JS -->
+                    </p>
+                    <p class="text-[0.73vw] text-red-800/80">
+                        Clube: <span class="font-medium" id="reject_opportunity_club"></span>
+                    </p>
+                </div>
+
+                <p class="text-[0.78vw] text-gray-600">
+                    Informe o motivo da recusa. Esse texto poderá ser enviado ao clube como feedback.
+                </p>
+            </div>
+
+            <form
+                id="rejectOpportunityForm"
+                method="POST"
+                action="{{ route('admin.oportunidades.recusar') }}"
+                class="flex flex-col gap-[0.73vw] mt-[0.21vw]"
+            >
+                @csrf
+                <input type="hidden" name="oportunidade_id" id="reject_oportunidade_id">
+
+                <textarea
+                    name="motivo_recusa"
+                    id="motivo_recusa"
+                    rows="3"
+                    class="w-full rounded-md border border-gray-300 focus:border-red-400 focus:ring-1 focus:ring-red-400 text-[0.78vw] text-gray-700 px-[0.63vw] py-[0.52vw] resize-none"
+                    placeholder="Descreva brevemente o motivo da recusa..."
+                    required
+                ></textarea>
+
+                <div class="flex items-center justify-end gap-[0.63vw]">
+                    <button
+                        type="button"
+                        class="px-[0.94vw] py-[0.52vw] text-[0.78vw] font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+                        onclick="closeRejectOpportunityModal()"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="px-[0.94vw] py-[0.52vw] text-[0.78vw] font-semibold text-white bg-red-500 hover:bg-red-600 rounded-md transition-colors flex items-center gap-[0.31vw]"
+                    >
+                        <svg class="h-[0.73vw] w-[0.73vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-circle-icon lucide-x-circle"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                        Recusar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openApproveOpportunityModal(id, clubName, oppTitle) {
+            const modal = document.getElementById('approveOpportunityModal');
+
+            document.getElementById('approve_oportunidade_id').value = id;
+            document.getElementById('approve_opportunity_club').textContent = clubName ?? 'Clube';
+            document.getElementById('approve_opportunity_title').textContent = oppTitle ?? 'Oportunidade';
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeApproveOpportunityModal() {
+            const modal = document.getElementById('approveOpportunityModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function openRejectOpportunityModal(id, clubName, oppTitle) {
+            const modal = document.getElementById('rejectOpportunityModal');
+
+            document.getElementById('reject_oportunidade_id').value = id;
+            document.getElementById('reject_opportunity_club').textContent = clubName ?? 'Clube';
+            document.getElementById('reject_opportunity_title').textContent = oppTitle ?? 'Oportunidade';
+
+            // limpa texto anterior
+            const motivo = document.getElementById('motivo_recusa');
+            if (motivo) motivo.value = '';
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeRejectOpportunityModal() {
+            const modal = document.getElementById('rejectOpportunityModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // Fecha modais com ESC
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeApproveOpportunityModal();
+                closeRejectOpportunityModal();
+            }
+        });
+    </script>
+
 </x-layouts.admin>

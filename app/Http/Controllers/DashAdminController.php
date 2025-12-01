@@ -248,6 +248,20 @@ class DashAdminController extends Controller
                 ->sortByDesc('created_at')
                 ->take($perPage);
 
+            $oportunidadesPendentes = Oportunidade::query()
+                ->with(['clube:id,nomeClube', 'esporte:id,nomeEsporte'])
+                ->where('status', 'pending')
+                ->orderByDesc('created_at')
+                ->take(5)
+                ->get([
+                    'id',
+                    'tituloOportunidades',
+                    'clube_id',
+                    'esporte_id',
+                    'created_at',
+                    'status',
+                ]);
+
             return view('admin.dashboard', compact(
                 'resumo',
                 'graficoUsuarios',
@@ -257,6 +271,7 @@ class DashAdminController extends Controller
                 'listaOportunidadesTop',
                 'listaClubesTop',
                 'atividadesRecentes',
+                'oportunidadesPendentes',
             ));
         } catch (\Exception $e) {
             return response()->json([
@@ -265,4 +280,42 @@ class DashAdminController extends Controller
             ], 500);
         }
     }
+
+     public function approveOpportunity(Request $request)
+    {
+        $data = $request->validate([
+            'oportunidade_id' => 'required|exists:oportunidades,id',
+        ]);
+
+        $oportunidade = Oportunidade::findOrFail($data['oportunidade_id']);
+        $oportunidade->status = 'approved'; // ou o valor que você usa na coluna
+        $oportunidade->save();
+
+        // se quiser, dispara evento / notificação aqui
+
+        return redirect()
+            ->route('admin.dashboard')
+            ->with('success', 'Oportunidade aprovada com sucesso.');
+    }
+
+    public function rejectOpportunity(Request $request)
+{
+    $data = $request->validate([
+        'oportunidade_id' => 'required|exists:oportunidades,id',
+        'motivo_recusa'   => 'required|string|max:2000',
+    ]);
+
+    $oportunidade = Oportunidade::findOrFail($data['oportunidade_id']);
+
+    $oportunidade->status = Oportunidade::STATUS_REJECTED; // ou 'rejected'
+    $oportunidade->rejection_reason = $data['motivo_recusa']; // nome certo do campo
+    $oportunidade->reviewed_by = Auth::guard('admin')->id();
+    $oportunidade->reviewed_at = now();
+
+    $oportunidade->save();
+
+    return redirect()
+        ->route('admin.dashboard')
+        ->with('success', 'Oportunidade recusada com sucesso.');
+}
 }

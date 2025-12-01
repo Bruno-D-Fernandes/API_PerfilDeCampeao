@@ -428,6 +428,10 @@ Route::prefix('admin')->group(function () {
 
          // ROTA DO CSV
         Route::get('/export/csv', [AdminSistemaController::class, 'exportDadosSistema'])->name('admin.export.csv');
+        
+          Route::post('/oportunidades/{id}/approve', [DashAdminController::class, 'approveOpportunity'])->name('admin.oportunidades.approve');
+
+            Route::post('/oportunidades/{id}/reject', [DashAdminController::class, 'rejectOpportunity'])->name('admin.oportunidades.reject');
 
         Route::prefix('oportunidades')->group(function () {
 
@@ -451,6 +455,7 @@ Route::prefix('admin')->group(function () {
 
             // DELETE /api/admin/oportunidades/{oportunidade}
             Route::delete('/{oportunidade}', [AdminOportunidadesController::class, 'destroy']);
+
         });
     });
 });
