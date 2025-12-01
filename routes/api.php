@@ -22,6 +22,7 @@ use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\SearchUsuarioController;
 use App\Http\Controllers\InscricaoOportunidadeController;
 use App\Http\Controllers\NotificacoesController;
+use App\Http\Controllers\AdminOportunidadesController;
 use App\Http\Controllers\ListaClubeController;
 use App\Http\Controllers\MembroClubeController;
 use App\Http\Controllers\SeguidorController;
@@ -222,6 +223,11 @@ Route::prefix('clube')->group(function () {
         Route::put('/{id}', [ClubeController::class, 'update'])->whereNumber('id');
         Route::get('/{id}', [ClubeController::class, 'show'])->whereNumber('id');
         Route::delete('/{id}', [ClubeController::class, 'destroy'])->whereNumber('id');
+
+        Route::put('/email',   [ClubeController::class, 'updateEmail']);
+        Route::put('/cnpj',    [ClubeController::class, 'updateCnpj']);
+        Route::put('/senha',   [ClubeController::class, 'updatePassword']);
+        Route::delete('/conta', [ClubeController::class, 'destroyMe']);
         // Fim Listas do Clube
     });
 
@@ -422,6 +428,30 @@ Route::prefix('admin')->group(function () {
 
          // ROTA DO CSV
         Route::get('/export/csv', [AdminSistemaController::class, 'exportDadosSistema'])->name('admin.export.csv');
+
+        Route::prefix('oportunidades')->group(function () {
+
+            // GET /api/admin/oportunidades/metrics
+            Route::get('/metrics', [AdminOportunidadesController::class, 'metrics']);
+
+            // GET /api/admin/oportunidades/list
+            Route::get('/list', [AdminOportunidadesController::class, 'list']);
+
+            // GET /api/admin/oportunidades/{oportunidade}
+            Route::get('/{oportunidade}', [AdminOportunidadesController::class, 'show']);
+
+            // PATCH /api/admin/oportunidades/{oportunidade}
+            Route::put('/{oportunidade}', [AdminOportunidadesController::class, 'update']);
+
+            // PATCH /api/admin/oportunidades/{oportunidade}/status
+            Route::put('/{oportunidade}/status', [AdminOportunidadesController::class, 'updateStatus']);
+
+            // GET /api/admin/oportunidades/{oportunidade}/inscricoes
+            Route::get('/{oportunidade}/inscricoes', [AdminOportunidadesController::class, 'listInscricoes']);
+
+            // DELETE /api/admin/oportunidades/{oportunidade}
+            Route::delete('/{oportunidade}', [AdminOportunidadesController::class, 'destroy']);
+        });
     });
 });
 

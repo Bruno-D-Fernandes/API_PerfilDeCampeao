@@ -12,6 +12,7 @@ use App\Models\Categoria;
 use App\Models\Perfil;
 use App\Models\Inscricao;
 use App\Models\Oportunidade;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class Usuario extends Authenticatable
@@ -203,6 +204,18 @@ class Usuario extends Authenticatable
 
     public function getAvatarAttribute()
     {
-        return $this->fotoPerfilUsuario;
+    if ($this->fotoPerfilUsuario) {
+        $path = ltrim($this->fotoPerfilUsuario, '/');
+
+        if (Str::startsWith($path, ['http://', 'https://'])) {
+            return $path;
+        }
+
+        $path = preg_replace('#^(public/|storage/)#', '', $path);
+
+        return asset('storage/' . $path);
+    }
+
+    return asset('storage/imagens_seeders/usuario_perfil.png');
     }
 }

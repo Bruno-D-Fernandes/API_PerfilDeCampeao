@@ -11,6 +11,7 @@ use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminSistemaController;
 use App\Http\Controllers\EsporteController;
+use App\Http\Controllers\AdminOportunidadesController;
 use App\Http\Controllers\DashClubeController;
 use App\Http\Controllers\AuthClubeController;
 use App\Http\Controllers\AuthAdmController;
@@ -102,12 +103,22 @@ Route::middleware(['auth:club'])->group(function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AuthAdmController::class, 'showLoginForm'])->name('login');
-
     Route::post('/login', [AuthAdmController::class, 'loginAdm'])->name('login.submit');
-
     Route::post('/logout', [AuthAdmController::class, 'logout'])->name('logout');
-    
+
+    // página web (Blade)
     Route::get('/dashboard', [DashAdminController::class, 'dashboardData'])->name('dashboard');
+    Route::get('/oportunidades', [AdminOportunidadesController::class, 'index'])->name('oportunidades');
+
+    // rotas JSON que o Alpine usa
+    Route::prefix('oportunidades-json')->group(function () {
+        Route::get('/metrics', [AdminOportunidadesController::class, 'metrics'])->name('oportunidades.metrics');
+        Route::get('/list', [AdminOportunidadesController::class, 'list'])->name('oportunidades.list');
+        Route::get('/{oportunidade}/inscritos', [AdminOportunidadesController::class, 'listInscricoes'])->name('oportunidades.inscritos');
+        Route::put('/{oportunidade}', [AdminOportunidadesController::class, 'update'])->name('oportunidades.update');
+        Route::put('/{oportunidade}/status', [AdminOportunidadesController::class, 'updateStatus'])->name('oportunidades.updateStatus');
+        Route::delete('/{oportunidade}', [AdminOportunidadesController::class, 'destroy'])->name('oportunidades.destroy');
+    });
 
     Route::get('/funcoes', function () {
         return view('admin.funcoes.index');

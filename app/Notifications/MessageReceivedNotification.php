@@ -40,14 +40,17 @@ class MessageReceivedNotification extends Notification
         return new BroadcastMessage($this->toArray($notifiable));
     }
 
-    public function broadcastOn($notifiable)
+    public function broadcastOn()
     {
-        if ($notifiable instanceof Usuario) {
-            return new PrivateChannel('notifications.user.' . $notifiable->id);
+        $receiver = $this->message->receiver;
+
+
+        if ($receiver instanceof Usuario) {
+            return new PrivateChannel('notifications.user.' . $receiver->id);
         }
 
-        if ($notifiable instanceof Clube) {
-            return new PrivateChannel('notifications.club.' . $notifiable->id);
+        if ($receiver instanceof Clube) {
+            return new PrivateChannel('notifications.club.' . $receiver->id);
         }
 
         return [];

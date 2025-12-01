@@ -42,7 +42,8 @@ class EventoAtualizadoNotification extends Notification
         return new BroadcastMessage($this->toArray($notifiable));
     }
 
-    public function broadcastOn($notifiable){
-        return new PrivateChannel('notification.user.' . $notifiable->id);
+    public function broadcastOn(){
+        $receiver = $this->message->receiver;
+        return new PrivateChannel('notification.user.' . $receiver->id);
     }
 }

@@ -1,10 +1,19 @@
+@props([
+    // id do container da tabela (opcional)
+    'tableId'    => 'table-' . uniqid(),
+    // se mostra ou não o bloco de ações (Exportar / Adicionar novo)
+    'hasActions' => false,
+    // se quiser usar a paginação Blade (com x-pagination) passa um paginator aqui
+    'items'      => null,
+])
+
 <div id="{{ $tableId }}" class="relative h-full w-full overflow-x-auto bg-gray-50 rounded-[0.63vw] border border-[0.052vw] border-gray-300">
     <div class="p-[0.83vw] flex items-center justify-between space-x-[0.83vw]">
         <div class="search-box-wrapper">
             <x-search-input class="!border !border-[0.1vw] !border-gray-50 !focus:border-gray-100 !bg-white !w-[25.5vw]" />
         </div>
 
-        @if($hasActions)
+        @if ($hasActions)
             <div class="flex items-center gap-x-[0.42vw]">
                 <x-button size="md" type="button">
                     <x-slot:icon>
@@ -33,7 +42,7 @@
         </tbody>
     </table>
 
-    @if(isset($items) && method_exists($items, 'lastPage'))
+    @if ($items && method_exists($items, 'lastPage'))
         <div class="pagination-container w-full p-[0.83vw] flex items-center justify-center border-t-[0.052vw] border-gray-200 bg-white rounded-b-[0.63vw]">
             <x-pagination 
                 :maxPage="$items->lastPage()" 

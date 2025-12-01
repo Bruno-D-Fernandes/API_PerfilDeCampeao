@@ -31,6 +31,7 @@ class ClubeChatController extends Controller
 
     public function conversations(Request $request)
     {
+        // garante que está usando o guard do clube (igual no index)
         $clube = auth('club')->user();
 
         if (! $clube instanceof Clube) {
@@ -42,6 +43,7 @@ class ClubeChatController extends Controller
             ->get();
 
         $formatted = $conversations->map(function ($conversation) use ($clube) {
+            // descobre quem é o "contato" (o outro lado da conversa)
             if (
                 $conversation->participant_one_id == $clube->id &&
                 $conversation->participant_one_type == $clube->getMorphClass()
@@ -55,16 +57,40 @@ class ClubeChatController extends Controller
                 return null;
             }
 
-            $avatarPath = $contact->logo ?? $contact->avatar ?? null;
+            // tenta pegar o nome vindo de accessor (name) ou campos conhecidos
+            $name = $contact->name
+                ?? ($contact->nomeClube ?? null)
+                ?? ($contact->nomeCompletoUsuario ?? null)
+                ?? ($contact->nome ?? null)
+                ?? 'Usuário';
+
+            /**
+             * FOTO / AVATAR
+             * - Para Usuario: usa accessor "avatar" (getAvatarAttribute) ou fotoPerfilUsuario
+             * - Para Clube: tenta "avatar" e "logo"
+             * - Se nada existir, usa a imagem padrão: storage/imagens_seeders/usuario_perfil.png
+             */
+            $avatarPath = $contact->avatar
+                ?? $contact->logo
+                ?? null;
 
             if ($avatarPath) {
-                if (Str::startsWith($avatarPath, ['http://', 'https://', '/'])) {
-                    $avatarUrl = $avatarPath;
+                $path = ltrim($avatarPath, '/');
+
+                // se já for URL completa, só devolve
+                if (Str::startsWith($path, ['http://', 'https://'])) {
+                    $avatarUrl = $path;
                 } else {
-                    $avatarUrl = asset('storage/' . ltrim($avatarPath, '/'));
+                    // remove "public/" ou "storage/" do começo, se tiver,
+                    // para não duplicar no asset('storage/...')
+                    $path = preg_replace('#^(public/|storage/)#', '', $path);
+
+                    // monta URL pública via symlink /storage
+                    $avatarUrl = asset('storage/' . $path);
                 }
             } else {
-                $avatarUrl = null;
+                // fallback: foto padrão
+                $avatarUrl = asset('storage/imagens_seeders/usuario_perfil.png');
             }
 
             return [
@@ -72,7 +98,7 @@ class ClubeChatController extends Controller
                 'contact' => [
                     'id'     => $contact->id,
                     'type'   => $contact->getMorphClass(),
-                    'name'   => $contact->name,
+                    'name'   => $name,
                     'avatar' => $avatarUrl,
                 ],
                 'last_message' => $conversation->latestMessage ? [
@@ -86,78 +112,78 @@ class ClubeChatController extends Controller
     }
 
     public function messages(Request $request, $id)
-{
-    $clube = $request->user('club');
+    {
+        $clube = $request->user('club');
 
-    if (! $clube instanceof Clube) {
-        return response()->json(['message' => 'Não autenticado.'], 401);
+        if (! $clube instanceof Clube) {
+            return response()->json(['message' => 'Não autenticado.'], 401);
+        }
+
+        $conversation = Conversation::find($id);
+
+        if (
+            ! $conversation ||
+            !(
+                ($conversation->participant_one_id == $clube->id &&
+                    $conversation->participant_one_type == $clube->getMorphClass()) ||
+                ($conversation->participant_two_id == $clube->id &&
+                    $conversation->participant_two_type == $clube->getMorphClass())
+            )
+        ) {
+            return response()->json(['message' => 'Conversa não encontrada ou acesso negado.'], 404);
+        }
+
+        $messages = $conversation->messages()
+            ->with(['sender', 'receiver', 'evento', 'conviteEvento'])
+            ->orderBy('created_at', 'asc')
+            ->get()
+            ->map(function ($m) {
+                return [
+                    'id'              => $m->id,
+                    'conversation_id' => $m->conversation_id,
+                    'message'         => $m->message,
+                    'type'            => $m->type,
+                    'sender_id'       => $m->sender_id,
+                    'sender_type'     => $m->sender_type,
+                    'receiver_id'     => $m->receiver_id,
+                    'receiver_type'   => $m->receiver_type,
+                    'is_read'         => $m->is_read,
+                    'created_at'      => optional($m->created_at)->toIso8601String(),
+
+                    // usado no front pra saber se é "me" ou não
+                    'sender' => [
+                        'id'   => $m->sender?->id,
+                        'name' => $m->sender?->name,
+                        'type' => $m->sender?->getMorphClass(),
+                    ],
+
+                    'receiver' => [
+                        'id'   => $m->receiver?->id,
+                        'name' => $m->receiver?->name,
+                        'type' => $m->receiver?->getMorphClass(),
+                    ],
+
+                    // aqui vem o que o bubble de convite usa
+                    'evento' => $m->evento ? [
+                        'id'                => $m->evento->id,
+                        'titulo'            => $m->evento->titulo,
+                        'data_hora_inicio'  => optional($m->evento->data_hora_inicio)->toIso8601String(),
+                        'endereco_formatado'=> $m->evento->endereco_formatado,
+                        'cidade'            => $m->evento->cidade,
+                    ] : null,
+
+                    'convite_evento' => $m->conviteEvento ? [
+                        'id'          => $m->conviteEvento->id,
+                        'status'      => $m->conviteEvento->status,
+                        'sent_at'     => optional($m->conviteEvento->sent_at)->toIso8601String(),
+                        'expires_at'  => optional($m->conviteEvento->expires_at)->toIso8601String(),
+                        'responded_at'=> optional($m->conviteEvento->responded_at)->toIso8601String(),
+                    ] : null,
+                ];
+            });
+
+        return response()->json($messages);
     }
-
-    $conversation = Conversation::find($id);
-
-    if (
-        ! $conversation ||
-        !(
-            ($conversation->participant_one_id == $clube->id &&
-                $conversation->participant_one_type == $clube->getMorphClass()) ||
-            ($conversation->participant_two_id == $clube->id &&
-                $conversation->participant_two_type == $clube->getMorphClass())
-        )
-    ) {
-        return response()->json(['message' => 'Conversa não encontrada ou acesso negado.'], 404);
-    }
-
-    $messages = $conversation->messages()
-        ->with(['sender', 'receiver', 'evento', 'conviteEvento'])
-        ->orderBy('created_at', 'asc')
-        ->get()
-        ->map(function ($m) {
-            return [
-                'id'              => $m->id,
-                'conversation_id' => $m->conversation_id,
-                'message'         => $m->message,
-                'type'            => $m->type,
-                'sender_id'       => $m->sender_id,
-                'sender_type'     => $m->sender_type,
-                'receiver_id'     => $m->receiver_id,
-                'receiver_type'   => $m->receiver_type,
-                'is_read'         => $m->is_read,
-                'created_at'      => optional($m->created_at)->toIso8601String(),
-
-                // usado no front pra saber se é "me" ou não
-                'sender' => [
-                    'id'   => $m->sender?->id,
-                    'name' => $m->sender?->name,
-                    'type' => $m->sender?->getMorphClass(),
-                ],
-
-                'receiver' => [
-                    'id'   => $m->receiver?->id,
-                    'name' => $m->receiver?->name,
-                    'type' => $m->receiver?->getMorphClass(),
-                ],
-
-                // aqui vem o que o bubble de convite usa
-                'evento' => $m->evento ? [
-                    'id'                => $m->evento->id,
-                    'titulo'            => $m->evento->titulo,
-                    'data_hora_inicio'  => optional($m->evento->data_hora_inicio)->toIso8601String(),
-                    'endereco_formatado'=> $m->evento->endereco_formatado,
-                    'cidade'            => $m->evento->cidade,
-                ] : null,
-
-                'convite_evento' => $m->conviteEvento ? [
-                    'id'          => $m->conviteEvento->id,
-                    'status'      => $m->conviteEvento->status,
-                    'sent_at'     => optional($m->conviteEvento->sent_at)->toIso8601String(),
-                    'expires_at'  => optional($m->conviteEvento->expires_at)->toIso8601String(),
-                    'responded_at'=> optional($m->conviteEvento->responded_at)->toIso8601String(),
-                ] : null,
-            ];
-        });
-
-    return response()->json($messages);
-}
 
     public function sendEventInvite(Request $request)
     {
@@ -180,6 +206,7 @@ class ClubeChatController extends Controller
             'club_sanctum'
         );
 
+        /** @var \App\Http\Controllers\ChatController $chatController */
         $chatController = app(\App\Http\Controllers\ChatController::class);
 
         return $chatController->sendEventInvite($request);
