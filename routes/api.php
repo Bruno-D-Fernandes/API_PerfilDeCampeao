@@ -44,15 +44,19 @@ Route::prefix('usuario')->group(function () {
         Route::delete('/delete', [AuthUserController::class, 'deleteAccount']);
         Route::put('/update', [AuthUserController::class, 'updateAccount']);
 
+
         // Multiplos perfis
         Route::post('/perfilStore', [perfilController::class, 'store']);
         Route::get('/perfilForm/{id}', [perfilController::class, 'formInfo']);
         Route::get('/loadPerfilAll', [perfilController::class, 'show']);
         Route::get('/optionsEsportes', [perfilController::class, 'esportesFiltro']);
-        Route::put('/perfil/{id}', [perfilController::class, 'update']);
-        Route::delete('/perfil/excluir/{id}', [perfilController::class, 'destroy']);
+        Route::put('/perfil/{id}', [PerfilController::class, 'update']);
+        Route::delete('/perfil/excluir/{id}', [PerfilController::class, 'destroy']);
+        Route::get('/hasPerfil', [PerfilController::class, 'hasPerfil']);
         // Fim multilpos perfis
 
+        //Eventos 
+        Route::get('/eventos', [EventoClubeController::class, 'listUserEvents']);
 
         // Postagem protegida
         Route::post('/postagem', [PostagemController::class, 'store']);
@@ -88,6 +92,7 @@ Route::prefix('usuario')->group(function () {
         Route::get('/show/{id}', [UserController::class, 'show']);
         Route::put('/update/{id}', [UserController::class, 'update']);
         Route::delete('/delete/{id}', [UserController::class, 'destroy']);
+        Route::post('/logout', [AuthUserController::class, 'logout']);
 
         // Convites de eventos (usuário)
         Route::get('/convites/pendentes', [ConviteEventoController::class, 'pendentes']);
@@ -98,6 +103,10 @@ Route::prefix('usuario')->group(function () {
         // Calendário (agendamentos = convites aceitos)
         Route::get('/agenda/calendar', [ConviteEventoController::class, 'calendar']);
         Route::put('/convites/{conviteId}/cor', [ConviteEventoController::class, 'updateColor']);
+
+
+        Route::get('clube/{id}', [ClubeController::class, 'show']);
+
 
         // Usuário aceita um convite (usado pelo botão "Aceitar" no chat)
         Route::post('/convites/{conviteId}/aceitar', [ChatController::class, 'aceitoInvite']);
@@ -226,7 +235,9 @@ Route::prefix('clube')->group(function () {
 Route::middleware('auth:sanctum,club_sanctum,adm_sanctum')->group(function () {
     Broadcast::routes(['middleware' => ['auth:sanctum,club_sanctum,adm_sanctum']]);
 
+    Route::post('/chat/invite', [ChatController::class, 'sendEventInvite']);
     Route::post('/chat/send', [ChatController::class, 'sendMessage']);
+    Route::post('/accept_invite/{conviteId}', [ChatController::class, 'aceitoInvite']);
     Route::get('/conversations', [ConversationController::class, 'index']);
     Route::get('/conversations/{id}/messages', [ConversationController::class, 'getMessages']);
 });
@@ -296,7 +307,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/usuarios', [UserController::class, 'index']);
         Route::get('/clubes', [ClubeController::class, 'index']);
 
-        Route::put('/oportunidade/{oportunidade}/status',[AdminSistemaController::class, 'oportunidadeUpdateStatus']);
+        Route::put(
+            '/oportunidade/{oportunidade}/status',
+            [AdminSistemaController::class, 'oportunidadeUpdateStatus']
+        );
 
         Route::get('/oportunidade/{id}', [OportunidadeController::class, 'show']);
 

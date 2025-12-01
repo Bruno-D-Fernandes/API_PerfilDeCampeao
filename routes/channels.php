@@ -18,9 +18,10 @@ use App\Models\Conversation;
 */
 
 // Canal de Usuário
-Broadcast::channel('notifications.user.{id}', function ($model, $id) {
-    return ($model instanceof Usuario) && ((int) $model->id === (int) $id);
+Broadcast::channel('notification.user.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
 });
+
 
 // Canal de Clube
 Broadcast::channel('notifications.club.{id}', function ($model, $id) {
@@ -32,11 +33,8 @@ Broadcast::channel('notifications.admin', function ($model) {
     return ($model instanceof Admin);
 });
 
-Broadcast::channel('chat.{conversationId}', function ($user, $conversationId) {
-    $conversation = App\Models\Conversation::find($conversationId);
-    if (!$conversation) {
-        return false;
-    }
-    return $user->id == $conversation->participant_one_id ||
-        $user->id == $conversation->participant_two_id;
+// routes/channels.php
+
+Broadcast::channel('chat.{userId}', function ($user, $userId) {
+    return (int) $user->id === (int) $userId;
 });

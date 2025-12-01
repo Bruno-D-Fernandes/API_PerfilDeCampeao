@@ -11,6 +11,10 @@ class Message extends Model
 
     protected $fillable = [
         'conversation_id',
+        'sender_id',
+        'sender_type',
+        'receiver_id',
+        'receiver_type',
         'message',
         'type',
         'sender_id',
@@ -18,11 +22,16 @@ class Message extends Model
         'is_read',
         'evento_id',
         'convite_evento_id',
+        'payload',
+        'is_read',
     ];
 
     protected $casts = [
         'is_read' => 'boolean',
+        'payload' => 'array',
+
     ];
+
 
     public function sender()
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use App\Notifications\MessageReceivedNotification;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Clube;
@@ -12,6 +13,8 @@ use App\Events\MessageSent;
 use App\Models\Usuario;
 use App\Models\ConviteEvento;
 use App\Models\Evento;
+use Exception;
+
 
 class ChatController extends Controller
 {
@@ -75,6 +78,8 @@ class ChatController extends Controller
             $msg->receiver()->associate($receiver);
 
             $msg->save();
+
+            $msg->receiver->notify(new MessageReceivedNotification($msg));
 
             broadcast(new MessageSent($msg->load('sender')))->toOthers();
 
@@ -205,7 +210,7 @@ class ChatController extends Controller
 
     public function aceitoInvite(Request $request, $conviteId)
     {
-        $convite = ConviteEvento::with('evento')->findOrFail($conviteId);
+        $convite = ConviteEvento::with('evento.clube')->findOrFail($conviteId);
 
         $user = $request->user();
         if (!$user instanceof Usuario) {
@@ -245,6 +250,8 @@ class ChatController extends Controller
         $convite->status       = ConviteEvento::STATUS_ACEITO;
         $convite->responded_at = now();
         $convite->save();
+
+         $convite->evento->clube->notify(new AceitarEventoUsuario($convite)); 
 
         return response()->json([
             'message' => 'Convite aceito com sucesso.',

@@ -27,8 +27,18 @@ class ClubeController extends Controller
             'esportesExtras', 
             'oportunidades.esporte',
             'oportunidades.inscricoes',
-            'oportunidades.candidatos'
+            'oportunidades.candidatos',
         ])->findOrFail($id);
+
+        $membroClubeController = new MembroClubeController();
+
+        $membrosAgrupados = $membroClubeController->getMembrosAgrupados((string) $clube->id);
+
+        $esportes = Esporte::with('posicoes')->get();
+
+        $funcoes = Funcao::all();
+
+        $posicoes = Posicao::all();
 
         $esportes   = Esporte::all();
         $categorias = Categoria::all();
@@ -194,13 +204,7 @@ class ClubeController extends Controller
             $clube = Clube::findOrFail($id);
 
             $utilizadorAutenticado = Auth::user();
-            $podeVer = false;
-
-            if ($utilizadorAutenticado instanceof Admin) {
-                $podeVer = true;
-            } elseif ($utilizadorAutenticado instanceof Clube && $utilizadorAutenticado->id == $clube->id) {
-                $podeVer = true;
-            }
+            $podeVer = true;
 
             if (!$podeVer) {
                 Log::warning('Acesso negado ao clube show', [
@@ -208,7 +212,7 @@ class ClubeController extends Controller
                     'autenticado_tipo'    => $utilizadorAutenticado ? get_class($utilizadorAutenticado) : 'Nenhum utilizador autenticado',
                     'clube_solicitado_id' => $clube->id,
                 ]);
-                
+
                 return response()->json(['message' => 'Acesso não autorizado'], 403);
             }
 
@@ -248,7 +252,7 @@ class ClubeController extends Controller
             ]);
 
             $clube->fill($validatedData);
-            
+
             if ($request->filled('senhaClube')) {
                 $clube->senhaClube = Hash::make($validatedData['senhaClube']);
             }
@@ -329,7 +333,6 @@ class ClubeController extends Controller
             $clube->delete();
 
             return response()->json(null, 204);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
