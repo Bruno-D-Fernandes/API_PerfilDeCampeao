@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use App\Notifications\MessageReceivedNotification;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Clube;
@@ -12,6 +13,8 @@ use App\Events\MessageSent;
 use App\Models\Usuario;
 use App\Models\ConviteEvento;
 use App\Models\Evento;
+use Exception;
+
 
 class ChatController extends Controller
 {
@@ -76,6 +79,8 @@ class ChatController extends Controller
 
             $msg->save();
 
+            $msg->receiver->notify(new MessageReceivedNotification($msg));
+
             broadcast(new MessageSent($msg->load('sender')))->toOthers();
 
             return response()->json(['status' => 'success', 'data' => $msg], 201);
@@ -95,60 +100,117 @@ class ChatController extends Controller
     }
 
     public function sendEventInvite(Request $request)
-    {
-        $request->validate([
-            'receiver_id' => 'required|exists:usuarios,id',
-            'evento_id'   => 'required|exists:eventos,id',
-        ]);
+{
+    $validated = $request->validate([
+        'receiver_id'     => 'required|integer|min:1|exists:usuarios,id',
+        'receiver_type'   => 'required|string|in:usuario',
+        'evento_id'       => 'required|exists:eventos,id',
+        'expiration_type' => 'required|string|in:auto,manual',
+    ]);
 
-        $senderId   = auth()->id();
-        $receiverId = (int) $request->receiver_id;
+    // === CLUBE LOGADO NO TEU PADRÃO ===
+    $clube = $request->user();
 
-        $evento = Evento::findOrFail($request->evento_id);
-
-        if ($evento->clube_id !== $senderId) {
-            return response()->json([
-                'message' => 'Apenas o clube dono do evento pode enviar convites.',
-            ], 403);
-        }
-
-        $existingConvite = ConviteEvento::where('evento_id', $evento->id)
-            ->where('usuario_id', $receiverId)
-            ->first();
-
-        if ($existingConvite) {
-            return response()->json([
-                'message' => 'Já existe um convite para este usuário neste evento.',
-            ], 422);
-        }
-
-        $convite = ConviteEvento::create([
-            'evento_id'   => $evento->id,
-            'usuario_id'  => $receiverId,
-            'status'      => ConviteEvento::STATUS_PENDENTE,
-            'sent_at'     => now(),
-            'expires_at'  => $evento->data_hora_inicio,
-        ]);
-
-        $msg = Message::create([
-            'sender_id'         => $senderId,
-            'receiver_id'       => $receiverId,
-            'message'           => 'Convite para o evento: ' . $evento->titulo,
-            'type'              => 'convite',
-            'evento_id'         => $evento->id,
-            'convite_evento_id' => $convite->id,
-        ]);
-
-        $msg->load(['sender', 'receiver', 'evento', 'conviteEvento']);
-
-        broadcast(new MessageSent($msg))->toOthers();
-
-        return response()->json($msg);
+    if (! $clube instanceof Clube) {
+        return response()->json(['message' => 'Clube não encontrado'], 404);
     }
+
+    // Usuário que vai receber o convite
+    /** @var \App\Models\Usuario|null $receiver */
+    $receiver = Usuario::find($validated['receiver_id']);
+
+    if (! $receiver) {
+        return response()->json(['message' => 'Usuário não encontrado'], 404);
+    }
+
+    /** @var \App\Models\Evento $evento */
+    $evento = Evento::findOrFail($validated['evento_id']);
+
+    // Apenas o dono do evento pode enviar convite
+    if ((int) $evento->clube_id !== (int) $clube->id) {
+        return response()->json([
+            'message' => 'Apenas o clube dono do evento pode enviar convites.',
+        ], 403);
+    }
+
+    // Já existe convite para esse usuário nesse evento?
+    $existingConvite = ConviteEvento::where('evento_id', $evento->id)
+        ->where('usuario_id', $receiver->id)
+        ->first();
+
+    if ($existingConvite) {
+        return response()->json([
+            'message' => 'Já existe um convite para este usuário neste evento.',
+        ], 422);
+    }
+
+    // Validade do convite
+    $expiresAt = $validated['expiration_type'] === 'manual'
+        ? now()->addDay()                 // 24h
+        : $evento->data_hora_inicio;      // até o evento iniciar
+
+    // Cria o registro de convite
+    $convite = ConviteEvento::create([
+        'evento_id'   => $evento->id,
+        'usuario_id'  => $receiver->id,
+        'status'      => ConviteEvento::STATUS_PENDENTE,
+        'sent_at'     => now(),
+        'expires_at'  => $expiresAt,
+    ]);
+
+    // === MESMA LÓGICA DE CONVERSATION DO sendMessage ===
+    $conversation = Conversation::where(function ($query) use ($clube, $receiver) {
+            $query->where('participant_one_id', $clube->id)
+                  ->where('participant_one_type', $clube->getMorphClass())
+                  ->where('participant_two_id', $receiver->id)
+                  ->where('participant_two_type', $receiver->getMorphClass());
+        })
+        ->orWhere(function ($query) use ($clube, $receiver) {
+            $query->where('participant_one_id', $receiver->id)
+                  ->where('participant_one_type', $receiver->getMorphClass())
+                  ->where('participant_two_id', $clube->id)
+                  ->where('participant_two_type', $clube->getMorphClass());
+        })
+        ->first();
+
+    if (! $conversation) {
+        $conversation = new Conversation;
+        $conversation->participantOne()->associate($clube);
+        $conversation->participantTwo()->associate($receiver);
+        $conversation->save();
+    }
+
+    // Texto que vai aparecer no chat
+    $mensagemTexto = 'Convite para o evento: ' . $evento->titulo;
+
+    // Cria a mensagem atrelada à conversa + morphs + evento/convite
+    $msg = new Message([
+        'message'           => $mensagemTexto,
+        'type'              => 'convite',
+        'evento_id'         => $evento->id,
+        'convite_evento_id' => $convite->id,
+        'is_read'           => false,
+    ]);
+
+    $msg->conversation()->associate($conversation);
+    $msg->sender()->associate($clube);
+    $msg->receiver()->associate($receiver);
+
+    $msg->save();
+
+    $msg->load(['sender', 'receiver', 'evento', 'conviteEvento']);
+
+    broadcast(new MessageSent($msg))->toOthers();
+
+    return response()->json([
+        'status' => 'success',
+        'data'   => $msg,
+    ], 201);
+}
 
     public function aceitoInvite(Request $request, $conviteId)
     {
-        $convite = ConviteEvento::with('evento')->findOrFail($conviteId);
+        $convite = ConviteEvento::with('evento.clube')->findOrFail($conviteId);
 
         $user = $request->user();
         if (!$user instanceof Usuario) {
@@ -188,6 +250,8 @@ class ChatController extends Controller
         $convite->status       = ConviteEvento::STATUS_ACEITO;
         $convite->responded_at = now();
         $convite->save();
+
+         $convite->evento->clube->notify(new AceitarEventoUsuario($convite)); 
 
         return response()->json([
             'message' => 'Convite aceito com sucesso.',

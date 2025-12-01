@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Auth;
 
 class perfilController extends Controller
 {
+
+    public function hasPerfil()
+    {
+        $user = Auth::user();
+
+        $temPerfil = $user->perfis()->exists();
+
+        return response()->json([
+            'hasPerfil' => $temPerfil
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -95,7 +107,7 @@ class perfilController extends Controller
     public function show()
     {
         $usuario = Auth::user();
-        
+
         $usuario->load([
             'perfis.categoria',
             'perfis.posicoes',

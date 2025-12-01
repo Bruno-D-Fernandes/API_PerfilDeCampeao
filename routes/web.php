@@ -18,6 +18,8 @@ use App\Http\Controllers\ClubeOportunidadeController;
 use App\Http\Controllers\DashAdminController;
 use App\Http\Controllers\EventoClubeController;
 use App\Http\Controllers\SearchUsuarioController;
+use App\Http\Controllers\ClubeChatController;
+use App\Http\Controllers\ChatController;
 use App\Mail\ClubWelcomeEmail;
 use App\Mail\UserWelcomeEmail;
 use App\Models\Categoria;
@@ -54,9 +56,16 @@ Route::prefix('clube')->name('clube.')->group(function () {
         Route::get('/listas/{id}', [ListaClubeController::class, 'show'])
         ->name('listas.show');
 
-        Route::get('/mensagens', function () {
-            return view('clube.mensagens');
-        })->name('mensagens');
+         // POR ISSO AQUI:
+        Route::get('/mensagens', [ClubeChatController::class, 'index'])->name('mensagens');
+
+        // Rotas AJAX do chat do clube (usadas pelo JS da tela)
+        Route::get('/mensagens/conversas', [ClubeChatController::class, 'conversations'])->name('mensagens.conversas');
+        Route::get('/mensagens/{conversation}/messages', [ClubeChatController::class, 'messages'])->name('mensagens.messages');
+        Route::post('/mensagens/send', [ChatController::class, 'sendMessage'])->name('mensagens.send');
+        Route::post('/mensagens/send-invite', [ChatController::class, 'sendEventInvite'])->name('mensagens.sendInvite');
+
+
 
         Route::get('/agenda', [EventoClubeController::class, 'calendar'])->name('agenda');
 
