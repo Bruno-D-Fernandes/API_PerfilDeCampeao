@@ -1,16 +1,16 @@
 <x-layouts.clube title="Pesquisa" :breadcrumb="['Dashboard' => route('clube.dashboard'), 'Pesquisa' => null]">
     <div id="toast-container" class="fixed top-[0.83vw] left-[0.83vw] z-[9999] flex flex-col gap-[0.63vw] pointer-events-auto"></div>
 
-    <div class="h-full flex justify-center gap-[1.25vw] w-full flex-1min-h-0">
+    <div class="flex justify-center gap-[0.625vw] w-full flex-1 min-h-0">
     
-        <x-form class="flex flex-col gap-[0.42vw] bg-emerald-500 h-full w-1/4 rounded-lg p-[1.25vw]" id="search-form" onsubmit="return false;">
+        <x-form class="flex flex-col gap-[0.21vw] bg-emerald-500 h-full w-1/4 rounded-lg p-[0.625vw]" id="search-form" onsubmit="return false;">
                 
-            <x-search-input placeholder="Buscar por nome" name="pesquisa" value="{{ request('pesquisa') }}" />
+            <x-search-input placeholder="Buscar por nome" name="pesquisa" value="{{ request('pesquisa') }}" class="!h-[2vw]" />
 
             <div class="w-full border border-t border-white/20 mt-[0.105vw]"></div>
 
-            <div class="flex flex-col gap-[0.42vw] pr-[0.83vw]">
-                <x-form-group label="Esporte" name="esporte_id" type="select" id="modalidade_select" labelColor="white">
+            <div class="flex flex-col gap-[0.21vw] pr-[0.83vw]">
+                <x-form-group label="Esporte" name="esporte_id" type="select" id="modalidade_select" labelColor="white" class="!h-[2vw] leading-tight">
                     <option value="">Todos</option>
                     @foreach($esportes as $esporte)
                         <option value="{{ $esporte->id }}" @selected(request('esporte_id') == $esporte->id)>
@@ -19,7 +19,7 @@
                     @endforeach
                 </x-form-group>
 
-                <x-form-group label="Posição" name="posicao_id" type="select" id="posicao_select" labelColor="white">
+                <x-form-group label="Posição" name="posicao_id" type="select" id="posicao_select" labelColor="white"  class="!h-[2vw] leading-tight">
                     <option value="">Todas</option>
                     
                 </x-form-group>
@@ -30,7 +30,7 @@
                     <x-range-slider label="Peso" nameMin="peso_min" nameMax="peso_max" :min="40" :max="150" :step="1" unit="kg" id="peso_slider" color="white"></x-range-slider>
                 </div>
 
-                <div class="flex flex-col gap-[0.42vw]">
+                <div class="flex flex-col gap-[0.21vw]">
                     <h3 class="block text-md font-medium text-white">
                         Pé dominante
                     </h3>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col gap-[0.42vw]">
+                <div class="flex flex-col gap-[0.21vw]">
                     <h3 class="block text-md font-medium text-white">
                         Mão dominante
                     </h3>
@@ -50,18 +50,16 @@
                     </div>
                 </div>
 
-                <x-form-group label="Estado" name="estadoUsuario" type="select" id="estado_select" labelColor="white">
+                <x-form-group label="Estado" name="estadoUsuario" type="select" id="estado_select" labelColor="white" class="!h-[2vw] leading-tight">
                     <option value="">Todos</option>
                     <option value="SP">São Paulo</option>
                 </x-form-group>
 
-                <x-form-group label="Cidade" name="cidadeUsuario" type="select" id="cidade_select" labelColor="white">
+                <x-form-group label="Cidade" name="cidadeUsuario" type="select" id="cidade_select" labelColor="white" class="!h-[2vw] leading-tight">
                     <option value="">Todas</option>
                     <option value="Campinas">Campinas</option>
                 </x-form-group>
             </div>
-
-            <div class="w-full border border-t border-white/20 mt-[0.105vw]"></div>
 
             <div class="flex gap-x-[0.83vw] mt-[0.21vw] flex-shrink-0">
                 <x-button color="none" :full="true" class="border-none bg-transparent text-emerald-800" type="button" id="clear-filters-btn">
@@ -74,7 +72,7 @@
             </div>
         </x-form>
 
-        <div class="flex-1 flex flex-col gap-[0.42vw] bg-white min-h-0 w-3/4 overflow-hidden">
+        <div class="flex-1 flex flex-col gap-[0.42vw] bg-white min-h-0 w-3/4">
             
             <div class="flex items-center justify-between">
                 <h3 class="text-[0.93vw] font-medium text-gray-700" id="athletes-count">
@@ -92,13 +90,13 @@
                 </div>
             </div>
 
-            <div id="athletes-grid-section" class="flex-1 max-h-full min-h-0">
+            <div id="athletes-grid-section" class="flex-1 min-h-0">
                 @include('clube.partials.athletes-grid', ['atletas' => $atletas])
             </div>
 
             <div class="w-full h-[0.052vw] bg-gray-200"></div>
 
-            <div id="athletes-pagination-section">
+            <div id="athletes-pagination-section" class="mt-auto">
                 @include('clube.partials.pagination', ['atletas' => $atletas])
             </div>
         </div>

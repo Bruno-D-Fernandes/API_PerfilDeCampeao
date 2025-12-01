@@ -110,7 +110,7 @@ class OportunidadeSeeder extends Seeder
                 'datapostagemOportunidades' => $dataPostagem,
                 'esporte_id'                => $esporteEscolhido->id,
                 'clube_id'                  => $clubeId,
-                'status'                    => Oportunidade::STATUS_PENDING,
+                'status'                    => Oportunidade::STATUS_APPROVED,
                 'idadeMinima'               => $idadeMin,
                 'idadeMaxima'               => $idadeMax,
                 'created_at'                => $dataPostagem,

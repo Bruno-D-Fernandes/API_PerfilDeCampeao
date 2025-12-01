@@ -1,7 +1,7 @@
 @php
     $status = $statusColor();
     $progress = $progress();
-    $href = null;
+    $href = route('clube.oportunidades.show', $opportunity->id);
 @endphp
 
 <div class="h-[9vw] group flex flex-col bg-white border border-[0.052vw] border-gray-300 rounded-[0.63vw] hover:border-emerald-500 transition-all duration-200 overflow-hidden relative">

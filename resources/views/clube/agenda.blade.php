@@ -463,6 +463,37 @@
             </div>
         </x-modal>
 
+        <x-modal maxWidth="sm" name="delete-event" title="Excluir evento" titleSize="xl" titleColor="red">
+    <div class="flex flex-col gap-[0.63vw]">
+        <p class="text-[0.83vw] text-gray-700">
+            Tem certeza que deseja excluir este evento?
+            <br>
+            <span class="text-[0.73vw] text-gray-500">
+                Essa ação não pode ser desfeita.
+            </span>
+        </p>
+    </div>
+
+    <x-slot:footer>
+        <div class="w-full flex justify-end gap-[0.42vw]">
+            <x-button color="gray" size="md" onclick="closeModal('delete-event')">
+                Cancelar
+            </x-button>
+
+            <x-button 
+                id="delete-event-confirm-btn"
+                color="red" 
+                size="md" 
+                type="button"
+                onclick="confirmDeleteEvent()"
+            >
+                Excluir
+            </x-button>
+        </div>
+    </x-slot:footer>
+</x-modal>
+
+
         <x-modal maxWidth="2xl" name="show-event" title="Detalhes do Evento" titleSize="2xl" titleColor="green">
             <div class="flex flex-col gap-[0.83vw] p-[0.21vw]">
                 <div class="flex items-center gap-[0.83vw] border-b border-gray-200 pb-[0.63vw]">        
@@ -563,6 +594,13 @@
     <script>
         let evtCurrentStep = 1;
         const evtTotalSteps = 2;
+        let deleteEventId = null;
+
+        function openDeleteEventModal(eventId) {
+            deleteEventId = eventId;
+            openModal('delete-event');
+        }
+
 
         document.addEventListener('DOMContentLoaded', () => {
             updateEventUI();
@@ -1153,7 +1191,9 @@
                 
                 const modalContent = document.querySelector(`[name="${modalName}"] .flex.flex-col.gap-\\[0\\.83vw\\]`);
                 
-                const acceptedCount = 0; 
+                const acceptedCount = Array.isArray(event.convites)
+                ? event.convites.length
+                : 0 
                 const limit = event.limite_participantes;
                 const confirmedText = limit ? `${acceptedCount}/${limit}` : `${acceptedCount} (sem limite)`;
 
