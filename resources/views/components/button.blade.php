@@ -21,7 +21,7 @@
     $baseClasses = 'cursor-pointer inline-flex items-center justify-center font-medium rounded-[0.42vw] ' . ($color == 'none' ? ' ' : 'shadow-xs ]') . 'focus:outline-none transition-transform hover:-translate-y-[0.1vw] transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
     
     $classes = $baseClasses . ' ' . 
-               ($colors[$color] ?? $variants['primary']) . ' ' . 
+               ($colors[$color]) . ' ' . 
                ($sizes[$size]) . ' ' . 
                ($full ? 'w-full' : '');
 @endphp

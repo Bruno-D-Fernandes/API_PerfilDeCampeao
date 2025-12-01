@@ -24,7 +24,7 @@ class UserController extends Controller
             'perfis.caracteristicas',
         ])->findOrFail($id);
 
-        return view('clube.perfis.usuarios', [
+        return view('clube.usuarios.show', [
             'usuario' => $usuario
         ]);
     }

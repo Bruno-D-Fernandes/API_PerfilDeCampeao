@@ -111,11 +111,11 @@
     </div>
 
     <script>
-        function showProfileLoading() {
+        function showOpportunityLoading() {
             document.getElementById('opportunities-loading').classList.remove('hidden');
         }
 
-        function hideProfileLoading() {
+        function hideOpportunityLoading() {
             document.getElementById('opportunities-loading').classList.add('hidden');
         }
 
@@ -227,7 +227,7 @@
                     formData.append('_method', 'PUT');
                 }
 
-                showProfileLoading();
+                showOpportunityLoading();
 
                 const response = await fetch(url, {
                     method: 'POST',
@@ -250,24 +250,23 @@
                     throw new Error(msg || "Erro desconhecido");
                 }
 
-                document.querySelector('#opportunities-list').innerHTML = data.data;
+                document.querySelector('#opportunities-list').innerHTML = data.data.htmlGrid;
 
             } catch (error) {
                 alert("Atenção:\n" + error.message);
                 if (button) toggleLoading(button, false);
             } finally {
                 closeModal('create-opportunity');
-                hideProfileLoading();
+                hideOpportunityLoading();
             }
         }
 
         async function deleteOpportunity(id, button) {
-            if(!confirm("Tem certeza?")) return;
+            const originalText = button.innerText;
+            button.innerText = "Excluindo...";
+            button.disabled = true;
 
-            if(button) {
-                button.innerText = "...";
-                button.disabled = true;
-            }
+            showOpportunityLoading();
 
             try {
                 const url = `/api/clube/oportunidade-painel/${id}`;
@@ -282,19 +281,25 @@
                     body: JSON.stringify({ _method: 'DELETE' })
                 });
 
+                const data = await response.json();
+
                 if (!response.ok) {
-                    const data = await response.json();
-                    throw new Error(data.message || "Erro ao excluir");
+                    throw new Error(data.message || "Erro ao excluir oportunidade.");
                 }
 
-                window.location.reload();
+                closeModal(`delete-opportunity-${id}`);
+
+                if (data.data && data.data.htmlGrid) {
+                    document.querySelector('#opportunities-list').innerHTML = data.data.htmlGrid;
+                }
 
             } catch (error) {
                 alert(error.message);
-                if(button) {
-                    button.innerText = "Sim, excluir";
-                    button.disabled = false;
-                }
+                console.error(error.message);
+                button.innerText = originalText;
+                button.disabled = false;
+            } finally {
+                hideOpportunityLoading();
             }
         }
     </script>

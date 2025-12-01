@@ -3,8 +3,8 @@
         <x-pagination 
             :maxPage="$atletas->lastPage()" 
             :currentPage="$atletas->currentPage()" 
-            :currentLimit="9" {{-- Limitado a 9 --}}
-            :showPerPage="false" {{-- Desabilita o select --}}
+            :currentLimit="9"
+            :showPerPage="false"
         />
     </div>
 @endif

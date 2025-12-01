@@ -10,7 +10,7 @@
         $selectedDateStr = request()->query('date', now()->format('Y-m-d'));
     @endphp
 
-    <div id="toast-container" class="fixed top-4 left-4 z-[9999] flex flex-col gap-3 pointer-events-auto"></div>
+    <div id="toast-container" class="fixed top-[0.83vw] left-[0.83vw] z-[9999] flex flex-col gap-[0.63vw] pointer-events-auto"></div>
 
     <div class="h-full w-full flex gap-[1.25vw]">
         

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Esporte;
 use Illuminate\Http\Request;
 use App\Models\Oportunidade;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,27 @@ class ClubeOportunidadeController extends Controller
         return view('clube.oportunidades.index', compact('oportunidades', 'esportes'));
     }
 
+    public function show($id)
+    {
+        $oportunidade = Oportunidade::with('esporte', 'posicoes')->find($id);
+
+        if (!$oportunidade) {
+            return response()->json([
+                'message' => 'Oportunidade não encontrada'
+            ], 404);
+        }
+
+        if ($oportunidade->clube_id !== Auth::guard('club')->id()) {
+            return response()->json([
+                'message' => 'Não autorizado'
+            ], 403);
+        }
+
+        $esportes = Esporte::all();
+
+        return view('clube.oportunidades.show', compact('oportunidade', 'esportes'));
+    }
+
     public function store(Request $request)
     {
         $clube = Auth::guard('club')->user();
@@ -31,8 +53,8 @@ class ClubeOportunidadeController extends Controller
             'tituloOportunidades'    => 'required|string|max:100',
             'descricaoOportunidades' => 'required|string|max:255',
             'esporte_id'             => 'required|exists:esportes,id',
-            'posicoes_ids'   => 'required|array|min:1', 
-            'posicoes_ids.*' => 'exists:posicoes,id',
+            'posicoes_ids'           => 'required|array|min:1', 
+            'posicoes_ids.*'         => 'exists:posicoes,id',
             'idadeMinima'            => 'nullable|integer|min:0|max:120',
             'idadeMaxima'            => 'nullable|integer|min:0|max:120',
             'limite_inscricoes'      => 'required|integer|min:1',
@@ -53,35 +75,23 @@ class ClubeOportunidadeController extends Controller
 
             $oportunidade->posicoes()->sync($validatedData['posicoes_ids']);
 
+            // Renderiza o grid atualizado
             $html = view('clube.partials.opportunity-grid', [
-                'oportunidades' => auth()->guard('club')->user()->oportunidades,
-                'esportes' => \App\Models\Esporte::all(),
+                'oportunidades' => $clube->oportunidades()->get(), // Garante query fresca
+                'esportes'      => \App\Models\Esporte::all(),
             ])->render();
 
-            return response()->json(['oportunidade' => $oportunidade, 'message' => 'Criado com sucesso!', 'data' => $html], 201);
+            // CORREÇÃO: Estrutura idêntica ao update/destroy
+            return response()->json([
+                'message' => 'Criado com sucesso!', 
+                'data' => [
+                    'htmlGrid' => $html
+                ]
+            ], 201);
 
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erro: ' . $e->getMessage()], 500);
         }
-    }
-
-    public function show($id)
-    {
-        $oportunidade = Oportunidade::with('esporte', 'posicoes')->find($id);
-
-        if (!$oportunidade) {
-            return response()->json([
-                'message' => 'Oportunidade não encontrada'
-            ], 404);
-        }
-
-        if ($oportunidade->clube_id !== Auth::guard('club')->id()) {
-            return response()->json([
-                'message' => 'Não autorizado'
-            ], 403);
-        }
-
-        return view('clube.oportunidades.show', compact('oportunidade'));
     }
 
     public function update(Request $request, $id)
@@ -92,12 +102,13 @@ class ClubeOportunidadeController extends Controller
             return response()->json(['message' => 'Não autorizado'], 403);
         }
 
+        // ... (Validação igual ao seu código anterior) ...
         $validatedData = $request->validate([
             'tituloOportunidades'    => 'required|string|max:100',
             'descricaoOportunidades' => 'required|string|max:255',
             'esporte_id'             => 'required|exists:esportes,id',
-            'posicoes_ids'   => 'required|array|min:1', 
-            'posicoes_ids.*' => 'exists:posicoes,id',
+            'posicoes_ids'           => 'required|array|min:1', 
+            'posicoes_ids.*'         => 'exists:posicoes,id',
             'limite_inscricoes'      => 'required|integer|min:1',
             'idadeMinima'            => 'nullable|integer',
             'idadeMaxima'            => 'nullable|integer',
@@ -116,14 +127,18 @@ class ClubeOportunidadeController extends Controller
 
             $oportunidade->posicoes()->sync($validatedData['posicoes_ids']);
 
-            $oportunidade->refresh();
-
+            // Renderiza o grid atualizado
             $html = view('clube.partials.opportunity-grid', [
-                'oportunidades' => auth()->guard('club')->user()->oportunidades,
-                'esportes' => \App\Models\Esporte::all(),
+                'oportunidades' => Auth::guard('club')->user()->oportunidades()->get(),
+                'esportes'      => \App\Models\Esporte::all(),
             ])->render();
 
-            return response()->json(['message' => 'Atualizado com sucesso!', 'data' => $html]);
+            return response()->json([
+                'message' => 'Atualizado com sucesso!', 
+                'data' => [
+                    'htmlGrid' => $html
+                ]
+            ]);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
@@ -131,14 +146,22 @@ class ClubeOportunidadeController extends Controller
 
     public function destroy($id)
     {
-        $oportunidade = Oportunidade::findOrFail($id);
-        
-        if ($oportunidade->clube_id !== Auth::guard('club')->id()) {
-            return response()->json(['message' => 'Não autorizado'], 403);
-        }
-
+        $clubeId = Auth::guard('club')->id();
+        $oportunidade = Oportunidade::where('clube_id', $clubeId)->findOrFail($id);
         $oportunidade->delete();
-        return response()->json(['message' => 'Excluído com sucesso']);
+
+        // Recarrega lista
+        $oportunidades = Oportunidade::where('clube_id', $clubeId)->get(); 
+        $esportes = \App\Models\Esporte::all(); // Necessário para o grid funcionar (o botão criar usa)
+
+        $htmlGrid = view('clube.partials.opportunity-grid', compact('oportunidades', 'esportes'))->render();
+
+        return response()->json([
+            'message' => 'Oportunidade excluída com sucesso!',
+            'data' => [
+                'htmlGrid' => $htmlGrid
+            ]
+        ]);
     }
 
     public function searchInscricoes(Request $request, $id)
@@ -166,7 +189,8 @@ class ClubeOportunidadeController extends Controller
                     ->orderBy(
                         $sortColumn === 'dataNascimentoUsuario' ? 'usuarios.dataNascimentoUsuario' : 'usuarios.'.$sortColumn,
                         $sortDirection
-                    );
+                    )
+                    ->select('inscricoes.*');
             } elseif ($sortColumn === 'status') {
                 $query->getQuery()->orders = [];
                 $query->orderBy('status', $sortDirection);

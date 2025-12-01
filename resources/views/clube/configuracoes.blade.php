@@ -27,11 +27,11 @@
                         </div>
 
                         <div class="h-full flex flex-col justify-between">
-                            <h3 class="text-sm text-emerald-500 font-medium">
+                            <h3 class="text-[0.73vw] text-emerald-500 font-medium">
                                 Alterar CNPJ
                             </h3>
 
-                            <h4 class="text-xs text-emerald-600/80 font-normal">
+                            <h4 class="text-[0.63vw] text-emerald-600/80 font-normal">
                                 Altere o CNPJ
                             </h4>
                         </div>
@@ -51,11 +51,11 @@
                         </div>
 
                         <div class="h-full flex flex-col justify-between">
-                            <h3 class="text-sm text-emerald-500 font-medium">
+                            <h3 class="text-[0.73vw] text-emerald-500 font-medium">
                                 Alterar email
                             </h3>
 
-                            <h4 class="text-xs text-emerald-600/80 font-normal">
+                            <h4 class="text-[0.63vw] text-emerald-600/80 font-normal">
                                 Altere o email
                             </h4>
                         </div>
@@ -75,11 +75,11 @@
                         </div>
 
                         <div class="h-full flex flex-col justify-between">
-                            <h3 class="text-sm text-emerald-500 font-medium">
+                            <h3 class="text-[0.73vw] text-emerald-500 font-medium">
                                 Alterar senha
                             </h3>
 
-                            <h4 class="text-xs text-emerald-600/80 font-normal">
+                            <h4 class="text-[0.63vw] text-emerald-600/80 font-normal">
                                 Altere sua senha
                             </h4>
                         </div>
@@ -99,11 +99,11 @@
                         </div>
 
                         <div class="h-full flex flex-col justify-between">
-                            <h3 class="text-sm text-red-500 font-medium">
+                            <h3 class="text-[0.73vw] text-red-500 font-medium">
                                 Excluir conta
                             </h3>
 
-                            <h4 class="text-xs text-red-600/80 font-normal">
+                            <h4 class="text-[0.63vw] text-red-600/80 font-normal">
                                 Exclua sua conta
                             </h4>
                         </div>
@@ -132,11 +132,11 @@
                         </div>
 
                         <div class="h-full flex flex-col justify-between">
-                            <h3 class="text-sm text-emerald-500 font-medium">
+                            <h3 class="text-[0.73vw] text-emerald-500 font-medium">
                                 Termos e condições
                             </h3>
 
-                            <h4 class="text-xs text-emerald-600/80 font-normal">
+                            <h4 class="text-[0.63vw] text-emerald-600/80 font-normal">
                                 Veja os termos e condições
                             </h4>
                         </div>
@@ -156,11 +156,11 @@
                         </div>
 
                         <div class="h-full flex flex-col justify-between">
-                            <h3 class="text-sm text-emerald-500 font-medium">
+                            <h3 class="text-[0.73vw] text-emerald-500 font-medium">
                                 Políticas de privacidade
                             </h3>
 
-                            <h4 class="text-xs text-emerald-600/80 font-normal">
+                            <h4 class="text-[0.63vw] text-emerald-600/80 font-normal">
                                 Veja as politicas de privacidade
                             </h4>
                         </div>

@@ -3,7 +3,6 @@
     'Dashboard' => route('clube.dashboard'),
     'Mensagens' => null,
 ]">
-
     @php
         $eventos = $eventos ?? collect();
     @endphp

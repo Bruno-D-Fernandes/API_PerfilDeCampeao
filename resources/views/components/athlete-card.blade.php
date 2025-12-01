@@ -1,4 +1,4 @@
-<div class="cursor-pointer max-w-full max-h-full flex flex-col gap-[0.42vw] p-[0.83vw] bg-white border border-[0.1vw] border-gray-300/80 hover:border-emerald-400 transition-colors rounded-[0.42vw] group">
+<div class="cursor-pointer max-w-full max-h-full flex flex-col gap-[0.42vw] p-[0.63vw] bg-white border border-[0.1vw] border-gray-300/80 hover:border-emerald-400 transition-colors rounded-[0.42vw] group">
     <div class="relative w-full">
         <x-avatar :src="null" alt="{{ $athlete->nomeCompletoUsuario }}" size="xl" class="w-[4.17vw] h-[4.17vw]" />
 
@@ -19,7 +19,7 @@
                 <svg class="h-[0.83vw] w-[0.83vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-icon lucide-calendar"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
             </x-slot:icon>
             
-            17 anos
+            {{ \Carbon\Carbon::parse($athlete->dataNascimentoUsuario)->age }} anos
         </x-badge>
 
         <x-badge color="green" :border="false">
@@ -27,7 +27,7 @@
                 <svg class="h-[0.83vw] w-[0.83vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon lucide-trophy"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"/><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/></svg>
             </x-slot:icon>
             
-            Futebol
+            {{ $athlete->perfis?->first->esporte->nomeEsporte ?? 'N/D' }}
         </x-badge>
 
         <x-badge color="green" :border="false">
@@ -35,7 +35,7 @@
                 <svg class="h-[0.83vw] w-[0.83vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-target-icon lucide-target"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
             </x-slot:icon>
 
-            Atacante
+            {{ $athlete->perfis?->first->posicoes->first ?? 'N/D' }}
         </x-badge>
 
         <x-badge color="gray" :border="false">
@@ -43,7 +43,7 @@
                 <svg class="h-[0.83vw] w-[0.83vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ruler-icon lucide-ruler"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></svg>
             </x-slot:icon>
 
-            180cm
+            {{ $athlete->alturaCm }}cm
         </x-badge>
 
         <x-badge color="gray" :border="false">
@@ -58,6 +58,6 @@
     <div class="flex items-center gap-x-[0.42vw] text-emerald-400 font-medium text-[0.73vw]">
         <svg class="h-[0.83vw] w-[0.83vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin-icon lucide-map-pin"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
 
-        Rio de Janeiro - RJ
+        {{ $athlete->cidadeUsuario }} - {{ $athlete->estadoUsuario }}
     </div>
 </div>

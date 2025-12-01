@@ -104,7 +104,7 @@
             <x-slot:footer>
                 <div class="w-full flex gap-x-[0.42vw] justify-end">
                     <x-button color="gray" size="md" onclick="closeModal('delete-opportunity-{{ $item->id }}')">Cancelar</x-button>
-                    <x-button color="red" size="md">Sim, excluir</x-button>
+                    <x-button color="red" size="md" onclick="deleteOpportunity({{ $item->id }}, this)">Sim, excluir</x-button>
                 </div>
             </x-slot:footer>
         </x-modal>

@@ -42,7 +42,9 @@ Route::prefix('clube')->name('clube.')->group(function () {
     Route::middleware(['auth:club'])->group(function () {
         Route::post('/logout', [AuthClubeController::class, 'logout'])->name('logout');
        
-        Route::get('/dashboard', [DashClubeController::class, 'dashboardData'])->name('dashboard');
+        Route::get('/dashboard', [DashClubeController::class, 'index'])->name('dashboard');
+
+        Route::get('/dashboard/content/{esporteId}', [DashClubeController::class, 'loadContent'])->name('clube.dashboard.content');
 
         Route::get('/minhas-oportunidades', [ClubeOportunidadeController::class, 'index'])
         ->name('minhas-oportunidades');
@@ -57,16 +59,15 @@ Route::prefix('clube')->name('clube.')->group(function () {
         Route::get('/listas/{id}', [ListaClubeController::class, 'show'])
         ->name('listas.show');
 
-         // POR ISSO AQUI:
         Route::get('/mensagens', [ClubeChatController::class, 'index'])->name('mensagens');
 
-        // Rotas AJAX do chat do clube (usadas pelo JS da tela)
         Route::get('/mensagens/conversas', [ClubeChatController::class, 'conversations'])->name('mensagens.conversas');
+
         Route::get('/mensagens/{conversation}/messages', [ClubeChatController::class, 'messages'])->name('mensagens.messages');
+
         Route::post('/mensagens/send', [ChatController::class, 'sendMessage'])->name('mensagens.send');
+        
         Route::post('/mensagens/send-invite', [ChatController::class, 'sendEventInvite'])->name('mensagens.sendInvite');
-
-
 
         Route::get('/agenda', [EventoClubeController::class, 'calendar'])->name('agenda');
 
@@ -92,6 +93,12 @@ Route::prefix('clube')->name('clube.')->group(function () {
         ->where('id', '[0-9]+')
         ->name('perfil');
     });
+});
+
+Route::middleware(['auth:club'])->group(function () {
+    Route::get('/usuario/{id}', [UserController::class, 'showProfilePage'])
+        ->where('id', '[0-9]+')
+        ->name('usuario.perfil');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -123,8 +130,3 @@ Route::post('/dashboard/oportunidades/recusar', [DashAdminController::class, 're
         return view('admin.funcoes.index');
     })->name('funcoes');
 });
-
-
-Route::get('/usuario/perfil', function () {
-    return view('clube.usuarios.show');
-})->name('usuario.perfil');
