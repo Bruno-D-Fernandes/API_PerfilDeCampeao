@@ -125,6 +125,7 @@ Route::prefix('clube')->group(function () {
         Route::get('/listas/{id}', [ListaClubeController::class, 'show']);                   // ver lista (com usuários)
         Route::put('/listas/{id}', [ListaClubeController::class, 'update']);        // editar lista
         Route::delete('/listas/{id}', [ListaClubeController::class, 'destroy']);     // deletar lista
+        Route::get('/listas/{id}/usuarios/search', [ListaClubeController::class, 'searchUsuarios']);
         Route::post('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'addUsuarioToLista']);   // add usuário | e Desse ? --Bruno
         Route::delete('/listas/{listaId}/usuarios/{usuario}', [ListaClubeController::class, 'removeUsuarioFromLista']); // remover usuário
 
@@ -133,6 +134,7 @@ Route::prefix('clube')->group(function () {
         Route::post('/oportunidade', [OportunidadeController::class, 'store']);
         Route::put('/oportunidade/{id}', [OportunidadeController::class, 'update']);
         Route::delete('/oportunidade/{id}', [OportunidadeController::class, 'destroy']);
+        Route::get('/oportunidade/{id}/inscricoes/search', [ClubeOportunidadeController::class, 'searchInscricoes']);
 
         Route::post('/oportunidade-painel', [ClubeOportunidadeController::class, 'store']);
         Route::put('/oportunidade-painel/{id}', [ClubeOportunidadeController::class, 'update']);

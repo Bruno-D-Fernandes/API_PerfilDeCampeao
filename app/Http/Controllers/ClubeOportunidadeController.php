@@ -65,6 +65,25 @@ class ClubeOportunidadeController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        $oportunidade = Oportunidade::with('esporte', 'posicoes')->find($id);
+
+        if (!$oportunidade) {
+            return response()->json([
+                'message' => 'Oportunidade não encontrada'
+            ], 404);
+        }
+
+        if ($oportunidade->clube_id !== Auth::guard('club')->id()) {
+            return response()->json([
+                'message' => 'Não autorizado'
+            ], 403);
+        }
+
+        return view('clube.oportunidades.show', compact('oportunidade'));
+    }
+
     public function update(Request $request, $id)
     {
         $oportunidade = Oportunidade::findOrFail($id);
@@ -120,5 +139,46 @@ class ClubeOportunidadeController extends Controller
 
         $oportunidade->delete();
         return response()->json(['message' => 'Excluído com sucesso']);
+    }
+
+    public function searchInscricoes(Request $request, $id)
+    {
+        $oportunidade = Oportunidade::findOrFail($id);
+
+        $search = $request->query('search', '');
+        $sortColumn = $request->query('sortColumn', 'created_at');
+        $sortDirection = $request->query('sortDirection', 'desc');
+
+        $query = $oportunidade->inscricoes()->with('usuario');
+
+        if ($search) {
+            $query->whereHas('usuario', function($q) use ($search) {
+                $q->where('nomeCompletoUsuario', 'like', "%{$search}%")
+                ->orWhere('emailUsuario', 'like', "%{$search}%")
+                ->orWhere('cidadeUsuario', 'like', "%{$search}%");
+            });
+        }
+
+        if ($sortColumn) {
+            if (in_array($sortColumn, ['nomeCompletoUsuario', 'cidadeUsuario', 'dataNascimentoUsuario', 'generoUsuario'])) {
+                $query->getQuery()->orders = [];
+                $query->join('usuarios', 'inscricoes.usuario_id', '=', 'usuarios.id')
+                    ->orderBy(
+                        $sortColumn === 'dataNascimentoUsuario' ? 'usuarios.dataNascimentoUsuario' : 'usuarios.'.$sortColumn,
+                        $sortDirection
+                    );
+            } elseif ($sortColumn === 'status') {
+                $query->getQuery()->orders = [];
+                $query->orderBy('status', $sortDirection);
+            }
+        }
+
+        $inscricoes = $query->get();
+
+        $html = view('clube.partials.inscricoes-table-body', [
+            'inscricoes' => $inscricoes
+        ])->render();
+
+        return response()->json(['html' => $html]);
     }
 }

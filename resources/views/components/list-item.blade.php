@@ -36,7 +36,7 @@
 
         <div class="flex items-center justify-between">
             @if($list->usuarios->count() > 0)
-                <x-avatar-group :items="$opportunity->inscricoes" size="sm" :max="3"/>
+                <x-avatar-group :items="$list->usuarios" size="sm" :max="3"/>
             @else
                 <p class="text-[0.6vw] text-gray-400 font-normal">Nenhum inscrito.</p>
             @endif

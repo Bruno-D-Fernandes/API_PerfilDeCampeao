@@ -182,99 +182,85 @@
             }
         }
 
-        // --- SALVAR (CRIAR E EDITAR) ---
         async function saveOpportunity(formId, type, recordId = null) {
-        
-        const form = document.getElementById(formId);
+            const form = document.getElementById(formId);
 
-        if (!form) {
-            console.error("Erro: Formulário não encontrado com ID:", formId);
-            return;
-        }
+            if (!form) {
+                console.error("Erro: Formulário não encontrado com ID:", formId);
+                return;
+            }
 
-        // Tenta achar o botão de salvar para o efeito de loading
-        const modal = document.querySelector('#create-opportunity');
-        const button = modal ? modal.querySelector('button[color="clube"]') : null;
+            const modal = document.querySelector('#create-opportunity');
+            const button = modal ? modal.querySelector('button[color="clube"]') : null;
 
-        if (button) toggleLoading(button, true);
+            if (button) toggleLoading(button, true);
 
-        // URL da API
-        let url = "";
-        if (type === 'edit' && recordId) {
-            url = `/api/clube/oportunidade-painel/${recordId}`;
-        } else {
-            url = `/api/clube/oportunidade-painel`;
-        }
+            let url = "";
+            if (type === 'edit' && recordId) {
+                url = `/api/clube/oportunidade-painel/${recordId}`;
+            } else {
+                url = `/api/clube/oportunidade-painel`;
+            }
 
-        try {
-        const formData = new FormData(form);
+            try {
+                const formData = new FormData(form);
 
-        // --- CORREÇÃO PARA GARANTIR O NOME CORRETO ---
-        
-        // 1. Procura o select de posições pelo nome PLURAL
-        const selectPosicoes = form.querySelector('select[name="posicoes_ids[]"]');
-        
-        // 2. Se achou o select, força a captura dos valores
-        if (selectPosicoes) {
-                formData.delete('posicoes_ids[]'); 
-                
-                Array.from(selectPosicoes.selectedOptions).forEach(option => {
-                    // --- CORREÇÃO AQUI ---
-                    // Só adiciona se o valor não for vazio e for um número
-                    if (option.value && option.value.trim() !== "") {
-                        formData.append('posicoes_ids[]', option.value);
+                const selectPosicoes = form.querySelector('select[name="posicoes_ids[]"]');
+
+                if (selectPosicoes) {
+                        formData.delete('posicoes_ids[]'); 
+                        
+                        Array.from(selectPosicoes.selectedOptions).forEach(option => {
+                            if (option.value && option.value.trim() !== "") {
+                                formData.append('posicoes_ids[]', option.value);
+                            }
+                        });
                     }
-                });
-            }
 
-        // Verifica se selecionou pelo menos uma (Validação Front-end)
-        if (!formData.has('posicoes_ids[]')) {
-            alert("Selecione pelo menos uma posição!");
-            if(button) toggleLoading(button, false);
-            return;
-        }
-
-            // Se for Edit, adiciona o spoofing de PUT
-            if (type === 'edit') {
-                formData.append('_method', 'PUT');
-            }
-
-            showProfileLoading();
-            // Debug: Mostra no console o que está sendo enviado
-            // for (var pair of formData.entries()) { console.log(pair[0]+ ', ' + pair[1]); }
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: formData
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                // Se o erro for de validação, formata para ficar legível
-                let msg = data.message;
-                if(data.errors) {
-                    msg = Object.values(data.errors).flat().join('\n');
+                if (!formData.has('posicoes_ids[]')) {
+                    alert("Selecione pelo menos uma posição!");
+                    if(button) toggleLoading(button, false);
+                    return;
                 }
-                throw new Error(msg || "Erro desconhecido");
+
+                if (type === 'edit') {
+                    formData.append('_method', 'PUT');
+                }
+
+                showProfileLoading();
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    let msg = data.message;
+
+                    if (data.errors) {
+                        msg = Object.values(data.errors).flat().join('\n');
+                    }
+
+                    throw new Error(msg || "Erro desconhecido");
+                }
+
+                document.querySelector('#opportunities-list').innerHTML = data.data;
+
+            } catch (error) {
+                alert("Atenção:\n" + error.message);
+                if (button) toggleLoading(button, false);
+            } finally {
+                closeModal('create-opportunity');
+                hideProfileLoading();
             }
-
-            document.querySelector('#opportunities-list').innerHTML = data.data;
-
-        } catch (error) {
-            alert("Atenção:\n" + error.message);
-            if (button) toggleLoading(button, false);
-        } finally {
-            closeModal('create-opportunity');
-            hideProfileLoading();
         }
-    }
 
-        // --- DELETAR ---
         async function deleteOpportunity(id, button) {
             if(!confirm("Tem certeza?")) return;
 
@@ -284,11 +270,10 @@
             }
 
             try {
-                // URL MANUAL
                 const url = `/api/clube/oportunidade-painel/${id}`;
 
                 const response = await fetch(url, {
-                    method: 'POST', // POST com _method DELETE
+                    method: 'POST',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',

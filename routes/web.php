@@ -44,9 +44,8 @@ Route::prefix('clube')->name('clube.')->group(function () {
         Route::get('/minhas-oportunidades', [ClubeOportunidadeController::class, 'index'])
         ->name('minhas-oportunidades');
 
-        Route::get('/oportunidade', function () {
-            return view('clube.oportunidades.show');
-        })->name('oportunidade');
+        Route::get('/minhas-oportunidades/{id}', [ClubeOportunidadeController::class, 'show'])
+        ->name('listas.show');
 
         Route::get('/listas', function () {
             return view('clube.listas.index');

@@ -163,7 +163,7 @@ class ListaClubeController extends Controller
     {
         $clube = Auth::guard('club')->user();
 
-        $lista = Lista::where('id', $id)
+        $lista = Lista::with('usuarios')->where('id', $id)
                       ->where('clube_id', $clube->id)
                       ->firstOrFail();
 
@@ -212,5 +212,39 @@ class ListaClubeController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function searchUsuarios(Request $request, $id)
+    {
+        $lista = Lista::findOrFail($id);
+
+        $query = $lista->usuarios();
+
+        if ($search = $request->query('search')) {
+            $query->where(function($q) use ($search) {
+                $q->where('nomeCompletoUsuario', 'like', "%{$search}%")
+                ->orWhere('emailUsuario', 'like', "%{$search}%")
+                ->orWhere('cidadeUsuario', 'like', "%{$search}%");
+            });
+        }
+
+        $sortableColumns = ['nomeCompletoUsuario', 'cidadeUsuario', 'dataNascimentoUsuario', 'generoUsuario'];
+
+        $sortCol = $request->query('sortColumn');
+
+        $direction = $request->query('sortDirection', 'asc');
+
+        if (in_array($sortCol, $sortableColumns)) {
+            $direction = $direction === 'desc' ? 'desc' : 'asc';
+            $query->orderBy($sortCol, $direction);
+        }
+
+        $usuarios = $query->get(); 
+
+        if ($request->ajax()) {
+            return view('clube.partials.usuarios-table-body', compact('usuarios'))->render();
+        }
+
+        return view('clube.listas.index', compact('lista', 'usuarios'));
     }
 }

@@ -1,10 +1,7 @@
 <x-modal maxWidth="xl" name="save-to-list-{{ $atleta->id }}" title="Salvar em..." titleSize="[1.04vw]" titleColor="emerald">
-    
     <div class="flex flex-col gap-[0.42vw]">
-        
         <div class="max-h-[15.6vw] overflow-y-auto custom-scrollbar pr-[0.42vw]">
             <x-form id="save-list-form-{{ $atleta->id }}" class="save-list-form-container flex flex-col gap-[0.21vw]">
-                
                 @php
                     $listas = auth()->guard('club')->user()->listas ?? []; 
                 @endphp
@@ -31,66 +28,5 @@
             </div>
             <span class="group-hover:translate-x-[0.1vw] transition-transform duration-200 text-[0.73vw]">Criar nova lista</span>
         </button>
-
     </div>
-
-    <script>
-        const formId = "save-list-form-{{ $atleta->id }}";
-        const formElement = document.getElementById(formId);
-
-        if (formElement) {
-            formElement.addEventListener('change', function(e) {
-                if (e.target && e.target.matches('input[type="checkbox"]')) {
-                    const checkbox = e.target;
-                    const listName = checkbox.closest('label').querySelector('span').innerText.trim();
-                    const listId = checkbox.value;
-                    const isAdding = checkbox.checked;
-                    const atletaId = '{{ $atleta->id }}';
-                    
-                    const method = isAdding ? 'POST' : 'DELETE';
-                    const url = `/api/clube/listas/${listId}/usuarios/${atletaId}`;
-
-                    fetch(url, {
-                        method: method,
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
-                        }
-                    })
-                    .then(async response => {
-                        if (!response.ok) throw new Error('Falha na requisição');
-                        if (typeof window.showToast === 'function') {
-                            window.showToast('success', isAdding ? 'Adicionado!' : 'Removido!', `Atleta ${isAdding ? 'adicionado à' : 'removido da'} lista "${listName}".`);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erro:', error);
-                        checkbox.checked = !isAdding;
-                        if (typeof window.showToast === 'function') {
-                            window.showToast('error', 'Erro', 'Não foi possível atualizar a lista.');
-                        }
-                    });
-                }
-            });
-        }
-
-        if (typeof window.addListToAllModals !== 'function') {
-            window.addListToAllModals = function(htmlContent) {
-                document.querySelectorAll('.no-lists-message').forEach(el => el.remove());
-
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = htmlContent;
-                const newLabel = tempDiv.firstElementChild;
-
-                if (newLabel) {
-                    newLabel.classList.add('animate-in', 'fade-in', 'slide-in-from-left-2', 'duration-300');
-                    
-                    document.querySelectorAll('.save-list-form-container').forEach(form => {
-                        form.insertAdjacentElement('beforeend', newLabel.cloneNode(true));
-                    });
-                }
-            }
-        }
-    </script>
 </x-modal>

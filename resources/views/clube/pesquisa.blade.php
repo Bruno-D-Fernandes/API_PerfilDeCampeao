@@ -345,4 +345,40 @@
             showToast('error', errorTitle, 'Erro de conexão ou falha no processamento de dados.');
         }
     }
+
+    document.addEventListener('change', function(e) {
+        if (e.target && e.target.matches('.save-list-form-container input[type="checkbox"]')) {
+            const checkbox = e.target;
+            const listId = checkbox.value;
+            const atletaId = checkbox.dataset.atletaId;
+            const isAdding = checkbox.checked;
+
+            if (!listId || !atletaId) return;
+
+            const method = isAdding ? 'POST' : 'DELETE';
+            const url = `/api/clube/listas/${listId}/usuarios/${atletaId}`;
+
+            fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(async response => {
+                if (!response.ok) throw new Error('Falha na requisição');
+                if (typeof window.showToast === 'function') {
+                    window.showToast('success', isAdding ? 'Adicionado!' : 'Removido!', `Atleta ${isAdding ? 'adicionado à' : 'removido da'} lista "${checkbox.closest('label').querySelector('span').innerText.trim()}"`);
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                checkbox.checked = !isAdding;
+                if (typeof window.showToast === 'function') {
+                    window.showToast('error', 'Erro', 'Não foi possível atualizar a lista.');
+                }
+            });
+        }
+    });
 </script>

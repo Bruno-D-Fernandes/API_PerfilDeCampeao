@@ -3,7 +3,7 @@
     
         <input type="checkbox" name="lists[]" value="{{ $lista->id }}" 
             @if(isset($atletaId) && $lista->usuarios?->contains($atletaId)) checked @endif 
-            class="peer sr-only">
+            class="peer sr-only" data-atleta-id="{{ $atleta->id }}">
         
         <div class="w-[1.04vw] h-[1.04vw] border-[0.1vw] border-gray-400 rounded-[0.21vw] bg-white peer-checked:bg-emerald-600 peer-checked:border-emerald-600 transition-all duration-200"></div>
         

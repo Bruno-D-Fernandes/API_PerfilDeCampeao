@@ -1,7 +1,7 @@
 <div id="{{ $tableId }}" class="relative h-full w-full overflow-x-auto bg-gray-50 rounded-[0.63vw] border border-[0.052vw] border-gray-300">
     <div class="p-[0.83vw] flex items-center justify-between space-x-[0.83vw]">
         <div class="search-box-wrapper">
-            <x-search-input class="!bg-white !shadow-sm !w-[25.5vw]" />
+            <x-search-input class="!border !border-[0.1vw] !border-gray-50 !focus:border-gray-100 !bg-white !w-[25.5vw]" />
         </div>
 
         @if($hasActions)
