@@ -15,6 +15,7 @@ use \Database\Seeders\ListasSeeder;
 use \Database\Seeders\AdminSeeder;
 use \Database\Seeders\ClubeSeeder;
 use \Database\Seeders\AtletaSeeder;
+use \Database\Seeders\PerfilSeeder;
 use \Database\Seeders\OportunidadeSeeder;
 use \Database\Seeders\InscricaoSeeder;
 
@@ -46,6 +47,7 @@ class DatabaseSeeder extends Seeder
         EventoSeeder::class,
         ConviteEventoSeeder::class,
         ListasSeeder::class,
+        PerfilSeeder::class,
         ]);
     }
 }

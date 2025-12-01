@@ -339,4 +339,127 @@ class ClubeController extends Controller
             ], 500);
         }
     }
+
+        protected function getAuthenticatedClube(): ?Clube
+    {
+        return Auth::guard('club_sanctum')->user() ?? auth('club')->user();
+    }
+
+    public function updateEmail(Request $request)
+{
+    /** @var \App\Models\Clube|null $clube */
+    $clube = Auth::guard('club_sanctum')->user();
+
+    if (! $clube instanceof Clube) {
+        return response()->json([
+            'message' => 'Clube não autenticado.',
+        ], 401);
+    }
+
+    $validated = $request->validate([
+        'new_email' => [
+            'required',
+            'email',
+            'max:255',
+            Rule::unique('clubes', 'emailClube')->ignore($clube->id),
+        ],
+    ]);
+
+    $clube->emailClube = $validated['new_email'];
+    $clube->save();
+
+    return response()->json([
+        'message' => 'E-mail atualizado com sucesso.',
+    ]);
+}
+
+public function updateCnpj(Request $request)
+{
+    /** @var \App\Models\Clube|null $clube */
+    $clube = Auth::guard('club_sanctum')->user();
+
+    if (! $clube instanceof Clube) {
+        return response()->json([
+            'message' => 'Clube não autenticado.',
+        ], 401);
+    }
+
+    $validated = $request->validate([
+        'new_cnpj' => [
+            'required',
+            'string',
+            'max:20',
+            Rule::unique('clubes', 'cnpjClube')->ignore($clube->id),
+        ],
+    ]);
+
+    $clube->cnpjClube = $validated['new_cnpj'];
+    $clube->save();
+
+    return response()->json([
+        'message' => 'CNPJ atualizado com sucesso.',
+    ]);
+}
+
+        public function updatePassword(Request $request)
+    {
+        $clube = $this->getAuthenticatedClube();
+
+        if (! $clube) {
+            return response()->json(['message' => 'Clube não autenticado.'], 401);
+        }
+
+        $data = $request->validate([
+            'current_password'      => 'required|string',
+            'password'              => 'required|string|min:6|confirmed',
+            // precisa enviar também "password_confirmation"
+        ]);
+
+        if (! Hash::check($data['current_password'], $clube->senhaClube)) {
+            return response()->json([
+                'message' => 'A senha atual informada está incorreta.',
+            ], 422);
+        }
+
+        $clube->senhaClube = Hash::make($data['password']);
+        $clube->save();
+
+        return response()->json([
+            'message' => 'Senha atualizada com sucesso.',
+        ]);
+    }
+
+        public function destroyMe(Request $request)
+    {
+        $clube = $this->getAuthenticatedClube();
+
+        if (! $clube) {
+            return response()->json(['message' => 'Clube não autenticado.'], 401);
+        }
+
+        try {
+            $caminhoFotoPerfil = $clube->getRawOriginal('fotoPerfilClube');
+            if ($caminhoFotoPerfil) {
+                Storage::disk('public')->delete($caminhoFotoPerfil);
+            }
+
+            $caminhoFotoBanner = $clube->getRawOriginal('fotoBannerClube');
+            if ($caminhoFotoBanner) {
+                Storage::disk('public')->delete($caminhoFotoBanner);
+            }
+
+            $clube->delete();
+
+            return response()->json(null, 204);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error'   => 'Erro ao excluir conta.',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
+
+
 }

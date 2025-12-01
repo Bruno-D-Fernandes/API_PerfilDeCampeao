@@ -223,6 +223,11 @@ Route::prefix('clube')->group(function () {
         Route::put('/{id}', [ClubeController::class, 'update'])->whereNumber('id');
         Route::get('/{id}', [ClubeController::class, 'show'])->whereNumber('id');
         Route::delete('/{id}', [ClubeController::class, 'destroy'])->whereNumber('id');
+
+        Route::put('/email',   [ClubeController::class, 'updateEmail']);
+        Route::put('/cnpj',    [ClubeController::class, 'updateCnpj']);
+        Route::put('/senha',   [ClubeController::class, 'updatePassword']);
+        Route::delete('/conta', [ClubeController::class, 'destroyMe']);
         // Fim Listas do Clube
     });
 
