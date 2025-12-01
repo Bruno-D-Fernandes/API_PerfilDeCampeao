@@ -15,7 +15,6 @@ class Message extends Model
         'type',
         'sender_id',
         'receiver_id',
-        'type',
         'is_read',
         'evento_id',
         'convite_evento_id',
