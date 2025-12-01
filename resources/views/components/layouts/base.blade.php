@@ -17,6 +17,25 @@
 <body class="font-sans antialiased h-screen relative">
     {{ $slot }}
 
+    <x-modal maxWidth="lg" name="confirm-action" title="Confirmação" titleSize="xl" titleColor="emerald">
+        <div class="p-[0.83vw] text-center">
+            <div class="mx-auto flex items-center justify-center h-[2.5vw] w-[2.5vw] rounded-full bg-emerald-100 mb-[0.83vw]">
+                <svg class="h-[1.25vw] w-[1.25vw] text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <h3 class="text-[0.94vw] leading-6 font-medium text-gray-900" id="confirm-action-title">Tem certeza?</h3>
+            <p class="text-[0.73vw] text-gray-500 mt-[0.42vw]" id="confirm-action-message">Você está prestes a realizar esta ação.</p>
+        </div>
+
+        <x-slot:footer>
+            <div class="w-full flex gap-x-[0.42vw] justify-end">
+                <x-button color="gray" size="md" onclick="closeModal('confirm-action')">Cancelar</x-button>
+                <x-button color="green" size="md" id="confirm-action-button">Confirmar</x-button>
+            </div>
+        </x-slot:footer>
+    </x-modal>
+
     @stack('scripts')
     <script>
         let currentSortCol = null;
@@ -317,6 +336,31 @@
 
             closeModal(modalName);
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.confirmCallback = null;
+
+            window.openConfirmModal = function({title, message, callback}) {
+                const modal = document.getElementById('confirm-action');
+                const titleEl = document.getElementById('confirm-action-title');
+                const msgEl = document.getElementById('confirm-action-message');
+
+                if (!modal || !titleEl || !msgEl) return;
+
+                titleEl.innerText = title;
+                msgEl.innerHTML = message;
+                window.confirmCallback = callback;
+                modal.classList.remove('hidden');
+            };
+
+            const btnConfirm = document.getElementById('confirm-action-button');
+            if (btnConfirm) {
+                btnConfirm.addEventListener('click', () => {
+                    if (typeof window.confirmCallback === 'function') window.confirmCallback();
+                    closeModal('confirm-action');
+                });
+            }
+        });
     </script>
 </body>
 </html>

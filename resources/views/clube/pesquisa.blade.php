@@ -1,15 +1,15 @@
 <x-layouts.clube title="Pesquisa" :breadcrumb="['Dashboard' => route('clube.dashboard'), 'Pesquisa' => null]">
-    <div id="toast-container" class="fixed top-4 left-4 z-[9999] flex flex-col gap-3 pointer-events-auto"></div>
+    <div id="toast-container" class="fixed top-[0.83vw] left-[0.83vw] z-[9999] flex flex-col gap-[0.63vw] pointer-events-auto"></div>
 
-    <div class="flex justify-center gap-[1.25vw] w-full h-full">
+    <div class="h-full flex justify-center gap-[1.25vw] w-full flex-1min-h-0">
     
-        <x-form class="flex flex-col justify-between gap-2 bg-emerald-500 h-full w-1/4 rounded-lg p-[1.25vw]" id="search-form" onsubmit="return false;">
+        <x-form class="flex flex-col gap-[0.42vw] bg-emerald-500 h-full w-1/4 rounded-lg p-[1.25vw]" id="search-form" onsubmit="return false;">
                 
             <x-search-input placeholder="Buscar por nome" name="pesquisa" value="{{ request('pesquisa') }}" />
 
             <div class="w-full border border-t border-white/20 mt-[0.105vw]"></div>
 
-            <div class="flex flex-col gap-[0.42vw] max-h-full overflow-y-auto scrollbar-custom pr-[0.83vw]">
+            <div class="flex flex-col gap-[0.42vw] pr-[0.83vw]">
                 <x-form-group label="Esporte" name="esporte_id" type="select" id="modalidade_select" labelColor="white">
                     <option value="">Todos</option>
                     @foreach($esportes as $esporte)
@@ -21,7 +21,7 @@
 
                 <x-form-group label="Posição" name="posicao_id" type="select" id="posicao_select" labelColor="white">
                     <option value="">Todas</option>
-                    {{-- As opções serão preenchidas pelo JavaScript --}}
+                    
                 </x-form-group>
 
                 <div class="px-2.5">
@@ -63,7 +63,7 @@
 
             <div class="w-full border border-t border-white/20 mt-[0.105vw]"></div>
 
-            <div class="flex gap-x-[0.83vw] mt-[0.21vw]">
+            <div class="flex gap-x-[0.83vw] mt-[0.21vw] flex-shrink-0">
                 <x-button color="none" :full="true" class="border-none bg-transparent text-emerald-800" type="button" id="clear-filters-btn">
                     Limpar
                 </x-button>
@@ -74,10 +74,10 @@
             </div>
         </x-form>
 
-        <div class="flex flex-col gap-[0.42vw] bg-white h-full w-3/4">
+        <div class="flex-1 flex flex-col gap-[0.42vw] bg-white min-h-0 w-3/4 overflow-hidden">
             
             <div class="flex items-center justify-between">
-                <h3 class="text-xl font-medium text-gray-700" id="athletes-count">
+                <h3 class="text-[0.93vw] font-medium text-gray-700" id="athletes-count">
                     {{ $atletas->total() }} atletas encontrados
                 </h3>
 
@@ -92,7 +92,7 @@
                 </div>
             </div>
 
-            <div id="athletes-grid-section" class="flex-grow">
+            <div id="athletes-grid-section" class="flex-1 max-h-full min-h-0">
                 @include('clube.partials.athletes-grid', ['atletas' => $atletas])
             </div>
 

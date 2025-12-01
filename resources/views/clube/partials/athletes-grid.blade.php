@@ -4,7 +4,7 @@
 
         @include('clube.partials.save-to-list-modal', ['atleta' => $atleta])
     @empty
-        <div class="col-span-3 text-center py-10 text-gray-500">
+        <div class="col-span-3 text-center py-[2.1vw] text-gray-500">
             Nenhum atleta encontrado com os filtros selecionados.
         </div>
     @endforelse

@@ -14,62 +14,61 @@ use Illuminate\Support\Facades\Auth;
 
 class DashClubeController extends Controller
 {
-    public function dashboardData(Request $request)
+    public function index(Request $request)
     {
-        try {
-            $clube = Auth::guard('club')->user();
+        $clube = Auth::guard('club')->user();
 
-            if (! $clube instanceof Clube) {
-                if ($request->wantsJson()) {
-                    return response()->json(['message' => 'Clube não autorizado'], 403);
-                }
-                abort(403, 'Acesso não autorizado.');
-            }
+        $clube->load(['esportes', 'esportesExtras']);
 
-            $esporteId = $request->query('esporte_id', $clube->esporte->id);
-            $meses = (int) $request->query('months', 6);
-            $perPage = (int) $request->query('per_page', 5);
+        $esportes = $clube->esportes->merge($clube->esportesExtras);
 
-            $resumo = $this->getResumoGeral($clube, $esporteId);
-            $distribuicaoPosicoes = $this->getDistribuicaoPosicoes($clube, $esporteId);
-            $inscricoesMensais = $this->getInscricoesMensais($clube, $esporteId, $meses);
-            $topEstados = $this->getTopEstados($clube, $esporteId);
-            $atividadesRecentes = $this->getAtividadesRecentes($clube, $esporteId, $perPage);
-            
-            $proximosEventos = $this->getProximosEventos($clube, 1);
-            
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'resumo' => $resumo,
-                    'graficos' => [
-                        'distribuicao_posicoes' => $distribuicaoPosicoes,
-                        'inscricoes_mensais' => $inscricoesMensais,
-                        'top_estados' => $topEstados
-                    ],
-                    'atividades_recentes' => $atividadesRecentes,
-                    'proximos_eventos' => $proximosEventos
-                ], 200);
-            }
-
-            return view('clube.dashboard', [
-                'resumo' => $resumo,
-                'distribuicaoPosicoes' => $distribuicaoPosicoes,
-                'inscricoesMensais' => $inscricoesMensais,
-                'topEstados' => $topEstados,
-                'atividadesRecentes' => $atividadesRecentes,
-                'proximosEventos' => $proximosEventos
-            ]);
-
-        } catch (\Exception $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error' => 'Erro ao carregar dashboard: ' . $e->getMessage(),
-                    'trace' => config('app.debug') ? $e->getTrace() : null
-                ], 500);
-            }
-
-            throw $e; 
+        if ($esportes->isEmpty()) {
+            $esportes = \App\Models\Esporte::all();
         }
+
+        $esportePadrao = $esportes->first();
+
+        $dados = null;
+
+        if ($esportePadrao) {
+            $dados = $this->fetchDashboardData($clube, $esportePadrao->id);
+        }
+
+        return view('clube.dashboard', [
+            'esportes' => $esportes,
+            'esporteAtual' => $esportePadrao,
+            'dados' => $dados
+        ]);
+    }
+
+    public function loadContent(Request $request, $esporteId)
+    {
+        $clube = Auth::guard('club')->user();
+        
+        $dados = $this->fetchDashboardData($clube, $esporteId);
+        $esporte = \App\Models\Esporte::find($esporteId);
+
+        $html = view('clube.partials.dashboard-content', [
+            'dados' => $dados,
+            'esporte' => $esporte 
+        ])->render();
+
+        return response()->json(['html' => $html]);
+    }
+
+    private function fetchDashboardData($clube, $esporteId)
+    {
+        $meses = 6;
+        $perPage = 5;
+
+        return [
+            'resumo' => $this->getResumoGeral($clube, $esporteId),
+            'distribuicaoPosicoes' => $this->getDistribuicaoPosicoes($clube, $esporteId),
+            'inscricoesMensais' => $this->getInscricoesMensais($clube, $esporteId, $meses),
+            'topEstados' => $this->getTopEstados($clube, $esporteId),
+            'atividadesRecentes' => $this->getAtividadesRecentes($clube, $esporteId, $perPage),
+            'proximosEventos' => $this->getProximosEventos($clube, 1),
+        ];
     }
 
    private function getResumoGeral($clube, $esporteId)
@@ -219,22 +218,42 @@ class DashClubeController extends Controller
 
     private function getInscricoesMensais($clube, $esporteId, $meses)
     {
-        $inicio = Carbon::now()->subMonthsNoOverflow($meses - 1)->startOfMonth();
+        $linhaDoTempo = collect();
+        $dataAtual = Carbon::now()->startOfMonth();
 
-        $dados = Inscricao::query()
+        for ($i = $meses - 1; $i >= 0; $i--) {
+            $data = $dataAtual->copy()->subMonthsNoOverflow($i)->locale('pt_BR');
+            
+            $chave = $data->format('Y-m'); 
+            
+            $linhaDoTempo->put($chave, [
+                'rotulo' => ucfirst($data->translatedFormat('M')),
+                'total'  => 0
+            ]);
+        }
+
+        $dataInicio = $dataAtual->copy()->subMonthsNoOverflow($meses - 1);
+
+        $registrosBanco = Inscricao::query()
             ->join('oportunidades', 'inscricoes.oportunidade_id', '=', 'oportunidades.id')
             ->where('oportunidades.clube_id', $clube->id)
-            ->where('inscricoes.created_at', '>=', $inicio)
+            ->where('inscricoes.created_at', '>=', $dataInicio)
             ->when($esporteId, fn($q) => $q->where('oportunidades.esporte_id', $esporteId))
             ->selectRaw('YEAR(inscricoes.created_at) as ano, MONTH(inscricoes.created_at) as mes, COUNT(*) as total')
             ->groupBy('ano', 'mes')
-            ->orderBy('ano')->orderBy('mes')
             ->get();
 
-        return $dados->map(fn($item) => [
-            'rotulo' => str_pad($item->mes, 2, '0', STR_PAD_LEFT) . '/' . $item->ano,
-            'total' => (int) $item->total,
-        ]);
+        foreach ($registrosBanco as $registro) {
+            $chave = $registro->ano . '-' . str_pad($registro->mes, 2, '0', STR_PAD_LEFT);
+
+            if ($linhaDoTempo->has($chave)) {
+                $item = $linhaDoTempo->get($chave);
+                $item['total'] = (int) $registro->total;
+                $linhaDoTempo->put($chave, $item);
+            }
+        }
+
+        return $linhaDoTempo->values();
     }
 
     private function getTopEstados($clube, $esporteId)

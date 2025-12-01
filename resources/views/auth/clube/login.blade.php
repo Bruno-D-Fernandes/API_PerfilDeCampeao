@@ -46,7 +46,7 @@
                                 Não tem uma conta ainda?
                             </span>
 
-                            <a href="/clube/cadastro" class="text-emerald-500 font-medium text-md">
+                            <a href="{{ route('clube.cadastro') }}" class="text-emerald-500 font-medium text-md">
                                 Cadastrar-se
                             </a>
                         </span>

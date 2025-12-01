@@ -142,11 +142,14 @@ class InscricaoOportunidadeController extends Controller
 
         $tipo = Inscricao::STATUS_APPROVED;
 
-        event(new ApplicationStatusChangeEvent($usuario, $op, $clube, $insc, $tipo));
+        $html = view('clube.partials.opportunity-details', [
+            'oportunidade' => $op,
+        ])->render();
 
         return response()->json([
             'status' => $insc->status,
-            'message' => 'Inscrição aprovada com sucesso.'
+            'message' => 'Inscrição aprovada com sucesso.',
+            'html' => $html
         ], 200);
     }
 
@@ -177,11 +180,14 @@ class InscricaoOportunidadeController extends Controller
 
         $tipo = Inscricao::STATUS_REJECTED;
 
-        event(new ApplicationStatusChangeEvent($usuario, $op, $clube, $insc, $tipo));
+        $html = view('clube.partials.opportunity-details', [
+            'oportunidade' => $op,
+        ])->render();
 
         return response()->json([
             'status' => $insc->status,
-            'message' => 'Inscrição recusada com sucesso.'
+            'message' => 'Inscrição recusada com sucesso.',
+            'html' => $html
         ], 200);
     }
 

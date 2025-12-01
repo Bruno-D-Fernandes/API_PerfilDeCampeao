@@ -122,9 +122,15 @@ class ListaClubeController extends Controller
 
         $lista->update($validated);
 
+        $html = view('clube.partials.list-details', [
+                'lista' => $lista,
+                'usuarios' => $lista->usuarios,
+            ])->render();
+
         return response()->json([
             'message' => 'Lista atualizada!',
-            'data'    => $lista
+            'data'    => $lista,
+            'html' => $html,
         ], 200);
     }
     
@@ -156,7 +162,14 @@ class ListaClubeController extends Controller
         $lista = Lista::where('clube_id', $clube->id)->findOrFail($listaId);
         $lista->usuarios()->detach($usuario);
 
-        return response()->json(['message' => 'Usuário removido da lista com sucesso'], 200);
+        $lista->load('usuarios');
+
+        $html = view('clube.partials.usuarios-table-body', [
+                'usuarios' => $lista->usuarios,
+                'lista' => $lista
+            ])->render();
+
+        return response()->json(['message' => 'Usuário removido da lista com sucesso', 'data' => $html], 200);
     }
 
     public function show(Request $request, $id)

@@ -12,7 +12,7 @@
             {{ $slot }}
         </div>
 
-        @if($actions)
+        @if(isset($actions))
             <div class="flex items-start justify-center gap-x-[0.83vw]">
                 {{ $actions }}
             </div>
