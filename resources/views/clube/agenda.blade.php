@@ -201,7 +201,7 @@
                                 </x-form-group>
                             </div>
 
-                            <button type="button" class="h-[2.5vw] w-[2.5vw] bg-gray-100 text-gray-600 hover:bg-gray-200 border border-[0.052vw] border-gray-200 rounded-[0.42vw] transition-colors flex items-center justify-center shrink-0"> 
+                            <button type="button" class="h-[2.5vw] w-[2.5vw] bg-gray-100 text-gray-600 hover:bg-gray-200 border border-[0.052vw] border-gray-200 rounded-[0.42vw] transition-colors flex items-center justify-center shrink-0" onclick="consultarCepEvento('evt-')"> 
                                 <svg class="h-[1.04vw] w-[1.04vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                             </button>
                         </div>
@@ -376,7 +376,7 @@
                                 </x-form-group>
                             </div>
 
-                            <button type="button" class="h-[2.19vw] w-[2.19vw] bg-gray-100 text-gray-600 hover:bg-gray-200 border border-[0.052vw] border-gray-200 rounded-[0.42vw] transition-colors flex items-center justify-center shrink-0"> 
+                            <button type="button" class="h-[2.19vw] w-[2.19vw] bg-gray-100 text-gray-600 hover:bg-gray-200 border border-[0.052vw] border-gray-200 rounded-[0.42vw] transition-colors flex items-center justify-center shrink-0" onclick="consultarCepEvento('edit-evt-')"> 
                                 <svg class="h-[1.04vw] w-[1.04vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                             </button>
                         </div>
@@ -1241,6 +1241,57 @@
                 console.error('Erro ao carregar detalhes do evento:', error);
   
                 showToast('error', 'Erro na leitura.', 'Não foi possível carregar os detalhes deste evento.');
+            }
+        }
+
+        async function consultarCepEvento(prefix = '') {
+            const cepInput = document.querySelector(`#${prefix}cep input`) || document.querySelector(`input[name="cep"]`);
+            const ruaInput = document.querySelector(`#${prefix}rua input`) || document.querySelector(`input[name="rua"]`);
+            const bairroInput = document.querySelector(`#${prefix}bairro input`) || document.querySelector(`input[name="bairro"]`);
+            const cidadeInput = document.querySelector(`#${prefix}cidade input`) || document.querySelector(`input[name="cidade"]`);
+            const estadoSelect = document.querySelector(`#${prefix}estado select`) || document.querySelector(`select[name="estado"]`);
+            const complementoInput = document.querySelector(`#${prefix}complemento input`) || document.querySelector(`input[name="complemento"]`);
+
+            if (!cepInput) {
+                console.error('Campo de CEP não encontrado.');
+                return;
+            }
+
+            let cep = cepInput.value || '';
+            cep = cep.replace(/\D/g, '');
+
+            if (cep.length !== 8) {
+                showToast?.('error', 'CEP inválido', 'Digite um CEP com 8 dígitos.');
+                return;
+            }
+
+            cepInput.disabled = true;
+
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+
+                if (!response.ok) throw new Error('Erro ao consultar o CEP');
+
+                const data = await response.json();
+
+                if (data.erro) {
+                    showToast?.('error', 'CEP não encontrado', 'Verifique o número digitado.');
+                    return;
+                }
+
+                if (ruaInput) ruaInput.value = data.logradouro || '';
+                if (bairroInput) bairroInput.value = data.bairro || '';
+                if (cidadeInput) cidadeInput.value = data.localidade || '';
+                if (estadoSelect) estadoSelect.value = data.uf || '';
+                if (complementoInput && data.complemento) complementoInput.value = data.complemento;
+
+                showToast?.('success', 'Endereço encontrado', 'Dados preenchidos com sucesso.');
+
+            } catch (error) {
+                console.error('Erro ao buscar CEP:', error);
+                showToast?.('error', 'Erro de consulta', 'Tente novamente mais tarde.');
+            } finally {
+                cepInput.disabled = false;
             }
         }
     </script>

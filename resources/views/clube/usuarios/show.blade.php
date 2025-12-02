@@ -8,7 +8,7 @@
                             <img id="display-banner" 
                                 src="{{ asset('storage/'. $usuario->fotoBannerUsuario) }}" 
                                 class="w-full h-full object-cover"
-                                alt="Banner do Clube">
+                                alt="Banner do Usuário">
                         @else
                             <svg id="placeholder-banner" class="h-[3.33vw] w-[3.33vw] text-white stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                                 <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
@@ -80,13 +80,93 @@
                             </x-slot>
 
                             <x-slot :name="'perfil_' . $perfil->id">
-                                <div class="w-full grid grid-cols-3 gap-[0.83vw] auto-rows-auto">
-                                    <div class="col-span-3 py-[2vw] text-center text-gray-400 bg-gray-50 rounded-[0.42vw] border border-dashed border-gray-200 text-[0.73vw]">
-                                        Mídia e estatísticas de {{ $perfil->esporte->nomeEsporte ?? 'Esporte' }}
-                                    </div>
-                                </div>  
-                            </x-slot>
+                                @php
+                                    $postagens = $perfil->postagens ?? collect();
+                                @endphp
 
+                                <div class="w-full grid grid-cols-3 gap-[0.83vw] auto-rows-auto">
+                                    @forelse($postagens as $post)
+                                        @php
+                                            $primaryMedia = optional($post->imagens->first());
+
+                                            $mediaPath = $primaryMedia->url
+                                                ?? $primaryMedia->caminho
+                                                ?? $primaryMedia->path
+                                                ?? $primaryMedia->arquivo
+                                                ?? null;
+
+                                            $videoExtensions = ['mp4', 'webm', 'ogg', 'ogv', 'mov', 'm4v'];
+
+                                            $extension = null;
+                                            $isVideo = false;
+
+                                            if ($mediaPath) {
+                                                $path = parse_url($mediaPath, PHP_URL_PATH);
+                                                $extension = $path ? strtolower(pathinfo($path, PATHINFO_EXTENSION)) : null;
+
+                                                if ($extension && in_array($extension, $videoExtensions, true)) {
+                                                    $isVideo = true;
+                                                }
+                                            }
+                                        @endphp
+
+                                        <div class="bg-white rounded-[0.42vw] border border-gray-200 overflow-hidden flex flex-col">
+                                            @if($mediaPath)
+                                                @if($isVideo)
+                                                    <div class="aspect-video bg-black">
+                                                        <video controls class="w-full h-full object-cover">
+                                                            <source src="{{ $mediaPath }}" type="video/{{ $extension === 'ogv' ? 'ogg' : $extension }}">
+                                                            Seu navegador não suporta vídeo.
+                                                        </video>
+                                                    </div>
+                                                @else
+                                                    <div class="aspect-video bg-gray-100">
+                                                        <img src="{{ $mediaPath }}" alt="Mídia do atleta" class="w-full h-full object-cover">
+                                                    </div>
+                                                @endif
+                                            @else
+                                                <div class="aspect-video bg-gray-50 flex items-center justify-center text-[0.73vw] text-gray-400">
+                                                    Sem mídia anexada
+                                                </div>
+                                            @endif
+
+                                            <div class="p-[0.63vw] flex flex-col gap-[0.21vw]">
+                                                @if($post->created_at)
+                                                    <span class="text-[0.63vw] text-gray-400">
+                                                        {{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }}
+                                                    </span>
+                                                @endif
+
+                                                @if($post->textoPostagem)
+                                                    <p class="text-[0.73vw] text-gray-700 line-clamp-3">
+                                                        {{ $post->textoPostagem }}
+                                                    </p>
+                                                @endif
+
+                                                @if($post->localizacaoPostagem)
+                                                    <span class="inline-flex items-center gap-[0.21vw] text-[0.63vw] text-gray-500 mt-[0.21vw]">
+                                                        <svg class="h-[0.63vw] w-[0.63vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                                        {{ $post->localizacaoPostagem }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <div class="col-span-3 h-full">
+                                            <div class="p-[0.42vw] flex items-center justify-center h-full">
+                                                <x-empty-state text="Nenhuma postagem encontrada.">
+                                                    <x-slot:icon>
+                                                        <svg class="h-[1.67vw] w-[1.67vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-x-icon lucide-user-x"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" x2="22" y1="8" y2="13"/><line x1="22" x2="17" y1="8" y2="13"/></svg>
+                                                    </x-slot:icon>
+                                                    <p class="text-gray-400 font-normal text-[0.83vw]">
+                                                        Ainda não há fotos ou vídeos cadastrados para este perfil.
+                                                    </p>
+                                                </x-empty-state>
+                                            </div>
+                                        </div>
+                                    @endforelse
+                                </div>
+                            </x-slot>
                         @endforeach
 
                         <x-slot name="icon_sobre">

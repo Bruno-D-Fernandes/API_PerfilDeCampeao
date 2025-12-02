@@ -14,7 +14,6 @@
             Voltar
         </a>
 
-        {{-- WRAPPER DOS DETALHES + LOADER (IGUAL AO INDEX) --}}
         <div class="w-full relative" id="opportunity-wrapper">
             <div id="opportunity-details" class="w-full flex flex-col gap-4">
                 @include('clube.partials.opportunity-details', [
@@ -70,11 +69,11 @@
                     label="Esporte" 
                     type="select" 
                     name="esporte_id" 
-                    id="edit-oportunidade-esporte" 
+                    id="edit-esporte-{{ $oportunidade->id }}" 
                     labelColor="green" 
                     textSize="xl" 
                     required
-                    onchange="atualizarPosicoes('edit-oportunidade-esporte', 'edit-oportunidade-posicoes')"
+                    onchange="atualizarPosicoes('edit-esporte-{{ $oportunidade->id }}', 'edit-posicoes-{{ $oportunidade->id }}')"
                 >
                     <x-slot:icon>
                         <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -98,7 +97,7 @@
                 <x-form-group 
                     label="Posições (Segure Ctrl)" 
                     name="posicoes_ids[]" 
-                    id="edit-oportunidade-posicoes" 
+                    id="edit-posicoes-{{ $oportunidade->id }}" 
                     type="select" 
                     multiple 
                     size="1" 
@@ -223,6 +222,7 @@
                 </x-button>
 
                 <x-button 
+                    id="btn-save-opportunity"
                     color="clube" 
                     size="md" 
                     onclick="saveOpportunityShow('form-edit-{{ $oportunidade->id }}', {{ $oportunidade->id }})"
@@ -298,18 +298,9 @@
             }
         }
 
-        // MESMO atualizarPosicoes do index (reuso)
         function atualizarPosicoes(idSelectEsporte, idSelectAlvo) {
-            let selectEsporte = document.getElementById(idSelectEsporte);
-            let selectAlvo = document.getElementById(idSelectAlvo);
-
-            if (selectEsporte && selectEsporte.tagName !== 'SELECT') {
-                selectEsporte = selectEsporte.querySelector('select');
-            }
-
-            if (selectAlvo && selectAlvo.tagName !== 'SELECT') {
-                selectAlvo = selectAlvo.querySelector('select');
-            }
+            let selectEsporte = document.querySelector(`#${idSelectEsporte} select`);
+            let selectAlvo = document.querySelector(`#${idSelectAlvo} select`);
 
             if (!selectEsporte || !selectAlvo) {
                 console.error("Erro: Não encontrei os selects.", { origem: idSelectEsporte, alvo: idSelectAlvo });
@@ -327,7 +318,6 @@
             if (dadosJSON) {
                 try {
                     const posicoes = JSON.parse(dadosJSON);
-
                     posicoes.forEach(pos => {
                         const option = document.createElement('option');
                         option.value = pos.id;
@@ -342,13 +332,14 @@
 
         async function saveOpportunityShow(formId, recordId) {
             const form = document.getElementById(formId);
+
             if (!form) {
                 console.error("Formulário não encontrado:", formId);
                 return;
             }
 
-            const modal = document.querySelector(`[data-modal-name="edit-opportunity-${recordId}"]`);
-            const button = modal ? modal.querySelector('button[color="clube"]') : null;
+            const modal = document.querySelector(`#edit-opportunity-${recordId}`);
+            const button = document.getElementById('btn-save-opportunity');
 
             toggleLoading(button, true);
 
@@ -397,7 +388,11 @@
                 }
 
                 // aqui é mais simples recarregar a página para atualizar os detalhes
-                window.location.reload();
+                if (data.htmlGrid) {
+                    document.querySelector('#opportunity-details').innerHTML = data.htmlGrid;
+                }
+
+                closeModal(`edit-opportunity-${recordId}`);
 
             } catch (error) {
                 alert("Atenção:\n" + error.message);

@@ -251,10 +251,10 @@
                         </a>
                     </div>
                 @else
-                    <div class="flex-1 flex items-center justify-center">
+                    <div class="flex-1 flex items-center justify-center opacity-60">
                         <x-empty-state text="Nenhum evento agendado.">
                             <x-slot:icon>
-                                <svg class="w-[2vw] h-[2vw] text-gray-300" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-off"><path d="M4.2 4.2l15.6 15.6"/><path d="M21 10V6a2 2 0 0 0-2-2h-3"/><path d="M3 6v14a2 2 0 0 0 2 2h14"/><path d="M8 2v4"/><path d="M16 2v2"/><path d="M3 10h9.5"/><path d="M16.5 20.5L21 16"/></svg>
+                                <svg class="text-gray-300 w-[1.5vw] h-[1.5vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendars-icon lucide-calendars"><path d="M12 2v2"/><path d="M15.726 21.01A2 2 0 0 1 14 22H4a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2"/><path d="M18 2v2"/><path d="M2 13h2"/><path d="M8 8h14"/><rect x="8" y="3" width="14" height="14" rx="2"/></svg>
                             </x-slot:icon>
                         </x-empty-state>
                     </div>
