@@ -37,7 +37,7 @@
                 $qtdEventos = count($dia['eventos']); 
             @endphp
 
-            <div class="flex-1 overflow-y-auto p-[0.1vw] custom-scrollbar">
+            <div class="flex-1 flex-col gap-[0.15vw] p-[0.1vw] custom-scrollbar">
                 @foreach($dia['eventos'] as $evento)
                     @if($loop->index + 1 <= $maxEventos)
                         <div class="cursor-pointer rounded-[0.21vw] px-[0.31vw] py-[0.15vw] truncate"

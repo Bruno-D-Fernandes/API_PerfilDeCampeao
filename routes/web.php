@@ -50,7 +50,7 @@ Route::prefix('clube')->name('clube.')->group(function () {
         ->name('minhas-oportunidades');
 
         Route::get('/minhas-oportunidades/{id}', [ClubeOportunidadeController::class, 'show'])
-        ->name('listas.show');
+        ->name('oportunidades.show');
 
         Route::get('/listas', function () {
             return view('clube.listas.index');
@@ -98,7 +98,7 @@ Route::prefix('clube')->name('clube.')->group(function () {
 Route::middleware(['auth:club'])->group(function () {
     Route::get('/usuario/{id}', [UserController::class, 'showProfilePage'])
         ->where('id', '[0-9]+')
-        ->name('usuario.perfil');
+        ->name('usuarios.perfil');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {

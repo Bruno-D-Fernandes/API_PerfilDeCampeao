@@ -19,7 +19,7 @@
 
                 </div>
 
-                <div class="absolute left-[3.33vw] top-full -translate-y-1/2 h-[5vw] w-[5vw] rounded-full bg-emerald-500 border-[0.425vw] border-white flex items-center justify-center overflow-hidden z-20">
+                <div class="absolute left-[3.33vw] top-full -translate-y-1/2 h-[5vw] w-[5vw] rounded-full bg-white border-[0.425vw] border-white flex items-center justify-center overflow-hidden z-20">
                         
                     @if($clube->fotoPerfilClube)
                         <img id="display-perfil" 

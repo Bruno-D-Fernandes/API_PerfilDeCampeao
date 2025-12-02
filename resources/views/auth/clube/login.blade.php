@@ -29,7 +29,7 @@
                     <div class="flex justify-between">
                         <x-checkbox color="green" label="Lembrar de mim"/>
 
-                        <a href="" class="text-md font-medium text-emerald-600/70 underline">
+                        <a href="" class="text-[0.83vw] font-medium text-emerald-600/70 underline">
                             Esqueceu sua senha?
                         </a>
                     </div>

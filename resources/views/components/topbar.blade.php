@@ -22,9 +22,6 @@
                 <nav class="flex items-center gap-[0.42vw] text-[0.63vw] font-medium text-gray-500 mb-[0.42vw]">
                     @foreach($breadcrumb as $key => $item)
                         @php
-                            // Aceita dois formatos:
-                            // 1) ['label' => 'Dashboard', 'url' => '...']
-                            // 2) 'Dashboard' => '...'
                             if (is_array($item)) {
                                 $label = $item['label'] ?? (is_string($key) ? $key : '');
                                 $url   = $item['url']   ?? null;
@@ -65,7 +62,6 @@
         </div>
 
         <div class="flex items-center gap-[0.83vw]">
-            {{-- Botão de notificações --}}
             <button 
                 type="button" 
                 onclick="openDrawer('notifications')" 
@@ -81,15 +77,35 @@
                 </span>
             </button>
 
-            {{-- Dropdown usuário --}}
             <div class="relative">
                 <button 
                     data-dropdown-toggle="dropdown-user" 
                     type="button" 
                     class="w-[10vw] flex items-center gap-[0.42vw] p-[0.42vw] bg-white rounded-[0.31vw] border-[0.052vw] border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all group duration-200 cursor-pointer focus:outline-none focus:ring-0"
                 >
-                    <div class="h-[1.46vw] w-[1.46vw] rounded-full bg-{{ $color }}/10 flex items-center justify-center text-{{ $color }} font-bold border-[0.1vw] border-white uppercase text-[0.73vw]">
-                        {{ substr($displayName, 0, 2) }}
+                    @php
+                        $foto = null;
+
+                        if ($user instanceof \App\Models\Clube) {
+                            $foto = $user->fotoPerfilClube ?? null;
+                        } elseif ($user instanceof \App\Models\Admin) {
+                            $foto = $user->foto ?? null;
+                        }
+                    @endphp
+
+                    <div class="h-[1.46vw] w-[1.46vw] rounded-full bg-{{ $color }}/10 flex items-center justify-center text-{{ $color }} font-bold border-[0.1vw] border-white uppercase text-[0.73vw] overflow-hidden">
+                        @if ($foto)
+                            <img 
+                                src="{{ asset('storage/' . $foto) }}" 
+                                alt="Foto de perfil" 
+                                class="h-full w-full object-cover"
+                            >
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-[1vw] w-[1vw]">
+                                <circle cx="12" cy="8" r="4" fill="currentColor" />
+                                <path d="M4 20c0-4 3-7 8-7s8 3 8 7" fill="none" stroke="currentColor" stroke-width="2" />
+                            </svg>
+                        @endif
                     </div>
 
                     <div class="text-left block min-w-0 flex-1 flex flex-col justify-between">
@@ -110,7 +126,7 @@
                 <div id="dropdown-user" class="z-50 hidden text-[0.83vw] list-none bg-white divide-y divide-gray-100 rounded-[0.21vw] shadow-lg w-[9.17vw]">
                     <ul class="p-[0.42vw]" role="none">
                         <li>
-                            <a href="#" class="block p-[0.42vw] text-[0.73vw] text-gray-700 hover:bg-gray-100 rounded-[0.31vw]">
+                            <a href="{{ $user instanceof App\Models\Clube ? route('clube.perfil', $user->id) : null      }}" class="block p-[0.42vw] text-[0.73vw] text-gray-700 hover:bg-gray-100 rounded-[0.31vw]">
                                 Meu Perfil
                             </a>
                         </li>
@@ -123,7 +139,6 @@
         </div>
     </div>
 
-    {{-- Drawer de notificações --}}
     <x-drawer id="notifications" width="max-w-[26.67vw]">
         <div class="flex flex-col gap-y-[0.42vw]">
             <div class="flex items-center justify-between">

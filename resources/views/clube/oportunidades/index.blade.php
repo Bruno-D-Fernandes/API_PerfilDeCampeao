@@ -78,7 +78,7 @@
 
         <x-slot:footer>
             <div class="w-full flex gap-x-[0.42vw] justify-end">
-                <x-button color="gray" size="md" onclick="closeModal('create-opportunity')">
+                <x-button color="gray" size="md" onclick="document.querySelector('#form-create').reset(); closeModal('create-opportunity')">
                     Cancelar
                 </x-button>
 
