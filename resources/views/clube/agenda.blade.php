@@ -265,7 +265,7 @@
                             </x-button>
                         </div>
                         <div class="flex gap-[0.63vw]">
-                            <x-button color="gray" size="md" onclick="closeModal('create-event')">
+                            <x-button color="gray" size="md" onclick="document.querySelector('#create-event-form').reset(); closeModal('create-event')">
                                 Cancelar
                             </x-button>
 
@@ -440,7 +440,7 @@
                             </x-button>
                         </div>
                         <div class="flex gap-[0.63vw]">
-                            <x-button color="gray" size="md" onclick="closeModal('edit-event')">
+                            <x-button color="gray" size="md" onclick="document.querySelector('#edit-event-form').reset(); closeModal('edit-event')">
                                 Cancelar
                             </x-button>
 
@@ -616,15 +616,23 @@
         });
 
         function eventChangeStep(direction) {
+            const newStep = evtCurrentStep + direction;
+
+            if (newStep < 1 || newStep > evtTotalSteps) {
+                return;
+            }
+
             if (direction === 1 && !validateEventStep(evtCurrentStep)) {
                 return;
             }
 
-            document.getElementById(`evt-step-${evtCurrentStep}`).classList.add('hidden');
-            
-            evtCurrentStep += direction;
-            
-            document.getElementById(`evt-step-${evtCurrentStep}`).classList.remove('hidden');
+            const currentDiv = document.getElementById(`evt-step-${evtCurrentStep}`);
+            const nextDiv = document.getElementById(`evt-step-${newStep}`);
+
+            if (currentDiv) currentDiv.classList.add('hidden');
+            if (nextDiv) nextDiv.classList.remove('hidden');
+
+            evtCurrentStep = newStep;
 
             updateEventUI();
         }
@@ -906,15 +914,23 @@
         }
 
         function editEventChangeStep(direction) {
+            const newStep = editEvtCurrentStep + direction;
+
+            if (newStep < 1 || newStep > editEvtTotalSteps) {
+                return;
+            }
+
             if (direction === 1 && !validateEditEventStep(editEvtCurrentStep)) {
                 return;
             }
 
-            document.getElementById(`edit-evt-step-${editEvtCurrentStep}`).classList.add('hidden');
-            
-            editEvtCurrentStep += direction;
-            
-            document.getElementById(`edit-evt-step-${editEvtCurrentStep}`).classList.remove('hidden');
+            const currentDiv = document.getElementById(`edit-evt-step-${editEvtCurrentStep}`);
+            const nextDiv = document.getElementById(`edit-evt-step-${newStep}`);
+
+            if (currentDiv) currentDiv.classList.add('hidden');
+            if (nextDiv) nextDiv.classList.remove('hidden');
+
+            editEvtCurrentStep = newStep;
 
             updateEditEventUI();
         }

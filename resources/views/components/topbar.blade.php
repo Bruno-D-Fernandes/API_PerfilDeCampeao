@@ -126,7 +126,7 @@
                 <div id="dropdown-user" class="z-50 hidden text-[0.83vw] list-none bg-white divide-y divide-gray-100 rounded-[0.21vw] shadow-lg w-[9.17vw]">
                     <ul class="p-[0.42vw]" role="none">
                         <li>
-                            <a href="#" class="block p-[0.42vw] text-[0.73vw] text-gray-700 hover:bg-gray-100 rounded-[0.31vw]">
+                            <a href="{{ $user instanceof App\Models\Clube ? route('clube.perfil', $user->id) : null      }}" class="block p-[0.42vw] text-[0.73vw] text-gray-700 hover:bg-gray-100 rounded-[0.31vw]">
                                 Meu Perfil
                             </a>
                         </li>

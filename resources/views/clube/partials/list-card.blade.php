@@ -52,7 +52,7 @@
 
         <x-slot:footer>
             <div class="w-full flex gap-x-[0.42vw] justify-end">
-                <x-button color="gray" size="md" onclick="closeModal('delete-list-{{ $item->id }}')">Cancelar</x-button>
+                <x-button color="gray" size="md" onclick="document.querySelector('#edit-list-{{ $item->id }}-form').reset(); closeModal('edit-list-{{ $item->id }}')">Cancelar</x-button>
                 <x-button color="red" size="md" onclick="deleteListAjax({{ $item->id }}, 'delete-list-{{ $item->id }}')">Sim, excluir</x-button>
             </div>
         </x-slot:footer>
