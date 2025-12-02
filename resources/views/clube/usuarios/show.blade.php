@@ -42,7 +42,7 @@
                                 Adicionar à lista
                             </x-button>
 
-                            <x-button color="clube" size="md" onclick="openModal('edit-profile')">
+                            <x-button color="clube" size="md" id="btnEnviarMsg" data-id="{{ $usuario->id }}" data-type="Usuario">
                                 Enviar mensagem
                             </x-button>
                         </div>
@@ -188,6 +188,48 @@
     </div>
         
     <script>
+
+    document.getElementById("btnEnviarMsg").addEventListener("click", async function () {
+    const receiverId = this.getAttribute("data-id");
+    const receiverType = this.getAttribute("data-type");
+    const token = localStorage.getItem('clube_token');
+
+    const mensagemPadrao = "Seu perfil me chamou a atenção, podemos conversar?";
+
+    try {
+        const response = await fetch("/api/chat/send", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                receiver_id: receiverId,
+                receiver_type: 'usuario',
+                message: mensagemPadrao
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error(data);
+            alert("Erro ao enviar mensagem.");
+            return;
+        }
+
+        // A conversa já existe ou acabou de ser criada.
+        const conversationId = data.data.conversation_id;
+
+        // Redirecionar para o chat
+        window.location.href = `/clube/mensagens`;
+
+    } catch (error) {
+        console.error(error);
+        alert("Erro inesperado.");
+    }
+});
         function showProfileLoading() {
             document.getElementById('profile-loading').classList.remove('hidden');
         }
