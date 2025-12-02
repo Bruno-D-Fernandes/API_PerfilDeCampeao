@@ -265,7 +265,7 @@
                             </x-button>
                         </div>
                         <div class="flex gap-[0.63vw]">
-                            <x-button color="gray" size="md" onclick="closeModal('create-event')">
+                            <x-button color="gray" size="md" onclick="document.querySelector('#create-event-form').reset(); closeModal('create-event')">
                                 Cancelar
                             </x-button>
 
@@ -440,7 +440,7 @@
                             </x-button>
                         </div>
                         <div class="flex gap-[0.63vw]">
-                            <x-button color="gray" size="md" onclick="closeModal('edit-event')">
+                            <x-button color="gray" size="md" onclick="document.querySelector('#edit-event-form').reset(); closeModal('edit-event')">
                                 Cancelar
                             </x-button>
 
@@ -462,6 +462,37 @@
                 </x-slot:footer>
             </div>
         </x-modal>
+
+        <x-modal maxWidth="sm" name="delete-event" title="Excluir evento" titleSize="xl" titleColor="red">
+    <div class="flex flex-col gap-[0.63vw]">
+        <p class="text-[0.83vw] text-gray-700">
+            Tem certeza que deseja excluir este evento?
+            <br>
+            <span class="text-[0.73vw] text-gray-500">
+                Essa ação não pode ser desfeita.
+            </span>
+        </p>
+    </div>
+
+    <x-slot:footer>
+        <div class="w-full flex justify-end gap-[0.42vw]">
+            <x-button color="gray" size="md" onclick="closeModal('delete-event')">
+                Cancelar
+            </x-button>
+
+            <x-button 
+                id="delete-event-confirm-btn"
+                color="red" 
+                size="md" 
+                type="button"
+                onclick="confirmDeleteEvent()"
+            >
+                Excluir
+            </x-button>
+        </div>
+    </x-slot:footer>
+</x-modal>
+
 
         <x-modal maxWidth="2xl" name="show-event" title="Detalhes do Evento" titleSize="2xl" titleColor="green">
             <div class="flex flex-col gap-[0.83vw] p-[0.21vw]">
@@ -563,6 +594,13 @@
     <script>
         let evtCurrentStep = 1;
         const evtTotalSteps = 2;
+        let deleteEventId = null;
+
+        function openDeleteEventModal(eventId) {
+            deleteEventId = eventId;
+            openModal('delete-event');
+        }
+
 
         document.addEventListener('DOMContentLoaded', () => {
             updateEventUI();
@@ -578,15 +616,23 @@
         });
 
         function eventChangeStep(direction) {
+            const newStep = evtCurrentStep + direction;
+
+            if (newStep < 1 || newStep > evtTotalSteps) {
+                return;
+            }
+
             if (direction === 1 && !validateEventStep(evtCurrentStep)) {
                 return;
             }
 
-            document.getElementById(`evt-step-${evtCurrentStep}`).classList.add('hidden');
-            
-            evtCurrentStep += direction;
-            
-            document.getElementById(`evt-step-${evtCurrentStep}`).classList.remove('hidden');
+            const currentDiv = document.getElementById(`evt-step-${evtCurrentStep}`);
+            const nextDiv = document.getElementById(`evt-step-${newStep}`);
+
+            if (currentDiv) currentDiv.classList.add('hidden');
+            if (nextDiv) nextDiv.classList.remove('hidden');
+
+            evtCurrentStep = newStep;
 
             updateEventUI();
         }
@@ -868,15 +914,23 @@
         }
 
         function editEventChangeStep(direction) {
+            const newStep = editEvtCurrentStep + direction;
+
+            if (newStep < 1 || newStep > editEvtTotalSteps) {
+                return;
+            }
+
             if (direction === 1 && !validateEditEventStep(editEvtCurrentStep)) {
                 return;
             }
 
-            document.getElementById(`edit-evt-step-${editEvtCurrentStep}`).classList.add('hidden');
-            
-            editEvtCurrentStep += direction;
-            
-            document.getElementById(`edit-evt-step-${editEvtCurrentStep}`).classList.remove('hidden');
+            const currentDiv = document.getElementById(`edit-evt-step-${editEvtCurrentStep}`);
+            const nextDiv = document.getElementById(`edit-evt-step-${newStep}`);
+
+            if (currentDiv) currentDiv.classList.add('hidden');
+            if (nextDiv) nextDiv.classList.remove('hidden');
+
+            editEvtCurrentStep = newStep;
 
             updateEditEventUI();
         }
@@ -1153,7 +1207,9 @@
                 
                 const modalContent = document.querySelector(`[name="${modalName}"] .flex.flex-col.gap-\\[0\\.83vw\\]`);
                 
-                const acceptedCount = 0; 
+                const acceptedCount = Array.isArray(event.convites)
+                ? event.convites.length
+                : 0 
                 const limit = event.limite_participantes;
                 const confirmedText = limit ? `${acceptedCount}/${limit}` : `${acceptedCount} (sem limite)`;
 

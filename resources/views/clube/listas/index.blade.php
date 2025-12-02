@@ -39,7 +39,7 @@
 
         <x-slot:footer>
             <div class="w-full flex gap-x-[0.42vw] justify-end">
-                <x-button color="gray" size="md" onclick="resetAndClose('cr-list-form', 'create-list')">
+                <x-button color="gray" size="md" onclick="document.querySelector('#create-list-form').reset(); closeModal('create-list')">
                     Cancelar
                 </x-button>
 

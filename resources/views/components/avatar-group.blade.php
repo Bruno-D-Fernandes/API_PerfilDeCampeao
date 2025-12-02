@@ -12,7 +12,7 @@
 <div class="flex -space-x-[0.63vw]">
     @foreach(collect($items)->take($max) as $item)
         @php
-            $foto = data_get($item, 'usuario.fotoPerfilUsuario');
+            $foto = data_get($item, 'fotoPerfilUsuario');
         @endphp
 
         <x-avatar 

@@ -244,9 +244,11 @@
                             />
                         </div>
 
-                        <x-button color="clube" :full="true" class="mt-[0.21vw]">
-                            Ver agenda
-                        </x-button>
+                        <a href="{{ route('clube.agenda') }}">
+                            <x-button color="clube" :full="true" class="mt-[0.21vw]">
+                                Ver agenda
+                            </x-button>
+                        </a>
                     </div>
                 @else
                     <div class="flex-1 flex items-center justify-center">
