@@ -93,14 +93,9 @@ class OportunidadeSeeder extends Seeder
                 ->setMinute(rand(0, 59))
                 ->setSecond(0);
 
-            $idadeMin = null;
-            $idadeMax = null;
-
-            if (rand(0, 1)) {
-                $idadeMin = rand(12, 18);
-                $idadeMax = rand($idadeMin + 1, $idadeMin + 10);
-            }
-
+            $idadeMin = rand(12, 18);
+            $idadeMax = rand($idadeMin + 1, $idadeMin + 10);
+            
             $limiteInscricoes = rand(10, 60);
 
             $oportunidade = Oportunidade::create([
