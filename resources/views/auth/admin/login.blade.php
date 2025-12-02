@@ -26,13 +26,7 @@
 
                     </x-form-group>
 
-                    <div class="flex justify-between">
-                        <x-checkbox color="blue" label="Lembrar de mim"/>
-
-                        <a href="" class="text-md font-medium text-sky-600/70 underline">
-                            Esqueceu sua senha?
-                        </a>
-                    </div>
+                    <x-checkbox color="blue" label="Lembrar de mim"/>
 
                     <x-slot:actions>
                         <x-button type="submit" color="admin" size="xl" :full="true">

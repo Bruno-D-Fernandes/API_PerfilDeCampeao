@@ -50,26 +50,7 @@ class ClubeSeeder extends Seeder
             'fotoPerfilClube' => 'imagens_seeder/flamengo_perfil.png',
             'status'          => 'ativo',
         ]);
-
-        // São Paulo
-        Clube::firstOrCreate([
-            'nomeClube' => 'São Paulo FC',
-        ], [
-            'nomeClube'       => 'São Paulo FC',
-            'cnpjClube'       => '60.567.697/0001-04',
-            'emailClube'      => 'contato@saopaulofc.com.br',
-            'cidadeClube'     => 'São Paulo',
-            'estadoClube'     => 'SP',
-            'anoCriacaoClube' => '1930-01-25',
-            'enderecoClube'   => 'Praça Roberto Gomes Pedrosa, 1 - Morumbi',
-            'bioClube'        => 'Um dos maiores clubes do Brasil, tricampeão mundial.',
-            'senhaClube'      => Hash::make('spfc123'),
-            'categoria_id'    => 2,
-            'esporte_id'      => 1,
-            'fotoPerfilClube' => 'imagens_seeder/saopaulo_perfil.png',
-            'status'          => 'ativo',
-        ]);
-
+        
         // Palmeiras
         Clube::firstOrCreate([
             'nomeClube' => 'SE Palmeiras',

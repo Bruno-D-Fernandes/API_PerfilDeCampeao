@@ -15,8 +15,6 @@
                                 <circle cx="9" cy="9" r="2"/>
                                 <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
                             </svg>
-
-                            <img id="display-banner" class="hidden w-full h-full object-cover">
                         @endif
                     </div>
 
@@ -31,7 +29,6 @@
                                 <path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/>
                                 <circle cx="12" cy="13" r="3"/>
                             </svg>
-                            <img id="display-perfil" class="hidden w-full h-full object-cover">
                         @endif
 
                     </div>
@@ -89,11 +86,27 @@
                                         @php
                                             $primaryMedia = optional($post->imagens->first());
 
-                                            $mediaPath = $primaryMedia->url
+                                            $rawMediaPath = $primaryMedia->caminhoImagem
+                                                ?? $primaryMedia->url
                                                 ?? $primaryMedia->caminho
                                                 ?? $primaryMedia->path
                                                 ?? $primaryMedia->arquivo
                                                 ?? null;
+
+                                            // Normalizar o caminho: se for relativo, adicionar asset()
+                                            $mediaPath = null;
+                                            if ($rawMediaPath) {
+                                                if (strpos($rawMediaPath, 'http') === 0) {
+                                                    $mediaPath = $rawMediaPath;
+                                                } else {
+                                                    // Remover 'storage/' duplicado e usar asset()
+                                                    $cleanPath = ltrim($rawMediaPath, '/');
+                                                    if (strpos($cleanPath, 'storage/') !== 0) {
+                                                        $cleanPath = 'storage/' . $cleanPath;
+                                                    }
+                                                    $mediaPath = asset($cleanPath);
+                                                }
+                                            }
 
                                             $videoExtensions = ['mp4', 'webm', 'ogg', 'ogv', 'mov', 'm4v'];
 
