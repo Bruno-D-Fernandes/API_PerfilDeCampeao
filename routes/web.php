@@ -116,6 +116,9 @@ Route::post('/dashboard/oportunidades/recusar', [DashAdminController::class, 're
 
     Route::get('/oportunidades', [AdminOportunidadesController::class, 'index'])->name('oportunidades');
 
+    Route::post('/clube/aprovar', [DashAdminController::class, 'clubesAprovar'])->name('clube.aprovar');
+
+
     // rotas JSON que o Alpine usa
     Route::prefix('oportunidades-json')->group(function () {
         Route::get('/metrics', [AdminOportunidadesController::class, 'metrics'])->name('oportunidades.metrics');

@@ -448,53 +448,53 @@
                         </div>
 
                         <div class="bg-white p-[0.83vw] rounded-lg border border-[0.15vw] border-gray-200 hover:border-sky-500 transition-colors flex-1 flex flex-col gap-[0.415vw]">
-                            <span class="text-[0.83vw] font-medium text-gray-700">
-                                Clubes mais ativos
-                            </span>
+    <span class="text-[0.83vw] font-medium text-gray-700">
+        Clubes Pendentes
+    </span>
 
-                            @php
-                                $clubIcon = '<svg class="h-[0.83vw] w-[0.83vw] text-sky-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-icon lucide-building"><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>';
-                                
-                                $oppIconSmall = '<svg class="h-[0.63vw] w-[0.63vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone-icon lucide-megaphone"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></svg>';
-                            @endphp
+    <div class="flex flex-col gap-[0.42vw] overflow-y-auto h-full">
+        @forelse($clubesPendentes as $clube)
+            <div class="flex items-center gap-x-[0.63vw] p-[0.42vw] border-b border-gray-100 last:border-b-0 group"  x-data="{ openModal: false }">
+                
+                {{-- FOTO DO CLUBE --}}
+                <img src="{{ asset('storage/' . ($clube->fotoPerfilClube ?? 'img/default.png')) }}"
+                class="h-[2.2vw] w-[2.2vw] rounded-full object-cover">
+                
+                {{-- NOME E DATA --}}
+                <div class="flex-1 min-w-0 flex flex-col">
+                    <p class="text-[0.73vw] font-medium text-gray-700 truncate">
+                        {{ $clube->nomeClube }}
+                    </p>
+                    <p class="text-[0.63vw] text-gray-500 truncate">
+                        Criado em: {{ $clube->created_at->format('d/m/Y H:i') }}
+                    </p>
+                </div>
 
-                            <div class="flex flex-col gap-[0.42vw] overflow-y-auto h-full">
-                                @forelse($listaClubesTop as $clube)
-                                    <div class="flex items-center gap-x-[0.63vw] p-[0.42vw] border-b border-gray-100 last:border-b-0 group">
-                                        <div class="flex-shrink-0 bg-sky-50 p-2 rounded-full group-hover:bg-sky-100 transition-colors">
-                                            {!! $clubIcon !!}
-                                        </div>
+                <x-icon-button
+                    color="red"
+                >
+                                                <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                                            </x-icon-button>
 
-                                        <div class="flex-1 min-w-0 flex flex-col">
-                                            <p class="text-[0.73vw] font-medium text-gray-700 truncate" title="{{ $clube->nomeClube }}">
-                                                {{ $clube->nomeClube }}
-                                            </p>
-                                            <p class="text-[0.63vw] text-gray-500 truncate">
-                                                {{ $clube->cidadeClube }} - {{ $clube->estadoClube }}
-                                            </p>
-                                        </div>
-
-                                        <div class="flex-shrink-0 flex items-center gap-x-[0.32vw]">
-                                            {!! $oppIconSmall !!}
-                                            <span class="text-[0.63vw] font-medium text-gray-500">
-                                                {{ $clube->oportunidades_count }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <div class="p-[0.83vw] flex items-center justify-center h-full">
-                                        <x-empty-state text="Nenhum clube em destaque.">
-                                            <x-slot:icon>
-                                                <svg class="h-[1.67vw] w-[1.67vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon lucide-trophy"><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-                                            </x-slot:icon>
-                                            <p class="text-gray-400 font-normal text-[0.83vw]">
-                                                Ainda não há dados suficientes para ranking.
-                                            </p>
-                                        </x-empty-state>
-                                    </div>
-                                @endforelse
-                            </div>
-                        </div>
+                {{-- BOTÃO APROVAR --}}
+                <form action="{{ route('admin.clube.aprovar') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="clube_id" value="{{ $clube->id }}">
+                    <x-icon-button
+                        color="green"
+                        onclick="this.closest('form').submit();"
+                    >
+                        <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                    </x-icon-button>
+                </form>
+            </div>
+        @empty
+            <div class="p-[0.83vw] flex items-center justify-center h-full">
+                <p class="text-gray-400 text-[0.83vw]">Nenhum clube pendente.</p>
+            </div>
+        @endforelse
+    </div>
+</div>
                     </div>
 
                     <div class="col-span-7 flex flex-col gap-[0.83vw]">

@@ -365,7 +365,7 @@
     const avatarUrl = conv.contact?.avatar || defaultAvatarUrl;
 
     return `
-        <div class="conversation-item flex items-center justify-between bg-gray-50 rounded-[0.42vw] hover:bg-gray-100 transition-colors cursor-pointer p-[0.42vw]"
+        <div class="conversation-item flex items-center justify-between bg-gray-100 rounded-[1vw] hover:bg-gray-100 transition-colors cursor-pointer p-[0.42vw] mt-[0.31vw]"
              data-conversation-id="${conv.conversation_id}">
             <div class="flex items-center gap-x-[0.42vw] w-full">
                 <div class="h-[2.08vw] w-[2.08vw] aspect-square rounded-full bg-gray-200 overflow-hidden">

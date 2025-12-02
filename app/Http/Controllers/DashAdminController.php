@@ -217,6 +217,17 @@ class DashAdminController extends Controller
                     'status',
                     'oportunidades_count',
                 ]);
+            $clubesPendentes = Clube::query()
+                ->where('status', 'pendente')
+                ->orderByDesc('created_at')
+                ->take(5)
+                ->get([
+                    'id',
+                    'nomeClube',
+                    'fotoPerfilClube',
+                    'created_at',
+                    'status',
+                ]);
 
             $recentOportunidades = Oportunidade::query()
                 ->with(['clube:id,nomeClube', 'esporte:id,nomeEsporte'])
@@ -272,6 +283,7 @@ class DashAdminController extends Controller
                 'listaClubesTop',
                 'atividadesRecentes',
                 'oportunidadesPendentes',
+                'clubesPendentes',
             ));
         } catch (\Exception $e) {
             return response()->json([
@@ -317,5 +329,18 @@ class DashAdminController extends Controller
     return redirect()
         ->route('admin.dashboard')
         ->with('success', 'Oportunidade recusada com sucesso.');
+}
+
+public function clubesAprovar(Request $request){
+    $data = $request->validate([
+        'clube_id' => 'required|exists:clubes,id',
+    ]);
+    $clube = Clube::findOrFail($data['clube_id']);
+    $clube->status = 'ativo';
+    $clube->save();
+
+    return redirect()
+        ->route('admin.dashboard')
+        ->with('success', 'Clube aprovado com sucesso.');
 }
 }
