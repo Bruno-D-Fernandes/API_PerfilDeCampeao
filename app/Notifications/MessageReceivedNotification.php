@@ -46,7 +46,7 @@ class MessageReceivedNotification extends Notification
 
 
         if ($receiver instanceof Usuario) {
-            return new PrivateChannel('notifications.user.' . $receiver->id);
+            return new PrivateChannel('notification.user.' . $receiver->id);
         }
 
         if ($receiver instanceof Clube) {
