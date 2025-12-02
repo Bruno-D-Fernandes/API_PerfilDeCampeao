@@ -577,7 +577,7 @@
                                     </span>
                                 </div>
 
-                                <p class="text-[0.73vw] py-[0.31vw] text-white text-right break-all whitespace-pre-wrap">
+                                <p class="text-[0.73vw] py-[0.31vw] text-white text-right break-all my-1">
                                     ${text}
                                 </p>
 
@@ -608,7 +608,7 @@
                                 </span>
                             </div>
 
-                            <p class="text-[0.73vw] py-[0.31vw] text-gray-900 text-left break-all whitespace-pre-wrap" style="text-align:left;">
+                            <p class="text-[0.73vw] py-[0.31vw] text-gray-900 text- break-all my-1" style="text-align:left;">
                                 ${text}
                             </p>
 
