@@ -1,4 +1,32 @@
 <x-layouts.base :title="$title">
+    <div id="toast-notification-container" class="fixed top-[0.83vw] right-[0.83vw] z-[31] flex flex-col gap-[0.42vw] pointer-events-none">
+        {{-- Notificação - Boa sorte Luan --}}
+        <div
+            id="toast-notification"
+            class=" h-[4.58vw] max-w-[28vw] bg-white shadow-md rounded-[0.42vw] flex items-center justify-between p-[0.83vw] z-[31] opacity-100 transition-opacity duration-300"
+        >
+            <div class="flex items-center gap-x-[0.42vw]">
+                <div class="h-[2.92vw] w-[2.92vw] aspect-square rounded-[0.31vw] bg-gray-100 flex items-center justify-center">
+                    <svg class="h-[1.25vw] w-[1.25vw] text-emerald-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+                        <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
+                        <path d="M8 6v8"/>
+                    </svg>
+                </div>
+
+                <div class="h-full w-full flex flex-col justify-between">
+                    <h3 class="text-[0.73vw] font-medium text-emerald-700 break-all">
+                        Um administrador do sistema recusou a sua oportunidade
+                    </h3>
+
+                    <h4 class="text-[0.63vw] font-normal text-emerald-900">
+                        Agora
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <x-sidebar>
         @php
             $clube = auth()->guard('club')->user();
@@ -101,4 +129,67 @@
             </div>
         </x-slot:footer>
     </x-modal>
+
+    @if($clube && $clube->hasIncompleteProfile())
+        <div class="fixed bottom-[0.83vw] left-[17.35vw] h-[4.58vw] bg-white shadow-md rounded-[0.42vw] flex items-center justify-between p-[0.83vw] z-[10] opacity-100 transition-opacity duration-300" id="notifications-container">
+            <div class="flex-1 flex items-center gap-[0.83vw]">
+                <div class="!h-[2.91vw] aspect-square bg-emerald-500 rounded-[0.43vw] flex items-center justify-center">
+                    <svg class="h-[1.25vw] w-[1.25vw] text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-alert-icon lucide-circle-alert"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                </div>
+
+                <div class="flex flex-col justify-between flex-1">
+                    <h1 class="p-0 font-semibold text-[1.23vw] text-gray-800">
+                        Complete seu perfil 
+                    </h1>
+
+                    <h2 class="font-medium text-[0.83vw] text-gray-500">
+                        Para melhorar sua experiência, por favor, complete todas as seções do seu perfil.
+                    </h2>
+                </div>
+
+                <div class="h-full flex items-center">
+                    <x-button size="md" color="none" class="bg-emerald-500 hover:bg-emerald-600 text-white">
+                        Ir pro perfil
+                    </x-button>
+                </div>
+
+                <div class="!h-[2.91vw] aspect-square flex items-center justify-center" onclick="hideNotification()">
+                    <svg class="cursor-pointer h-[1.67vw] w-[1.67vw] text-gray-300 hover:text-gray-400 transition-colors" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <script>
+        function hideNotification() {
+            const el = document.getElementById('notifications-container');
+
+            if (!el) return;
+
+            el.classList.remove('opacity-100');
+            el.classList.add('opacity-0');
+
+            setTimeout(() => {
+                el.remove();
+            }, 300);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const toast = document.getElementById('toast-notification');
+
+            if (!toast) return;
+
+            const visibleTime = 3000;
+            const fadeDuration = 300;
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+
+                setTimeout(() => {
+                    toast.remove();
+                }, fadeDuration);
+            }, visibleTime);
+        });
+    </script>
 </x-layouts.base>

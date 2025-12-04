@@ -51,13 +51,23 @@
                 </div>
 
                 <x-form-group label="Estado" name="estadoUsuario" type="select" id="estado_select" labelColor="white" class="!h-[2vw] leading-tight">
-                    <option value="">Todos</option>
-                    <option value="SP">São Paulo</option>
+                    @php
+                        $ufs = [
+                            'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA',
+                            'MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN',
+                            'RS','RO','RR','SC','SP','SE','TO'
+                        ];
+                    @endphp
+
+                    <option value="">UF</option>
+
+                    @foreach($ufs as $uf)
+                        <option value="{{ $uf }}">{{ $uf }}</option>
+                    @endforeach
                 </x-form-group>
 
                 <x-form-group label="Cidade" name="cidadeUsuario" type="select" id="cidade_select" labelColor="white" class="!h-[2vw] leading-tight">
                     <option value="">Todas</option>
-                    <option value="Campinas">Campinas</option>
                 </x-form-group>
             </div>
 
@@ -151,6 +161,92 @@
 
     const esporteSelect = getSelectElement('modalidade_select');
     const posicaoSelect = getSelectElement('posicao_select');
+
+    const estadoSelect = getSelectElement('estado_select');
+    const cidadeSelect = getSelectElement('cidade_select');
+
+    const currentCidadeFromRequest = @json(request('cidadeUsuario'));
+
+    const citiesByState = {
+        'AC': ['Rio Branco', 'Cruzeiro do Sul', 'Sena Madureira', 'Tarauacá'],
+        'AL': ['Maceió', 'Arapiraca', 'Palmeira dos Índios', 'Rio Largo'],
+        'AP': ['Macapá', 'Santana', 'Laranjal do Jari', 'Oiapoque'],
+        'AM': ['Manaus', 'Parintins', 'Itacoatiara', 'Manacapuru'],
+        'BA': ['Salvador', 'Feira de Santana', 'Vitória da Conquista', 'Camaçari', 'Itabuna'],
+        'CE': ['Fortaleza', 'Caucaia', 'Juazeiro do Norte', 'Maracanaú', 'Sobral'],
+        'DF': ['Brasília', 'Taguatinga', 'Ceilândia', 'Gama', 'Sobradinho'],
+        'ES': ['Vitória', 'Vila Velha', 'Serra', 'Cariacica', 'Guarapari'],
+        'GO': ['Goiânia', 'Anápolis', 'Aparecida de Goiânia', 'Rio Verde', 'Luziânia'],
+        'MA': ['São Luís', 'Imperatriz', 'Caxias', 'Timon', 'Bacabal'],
+        'MT': ['Cuiabá', 'Várzea Grande', 'Rondonópolis', 'Sinop'],
+        'MS': ['Campo Grande', 'Dourados', 'Três Lagoas', 'Corumbá'],
+        'MG': [
+            'Belo Horizonte', 'Uberlândia', 'Contagem', 'Juiz de Fora',
+            'Montes Claros', 'Betim', 'Uberaba', 'Governador Valadares'
+        ],
+        'PA': ['Belém', 'Ananindeua', 'Santarém', 'Marabá', 'Castanhal'],
+        'PB': ['João Pessoa', 'Campina Grande', 'Patos', 'Bayeux'],
+        'PR': [
+            'Curitiba', 'Londrina', 'Maringá', 'Ponta Grossa',
+            'Cascavel', 'Foz do Iguaçu', 'São José dos Pinhais'
+        ],
+        'PE': ['Recife', 'Olinda', 'Jaboatão dos Guararapes', 'Caruaru', 'Petrolina'],
+        'PI': ['Teresina', 'Parnaíba', 'Picos', 'Floriano'],
+        'RJ': [
+            'Rio de Janeiro', 'Niterói', 'Campos dos Goytacazes', 'Petrópolis',
+            'Volta Redonda', 'Duque de Caxias', 'Nova Iguaçu', 'São Gonçalo'
+        ],
+        'RN': ['Natal', 'Mossoró', 'Parnamirim', 'Caicó'],
+        'RS': [
+            'Porto Alegre', 'Caxias do Sul', 'Pelotas', 'Canoas',
+            'Santa Maria', 'Novo Hamburgo', 'Gravataí'
+        ],
+        'RO': ['Porto Velho', 'Ji-Paraná', 'Ariquemes', 'Cacoal'],
+        'RR': ['Boa Vista', 'Rorainópolis', 'Caracaraí'],
+        'SC': [
+            'Florianópolis', 'Joinville', 'Blumenau', 'Chapecó',
+            'Itajaí', 'Criciúma', 'Lages'
+        ],
+        'SP': [
+            'São Paulo', 'Campinas', 'Santos', 'Sorocaba', 'Ribeirão Preto',
+            'São José dos Campos', 'Guarulhos', 'Osasco', 'Barueri',
+            'Jundiaí', 'Piracicaba', 'Bauru'
+        ],
+        'SE': ['Aracaju', 'Nossa Senhora do Socorro', 'Lagarto'],
+        'TO': ['Palmas', 'Araguaína', 'Gurupi']
+    };
+
+    function updateCidades() {
+        if (!cidadeSelect) return;
+
+        const uf = estadoSelect ? estadoSelect.value : '';
+
+        cidadeSelect.innerHTML = '<option value="">Todas</option>';
+
+        if (!uf || !citiesByState[uf]) return;
+
+        const cidades = citiesByState[uf];
+
+        cidades.forEach(cidade => {
+            const option = document.createElement('option');
+            option.value = cidade;
+            option.textContent = cidade;
+
+            if (cidade === currentCidadeFromRequest) {
+                option.selected = true;
+            }
+
+            cidadeSelect.appendChild(option);
+        });
+    }
+
+    if (estadoSelect) {
+        estadoSelect.addEventListener('change', function () {
+            updateCidades();
+        });
+
+        updateCidades();
+    }
     
     function updatePosicoes() {
         if (!posicaoSelect || !esporteSelect) {
