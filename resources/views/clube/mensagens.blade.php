@@ -8,7 +8,6 @@
     @endphp
 
     <div class="flex w-full gap-x-[1.25vw] flex-1 min-h-0 h-full">
-        {{-- COLUNA ESQUERDA: LISTA DE CONVERSAS --}}
         <div class="flex-1 bg-white w-[33.33vw] border border-[0.052vw] border-gray-300 rounded-[0.63vw] p-[0.63vw] flex flex-col gap-[0.63vw]
                     max-h-[calc(100vh-9rem)] min-h-[24rem]">
             <div class="w-full">
@@ -27,11 +26,8 @@
             </div>
         </div>
 
-        {{-- COLUNA DIREITA: CHAT ABERTO --}}
         <div class="flex-[3] flex flex-col bg-white w-full border border-[0.052vw] border-gray-300 rounded-[0.63vw] p-[0.63vw] gap-[0.63vw]
-                    max-h-[calc(100vh-9rem)] min-h-[24rem]">
-            
-            {{-- HEADER DO CONTATO --}}
+        h-full min-h-[24rem]">
             <div class="flex items-center gap-x-[0.42vw]">
                 <div class="w-[2.08vw] h-[2.08vw] rounded-full bg-gray-200 overflow-hidden" id="chat-contact-avatar"></div>
                 <span class="text-[0.73vw] font-semibold" id="chat-contact-name">
@@ -52,7 +48,6 @@
 
             <div class="w-full border-t-[0.052vw] border-gray-200"></div>
 
-            {{-- INPUT DE MENSAGEM --}}
             <div>
                 <form id="chat-send-form">
                     <x-message-input name="message" placeholder="Digite sua mensagem..." />
@@ -61,7 +56,6 @@
         </div>
     </div>
 
-    {{-- MODAL: ENVIAR CONVITE DE EVENTO --}}
     <x-modal maxWidth="xl" name="send-invite-modal" title="Enviar Convite" titleSize="[1.04vw]" titleColor="emerald">
         <div class="flex flex-col gap-[0.83vw]">
             <x-search-input placeholder="Buscar eventos..."></x-search-input>

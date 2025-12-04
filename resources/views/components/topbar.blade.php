@@ -155,11 +155,23 @@
             
             <div class="w-full h-[2.08vw] bg-gray-50 rounded-[0.42vw] flex items-center justify-between">
                 <div class="flex items-center gap-x-[0.42vw] p-[0.42vw]">
-                    <x-button color="none" class="pl-0 pr-0 border-none font-semibold bg-transparent text-emerald-600">
+                    <x-button
+                        color="none"
+                        type="button"
+                        class="pl-0 pr-0 border-none bg-transparent tab-btn font-semibold text-emerald-600"
+                        data-tab-group="notifications-tabs"
+                        data-tab-target="all"
+                    >
                         Todas
                     </x-button>
 
-                    <x-button color="none" class="pl-0 pr-0 border-none font-medium bg-transparent text-emerald-800">
+                    <x-button
+                        color="none"
+                        type="button"
+                        class="pl-0 pr-0 border-none bg-transparent tab-btn font-medium text-emerald-800"
+                        data-tab-group="notifications-tabs"
+                        data-tab-target="unread"
+                    >
                         Não lidas (10)
                     </x-button>
                 </div>
@@ -175,7 +187,11 @@
                 </x-button>
             </div>
 
-            <div class="flex flex-col gap-y-[0.42vw]">
+            <div
+                class="flex flex-col gap-y-[0.42vw] tab-panel"
+                data-tab-panel-group="notifications-tabs"
+                data-tab-panel="all"
+            >
                 <span class="text-[0.73vw] text-gray-900 uppercase tracking-tight font-semibold">
                     Hoje
                 </span>
@@ -183,6 +199,7 @@
                 <div class="flex flex-col gap-y-[0.42vw]">
                     <div class="flex items-center gap-x-[0.42vw]">
                         <div class="h-[2.92vw] w-[2.92vw] aspect-square rounded-[0.31vw] bg-gray-100 flex items-center justify-center">
+                            {{-- ícone --}}
                             <svg class="h-[1.25vw] w-[1.25vw] text-emerald-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
                                 <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
@@ -202,6 +219,71 @@
                     </div>
                 </div>
             </div>
+
+            <div
+                class="flex flex-col gap-y-[0.42vw] tab-panel hidden"
+                data-tab-panel-group="notifications-tabs"
+                data-tab-panel="unread"
+            >
+                <span class="text-[0.73vw] text-gray-900 uppercase tracking-tight font-semibold">
+                    Não lidas
+                </span>
+
+                <div class="flex flex-col gap-y-[0.42vw]">
+                    <div class="flex items-center gap-x-[0.42vw]">
+                        <div class="h-[2.92vw] w-[2.92vw] aspect-square rounded-[0.31vw] bg-gray-100 flex items-center justify-center">
+                            <svg class="h-[1.25vw] w-[1.25vw] text-emerald-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+                                <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
+                                <path d="M8 6v8"/>
+                            </svg>
+                        </div>
+
+                        <div class="h-full w-full flex flex-col justify-between">
+                            <h3 class="text-[0.73vw] font-medium text-emerald-700">
+                                Notificação não lida de exemplo.
+                            </h3>
+
+                            <h4 class="text-[0.63vw] font-normal text-emerald-900">
+                                10 de Outubro às 14:10h
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </x-drawer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabButtons = document.querySelectorAll('[data-tab-group="notifications-tabs"]');
+            const tabPanels  = document.querySelectorAll('[data-tab-panel-group="notifications-tabs"]');
+
+            function activateTab(targetName) {
+                tabButtons.forEach(btn => {
+                    const isActive = btn.dataset.tabTarget === targetName;
+
+                    btn.classList.toggle('font-semibold', isActive);
+                    btn.classList.toggle('font-medium', !isActive);
+
+                    btn.classList.toggle('text-emerald-600', isActive);
+                    btn.classList.toggle('text-emerald-800', !isActive);
+                });
+
+                tabPanels.forEach(panel => {
+                    const isActive = panel.dataset.tabPanel === targetName;
+                    panel.classList.toggle('hidden', !isActive);
+                });
+            }
+
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const target = this.dataset.tabTarget;
+                    activateTab(target);
+                });
+            });
+
+            activateTab('all');
+        });
+    </script>
 </nav>

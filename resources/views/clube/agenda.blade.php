@@ -79,9 +79,9 @@
                         </div>
                     </div>
                     <div>
-                        <button class="bg-white text-emerald-500 px-[0.83vw] py-[0.42vw] rounded-[0.21vw] font-medium" onclick="openModal('create-event')">
+                        <x-button color="none" class="cursor-pointer bg-white text-emerald-500 !text-[0.83vw] !px-[0.83vw] !py-[0.42vw] !rounded-[0.21vw] !font-medium" onclick="openModal('create-event')">
                             Adicionar novo evento
-                        </button>
+                        </x-button>
                     </div>
                 </div>
             </div>
@@ -237,15 +237,24 @@
                                 </x-slot:icon>
                             </x-form-group>
 
-                            <x-form-group label="Estado" name="estado" id="evt-estado" labelColor="green" required>
+                            <x-form-group type="select" label="Estado" name="estado" id="evt-estado" labelColor="green" required>
                                 <x-slot:icon>
                                     <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                                 </x-slot:icon>
 
+                                @php
+                                    $ufs = [
+                                        'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA',
+                                        'MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN',
+                                        'RS','RO','RR','SC','SP','SE','TO'
+                                    ];
+                                @endphp
+
                                 <option value="">UF</option>
-                                <option value="SP">SP</option>
-                                <option value="RJ">RJ</option>
-                                <option value="MG">MG</option>
+
+                                @foreach($ufs as $uf)
+                                    <option value="{{ $uf }}">{{ $uf }}</option>
+                                @endforeach
                             </x-form-group>
                         </div>
 

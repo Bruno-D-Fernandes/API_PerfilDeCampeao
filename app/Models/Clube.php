@@ -69,13 +69,16 @@ class Clube extends Authenticatable
     {
         return $query->where('status', self::STATUS_ATIVO);
     }
+
     public function scopePendentes($query)
     {
         return $query->where('status', self::STATUS_PENDENTE);
     }
+
     public function scopeRejeitados($query){
         return $query->where('status', self::STATUS_REJEITADO);
     }
+
     public function scopeBloqueados($query){
         return $query->where('status', self::STATUS_BLOQUEADO);
     }
@@ -154,5 +157,31 @@ class Clube extends Authenticatable
     public function username()
     {
         return 'cnpjClube';
+    }
+
+    public function hasIncompleteProfile()
+    {
+        $required = [
+            'nomeClube',
+            'emailClube',
+            'cnpjClube',
+            'cidadeClube',
+            'estadoClube',
+            'enderecoClube',
+            'anoCriacaoClube',
+            'bioClube',
+            'fotoPerfilClube',
+            'fotoBannerClube',
+            'categoria_id',
+            'esporte_id'
+        ];
+
+        foreach ($required as $field) {
+            if (blank($this->{$field})) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
