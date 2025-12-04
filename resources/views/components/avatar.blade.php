@@ -20,7 +20,7 @@
     }
 @endphp
 
-<div {{ $attributes->merge(['class' => "relative inline-flex items-center justify-center rounded-full object-cover ring-[0.1vw] ring-white " . $sizeClasses . ($src ? '' : ' bg-gray-200 text-gray-600')]) }}>
+<div {{ $attributes->merge(['class' => "relative inline-flex items-center justify-center rounded-full bg-white object-cover ring-[0.1vw] ring-white " . $sizeClasses . ($src ? '' : ' bg-gray-200 text-gray-600')]) }}>
     
     @if($src)
         <img class="w-full h-full rounded-full object-cover" src="{{ $src }}" alt="{{ $alt }}">

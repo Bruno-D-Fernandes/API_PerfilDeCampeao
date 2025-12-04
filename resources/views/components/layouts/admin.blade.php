@@ -1,13 +1,15 @@
 <x-layouts.base :title="$title">
     <x-sidebar>
         <x-slot:logo>
-            <div class="h-full flex flex-col gap-y-[0.21vw] items-center p-[0.63vw]">
-                <img src="{{ asset('img/logo-admin.png') }}" alt="" class="h-[4.17vw] object-contain aspect-square">
+            <a href="{{ route('admin.dashboard') }}">
+                <div class="h-full flex flex-col gap-y-[0.21vw] items-center p-[0.63vw]">
+                    <img src="{{ asset('img/logo-admin.png') }}" alt="" class="h-[4.17vw] object-contain aspect-square">
 
-                <span class="text-[0.73vw] font-semibold text-sky-500 tracking-tight">
-                    Perfil de Campeão
-                </span>
-            </div>
+                    <span class="text-[0.73vw] font-semibold text-sky-500 tracking-tight">
+                        Perfil de Campeão
+                    </span>
+                </div>
+            </a>
         </x-slot:logo>
 
         <x-sidebar-section title="geral">

@@ -33,13 +33,15 @@
         @endphp
 
         <x-slot:logo>
-            <div class="h-full flex flex-col gap-y-[0.21vw] items-center p-[0.63vw]">
-                <img src="{{ asset('img/logo-side-clube.png') }}" alt="" class="h-[4.17vw] object-contain aspect-square">
+            <a href="{{ route('clube.dashboard') }}">
+                <div class="h-full flex flex-col gap-y-[0.21vw] items-center p-[0.63vw]">
+                    <img src="{{ asset('img/logo-side-clube.png') }}" alt="" class="h-[4.17vw] object-contain aspect-square">
 
-                <span class="text-[0.73vw] font-semibold text-emerald-500 tracking-tight">
-                    Perfil de Campeão
-                </span>
-            </div>
+                    <span class="text-[0.73vw] font-semibold text-emerald-500 tracking-tight">
+                        Perfil de Campeão
+                    </span>
+                </div>
+            </a>
         </x-slot:logo>
 
         <x-sidebar-section title="geral">
@@ -148,9 +150,11 @@
                 </div>
 
                 <div class="h-full flex items-center">
-                    <x-button size="md" color="none" class="bg-emerald-500 hover:bg-emerald-600 text-white">
-                        Ir pro perfil
-                    </x-button>
+                    <a href="{{ route('clube.perfil', $clube->id) }}">
+                        <x-button size="md" color="none" class="bg-emerald-500 hover:bg-emerald-600 text-white">
+                            Ir pro perfil
+                        </x-button>
+                    </a>
                 </div>
 
                 <div class="!h-[2.91vw] aspect-square flex items-center justify-center" onclick="hideNotification()">

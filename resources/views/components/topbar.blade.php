@@ -146,7 +146,7 @@
                     Notificações
                 </h1>
 
-                <x-icon-button color="green">
+                <x-icon-button color="green" onclick="closeDrawer('notifications')">
                     <svg class="h-[1.04vw] w-[1.04vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
                     </svg>
@@ -199,12 +199,7 @@
                 <div class="flex flex-col gap-y-[0.42vw]">
                     <div class="flex items-center gap-x-[0.42vw]">
                         <div class="h-[2.92vw] w-[2.92vw] aspect-square rounded-[0.31vw] bg-gray-100 flex items-center justify-center">
-                            {{-- ícone --}}
-                            <svg class="h-[1.25vw] w-[1.25vw] text-emerald-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
-                                <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
-                                <path d="M8 6v8"/>
-                            </svg>
+                            <svg class="h-[1.25vw] w-[1.25vw] text-emerald-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-check-icon lucide-check-check"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></svg>
                         </div>
 
                         <div class="h-full w-full flex flex-col justify-between">
