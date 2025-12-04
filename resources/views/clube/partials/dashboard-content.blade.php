@@ -139,7 +139,7 @@
                         <div>
                             <div class="flex justify-between text-[0.63vw] text-gray-500 mb-[0.2vw]">
                                 <span>Confirmações</span>
-                                <span class="font-bold">{{ $evento->convites_count }}</span>
+                                <span class="font-bold">{{ $evento->convites()->ativos()->count() }}</span>
                             </div>
 
                             <x-progress 

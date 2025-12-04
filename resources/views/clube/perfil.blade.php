@@ -24,12 +24,26 @@
             document.getElementById('profile-loading').classList.add('hidden');
         }
 
-        function previewImage(input, imgId) {
+        function previewImage(input, imgId, placeholderId = null) {
             if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById(imgId).setAttribute('src', e.target.result);
-                }
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const img = document.getElementById(imgId);
+
+                    if (img) {
+                        img.setAttribute('src', e.target.result);
+                        img.classList.remove('hidden'); // mostra a imagem
+                    }
+
+                    if (placeholderId) {
+                        const placeholder = document.getElementById(placeholderId);
+                        if (placeholder) {
+                            placeholder.classList.add('hidden'); // esconde o placeholder
+                        }
+                    }
+                };
+
                 reader.readAsDataURL(input.files[0]);
             }
         }
@@ -98,8 +112,11 @@
 
                 if (response.ok) {
                     document.querySelector('#profile-page').innerHTML = data.data.html;
+
+                    if (data.data && data.data.hasIncompleteProfile === false) {
+                        hideNotification();
+                    }
                 } else {
-                    
                     if (response.status === 422) {
                         let errorMessages = "";
                         for (const [field, msgs] of Object.entries(data.errors || {})) { 
