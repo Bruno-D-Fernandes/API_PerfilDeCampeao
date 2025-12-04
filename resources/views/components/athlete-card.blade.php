@@ -1,6 +1,6 @@
 <a href="{{ route('usuarios.perfil', $athlete->id) }}" class="pointer-events-auto cursor-pointer max-w-full max-h-full flex flex-col gap-[0.42vw] p-[0.63vw] bg-white border border-[0.1vw] border-gray-300/80 hover:border-emerald-400 transition-colors rounded-[0.42vw] group">
     <div class="relative w-full">
-        <x-avatar :src="null" alt="{{ $athlete->nomeCompletoUsuario }}" size="xl" class="!w-[2.9vw] !h-[2.9vw]" />
+        <x-avatar :src="asset('storage/') . '/'  . $athlete->fotoPerfilUsuario" alt="{{ $athlete->nomeCompletoUsuario }}" size="xl" class="!w-[2.9vw] !h-[2.9vw]" />
 
         <div class="absolute top-0 right-0 z-10 flex gap-x-[0.21vw]">
             <x-icon-button color="none" class="text-emerald-400 hover:text-emerald-500 transition-colors" onclick="event.stopPropagation(); event.preventDefault(); openModal('save-to-list-{{ $athlete->id }}')">
