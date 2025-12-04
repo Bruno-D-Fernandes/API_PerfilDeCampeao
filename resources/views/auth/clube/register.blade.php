@@ -114,19 +114,19 @@
                     <div id="step-3" class="hidden form-step flex flex-col gap-4">
                         <h3 class="text-lg font-semibold text-emerald-700/80">Localização do Clube</h3>
                         
-                         <x-form-group label="Cep" name="cepClube" type="text" labelColor="green">
+                         <x-form-group id="cepClube" label="Cep" name="cepClube" type="text" onblur="cepComplete()"  labelColor="green">
                             <x-slot:icon>
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pinned-icon lucide-map-pinned"><path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/></svg>
                             </x-slot:icon>
                         </x-form-group>
 
-                        <x-form-group label="Cidade" name="cidadeClube" type="text" labelColor="green" required>
+                        <x-form-group id="cidadeClube" label="Cidade" name="cidadeClube" type="text" labelColor="green" required>
                             <x-slot:icon>
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-icon lucide-building"><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/></svg>
                             </x-slot:icon>
                         </x-form-group>
 
-                        <x-form-group label="Estado" name="estadoClube" type="select" labelColor="green" required>
+                        <x-form-group id="estadoClube" label="Estado" name="estadoClube" type="select" labelColor="green" required>
                             <x-slot:icon>
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-icon lucide-map"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg>
                             </x-slot:icon>
@@ -141,7 +141,7 @@
                             @endforeach
                         </x-form-group>
 
-                        <x-form-group label="Endereço" name="enderecoClube" type="text" labelColor="green" required>
+                        <x-form-group id="enderecoClube" label="Endereço" name="enderecoClube" type="text" labelColor="green" required>
                             <x-slot:icon>
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
                             </x-slot:icon>
@@ -180,7 +180,7 @@
                                 Já tem uma conta?
                             </span>
 
-                            <a href="" class="text-emerald-500 font-medium text-md">
+                            <a href="/clube/login" class="text-emerald-500 font-medium text-md">
                                 Fazer login
                             </a>
                         </span>
