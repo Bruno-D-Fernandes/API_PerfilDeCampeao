@@ -131,7 +131,7 @@
     </x-modal>
 
     @if($clube && $clube->hasIncompleteProfile())
-        <div class="fixed bottom-[0.83vw] left-[17.35vw] h-[4.58vw] bg-white shadow-md rounded-[0.42vw] flex items-center justify-between p-[0.83vw] z-[10] opacity-100 transition-opacity duration-300" id="notifications-container">
+        <div class="right-[0.63vw] fixed bottom-[0.83vw] left-[17.35vw] h-[4.58vw] bg-white shadow-md rounded-[0.42vw] flex items-center justify-between p-[0.83vw] z-[10] opacity-100 transition-opacity duration-300" id="notifications-container">
             <div class="flex-1 flex items-center gap-[0.83vw]">
                 <div class="!h-[2.91vw] aspect-square bg-emerald-500 rounded-[0.43vw] flex items-center justify-center">
                     <svg class="h-[1.25vw] w-[1.25vw] text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-alert-icon lucide-circle-alert"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
