@@ -17,7 +17,7 @@ class OportunidadeController extends Controller
         if (!$user instanceof Clube) {
             return redirect()->route('clube.login');
         }
-    
+
 
         return view('admin.oportunidades.index');
     }
@@ -91,18 +91,17 @@ class OportunidadeController extends Controller
     {
         $perPage     = $request->query('per_page', 10);
         $esporteId   = $request->query('esporte_id');
-        $estado      = $request->query('estado');
         $idadeMinima = $request->query('idadeMinima');
         $idadeMaxima = $request->query('idadeMaxima');
 
         $query = Oportunidade::approved()->with(['esporte', 'posicoes', 'clube']);
 
-        if ($esporteId) {
-            $query->where('esporte_id', $esporteId);
-        }
+        $esporteNome = $request->query('esporte');
 
-        if ($estado) {
-            $query->where('estadoOportunidade', $estado);
+        if ($esporteNome) {
+            $query->whereHas('esporte', function ($q) use ($esporteNome) {
+                $q->where('nomeEsporte', 'LIKE', $esporteNome);
+            });
         }
 
         if ($idadeMinima) {
