@@ -408,7 +408,7 @@
                                     <div class="flex items-center gap-x-[0.63vw] p-[0.42vw] border-b border-gray-100 last:border-b-0 group"  x-data="{ openModal: false }">
                                         
                                         {{-- FOTO DO CLUBE --}}
-                                        <img src="{{ asset('storage/' . ($clube->fotoPerfilClube ?? 'img/default.png')) }}"
+                                        <img src="{{ asset('storage/' . ($clube->fotoPerfilClube ?? 'imagens_seeder/building_perfil.png')) }}"
                                         class="h-[2.2vw] w-[2.2vw] rounded-full object-cover">
                                         
                                         {{-- NOME E DATA --}}
