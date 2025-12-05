@@ -42,7 +42,7 @@ class OportunidadeSeeder extends Seeder
             'Captação de atletas',
         ];
 
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             $clubeId = $clubes[array_rand($clubes)];
 
             $esporteEscolhido = null;
