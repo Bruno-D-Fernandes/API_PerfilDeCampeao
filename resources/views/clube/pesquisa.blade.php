@@ -3,13 +3,13 @@
 
     <div class="flex justify-center gap-[0.625vw] w-full flex-1 min-h-0">
     
-        <x-form class="flex flex-col gap-[0.21vw] bg-emerald-500 h-full w-1/4 rounded-lg p-[0.625vw]" id="search-form" onsubmit="return false;">
+        <x-form class="flex flex-col gap-[0.125vw] bg-emerald-500 h-full w-1/4 rounded-lg p-[0.625vw]" id="search-form" onsubmit="return false;">
                 
             <x-search-input placeholder="Buscar por nome" name="pesquisa" value="{{ request('pesquisa') }}" class="!h-[2vw]" />
 
             <div class="w-full border border-t border-white/20 mt-[0.105vw]"></div>
 
-            <div class="flex flex-col gap-[0.21vw] pr-[0.83vw]">
+            <div class="flex flex-col gap-[0.125vw] pr-[0.83vw]">
                 <x-form-group label="Esporte" name="esporte_id" type="select" id="modalidade_select" labelColor="white" class="!h-[2vw] leading-tight">
                     <option value="">Todos</option>
                     @foreach($esportes as $esporte)
@@ -24,14 +24,14 @@
                     
                 </x-form-group>
 
-                <div class="px-2.5">
-                    <x-range-slider label="Idade" nameMin="idade_min" nameMax="idade_max" :min="14" :max="40" :step="1" unit="anos" id="idade_slider" color="white"></x-range-slider>
-                    <x-range-slider label="Altura" nameMin="altura_min" nameMax="altura_max" :min="100" :max="240" :step="1" unit="cm" id="altura_slider" color="white"></x-range-slider>
-                    <x-range-slider label="Peso" nameMin="peso_min" nameMax="peso_max" :min="40" :max="150" :step="1" unit="kg" id="peso_slider" color="white"></x-range-slider>
+                <div class="px-[0.52vw]">
+                    <x-range-slider label="Idade" nameMin="idade_min" nameMax="idade_max" :min="0" :max="120" :step="1" unit="anos" id="idade_slider" color="white"></x-range-slider>
+                    <x-range-slider label="Altura" nameMin="altura_min" nameMax="altura_max" :min="50" :max="300" :step="1" unit="cm" id="altura_slider" color="white"></x-range-slider>
+                    <x-range-slider label="Peso" nameMin="peso_min" nameMax="peso_max" :min="20" :max="500" :step="1" unit="kg" id="peso_slider" color="white"></x-range-slider>
                 </div>
 
                 <div class="flex flex-col gap-[0.21vw]">
-                    <h3 class="block text-md font-medium text-white">
+                    <h3 class="block text-[0.83vw] font-medium text-white">
                         Pé dominante
                     </h3>
                     <div class="flex items-center justify-center gap-x-[0.83vw]">
@@ -41,12 +41,12 @@
                 </div>
 
                 <div class="flex flex-col gap-[0.21vw]">
-                    <h3 class="block text-md font-medium text-white">
+                    <h3 class="block text-[0.83vw] font-medium text-white">
                         Mão dominante
                     </h3>
                     <div class="flex items-center justify-center gap-x-[0.83vw]">
-                        <x-radio name="maoDominante" label="Destro" id="mao_destro" value="direita" color="white" />
-                        <x-radio name="maoDominante" label="Canhoto" id="mao_canhoto" value="esquerda" color="white" />
+                        <x-radio name="maoDominante" label="Direita" id="mao_destro" value="direita" color="white" />
+                        <x-radio name="maoDominante" label="Esquerda" id="mao_canhoto" value="esquerda" color="white" />
                     </div>
                 </div>
 
