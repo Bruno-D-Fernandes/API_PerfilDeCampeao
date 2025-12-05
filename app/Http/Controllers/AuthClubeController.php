@@ -184,13 +184,13 @@ class AuthClubeController extends Controller
                 'categorias' => Categoria::all(),
             ])->render();
 
-
             return response()->json([
                 'success' => true, 
                 'message' => 'Perfil atualizado com sucesso!',
                 'data' => [
                     'clube' => $clube,
-                    'html' => $html
+                    'html' => $html,
+                    'hasIncompleteProfile' => $clube->hasIncompleteProfile()
                 ],
             ], 200);
 

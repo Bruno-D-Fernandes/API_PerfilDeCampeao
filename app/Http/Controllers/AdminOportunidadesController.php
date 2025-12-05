@@ -184,6 +184,8 @@ class AdminOportunidadesController extends Controller
             ],
         ]);
 
+       
+
         $oportunidade->status = $data['status'];
 
         if ($data['status'] === 'rejected') {

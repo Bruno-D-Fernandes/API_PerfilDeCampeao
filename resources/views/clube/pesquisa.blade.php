@@ -1,16 +1,16 @@
 <x-layouts.clube title="Pesquisa" :breadcrumb="['Dashboard' => route('clube.dashboard'), 'Pesquisa' => null]">
     <div id="toast-container" class="fixed top-[0.83vw] left-[0.83vw] z-[9999] flex flex-col gap-[0.63vw] pointer-events-auto"></div>
 
-    <div class="h-full flex justify-center gap-[1.25vw] w-full flex-1min-h-0">
+    <div class="flex justify-center gap-[0.625vw] w-full flex-1 min-h-0">
     
-        <x-form class="flex flex-col gap-[0.42vw] bg-emerald-500 h-full w-1/4 rounded-lg p-[1.25vw]" id="search-form" onsubmit="return false;">
+        <x-form class="flex flex-col gap-[0.125vw] bg-emerald-500 h-full w-1/4 rounded-lg p-[0.625vw]" id="search-form" onsubmit="return false;">
                 
-            <x-search-input placeholder="Buscar por nome" name="pesquisa" value="{{ request('pesquisa') }}" />
+            <x-search-input placeholder="Buscar por nome" name="pesquisa" value="{{ request('pesquisa') }}" class="!h-[2vw]" />
 
             <div class="w-full border border-t border-white/20 mt-[0.105vw]"></div>
 
-            <div class="flex flex-col gap-[0.42vw] pr-[0.83vw]">
-                <x-form-group label="Esporte" name="esporte_id" type="select" id="modalidade_select" labelColor="white">
+            <div class="flex flex-col gap-[0.125vw] pr-[0.83vw]">
+                <x-form-group label="Esporte" name="esporte_id" type="select" id="modalidade_select" labelColor="white" class="!h-[2vw] leading-tight">
                     <option value="">Todos</option>
                     @foreach($esportes as $esporte)
                         <option value="{{ $esporte->id }}" @selected(request('esporte_id') == $esporte->id)>
@@ -19,19 +19,19 @@
                     @endforeach
                 </x-form-group>
 
-                <x-form-group label="Posição" name="posicao_id" type="select" id="posicao_select" labelColor="white">
+                <x-form-group label="Posição" name="posicao_id" type="select" id="posicao_select" labelColor="white"  class="!h-[2vw] leading-tight">
                     <option value="">Todas</option>
                     
                 </x-form-group>
 
-                <div class="px-2.5">
-                    <x-range-slider label="Idade" nameMin="idade_min" nameMax="idade_max" :min="14" :max="40" :step="1" unit="anos" id="idade_slider" color="white"></x-range-slider>
-                    <x-range-slider label="Altura" nameMin="altura_min" nameMax="altura_max" :min="100" :max="240" :step="1" unit="cm" id="altura_slider" color="white"></x-range-slider>
-                    <x-range-slider label="Peso" nameMin="peso_min" nameMax="peso_max" :min="40" :max="150" :step="1" unit="kg" id="peso_slider" color="white"></x-range-slider>
+                <div class="px-[0.52vw]">
+                    <x-range-slider label="Idade" nameMin="idade_min" nameMax="idade_max" :min="0" :max="120" :step="1" unit="anos" id="idade_slider" color="white"></x-range-slider>
+                    <x-range-slider label="Altura" nameMin="altura_min" nameMax="altura_max" :min="50" :max="300" :step="1" unit="cm" id="altura_slider" color="white"></x-range-slider>
+                    <x-range-slider label="Peso" nameMin="peso_min" nameMax="peso_max" :min="20" :max="500" :step="1" unit="kg" id="peso_slider" color="white"></x-range-slider>
                 </div>
 
-                <div class="flex flex-col gap-[0.42vw]">
-                    <h3 class="block text-md font-medium text-white">
+                <div class="flex flex-col gap-[0.21vw]">
+                    <h3 class="block text-[0.83vw] font-medium text-white">
                         Pé dominante
                     </h3>
                     <div class="flex items-center justify-center gap-x-[0.83vw]">
@@ -40,28 +40,36 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col gap-[0.42vw]">
-                    <h3 class="block text-md font-medium text-white">
+                <div class="flex flex-col gap-[0.21vw]">
+                    <h3 class="block text-[0.83vw] font-medium text-white">
                         Mão dominante
                     </h3>
                     <div class="flex items-center justify-center gap-x-[0.83vw]">
-                        <x-radio name="maoDominante" label="Destro" id="mao_destro" value="direita" color="white" />
-                        <x-radio name="maoDominante" label="Canhoto" id="mao_canhoto" value="esquerda" color="white" />
+                        <x-radio name="maoDominante" label="Direita" id="mao_destro" value="direita" color="white" />
+                        <x-radio name="maoDominante" label="Esquerda" id="mao_canhoto" value="esquerda" color="white" />
                     </div>
                 </div>
 
-                <x-form-group label="Estado" name="estadoUsuario" type="select" id="estado_select" labelColor="white">
-                    <option value="">Todos</option>
-                    <option value="SP">São Paulo</option>
+                <x-form-group label="Estado" name="estadoUsuario" type="select" id="estado_select" labelColor="white" class="!h-[2vw] leading-tight">
+                    @php
+                        $ufs = [
+                            'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA',
+                            'MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN',
+                            'RS','RO','RR','SC','SP','SE','TO'
+                        ];
+                    @endphp
+
+                    <option value="">UF</option>
+
+                    @foreach($ufs as $uf)
+                        <option value="{{ $uf }}">{{ $uf }}</option>
+                    @endforeach
                 </x-form-group>
 
-                <x-form-group label="Cidade" name="cidadeUsuario" type="select" id="cidade_select" labelColor="white">
+                <x-form-group label="Cidade" name="cidadeUsuario" type="select" id="cidade_select" labelColor="white" class="!h-[2vw] leading-tight">
                     <option value="">Todas</option>
-                    <option value="Campinas">Campinas</option>
                 </x-form-group>
             </div>
-
-            <div class="w-full border border-t border-white/20 mt-[0.105vw]"></div>
 
             <div class="flex gap-x-[0.83vw] mt-[0.21vw] flex-shrink-0">
                 <x-button color="none" :full="true" class="border-none bg-transparent text-emerald-800" type="button" id="clear-filters-btn">
@@ -74,7 +82,7 @@
             </div>
         </x-form>
 
-        <div class="flex-1 flex flex-col gap-[0.42vw] bg-white min-h-0 w-3/4 overflow-hidden">
+        <div class="flex-1 flex flex-col gap-[0.42vw] bg-white min-h-0 w-3/4">
             
             <div class="flex items-center justify-between">
                 <h3 class="text-[0.93vw] font-medium text-gray-700" id="athletes-count">
@@ -92,13 +100,13 @@
                 </div>
             </div>
 
-            <div id="athletes-grid-section" class="flex-1 max-h-full min-h-0">
+            <div id="athletes-grid-section" class="flex-1 min-h-0">
                 @include('clube.partials.athletes-grid', ['atletas' => $atletas])
             </div>
 
             <div class="w-full h-[0.052vw] bg-gray-200"></div>
 
-            <div id="athletes-pagination-section">
+            <div id="athletes-pagination-section" class="mt-auto">
                 @include('clube.partials.pagination', ['atletas' => $atletas])
             </div>
         </div>
@@ -153,6 +161,92 @@
 
     const esporteSelect = getSelectElement('modalidade_select');
     const posicaoSelect = getSelectElement('posicao_select');
+
+    const estadoSelect = getSelectElement('estado_select');
+    const cidadeSelect = getSelectElement('cidade_select');
+
+    const currentCidadeFromRequest = @json(request('cidadeUsuario'));
+
+    const citiesByState = {
+        'AC': ['Rio Branco', 'Cruzeiro do Sul', 'Sena Madureira', 'Tarauacá'],
+        'AL': ['Maceió', 'Arapiraca', 'Palmeira dos Índios', 'Rio Largo'],
+        'AP': ['Macapá', 'Santana', 'Laranjal do Jari', 'Oiapoque'],
+        'AM': ['Manaus', 'Parintins', 'Itacoatiara', 'Manacapuru'],
+        'BA': ['Salvador', 'Feira de Santana', 'Vitória da Conquista', 'Camaçari', 'Itabuna'],
+        'CE': ['Fortaleza', 'Caucaia', 'Juazeiro do Norte', 'Maracanaú', 'Sobral'],
+        'DF': ['Brasília', 'Taguatinga', 'Ceilândia', 'Gama', 'Sobradinho'],
+        'ES': ['Vitória', 'Vila Velha', 'Serra', 'Cariacica', 'Guarapari'],
+        'GO': ['Goiânia', 'Anápolis', 'Aparecida de Goiânia', 'Rio Verde', 'Luziânia'],
+        'MA': ['São Luís', 'Imperatriz', 'Caxias', 'Timon', 'Bacabal'],
+        'MT': ['Cuiabá', 'Várzea Grande', 'Rondonópolis', 'Sinop'],
+        'MS': ['Campo Grande', 'Dourados', 'Três Lagoas', 'Corumbá'],
+        'MG': [
+            'Belo Horizonte', 'Uberlândia', 'Contagem', 'Juiz de Fora',
+            'Montes Claros', 'Betim', 'Uberaba', 'Governador Valadares'
+        ],
+        'PA': ['Belém', 'Ananindeua', 'Santarém', 'Marabá', 'Castanhal'],
+        'PB': ['João Pessoa', 'Campina Grande', 'Patos', 'Bayeux'],
+        'PR': [
+            'Curitiba', 'Londrina', 'Maringá', 'Ponta Grossa',
+            'Cascavel', 'Foz do Iguaçu', 'São José dos Pinhais'
+        ],
+        'PE': ['Recife', 'Olinda', 'Jaboatão dos Guararapes', 'Caruaru', 'Petrolina'],
+        'PI': ['Teresina', 'Parnaíba', 'Picos', 'Floriano'],
+        'RJ': [
+            'Rio de Janeiro', 'Niterói', 'Campos dos Goytacazes', 'Petrópolis',
+            'Volta Redonda', 'Duque de Caxias', 'Nova Iguaçu', 'São Gonçalo'
+        ],
+        'RN': ['Natal', 'Mossoró', 'Parnamirim', 'Caicó'],
+        'RS': [
+            'Porto Alegre', 'Caxias do Sul', 'Pelotas', 'Canoas',
+            'Santa Maria', 'Novo Hamburgo', 'Gravataí'
+        ],
+        'RO': ['Porto Velho', 'Ji-Paraná', 'Ariquemes', 'Cacoal'],
+        'RR': ['Boa Vista', 'Rorainópolis', 'Caracaraí'],
+        'SC': [
+            'Florianópolis', 'Joinville', 'Blumenau', 'Chapecó',
+            'Itajaí', 'Criciúma', 'Lages'
+        ],
+        'SP': [
+            'São Paulo', 'Campinas', 'Santos', 'Sorocaba', 'Ribeirão Preto',
+            'São José dos Campos', 'Guarulhos', 'Osasco', 'Barueri',
+            'Jundiaí', 'Piracicaba', 'Bauru'
+        ],
+        'SE': ['Aracaju', 'Nossa Senhora do Socorro', 'Lagarto'],
+        'TO': ['Palmas', 'Araguaína', 'Gurupi']
+    };
+
+    function updateCidades() {
+        if (!cidadeSelect) return;
+
+        const uf = estadoSelect ? estadoSelect.value : '';
+
+        cidadeSelect.innerHTML = '<option value="">Todas</option>';
+
+        if (!uf || !citiesByState[uf]) return;
+
+        const cidades = citiesByState[uf];
+
+        cidades.forEach(cidade => {
+            const option = document.createElement('option');
+            option.value = cidade;
+            option.textContent = cidade;
+
+            if (cidade === currentCidadeFromRequest) {
+                option.selected = true;
+            }
+
+            cidadeSelect.appendChild(option);
+        });
+    }
+
+    if (estadoSelect) {
+        estadoSelect.addEventListener('change', function () {
+            updateCidades();
+        });
+
+        updateCidades();
+    }
     
     function updatePosicoes() {
         if (!posicaoSelect || !esporteSelect) {

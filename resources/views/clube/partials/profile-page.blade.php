@@ -19,7 +19,7 @@
 
                 </div>
 
-                <div class="absolute left-[3.33vw] top-full -translate-y-1/2 h-[5vw] w-[5vw] rounded-full bg-emerald-500 border-[0.425vw] border-white flex items-center justify-center overflow-hidden z-20">
+                <div class="absolute left-[3.33vw] top-full -translate-y-1/2 h-[5vw] w-[5vw] rounded-full bg-white border-[0.425vw] border-white flex items-center justify-center overflow-hidden z-20">
                         
                     @if($clube->fotoPerfilClube)
                         <img id="display-perfil" 
@@ -143,7 +143,6 @@
         @method('PUT')
 
         <x-tabs :options="['midia'=>'Mídia', 'dados'=>'Dados', 'esportes'=>'Esportes', 'bio'=>'Bio']" default="midia">
-            
             <x-slot name="icon_midia"><svg class="h-[0.83vw] w-[0.83vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></x-slot>
             <x-slot name="icon_dados"><svg class="h-[0.83vw] w-[0.83vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10h2"/><path d="M16 14h2"/><path d="M6.17 15a3 3 0 0 1 5.66 0"/><circle cx="9" cy="11" r="2"/><rect x="2" y="5" width="20" height="14" rx="2"/></svg></x-slot>
             <x-slot name="icon_esportes"><svg class="h-[0.83vw] w-[0.83vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"/><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"/><path d="M18 9h1.5a1 1 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6 9H4.5a1 1 0 0 1 0-5H6"/></svg></x-slot>
@@ -220,7 +219,6 @@
             <x-slot name="esportes">
                 <div class="flex flex-col gap-[0.83vw]">
                     <div class="grid grid-cols-2 gap-[1vw]">
-                        
                         <x-form-group label="Categoria" name="categoria_id" id="clube-categoria" type="select" labelColor="green" textSize="[1.04vw]">
                             <x-slot:icon><svg class="h-[0.83vw] w-[0.83vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg></x-slot:icon>
                             <option value="">Selecione...</option>

@@ -51,9 +51,11 @@
 
         <td class="p-[0.75vw]">
             <div class="flex items-center gap-[0.42vw]">
-                <x-button size="sq" color="blue" type="button">
-                    <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </x-button>
+                <a href="{{  route('usuarios.perfil', $usuario->id) }}">
+                    <x-button size="sq" color="blue" type="button">
+                        <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </x-button>
+                </a>
 
                 @if($inscricao->status === \App\Models\Inscricao::STATUS_APPROVED)
                     <x-button size="sq" color="red" onclick="openConfirmModal({

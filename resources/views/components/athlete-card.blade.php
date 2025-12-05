@@ -1,9 +1,12 @@
-<div class="cursor-pointer max-w-full max-h-full flex flex-col gap-[0.42vw] p-[0.63vw] bg-white border border-[0.1vw] border-gray-300/80 hover:border-emerald-400 transition-colors rounded-[0.42vw] group">
+<a {{ $attributes->merge([
+    'href'  => route('usuarios.perfil', $athlete->id),
+    'class' => 'pointer-events-auto cursor-pointer max-w-full max-h-full flex flex-col justify-between p-[0.63vw] bg-white border border-[0.1vw] border-gray-300/80 hover:border-emerald-400 transition-colors rounded-[0.42vw] group',
+]) }}>
     <div class="relative w-full">
-        <x-avatar :src="null" alt="{{ $athlete->nomeCompletoUsuario }}" size="xl" class="w-[4.17vw] h-[4.17vw]" />
+        <x-avatar :src="asset('storage/') . '/'  . $athlete->fotoPerfilUsuario" alt="{{ $athlete->nomeCompletoUsuario }}" size="xl" class="!w-[2.9vw] !h-[2.9vw]" />
 
         <div class="absolute top-0 right-0 z-10 flex gap-x-[0.21vw]">
-            <x-icon-button color="none" class="text-emerald-400 hover:text-emerald-500 transition-colors" onclick="openModal('save-to-list-{{ $athlete->id }}')">
+            <x-icon-button color="none" class="text-emerald-400 hover:text-emerald-500 transition-colors" onclick="event.stopPropagation(); event.preventDefault(); openModal('save-to-list-{{ $athlete->id }}')">
                 <svg class="h-[1.25vw] w-[1.25vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             </x-icon-button>
         </div>
@@ -53,11 +56,13 @@
 
             80kg
         </x-badge>
-    </div>
 
-    <div class="flex items-center gap-x-[0.42vw] text-emerald-400 font-medium text-[0.73vw]">
-        <svg class="h-[0.83vw] w-[0.83vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin-icon lucide-map-pin"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+        <x-badge color="blue" :border="false">
+            <x-slot:icon>
+                <svg class="h-[0.83vw] w-[0.83vw] stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin-icon lucide-map-pin"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+            </x-slot:icon>
 
-        {{ $athlete->cidadeUsuario }} - {{ $athlete->estadoUsuario }}
+            {{ $athlete->cidadeUsuario }} - {{ $athlete->estadoUsuario }}
+        </x-badge>
     </div>
-</div>
+</a>

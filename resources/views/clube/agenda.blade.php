@@ -79,9 +79,9 @@
                         </div>
                     </div>
                     <div>
-                        <button class="bg-white text-emerald-500 px-[0.83vw] py-[0.42vw] rounded-[0.21vw] font-medium" onclick="openModal('create-event')">
+                        <x-button color="none" class="cursor-pointer bg-white text-emerald-500 !text-[0.83vw] !px-[0.83vw] !py-[0.42vw] !rounded-[0.21vw] !font-medium" onclick="openModal('create-event')">
                             Adicionar novo evento
-                        </button>
+                        </x-button>
                     </div>
                 </div>
             </div>
@@ -201,7 +201,7 @@
                                 </x-form-group>
                             </div>
 
-                            <button type="button" class="h-[2.5vw] w-[2.5vw] bg-gray-100 text-gray-600 hover:bg-gray-200 border border-[0.052vw] border-gray-200 rounded-[0.42vw] transition-colors flex items-center justify-center shrink-0"> 
+                            <button type="button" class="h-[2.5vw] w-[2.5vw] bg-gray-100 text-gray-600 hover:bg-gray-200 border border-[0.052vw] border-gray-200 rounded-[0.42vw] transition-colors flex items-center justify-center shrink-0" onclick="consultarCepEvento('evt-')"> 
                                 <svg class="h-[1.04vw] w-[1.04vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                             </button>
                         </div>
@@ -237,15 +237,24 @@
                                 </x-slot:icon>
                             </x-form-group>
 
-                            <x-form-group label="Estado" name="estado" id="evt-estado" labelColor="green" required>
+                            <x-form-group type="select" label="Estado" name="estado" id="evt-estado" labelColor="green" required>
                                 <x-slot:icon>
                                     <svg class="h-[0.83vw] w-[0.83vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                                 </x-slot:icon>
 
+                                @php
+                                    $ufs = [
+                                        'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA',
+                                        'MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN',
+                                        'RS','RO','RR','SC','SP','SE','TO'
+                                    ];
+                                @endphp
+
                                 <option value="">UF</option>
-                                <option value="SP">SP</option>
-                                <option value="RJ">RJ</option>
-                                <option value="MG">MG</option>
+
+                                @foreach($ufs as $uf)
+                                    <option value="{{ $uf }}">{{ $uf }}</option>
+                                @endforeach
                             </x-form-group>
                         </div>
 
@@ -265,7 +274,7 @@
                             </x-button>
                         </div>
                         <div class="flex gap-[0.63vw]">
-                            <x-button color="gray" size="md" onclick="closeModal('create-event')">
+                            <x-button color="gray" size="md" onclick="document.querySelector('#create-event-form').reset(); closeModal('create-event')">
                                 Cancelar
                             </x-button>
 
@@ -376,7 +385,7 @@
                                 </x-form-group>
                             </div>
 
-                            <button type="button" class="h-[2.19vw] w-[2.19vw] bg-gray-100 text-gray-600 hover:bg-gray-200 border border-[0.052vw] border-gray-200 rounded-[0.42vw] transition-colors flex items-center justify-center shrink-0"> 
+                            <button type="button" class="h-[2.19vw] w-[2.19vw] bg-gray-100 text-gray-600 hover:bg-gray-200 border border-[0.052vw] border-gray-200 rounded-[0.42vw] transition-colors flex items-center justify-center shrink-0" onclick="consultarCepEvento('edit-evt-')"> 
                                 <svg class="h-[1.04vw] w-[1.04vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                             </button>
                         </div>
@@ -440,7 +449,7 @@
                             </x-button>
                         </div>
                         <div class="flex gap-[0.63vw]">
-                            <x-button color="gray" size="md" onclick="closeModal('edit-event')">
+                            <x-button color="gray" size="md" onclick="document.querySelector('#edit-event-form').reset(); closeModal('edit-event')">
                                 Cancelar
                             </x-button>
 
@@ -462,6 +471,37 @@
                 </x-slot:footer>
             </div>
         </x-modal>
+
+        <x-modal maxWidth="sm" name="delete-event" title="Excluir evento" titleSize="xl" titleColor="red">
+    <div class="flex flex-col gap-[0.63vw]">
+        <p class="text-[0.83vw] text-gray-700">
+            Tem certeza que deseja excluir este evento?
+            <br>
+            <span class="text-[0.73vw] text-gray-500">
+                Essa ação não pode ser desfeita.
+            </span>
+        </p>
+    </div>
+
+    <x-slot:footer>
+        <div class="w-full flex justify-end gap-[0.42vw]">
+            <x-button color="gray" size="md" onclick="closeModal('delete-event')">
+                Cancelar
+            </x-button>
+
+            <x-button 
+                id="delete-event-confirm-btn"
+                color="red" 
+                size="md" 
+                type="button"
+                onclick="confirmDeleteEvent()"
+            >
+                Excluir
+            </x-button>
+        </div>
+    </x-slot:footer>
+</x-modal>
+
 
         <x-modal maxWidth="2xl" name="show-event" title="Detalhes do Evento" titleSize="2xl" titleColor="green">
             <div class="flex flex-col gap-[0.83vw] p-[0.21vw]">
@@ -563,6 +603,13 @@
     <script>
         let evtCurrentStep = 1;
         const evtTotalSteps = 2;
+        let deleteEventId = null;
+
+        function openDeleteEventModal(eventId) {
+            deleteEventId = eventId;
+            openModal('delete-event');
+        }
+
 
         document.addEventListener('DOMContentLoaded', () => {
             updateEventUI();
@@ -578,15 +625,23 @@
         });
 
         function eventChangeStep(direction) {
+            const newStep = evtCurrentStep + direction;
+
+            if (newStep < 1 || newStep > evtTotalSteps) {
+                return;
+            }
+
             if (direction === 1 && !validateEventStep(evtCurrentStep)) {
                 return;
             }
 
-            document.getElementById(`evt-step-${evtCurrentStep}`).classList.add('hidden');
-            
-            evtCurrentStep += direction;
-            
-            document.getElementById(`evt-step-${evtCurrentStep}`).classList.remove('hidden');
+            const currentDiv = document.getElementById(`evt-step-${evtCurrentStep}`);
+            const nextDiv = document.getElementById(`evt-step-${newStep}`);
+
+            if (currentDiv) currentDiv.classList.add('hidden');
+            if (nextDiv) nextDiv.classList.remove('hidden');
+
+            evtCurrentStep = newStep;
 
             updateEventUI();
         }
@@ -868,15 +923,23 @@
         }
 
         function editEventChangeStep(direction) {
+            const newStep = editEvtCurrentStep + direction;
+
+            if (newStep < 1 || newStep > editEvtTotalSteps) {
+                return;
+            }
+
             if (direction === 1 && !validateEditEventStep(editEvtCurrentStep)) {
                 return;
             }
 
-            document.getElementById(`edit-evt-step-${editEvtCurrentStep}`).classList.add('hidden');
-            
-            editEvtCurrentStep += direction;
-            
-            document.getElementById(`edit-evt-step-${editEvtCurrentStep}`).classList.remove('hidden');
+            const currentDiv = document.getElementById(`edit-evt-step-${editEvtCurrentStep}`);
+            const nextDiv = document.getElementById(`edit-evt-step-${newStep}`);
+
+            if (currentDiv) currentDiv.classList.add('hidden');
+            if (nextDiv) nextDiv.classList.remove('hidden');
+
+            editEvtCurrentStep = newStep;
 
             updateEditEventUI();
         }
@@ -1153,7 +1216,9 @@
                 
                 const modalContent = document.querySelector(`[name="${modalName}"] .flex.flex-col.gap-\\[0\\.83vw\\]`);
                 
-                const acceptedCount = 0; 
+                const acceptedCount = Array.isArray(event.convites)
+                ? event.convites.length
+                : 0 
                 const limit = event.limite_participantes;
                 const confirmedText = limit ? `${acceptedCount}/${limit}` : `${acceptedCount} (sem limite)`;
 
@@ -1185,6 +1250,57 @@
                 console.error('Erro ao carregar detalhes do evento:', error);
   
                 showToast('error', 'Erro na leitura.', 'Não foi possível carregar os detalhes deste evento.');
+            }
+        }
+
+        async function consultarCepEvento(prefix = '') {
+            const cepInput = document.querySelector(`#${prefix}cep input`) || document.querySelector(`input[name="cep"]`);
+            const ruaInput = document.querySelector(`#${prefix}rua input`) || document.querySelector(`input[name="rua"]`);
+            const bairroInput = document.querySelector(`#${prefix}bairro input`) || document.querySelector(`input[name="bairro"]`);
+            const cidadeInput = document.querySelector(`#${prefix}cidade input`) || document.querySelector(`input[name="cidade"]`);
+            const estadoSelect = document.querySelector(`#${prefix}estado select`) || document.querySelector(`select[name="estado"]`);
+            const complementoInput = document.querySelector(`#${prefix}complemento input`) || document.querySelector(`input[name="complemento"]`);
+
+            if (!cepInput) {
+                console.error('Campo de CEP não encontrado.');
+                return;
+            }
+
+            let cep = cepInput.value || '';
+            cep = cep.replace(/\D/g, '');
+
+            if (cep.length !== 8) {
+                showToast?.('error', 'CEP inválido', 'Digite um CEP com 8 dígitos.');
+                return;
+            }
+
+            cepInput.disabled = true;
+
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+
+                if (!response.ok) throw new Error('Erro ao consultar o CEP');
+
+                const data = await response.json();
+
+                if (data.erro) {
+                    showToast?.('error', 'CEP não encontrado', 'Verifique o número digitado.');
+                    return;
+                }
+
+                if (ruaInput) ruaInput.value = data.logradouro || '';
+                if (bairroInput) bairroInput.value = data.bairro || '';
+                if (cidadeInput) cidadeInput.value = data.localidade || '';
+                if (estadoSelect) estadoSelect.value = data.uf || '';
+                if (complementoInput && data.complemento) complementoInput.value = data.complemento;
+
+                showToast?.('success', 'Endereço encontrado', 'Dados preenchidos com sucesso.');
+
+            } catch (error) {
+                console.error('Erro ao buscar CEP:', error);
+                showToast?.('error', 'Erro de consulta', 'Tente novamente mais tarde.');
+            } finally {
+                cepInput.disabled = false;
             }
         }
     </script>

@@ -101,7 +101,12 @@ class EventoClubeController extends Controller
 
         $evento = Evento::where('id', $eventoId)
             ->where('clube_id', $clube->id)
-            ->with('convites.usuario')
+            ->with([
+                'convites' => function ($query) {
+                    $query->ativos()       
+                        ->with('usuario');
+                },
+            ])
             ->first();
 
         if (! $evento) {
@@ -187,8 +192,8 @@ class EventoClubeController extends Controller
 
         $evento->update($data);
 
-        foreach ($evento->usuarios as $usuario) {
-            $usuario->notify(new EventoAtualizadoNotification($evento));
+        foreach ($evento->convites as $convite) {
+            $convite->usuario->notify(new EventoAtualizadoNotification($evento));
         }
 
         return response()->json(['evento' => $evento], 200);

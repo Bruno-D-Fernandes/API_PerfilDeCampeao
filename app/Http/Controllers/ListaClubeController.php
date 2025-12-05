@@ -215,13 +215,37 @@ class ListaClubeController extends Controller
 
         try {
             $lista->usuarios()->detach();
-
             $lista->delete();
 
-            return response()->json(['message' => 'Lista excluída com sucesso'], 200);
+            $htmlGrid  = null;
+            $htmlModal = null;
+
+            if ($user instanceof Clube) {
+                $listas = Lista::where('clube_id', $user->id)
+                    ->withCount('usuarios')
+                    ->orderBy('id', 'desc')
+                    ->get();
+
+                 $htmlGrid .= view('clube.partials.lists-grid', [
+                        'listas' => $user->listas,
+                    ])->render();
+
+                $htmlModal = '';
+                foreach ($listas as $listaItem) {
+                    $htmlModal .= view('clube.partials.save-to-list-item', [
+                        'lista' => $listaItem,
+                    ])->render();
+                }
+            }
+
+            return response()->json([
+                'message'    => 'Lista excluída com sucesso',
+                'html'       => $htmlGrid,
+                'html_modal' => $htmlModal,
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'Erro interno ao excluir a lista',
+                'error'   => 'Erro interno ao excluir a lista',
                 'message' => $e->getMessage()
             ], 500);
         }

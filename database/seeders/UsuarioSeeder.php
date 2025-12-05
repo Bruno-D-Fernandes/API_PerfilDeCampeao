@@ -42,18 +42,18 @@ class UsuarioSeeder extends Seeder
         // LOCAIS (mantive os seus)
         // -----------------------------------------
         $locais = [
-            ['estado' => 'São Paulo', 'cidade' => 'São Paulo'],
-            ['estado' => 'São Paulo', 'cidade' => 'Campinas'],
-            ['estado' => 'São Paulo', 'cidade' => 'Santos'],
-            ['estado' => 'Rio de Janeiro', 'cidade' => 'Rio de Janeiro'],
-            ['estado' => 'Rio de Janeiro', 'cidade' => 'Niterói'],
-            ['estado' => 'Minas Gerais', 'cidade' => 'Belo Horizonte'],
-            ['estado' => 'Paraná', 'cidade' => 'Curitiba'],
-            ['estado' => 'Bahia', 'cidade' => 'Salvador'],
-            ['estado' => 'Pernambuco', 'cidade' => 'Recife'],
-            ['estado' => 'Rio Grande do Sul', 'cidade' => 'Porto Alegre'],
-            ['estado' => 'Ceará', 'cidade' => 'Fortaleza'],
-            ['estado' => 'Santa Catarina', 'cidade' => 'Florianópolis'],
+            ['estado' => 'SP', 'cidade' => 'São Paulo'],
+            ['estado' => 'SP', 'cidade' => 'Campinas'],
+            ['estado' => 'SP', 'cidade' => 'Santos'],
+            ['estado' => 'RJ', 'cidade' => 'Rio de Janeiro'],
+            ['estado' => 'RJ', 'cidade' => 'Niterói'],
+            ['estado' => 'MG', 'cidade' => 'Belo Horizonte'],
+            ['estado' => 'PA', 'cidade' => 'Curitiba'],
+            ['estado' => 'BA', 'cidade' => 'Salvador'],
+            ['estado' => 'PE', 'cidade' => 'Recife'],
+            ['estado' => 'RS', 'cidade' => 'Porto Alegre'],
+            ['estado' => 'CE', 'cidade' => 'Fortaleza'],
+            ['estado' => 'SC', 'cidade' => 'Florianópolis'],
         ];
 
         // -----------------------------------------
@@ -112,7 +112,6 @@ class UsuarioSeeder extends Seeder
                 'senhaUsuario'            => Hash::make('123456'),
                 'dataNascimentoUsuario'   => $dataNascimento,
                 'fotoPerfilUsuario'       => 'imagens_seeder/usuario_perfil.png',
-                'fotoBannerUsuario'       => "usuario_banner.jpg",
                 'alturaCm'                => $altura,
                 'pesoKg'                  => $peso,
                 'peDominante'             => $peDominante,

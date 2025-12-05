@@ -8,7 +8,7 @@
         @include('clube.partials.profile-page', ['clube' => $clube, 'oportunidades' => $oportunidades, 'categorias' => $categorias])
     </div>
 
-    <div id="profile-loading" class="absolute inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center hidden rounded-[0.42vw]">
+    <div id="profile-loading" class="absolute inset-0 bg-white/50 backdrop-blur-sm z-[999] flex items-center justify-center hidden rounded-[0.42vw]">
         <svg class="animate-spin h-[1.67vw] w-[1.67vw] text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -24,12 +24,26 @@
             document.getElementById('profile-loading').classList.add('hidden');
         }
 
-        function previewImage(input, imgId) {
+        function previewImage(input, imgId, placeholderId = null) {
             if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById(imgId).setAttribute('src', e.target.result);
-                }
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const img = document.getElementById(imgId);
+
+                    if (img) {
+                        img.setAttribute('src', e.target.result);
+                        img.classList.remove('hidden'); // mostra a imagem
+                    }
+
+                    if (placeholderId) {
+                        const placeholder = document.getElementById(placeholderId);
+                        if (placeholder) {
+                            placeholder.classList.add('hidden'); // esconde o placeholder
+                        }
+                    }
+                };
+
                 reader.readAsDataURL(input.files[0]);
             }
         }
@@ -98,8 +112,11 @@
 
                 if (response.ok) {
                     document.querySelector('#profile-page').innerHTML = data.data.html;
+
+                    if (data.data && data.data.hasIncompleteProfile === false) {
+                        hideNotification();
+                    }
                 } else {
-                    
                     if (response.status === 422) {
                         let errorMessages = "";
                         for (const [field, msgs] of Object.entries(data.errors || {})) { 

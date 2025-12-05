@@ -38,10 +38,38 @@
 
     @stack('scripts')
     <script>
+        async function cepComplete() {
+    const cepInput = document.getElementById("cepClube");
+    const cep = cepInput.value.replace(/\D/g, "");
+
+    if (cep.length !== 8) {
+        showToast("error", "CEP inválido", "O CEP deve conter 8 números.");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const data = await response.json();
+
+        if (data.erro) {
+            showToast("error", "CEP não encontrado", "Verifique o CEP digitado.");
+            return;
+        }
+
+        document.getElementById("enderecoClube").value = data.logradouro ?? "";
+        document.getElementById("cidadeClube").value = data.localidade ?? "";
+        document.getElementById("estadoClube").value = data.uf ?? "";
+
+    } catch (err) {
+        console.error(err);
+        showToast("error", "Erro", "Não foi possível consultar o CEP.");
+    }
+}
         let currentSortCol = null;
         let currentSortDir = 'neutral';
 
-         const clubeLoginUrl = "{{ route('clube.login') }}";
+        const clubeLoginUrl = "{{ route('clube.login') }}";
 
         function handleSort(columnName) {
             let newDirection = 'asc';

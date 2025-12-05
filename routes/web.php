@@ -50,7 +50,7 @@ Route::prefix('clube')->name('clube.')->group(function () {
         ->name('minhas-oportunidades');
 
         Route::get('/minhas-oportunidades/{id}', [ClubeOportunidadeController::class, 'show'])
-        ->name('listas.show');
+        ->name('oportunidades.show');
 
         Route::get('/listas', function () {
             return view('clube.listas.index');
@@ -98,35 +98,41 @@ Route::prefix('clube')->name('clube.')->group(function () {
 Route::middleware(['auth:club'])->group(function () {
     Route::get('/usuario/{id}', [UserController::class, 'showProfilePage'])
         ->where('id', '[0-9]+')
-        ->name('usuario.perfil');
+        ->name('usuarios.perfil');
+
+    Route::post('/notifications/{id}/read', function ($id) {
+    $club = auth()->guard('club')->user();
+    $notification = $club->notifications()->where('id', $id)->first();
+
+    if ($notification) {
+        $notification->markAsRead();
+    }
+
+    return response()->json(['success' => true]);
+    })->name('notifications.read');
+    Route::post('/notifications/read-all', function () {
+    auth()->guard('club')->user()->unreadNotifications->markAsRead();
+    return response()->json(['success' => true]);
+})->name('notifications.readAll');
+
+
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AuthAdmController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AuthAdmController::class, 'loginAdm'])->name('login.submit');
-    Route::post('/logout', [AuthAdmController::class, 'logout'])->name('logout');
 
-    // página web (Blade)
+    Route::post('/login', [AuthAdmController::class, 'loginAdm'])->name('login.submit');
+    Route::post('/logout', [AuthAdmController::class, 'logoutAdm'])->name('logout');
+
     Route::get('/dashboard', [DashAdminController::class, 'dashboardData'])->name('dashboard');
+
     Route::post('/dashboard/oportunidades/aprovar', [DashAdminController::class, 'approveOpportunity'])
     ->name('oportunidades.aprovar');
 
-Route::post('/dashboard/oportunidades/recusar', [DashAdminController::class, 'rejectOpportunity'])
-    ->name('oportunidades.recusar');
+    Route::post('/dashboard/oportunidades/recusar', [DashAdminController::class, 'rejectOpportunity'])
+        ->name('oportunidades.recusar');
 
-    Route::get('/oportunidades', [AdminOportunidadesController::class, 'index'])->name('oportunidades');
+    Route::post('/clube/aprovar', [DashAdminController::class, 'clubesAprovar'])->name('clube.aprovar');
 
-    // rotas JSON que o Alpine usa
-    Route::prefix('oportunidades-json')->group(function () {
-        Route::get('/metrics', [AdminOportunidadesController::class, 'metrics'])->name('oportunidades.metrics');
-        Route::get('/list', [AdminOportunidadesController::class, 'list'])->name('oportunidades.list');
-        Route::get('/{oportunidade}/inscritos', [AdminOportunidadesController::class, 'listInscricoes'])->name('oportunidades.inscritos');
-        Route::put('/{oportunidade}', [AdminOportunidadesController::class, 'update'])->name('oportunidades.update');
-        Route::put('/{oportunidade}/status', [AdminOportunidadesController::class, 'updateStatus'])->name('oportunidades.updateStatus');
-        Route::delete('/{oportunidade}', [AdminOportunidadesController::class, 'destroy'])->name('oportunidades.destroy');
-    });
-
-    Route::get('/funcoes', function () {
-        return view('admin.funcoes.index');
-    })->name('funcoes');
+    Route::get('/oportunidades', [OportunidadeController::class, 'showWebPage'])->name('oportunidades');
 });

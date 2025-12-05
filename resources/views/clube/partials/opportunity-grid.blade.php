@@ -77,7 +77,7 @@
 
             <x-slot:footer>
                 <div class="w-full flex gap-x-[0.42vw] justify-end">
-                    <x-button color="gray" size="md" onclick="closeModal('edit-opportunity-{{ $item->id }}')">
+                    <x-button color="gray" size="md" onclick="document.querySelector('#form-edit-{{ $item->id }}').reset(); closeModal('edit-opportunity-{{ $item->id }}')">
                         Cancelar
                     </x-button>
 

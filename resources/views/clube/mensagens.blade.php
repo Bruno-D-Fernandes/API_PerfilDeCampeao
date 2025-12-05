@@ -8,9 +8,7 @@
     @endphp
 
     <div class="flex w-full gap-x-[1.25vw] flex-1 min-h-0 h-full">
-        {{-- COLUNA ESQUERDA: LISTA DE CONVERSAS --}}
-        <div class="flex-1 bg-white w-[33.33vw] border border-[0.052vw] border-gray-300 rounded-[0.63vw] p-[0.63vw] flex flex-col gap-[0.63vw]
-                    max-h-[calc(100vh-9rem)] min-h-[24rem]">
+        <div class="flex-1 bg-white w-[33.33vw] border border-[0.052vw] border-gray-300 rounded-[0.63vw] p-[0.63vw] flex flex-col gap-[0.63vw] h-full">
             <div class="w-full">
                 <x-search-input 
                     name="search_conversation"
@@ -27,11 +25,8 @@
             </div>
         </div>
 
-        {{-- COLUNA DIREITA: CHAT ABERTO --}}
         <div class="flex-[3] flex flex-col bg-white w-full border border-[0.052vw] border-gray-300 rounded-[0.63vw] p-[0.63vw] gap-[0.63vw]
-                    max-h-[calc(100vh-9rem)] min-h-[24rem]">
-            
-            {{-- HEADER DO CONTATO --}}
+        h-full min-h-[24rem]">
             <div class="flex items-center gap-x-[0.42vw]">
                 <div class="w-[2.08vw] h-[2.08vw] rounded-full bg-gray-200 overflow-hidden" id="chat-contact-avatar"></div>
                 <span class="text-[0.73vw] font-semibold" id="chat-contact-name">
@@ -44,15 +39,20 @@
             {{-- ÁREA DAS MENSAGENS (TEM QUE TER SCROLL AQUI) --}}
             <div class="flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-[0.21vw]" id="chat-messages-container">
                 <div class="flex flex-col gap-y-[0.63vw] justify-end min-h-full" id="messages-list"> 
-                    <div id="messages-empty" class="text-[0.63vw] text-gray-500 text-center">
-                        Nenhuma conversa selecionada.
+                    <div id="messages-empty" class="text-[0.63vw] text-gray-900 justify-center items-center mb-80 flex-column">
+                      <div class="flex-1 h-full flex flex-col items-center justify-center text-center py-4 opacity-80">
+                            <x-empty-state text="Nenhuma conversa selecionada.">
+                                <x-slot:icon>
+                                    <svg class="w-12 h-12"xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-off-icon lucide-message-circle-off"><path d="m2 2 20 20"/><path d="M4.93 4.929a10 10 0 0 0-1.938 11.412 2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 0 0 11.302-1.989"/><path d="M8.35 2.69A10 10 0 0 1 21.3 15.65"/></svg>
+                                </x-slot:icon>
+                            </x-empty-state>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="w-full border-t-[0.052vw] border-gray-200"></div>
 
-            {{-- INPUT DE MENSAGEM --}}
             <div>
                 <form id="chat-send-form">
                     <x-message-input name="message" placeholder="Digite sua mensagem..." />
@@ -61,7 +61,6 @@
         </div>
     </div>
 
-    {{-- MODAL: ENVIAR CONVITE DE EVENTO --}}
     <x-modal maxWidth="xl" name="send-invite-modal" title="Enviar Convite" titleSize="[1.04vw]" titleColor="emerald">
         <div class="flex flex-col gap-[0.83vw]">
             <x-search-input placeholder="Buscar eventos..."></x-search-input>
@@ -365,7 +364,7 @@
     const avatarUrl = conv.contact?.avatar || defaultAvatarUrl;
 
     return `
-        <div class="conversation-item flex items-center justify-between bg-gray-50 rounded-[0.42vw] hover:bg-gray-100 transition-colors cursor-pointer p-[0.42vw]"
+        <div class="conversation-item flex items-center justify-between bg-gray-100 rounded-[0.7vw] hover:bg-gray-100 transition-colors cursor-pointer p-[0.42vw] mt-[0.31vw]"
              data-conversation-id="${conv.conversation_id}">
             <div class="flex items-center gap-x-[0.42vw] w-full">
                 <div class="h-[2.08vw] w-[2.08vw] aspect-square rounded-full bg-gray-200 overflow-hidden">
@@ -577,7 +576,7 @@
                                     </span>
                                 </div>
 
-                                <p class="text-[0.73vw] py-[0.31vw] text-white text-right break-all whitespace-pre-wrap">
+                                <p class="text-[0.73vw] py-[0.31vw] text-white text-right break-all my-1">
                                     ${text}
                                 </p>
 
@@ -608,7 +607,7 @@
                                 </span>
                             </div>
 
-                            <p class="text-[0.73vw] py-[0.31vw] text-gray-900 text-left break-all whitespace-pre-wrap" style="text-align:left;">
+                            <p class="text-[0.73vw] py-[0.31vw] text-gray-900 text- break-all my-1" style="text-align:left;">
                                 ${text}
                             </p>
 

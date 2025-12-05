@@ -10,6 +10,7 @@ use App\Models\Oportunidade;
 use App\Models\Usuario;
 use App\Models\Clube;
 use Carbon\Carbon;
+use App\Models\Esporte;
 
 class InscricaoOportunidadeController extends Controller
 {
@@ -162,6 +163,7 @@ class InscricaoOportunidadeController extends Controller
 
         $html = view('clube.partials.opportunity-details', [
             'oportunidade' => $op,
+            'esportes' => Esporte::all(),
         ])->render();
 
         return response()->json([
@@ -200,6 +202,7 @@ class InscricaoOportunidadeController extends Controller
 
         $html = view('clube.partials.opportunity-details', [
             'oportunidade' => $op,
+            'esportes' => Esporte::all(),
         ])->render();
 
         return response()->json([

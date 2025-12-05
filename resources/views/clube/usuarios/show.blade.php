@@ -8,15 +8,13 @@
                             <img id="display-banner" 
                                 src="{{ asset('storage/'. $usuario->fotoBannerUsuario) }}" 
                                 class="w-full h-full object-cover"
-                                alt="Banner do Clube">
+                                alt="Banner do Usuário">
                         @else
                             <svg id="placeholder-banner" class="h-[3.33vw] w-[3.33vw] text-white stroke-[0.1vw]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                                 <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
                                 <circle cx="9" cy="9" r="2"/>
                                 <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
                             </svg>
-
-                            <img id="display-banner" class="hidden w-full h-full object-cover">
                         @endif
                     </div>
 
@@ -31,7 +29,6 @@
                                 <path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/>
                                 <circle cx="12" cy="13" r="3"/>
                             </svg>
-                            <img id="display-perfil" class="hidden w-full h-full object-cover">
                         @endif
 
                     </div>
@@ -42,7 +39,7 @@
                                 Adicionar à lista
                             </x-button>
 
-                            <x-button color="clube" size="md" onclick="openModal('edit-profile')">
+                            <x-button color="clube" size="md" id="btnEnviarMsg" data-id="{{ $usuario->id }}" data-type="Usuario">
                                 Enviar mensagem
                             </x-button>
                         </div>
@@ -80,13 +77,109 @@
                             </x-slot>
 
                             <x-slot :name="'perfil_' . $perfil->id">
-                                <div class="w-full grid grid-cols-3 gap-[0.83vw] auto-rows-auto">
-                                    <div class="col-span-3 py-[2vw] text-center text-gray-400 bg-gray-50 rounded-[0.42vw] border border-dashed border-gray-200 text-[0.73vw]">
-                                        Mídia e estatísticas de {{ $perfil->esporte->nomeEsporte ?? 'Esporte' }}
-                                    </div>
-                                </div>  
-                            </x-slot>
+                                @php
+                                    $postagens = $perfil->postagens ?? collect();
+                                @endphp
 
+                                <div class="w-full grid grid-cols-3 gap-[0.83vw] auto-rows-auto">
+                                    @forelse($postagens as $post)
+                                        @php
+                                            $primaryMedia = optional($post->imagens->first());
+
+                                            $rawMediaPath = $primaryMedia->caminhoImagem
+                                                ?? $primaryMedia->url
+                                                ?? $primaryMedia->caminho
+                                                ?? $primaryMedia->path
+                                                ?? $primaryMedia->arquivo
+                                                ?? null;
+
+                                            // Normalizar o caminho: se for relativo, adicionar asset()
+                                            $mediaPath = null;
+                                            if ($rawMediaPath) {
+                                                if (strpos($rawMediaPath, 'http') === 0) {
+                                                    $mediaPath = $rawMediaPath;
+                                                } else {
+                                                    // Remover 'storage/' duplicado e usar asset()
+                                                    $cleanPath = ltrim($rawMediaPath, '/');
+                                                    if (strpos($cleanPath, 'storage/') !== 0) {
+                                                        $cleanPath = 'storage/' . $cleanPath;
+                                                    }
+                                                    $mediaPath = asset($cleanPath);
+                                                }
+                                            }
+
+                                            $videoExtensions = ['mp4', 'webm', 'ogg', 'ogv', 'mov', 'm4v'];
+
+                                            $extension = null;
+                                            $isVideo = false;
+
+                                            if ($mediaPath) {
+                                                $path = parse_url($mediaPath, PHP_URL_PATH);
+                                                $extension = $path ? strtolower(pathinfo($path, PATHINFO_EXTENSION)) : null;
+
+                                                if ($extension && in_array($extension, $videoExtensions, true)) {
+                                                    $isVideo = true;
+                                                }
+                                            }
+                                        @endphp
+
+                                        <div class="bg-white rounded-[0.42vw] border border-gray-200 overflow-hidden flex flex-col">
+                                            @if($mediaPath)
+                                                @if($isVideo)
+                                                    <div class="aspect-video bg-black">
+                                                        <video controls class="w-full h-full object-cover">
+                                                            <source src="{{ $mediaPath }}" type="video/{{ $extension === 'ogv' ? 'ogg' : $extension }}">
+                                                            Seu navegador não suporta vídeo.
+                                                        </video>
+                                                    </div>
+                                                @else
+                                                    <div class="aspect-video bg-gray-100">
+                                                        <img src="{{ $mediaPath }}" alt="Mídia do atleta" class="w-full h-full object-cover">
+                                                    </div>
+                                                @endif
+                                            @else
+                                                <div class="aspect-video bg-gray-50 flex items-center justify-center text-[0.73vw] text-gray-400">
+                                                    Sem mídia anexada
+                                                </div>
+                                            @endif
+
+                                            <div class="p-[0.63vw] flex flex-col gap-[0.21vw]">
+                                                @if($post->created_at)
+                                                    <span class="text-[0.63vw] text-gray-400">
+                                                        {{ \Carbon\Carbon::parse($post->created_at)->format('d/m/Y') }}
+                                                    </span>
+                                                @endif
+
+                                                @if($post->textoPostagem)
+                                                    <p class="text-[0.73vw] text-gray-700 line-clamp-3">
+                                                        {{ $post->textoPostagem }}
+                                                    </p>
+                                                @endif
+
+                                                @if($post->localizacaoPostagem)
+                                                    <span class="inline-flex items-center gap-[0.21vw] text-[0.63vw] text-gray-500 mt-[0.21vw]">
+                                                        <svg class="h-[0.63vw] w-[0.63vw]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                                        {{ $post->localizacaoPostagem }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <div class="col-span-3 h-full">
+                                            <div class="p-[0.42vw] flex items-center justify-center h-full">
+                                                <x-empty-state text="Nenhuma postagem encontrada.">
+                                                    <x-slot:icon>
+                                                        <svg class="h-[1.67vw] w-[1.67vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-x-icon lucide-user-x"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" x2="22" y1="8" y2="13"/><line x1="22" x2="17" y1="8" y2="13"/></svg>
+                                                    </x-slot:icon>
+                                                    <p class="text-gray-400 font-normal text-[0.83vw]">
+                                                        Ainda não há fotos ou vídeos cadastrados para este perfil.
+                                                    </p>
+                                                </x-empty-state>
+                                            </div>
+                                        </div>
+                                    @endforelse
+                                </div>
+                            </x-slot>
                         @endforeach
 
                         <x-slot name="icon_sobre">
@@ -188,6 +281,48 @@
     </div>
         
     <script>
+
+    document.getElementById("btnEnviarMsg").addEventListener("click", async function () {
+    const receiverId = this.getAttribute("data-id");
+    const receiverType = this.getAttribute("data-type");
+    const token = localStorage.getItem('clube_token');
+
+    const mensagemPadrao = "Seu perfil me chamou a atenção, podemos conversar?";
+
+    try {
+        const response = await fetch("/api/chat/send", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                receiver_id: receiverId,
+                receiver_type: 'usuario',
+                message: mensagemPadrao
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error(data);
+            alert("Erro ao enviar mensagem.");
+            return;
+        }
+
+        // A conversa já existe ou acabou de ser criada.
+        const conversationId = data.data.conversation_id;
+
+        // Redirecionar para o chat
+        window.location.href = `/clube/mensagens`;
+
+    } catch (error) {
+        console.error(error);
+        alert("Erro inesperado.");
+    }
+});
         function showProfileLoading() {
             document.getElementById('profile-loading').classList.remove('hidden');
         }

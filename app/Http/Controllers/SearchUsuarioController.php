@@ -53,7 +53,7 @@ class SearchUsuarioController extends Controller
             'estadoUsuario' => 'nullable|string|max:100',
             'cidadeUsuario' => 'nullable|string|max:100',
             'peDominante'   => 'nullable|in:direito,esquerdo',
-            'maoDominante'  => 'nullable|in:destro,canhoto',
+            'maoDominante'  => 'nullable|in:direita,esquerda',
             'page'          => 'nullable|integer',
             'ordenarpor'    => 'nullable|string',
         ]);
