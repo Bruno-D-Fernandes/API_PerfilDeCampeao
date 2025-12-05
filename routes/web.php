@@ -99,6 +99,23 @@ Route::middleware(['auth:club'])->group(function () {
     Route::get('/usuario/{id}', [UserController::class, 'showProfilePage'])
         ->where('id', '[0-9]+')
         ->name('usuarios.perfil');
+
+    Route::post('/notifications/{id}/read', function ($id) {
+    $club = auth()->guard('club')->user();
+    $notification = $club->notifications()->where('id', $id)->first();
+
+    if ($notification) {
+        $notification->markAsRead();
+    }
+
+    return response()->json(['success' => true]);
+    })->name('notifications.read');
+    Route::post('/notifications/read-all', function () {
+    auth()->guard('club')->user()->unreadNotifications->markAsRead();
+    return response()->json(['success' => true]);
+})->name('notifications.readAll');
+
+
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {

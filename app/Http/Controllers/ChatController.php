@@ -70,7 +70,6 @@ class ChatController extends Controller
 
             $msg = new Message([
                 'message' => $validated['message'],
-                // Outros campos do $fillable, como 'type', podem ser adicionados aqui
             ]);
 
             event(new MessageReceivedNotification($msg));

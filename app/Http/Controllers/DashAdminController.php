@@ -16,6 +16,7 @@ use App\Models\Funcao;
 use App\Models\Posicao;
 use App\Models\Inscricao;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\OportunidadeAceita;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
@@ -300,9 +301,11 @@ class DashAdminController extends Controller
         ]);
 
         $oportunidade = Oportunidade::findOrFail($data['oportunidade_id']);
-        $oportunidade->status = 'approved'; // ou o valor que você usa na coluna
+        $oportunidade->status = 'approved'; 
+        $oportunidade->reviewed_at = now();
         $oportunidade->save();
 
+        $oportunidade->clube->notify(new OportunidadeAceita($oportunidade));
         // se quiser, dispara evento / notificação aqui
 
         return redirect()

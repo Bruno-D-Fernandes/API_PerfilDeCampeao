@@ -1,30 +1,6 @@
 <x-layouts.base :title="$title">
     <div id="toast-notification-container" class="fixed top-[0.83vw] right-[0.83vw] z-[31] flex flex-col gap-[0.42vw] pointer-events-none">
-        {{-- Notificação - Boa sorte Luan --}}
-        <div
-            id="toast-notification"
-            class=" h-[4.58vw] max-w-[28vw] bg-white shadow-md rounded-[0.42vw] flex items-center justify-between p-[0.83vw] z-[31] opacity-100 transition-opacity duration-300"
-        >
-            <div class="flex items-center gap-x-[0.42vw]">
-                <div class="h-[2.92vw] w-[2.92vw] aspect-square rounded-[0.31vw] bg-gray-100 flex items-center justify-center">
-                    <svg class="h-[1.25vw] w-[1.25vw] text-emerald-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
-                        <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/>
-                        <path d="M8 6v8"/>
-                    </svg>
-                </div>
-
-                <div class="h-full w-full flex flex-col justify-between">
-                    <h3 class="text-[0.73vw] font-medium text-emerald-700 break-all">
-                        Um administrador do sistema recusou a sua oportunidade
-                    </h3>
-
-                    <h4 class="text-[0.63vw] font-normal text-emerald-900">
-                        Agora
-                    </h4>
-                </div>
-            </div>
-        </div>
+       
     </div>
 
     <x-sidebar>
@@ -33,15 +9,13 @@
         @endphp
 
         <x-slot:logo>
-            <a href="{{ route('clube.dashboard') }}">
-                <div class="h-full flex flex-col gap-y-[0.21vw] items-center p-[0.63vw]">
-                    <img src="{{ asset('img/logo-side-clube.png') }}" alt="" class="h-[4.17vw] object-contain aspect-square">
+            <div class="h-full flex flex-col gap-y-[0.21vw] items-center p-[0.63vw]">
+                <img src="{{ asset('img/logo-side-clube.png') }}" alt="" class="h-[4.17vw] object-contain aspect-square">
 
-                    <span class="text-[0.73vw] font-semibold text-emerald-500 tracking-tight">
-                        Perfil de Campeão
-                    </span>
-                </div>
-            </a>
+                <span class="text-[0.73vw] font-semibold text-emerald-500 tracking-tight">
+                    Perfil de Campeão
+                </span>
+            </div>
         </x-slot:logo>
 
         <x-sidebar-section title="geral">
@@ -150,11 +124,9 @@
                 </div>
 
                 <div class="h-full flex items-center">
-                    <a href="{{ route('clube.perfil', $clube->id) }}">
-                        <x-button size="md" color="none" class="bg-emerald-500 hover:bg-emerald-600 text-white">
-                            Ir pro perfil
-                        </x-button>
-                    </a>
+                    <x-button size="md" color="none" class="bg-emerald-500 hover:bg-emerald-600 text-white">
+                        Ir pro perfil
+                    </x-button>
                 </div>
 
                 <div class="!h-[2.91vw] aspect-square flex items-center justify-center" onclick="hideNotification()">
@@ -165,35 +137,82 @@
     @endif
 
     <script>
-        function hideNotification() {
-            const el = document.getElementById('notifications-container');
+/* ============================================
+    TOAST — NOTIFICAÇÃO NO TOPO
+=============================================== */
+function showToast(notification) {
+    const container = document.getElementById('toast-notification-container');
 
-            if (!el) return;
+    const el = document.createElement("div");
+    el.className =
+        "h-[4.58vw] max-w-[28vw] bg-white shadow-md rounded-[0.42vw] flex items-center justify-between p-[0.83vw] opacity-100 transition-opacity duration-300";
 
-            el.classList.remove('opacity-100');
-            el.classList.add('opacity-0');
+    const time = new Date(notification.timelabel).toLocaleTimeString('pt-BR', {
+        hour: '2-digit', minute: '2-digit'
+    });
 
-            setTimeout(() => {
-                el.remove();
-            }, 300);
-        }
+    el.innerHTML = `
+        <div class="flex items-center gap-x-[0.42vw]">
+            <div class="h-[2.92vw] w-[2.92vw] bg-gray-100 rounded-[0.31vw] flex items-center justify-center">
+                <svg class="h-[1.25vw] w-[1.25vw] text-emerald-600" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" fill="currentColor"></circle>
+                </svg>
+            </div>
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const toast = document.getElementById('toast-notification');
+            <div class="flex flex-col">
+                <h3 class="text-[0.73vw] font-medium text-emerald-700">
+                    ${notification.titulo ?? "Nova Notificação"}
+                </h3>
+                <h4 class="text-[0.63vw] text-emerald-900">${time}</h4>
+            </div>
+        </div>
+    `;
 
-            if (!toast) return;
+    container.appendChild(el);
 
-            const visibleTime = 3000;
-            const fadeDuration = 300;
+    setTimeout(() => {
+        el.classList.add("opacity-0");
+        setTimeout(() => el.remove(), 300);
+    }, 3000);
+}
 
-            setTimeout(() => {
-                toast.classList.remove('opacity-100');
-                toast.classList.add('opacity-0');
+/* ============================================
+    ADICIONAR NO DROPDOWN (lista de notificações)
+=============================================== */
+function appendToNotificationList(notification) {
+    const list = document.getElementById('notification-list');
 
-                setTimeout(() => {
-                    toast.remove();
-                }, fadeDuration);
-            }, visibleTime);
+    if (!list) return;
+
+    const time = new Date(notification.timelabel).toLocaleTimeString('pt-BR', {
+        hour: '2-digit', minute: '2-digit'
+    });
+
+    const item = document.createElement('div');
+    item.className = "flex flex-col p-3 border-b border-gray-100 bg-gray-50";
+
+    item.innerHTML = `
+        <span class="text-sm font-semibold text-gray-800">${notification.titulo ?? "Nova Notificação"}</span>
+        <span class="text-xs text-gray-600">${time}</span>
+    `;
+
+    list.prepend(item);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const userId = "{{ auth()->guard('club')->id() }}";
+
+    if (!userId) return;
+
+    Echo.private(`notifications.club.${userId}`)
+        .listen('.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', (e) => {
+
+            const data = e.notification.data;
+
+            showToast(data);
+
+            appendToNotificationList(data);
         });
-    </script>
+});
+</script>
 </x-layouts.base>

@@ -29,7 +29,8 @@ class OportunidadeAceita extends Notification
         return [
             'type' => 'oportunidade_aceita',
             'oportunidade_id' => $this->oportunidade->id,
-            'titulo' => $this->oportunidade->tituloOportunidades, 
+            'timelabel' => $this->oportunidade->reviewed_at,
+            'titulo' => $this->oportunidade->tituloOportunidades,
             'clube_id' => $this->oportunidade->clube_id,
         ];
     }
@@ -41,6 +42,6 @@ class OportunidadeAceita extends Notification
 
     public function broadcastOn()
     {
-        return new PrivateChannel('notifications.club.' . $notifiable->id);
+        return new PrivateChannel('notifications.club.' . $this->oportunidade->clube_id);
     }
 }

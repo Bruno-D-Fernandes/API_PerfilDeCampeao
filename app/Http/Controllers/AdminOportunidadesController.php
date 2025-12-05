@@ -184,13 +184,14 @@ class AdminOportunidadesController extends Controller
             ],
         ]);
 
+       
+
         $oportunidade->status = $data['status'];
 
         if ($data['status'] === 'rejected') {
             $oportunidade->rejection_reason = $data['rejection_reason'];
         } else {
             $oportunidade->rejection_reason = null;
-            $oportunidade->receiver->notify(new OportunidadeAceita($oportunidade));
         }
 
         $oportunidade->save();
