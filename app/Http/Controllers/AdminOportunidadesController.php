@@ -190,6 +190,7 @@ class AdminOportunidadesController extends Controller
             $oportunidade->rejection_reason = $data['rejection_reason'];
         } else {
             $oportunidade->rejection_reason = null;
+            $oportunidade->receiver->notify(new OportunidadeAceita($oportunidade));
         }
 
         $oportunidade->save();
