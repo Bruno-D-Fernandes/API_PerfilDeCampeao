@@ -3,7 +3,7 @@
         <div id="toast-container" class="fixed top-[0.83vw] left-[0.83vw] z-[9999] flex flex-col gap-[0.63vw] pointer-events-auto"></div>
 
         <div class="w-full h-full flex items-center justify-center">
-            <x-form-card title="O Futuro Começa Hoje" description="Informe seus dados e acesse o Perfil de Campeão hoje mesmo!  " color="green">
+            <x-form-card title="O Futur Começa Hoje" description="Informe seus dados e acesse o Perfil de Campeão hoje mesmo!  " color="green">
                 <x-slot:logo>
                     <div class="flex items-center gap-x-[0.42vw] h-[3.33vw]">
                         <img src="{{ asset('img/logo-clube.png') }}" alt="" class="h-full object-fit">
@@ -161,15 +161,15 @@
                     </div>
 
                     <x-slot:actions>
-                        <button type="button" id="btn-prev" onclick="changeStep(-1)" class="hidden cursor-pointer w-full bg-gray-200 text-gray-600 hover:bg-gray-300 font-medium text-[0.93vw] p-[0.83vw] rounded-[1.5vw] transition-transform hover:-translate-y-0.5">
+                        <button type="button" id="btn-prev" onclick="changeStep(-1)" class="hidden cursor-pointer w-full bg-gray-200 text-gray-600 hover:bg-gray-300 font-medium text-[0.93vw] p-[0.83vw] rounded-[0.5w] transition-transform hover:-translate-y-0.5">
                             Voltar
                         </button>
 
-                        <button type="button" id="btn-next" onclick="changeStep(1)" class="cursor-pointer w-full bg-emerald-500 hover:bg-emerald-600 text-white font-medium text-[0.93vw] p-[0.83vw] rounded-[1.5vw] transition-transform hover:-translate-y-0.5 transition-colors">
+                        <button type="button" id="btn-next" onclick="changeStep(1)" class="cursor-pointer w-full bg-emerald-500 hover:bg-emerald-600 text-white font-medium text-[0.93vw] p-[0.83vw] rounded-[0.5vw] transition-transform hover:-translate-y-0.5 transition-colors">
                             Avançar
                         </button>
 
-                        <button type="submit" id="btn-submit" class="hidden cursor-pointer w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-[0.93vw] p-[0.83vw] rounded-[1.5vw] transition-transform hover:-translate-y-0.5 transition-colors">
+                        <button type="submit" id="btn-submit" class="hidden cursor-pointer w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-[0.93vw] p-[0.83vw] rounded-[0.5vw] transition-transform hover:-translate-y-0.5 transition-colors">
                             Finalizar Cadastro
                         </button>
                     </x-slot:actions>
@@ -191,7 +191,7 @@
     </x-slot>
 
     <x-slot name="right">
-        <div class="relative w-full h-full rounded-[2.5vw] overflow-hidden">
+        <div class="relative w-full h-full rounded-[1vw] overflow-hidden">
             <img src="{{ asset('img/cadastro-clube-img.jpg') }}" class="w-full h-full object-cover" alt="" />
 
             <div class="absolute bottom-[1.67vw] left-[1.67vw] right-[1.67vw] flex flex-col gap-[0.83vw]">
@@ -204,7 +204,7 @@
                 </h2>
             </div>
 
-            <div class="absolute top-[1.67vw] right-[1.67vw] bg-black/40 rounded-[1.5vw] p-[0.83vw]">
+            <div class="absolute top-[1.67vw] right-[1.67vw] bg-black/40 rounded-[0.5vw] p-[0.83vw]">
                 <p class="text-white text-[0.93vw] font-normal">
                     Encontre talentos.
                 </p>

@@ -39,7 +39,7 @@
     </x-slot>
 
     <x-slot name="right">
-        <div class="relative w-full h-full rounded-[2.5vw] overflow-hidden">
+        <div class="relative w-full h-full rounded-[1vw] overflow-hidden">
             <img src="{{ asset('img/login-admin-img.jpg') }}" class="w-full h-full object-cover" alt="" />
 
             <div class="absolute bottom-[1.67vw] left-[1.67vw] right-[1.67vw] flex flex-col gap-[0.83vw]">
@@ -52,7 +52,7 @@
                 </h2>
             </div>
 
-            <div class="absolute top-[1.67vw] right-[1.67vw] bg-black/40 rounded-[1.5vw] p-[0.83vw]">
+            <div class="absolute top-[1.67vw] right-[1.67vw] bg-black/40 rounded-[0.5vw] p-[0.83vw]">
                 <p class="text-white text-[0.93vw] font-normal">
                     Acesso restrito.
                 </p>
