@@ -7,7 +7,6 @@
 ])
 
 @php
-    // Recupera o usuário de forma genérica (ajusta os guards conforme seu projeto)
     $user = auth('admin')->user()
         ?? auth('club')->user()
         ?? auth()->user();
@@ -62,20 +61,22 @@
         </div>
 
         <div class="flex items-center gap-[0.83vw]">
-            <button 
-                type="button" 
-                onclick="openDrawer('notifications')" 
-                class="relative group p-[0.42vw] bg-white rounded-full border-[0.052vw] border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-0 cursor-pointer"
-            >
-                <svg class="w-[0.83vw] h-[0.83vw] text-{{ $color }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path fill-rule="evenodd" d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z" clip-rule="evenodd" />
-                </svg>
+            @if ($user instanceof \App\Models\Clube)
+                <button 
+                    type="button" 
+                    onclick="openDrawer('notifications')" 
+                    class="relative group p-[0.42vw] bg-white rounded-full border-[0.052vw] border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-0 cursor-pointer"
+                >
+                    <svg class="w-[0.83vw] h-[0.83vw] text-{{ $color }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z" clip-rule="evenodd" />
+                    </svg>
 
-                <span class="absolute top-0 right-0 flex h-[0.63vw] w-[0.63vw]">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-{{ $color }} opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-[0.63vw] w-[0.63vw] bg-{{ $color }} border-[0.1vw] border-white"></span>
-                </span>
-            </button>
+                    <span class="absolute top-0 right-0 flex h-[0.63vw] w-[0.63vw]">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-{{ $color }} opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-[0.63vw] w-[0.63vw] bg-{{ $color }} border-[0.1vw] border-white"></span>
+                    </span>
+                </button>
+            @endif
 
             <div class="relative">
                 <button 

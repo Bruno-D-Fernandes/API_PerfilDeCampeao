@@ -1,4 +1,4 @@
-<div class="flex items-center justify-between w-full gap-[0.83vw]">
+<div class="flex items-center justify-between w-full gap-[0.83vw] pagination-container">
     <nav>
         <ul class="flex -space-x-[0.052vw] text-[0.73vw]">
             <li>

@@ -1,3 +1,8 @@
+@php
+    $hasInscricoes = $dados['has_inscricoes'];
+    $hasOportunidades = $dados['has_oportunidades'];
+@endphp
+
 <div class="shrink-0 grid grid-rows-[auto_1fr] gap-[0.42vw] h-full min-h-0">
     <div class="w-full grid grid-cols-4 gap-[0.83vw] shrink-0">
         <x-dashboard-widget 
@@ -52,27 +57,50 @@
     <div class="h-full grid grid-cols-10 gap-[0.83vw] min-h-0">
         <div class="h-full col-span-7 flex flex-col gap-[0.83vw]">
             <div class="grid grid-cols-2 gap-[0.83vw] flex-1">
+                {{-- DISTRIBUIÇÃO POR POSIÇÕES --}}
                 <div class="bg-white p-[0.83vw] rounded-[0.42vw] border border-[0.15vw] border-gray-200 hover:border-emerald-500 transition-colors flex flex-col gap-[0.415vw]">
                     <span class="text-[0.83vw] font-medium text-gray-700">
                         Distribuição por posições
                     </span>
 
                     <div class="relative flex-1 min-h-0">
-                        <div id="chart-posicoes" class="absolute inset-0" data-json="{{ json_encode($dados['distribuicaoPosicoes']) }}"></div>
+                        @if (!$hasInscricoes)
+                            <div class="flex h-full items-center justify-center opacity-60">
+                                <x-empty-state text="Ainda não há oportunidades suficientes para gerar a distribuição por posições.">
+                                    <x-slot:icon>
+                                        <svg class="h-[1.67vw] w-[1.67vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone-icon lucide-megaphone"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></svg>
+                                    </x-slot:icon>
+                                </x-empty-state>
+                            </div>
+                        @else
+                            <div id="chart-posicoes" class="absolute inset-0" data-json="{{ json_encode($dados['distribuicaoPosicoes']) }}"></div>
+                        @endif
                     </div>
                 </div>
 
+                {{-- ORIGEM DAS CANDIDATURAS --}}
                 <div class="bg-white h-full p-[0.83vw] rounded-[0.42vw] border border-[0.15vw] border-gray-200 hover:border-emerald-500 transition-colors flex flex-col gap-[0.73vw]">
                     <span class="text-[0.83vw] font-medium text-gray-700">
                         Origem das candidaturas
                     </span>
 
                     <div class="relative flex-1 min-h-0">
-                        <div id="chart-origem" class="absolute inset-0" data-json="{{ json_encode($dados['topEstados']) }}"></div>
+                        @if (!$hasOportunidades)
+                            <div class="flex h-full items-center justify-center opacity-60">
+                                <x-empty-state text="Ainda não há inscrições suficientes para exibir a origem.">
+                                    <x-slot:icon>
+                                        <svg class="h-[1.67vw] w-[1.67vw] text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>
+                                    </x-slot:icon>
+                                </x-empty-state>
+                            </div>
+                        @else
+                            <div id="chart-origem" class="absolute inset-0" data-json="{{ json_encode($dados['topEstados']) }}"></div>
+                        @endif
                     </div>
                 </div>
             </div>
 
+            {{-- EVOLUÇÃO DE CANDIDATURAS --}}
             <div class="flex-1 h-full min-h-0">
                 <div class="bg-white h-full p-[0.83vw] rounded-[0.42vw] border border-[0.15vw] border-gray-200 hover:border-emerald-500 transition-colors flex flex-col gap-[0.73vw]">
                     <span class="text-[0.83vw] font-medium text-gray-700">
@@ -80,7 +108,17 @@
                     </span>
 
                     <div class="relative flex-1 min-h-0">
-                        <div id="chart-evolucao" class="absolute inset-0" data-json="{{ json_encode($dados['inscricoesMensais']) }}"></div>
+                        @if (!$hasInscricoes)
+                            <div class="flex h-full items-center justify-center opacity-60">
+                                <x-empty-state text="Ainda não há histórico de inscrições para exibir a evolução.">
+                                    <x-slot:icon>
+                                        <svg class="w-[1.5vw] h-[1.5vw] text-gray-300" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-line-chart-icon lucide-line-chart"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                                    </x-slot:icon>
+                                </x-empty-state>
+                            </div>
+                        @else
+                            <div id="chart-evolucao" class="absolute inset-0" data-json="{{ json_encode($dados['inscricoesMensais']) }}"></div>
+                        @endif
                     </div>
                 </div>
             </div>

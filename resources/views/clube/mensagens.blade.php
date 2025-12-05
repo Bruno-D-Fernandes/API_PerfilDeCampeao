@@ -8,8 +8,7 @@
     @endphp
 
     <div class="flex w-full gap-x-[1.25vw] flex-1 min-h-0 h-full">
-        <div class="flex-1 bg-white w-[33.33vw] border border-[0.052vw] border-gray-300 rounded-[0.63vw] p-[0.63vw] flex flex-col gap-[0.63vw]
-                    max-h-[calc(100vh-9rem)] min-h-[24rem]">
+        <div class="flex-1 bg-white w-[33.33vw] border border-[0.052vw] border-gray-300 rounded-[0.63vw] p-[0.63vw] flex flex-col gap-[0.63vw] h-full">
             <div class="w-full">
                 <x-search-input 
                     name="search_conversation"

@@ -1,9 +1,6 @@
 @props([
-    // id do container da tabela (opcional)
     'tableId'    => 'table-' . uniqid(),
-    // se mostra ou não o bloco de ações (Exportar / Adicionar novo)
     'hasActions' => false,
-    // se quiser usar a paginação Blade (com x-pagination) passa um paginator aqui
     'items'      => null,
 ])
 
@@ -13,7 +10,7 @@
             <x-search-input class="!border !border-[0.1vw] !border-gray-50 !focus:border-gray-100 !bg-white !w-[25.5vw]" />
         </div>
 
-        @if ($hasActions)
+        @if ($hasActions)   
             <div class="flex items-center gap-x-[0.42vw]">
                 <x-button size="md" type="button">
                     <x-slot:icon>

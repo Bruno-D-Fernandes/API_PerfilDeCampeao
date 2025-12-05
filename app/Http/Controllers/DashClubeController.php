@@ -61,6 +61,18 @@ class DashClubeController extends Controller
         $meses = 6;
         $perPage = 5;
 
+        $hasOportunidades = Oportunidade::where('clube_id', $clube->id)
+            ->when($esporteId, fn($q) => $q->where('esporte_id', $esporteId))
+            ->exists();
+
+        $hasInscricoes = Inscricao::whereHas('oportunidade', function ($q) use ($clube, $esporteId) {
+                $q->where('clube_id', $clube->id);
+                if ($esporteId) {
+                    $q->where('esporte_id', $esporteId);
+                }
+            })
+            ->exists();
+
         return [
             'resumo' => $this->getResumoGeral($clube, $esporteId),
             'distribuicaoPosicoes' => $this->getDistribuicaoPosicoes($clube, $esporteId),
@@ -68,6 +80,8 @@ class DashClubeController extends Controller
             'topEstados' => $this->getTopEstados($clube, $esporteId),
             'atividadesRecentes' => $this->getAtividadesRecentes($clube, $esporteId, $perPage),
             'proximosEventos' => $this->getProximosEventos($clube, 1),
+            'has_oportunidades' => $hasOportunidades,
+            'has_inscricoes' => $hasInscricoes,
         ];
     }
 
