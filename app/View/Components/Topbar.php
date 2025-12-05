@@ -13,19 +13,28 @@ class Topbar extends Component
     public $breadcrumb;
     public $user;
     public $type;
-    
-    public $color; 
+    public $color;
+    public $context;
 
-    public function __construct($title, $breadcrumb = [], $context)
+    public function __construct($title, $breadcrumb = [], $context = 'clube')
     {
         $this->title = $title;
         $this->breadcrumb = $breadcrumb;
+        $this->context = $context;
         
-        $this->user = Auth::guard('club')->user() ?? Auth::guard('admin')->user();
-
-        $this->type = ($this->user instanceof Clube ? 'Clube' : ($this->user instanceof Admin ? 'Admin' : 'Visitante'));
-
-        $this->color = $context == 'admin' ? 'sky-500' : 'emerald-500';
+        if ($context === 'admin') {
+            $this->user  = Auth::guard('admin')->user();
+            $this->type  = $this->user instanceof Admin ? 'Admin' : 'Visitante';
+            $this->color = 'sky-500';
+        } elseif ($context === 'clube') {
+            $this->user  = Auth::guard('club')->user();
+            $this->type  = $this->user instanceof Clube ? 'Clube' : 'Visitante';
+            $this->color = 'emerald-500';
+        } else {
+            $this->user  = null;
+            $this->type  = 'Visitante';
+            $this->color = 'emerald-500';
+        }
     }
 
     public function render()

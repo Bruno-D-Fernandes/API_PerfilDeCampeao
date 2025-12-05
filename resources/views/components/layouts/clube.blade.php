@@ -140,6 +140,19 @@
 /* ============================================
     TOAST — NOTIFICAÇÃO NO TOPO
 =============================================== */
+function hideNotification() {
+    const el = document.getElementById('notifications-container');
+
+    if (!el) return;
+
+    el.classList.remove('opacity-100');
+    el.classList.add('opacity-0');
+
+    setTimeout(() => {
+        el.remove();
+    }, 300);
+}
+
 function showToast(notification) {
     const container = document.getElementById('toast-notification-container');
 
@@ -189,11 +202,11 @@ function appendToNotificationList(notification) {
     });
 
     const item = document.createElement('div');
-    item.className = "flex flex-col p-3 border-b border-gray-100 bg-gray-50";
+    item.className = "flex flex-col p-[0.63vw] border-b border-gray-100 bg-gray-50";
 
     item.innerHTML = `
-        <span class="text-sm font-semibold text-gray-800">${notification.titulo ?? "Nova Notificação"}</span>
-        <span class="text-xs text-gray-600">${time}</span>
+        <span class="text-[0.73vw] font-semibold text-gray-800">${notification.titulo ?? "Nova Notificação"}</span>
+        <span class="text-[0.63vw]] text-gray-600">${time}</span>
     `;
 
     list.prepend(item);
@@ -204,13 +217,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!userId) return;
 
-    Echo.private(`notifications.club.${userId}`)
+    window.Echo.private(`notifications.club.${userId}`)
         .listen('.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', (e) => {
-
             const data = e.notification.data;
 
             showToast(data);
-
             appendToNotificationList(data);
         });
 });

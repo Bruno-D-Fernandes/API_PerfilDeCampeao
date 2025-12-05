@@ -1,25 +1,23 @@
 @php
-    $notifications = $user->notifications()->orderBy('created_at', 'desc')->limit(20)->get();
-@endphp
+    use App\Models\Clube;
+    use App\Models\Admin;
 
-@php
-    $unreadCount = $user->unreadNotifications()->count();
-@endphp
+    $isClub  = $user instanceof Clube;
+    $isAdmin = $user instanceof Admin;
 
-@props([
-    'title'      => '',
-    'breadcrumb' => [],
-    'color'      => 'emerald-600',
-    'type'       => 'Admin',
-    'context'    => null,
-])
+    $displayName = $isClub
+        ? ($user->nomeClube ?? 'Clube')
+        : ($isAdmin
+            ? ($user->nome ?? 'Admin')
+            : 'Usuário');
 
-@php
-    $user = auth('admin')->user()
-        ?? auth('club')->user()
-        ?? auth()->user();
+    $notifications = $isClub
+        ? $user->notifications()->orderBy('created_at', 'desc')->limit(20)->get()
+        : collect();
 
-    $displayName = $user->nomeClube ?? $user->nome ?? 'Usuário';
+    $unreadCount = $isClub
+        ? $user->unreadNotifications()->count()
+        : 0;
 @endphp
 
 <nav class="absolute top-0 right-0 left-[16.67vw] z-30 p-[0.5vw] border-b-[0.052vw] border-gray-300">
@@ -173,79 +171,60 @@
                     >
                         Todas
                     </x-button>
-
-                    <x-button
-                        color="none"
-                        type="button"
-                        class="pl-0 pr-0 border-none bg-transparent tab-btn font-medium text-emerald-800"
-                        data-tab-group="notifications-tabs"
-                        data-tab-target="unread"
-                    >
-                    
-                   
-                    </x-button>
                 </div>
-
-                
             </div>
 
             <div class="flex flex-col gap-y-[0.42vw]">
-    @foreach ($notifications as $n)
-        @php
-            $data = $n->data;
-            $titulo = $data['titulo'] ?? 'Sem título';
-            $time = \Carbon\Carbon::parse($n->created_at)->format('d/m/Y H:i');
-        @endphp
+                @foreach ($notifications as $n)
+                    @php
+                        $data = $n->data;
+                        $type = $data['type'] ?? null;
+                        $titulo = $data['titulo'] ?? 'Sem título';
 
-        <div class="flex items-center gap-x-[0.42vw]">
-            <div class="h-[2.92vw] w-[2.92vw] bg-gray-100 rounded-[0.31vw] flex items-center justify-center">
-                <svg class="h-[1.25vw] w-[1.25vw] text-emerald-600"
-                    xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/>
-                </svg>
+                        switch ($type) {
+                            case 'oportunidade_aceita':
+                                $mensagem = "A Oportunidade {$titulo} foi aprovada por um administrador";
+                                break;
+
+                            case 'message_received':
+                            case 'mensagem_recebida':
+                                $mensagem = "Você recebeu uma nova mensagem";
+                                break;
+
+                            case 'convite_evento':
+                                $mensagem = "O usuario {$data['usuario_nome']} aceitou entrar no seu evento";
+                                break;
+
+                            default:
+                                $mensagem = $titulo;
+                        }
+
+                        $time = \Carbon\Carbon::parse($n->created_at)->format('d/m/Y H:i');
+                    @endphp
+
+                    <div class="flex items-center gap-x-[0.42vw]">
+                        {{-- Ícone fixo, não encolhe e não trunca --}}
+                        <div class="h-[2.92vw] w-[2.92vw] bg-gray-100 rounded-[0.31vw] flex-shrink-0 flex items-center justify-center">
+                            <svg class="h-[1.25vw] w-[1.25vw] text-emerald-600"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/>
+                            </svg>
+                        </div>
+
+                        {{-- Texto pode truncar se for grande --}}
+                        <div class="flex flex-col min-w-0">
+                            <h3 class="text-[0.73vw] font-medium text-emerald-700 truncate">
+                                {{ $mensagem }}
+                            </h3>
+
+                            <h4 class="text-[0.63vw] text-emerald-900">
+                                {{ $time }}
+                            </h4>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-
-            <div class="flex flex-col">
-                @php
-                    $data = $n->data;
-                    $type = $data['type'] ?? null;
-                    $titulo = $data['titulo'] ?? 'Sem título';
-
-                    // Texto dinâmico baseado no tipo da notificação
-                    switch ($type) {
-                        case 'oportunidade_aceita':
-                            $mensagem = "A Oportunidade {$titulo} foi aprovada por um administrador";
-                            break;
-
-                        case 'message_received':
-                        case 'mensagem_recebida':
-                            $mensagem = "Você recebeu uma nova mensagem";
-                            break;
-
-                        case 'convite_evento':
-                            $mensagem = "O usuario {$data['usuario_nome']} aceitou entrar no seu evento";
-                            break;
-
-                        default:
-                            $mensagem = $titulo; // fallback
-                    }
-
-                    $time = \Carbon\Carbon::parse($n->created_at)->format('d/m/Y H:i');
-                @endphp
-
-<h3 class="text-[0.73vw] font-medium text-emerald-700">
-    {{ $mensagem }}
-</h3>
-
-                <h4 class="text-[0.63vw] text-emerald-900">
-                    {{ $time }}
-                </h4>
-            </div>
-        </div>
-    @endforeach
-</div>
-
         </div>
     </x-drawer>
 

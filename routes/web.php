@@ -122,7 +122,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AuthAdmController::class, 'showLoginForm'])->name('login');
 
     Route::post('/login', [AuthAdmController::class, 'loginAdm'])->name('login.submit');
-    Route::post('/logout', [AuthAdmController::class, 'logout'])->name('logout');
+    Route::post('/logout', [AuthAdmController::class, 'logoutAdm'])->name('logout');
 
     Route::get('/dashboard', [DashAdminController::class, 'dashboardData'])->name('dashboard');
 
